@@ -52,7 +52,7 @@ const ArticleCard = ({ article }: { article: FeedListRes }) => {
           </div>
 
           <CardDescription
-            className="mt-1 text-base break-all text-muted-foreground line-clamp-4 cursor-pointer"
+            className="mt-1 text-base break-all text-muted-foreground cursor-pointer"
             onClick={() => {
               push(`${Routes.FeedDetail}/${article.article_id}`)
             }}
