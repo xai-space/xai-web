@@ -1,0 +1,201 @@
+import { ComponentProps, useEffect, useState } from 'react'
+import { IoLanguageOutline } from 'react-icons/io5'
+import { IoDiamondOutline } from 'react-icons/io5'
+import { IoDiamond } from 'react-icons/io5'
+import {
+  RiNotification3Line,
+  RiRobot2Fill,
+  RiRobot2Line,
+  RiRocketFill,
+  RiRocketLine,
+} from 'react-icons/ri'
+import { MdOutlineArticle } from 'react-icons/md'
+import { RiNotification3Fill } from 'react-icons/ri'
+import { FaRegUser } from 'react-icons/fa6'
+import { FaUser } from 'react-icons/fa6'
+
+import { useRouter } from 'next/router'
+import { useTranslation } from 'react-i18next'
+import { Button } from '@/components/ui/button'
+import { useUserStore } from '@/stores/use-user-store'
+import { useLang } from '@/hooks/use-lang'
+import { cn } from '@/lib/utils'
+import { Routes } from '@/routes'
+import { officialLinks } from '@/config/link'
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+} from '@/components/ui/navigation-menu'
+import { joinPaths } from '@/utils'
+import { useResponsive } from '@/hooks/use-responsive'
+import Logo from '@/components/logo'
+import SocialLinks from '@/components/social-links'
+import NavAccount from './nav-account'
+import RewardButton from '@/components/reward-button'
+import { useAIAgentStore } from '@/stores/use-chat-store'
+import { PublishPostDialog } from '@/components/publish-post-dialog'
+
+interface Props {
+  collapseSize?: keyof ReturnType<typeof useResponsive>
+}
+
+export const NavAside = ({
+  className,
+  collapseSize = 'isLaptop',
+  ...props
+}: ComponentProps<'div'> & Props) => {
+  const { t, i18n } = useTranslation()
+  const { setLang } = useLang()
+  const { pathname, ...router } = useRouter()
+  const { userInfo } = useUserStore()
+  const responsive = useResponsive()
+  const [isCollapsed, setIsCollapsed] = useState(responsive[collapseSize])
+
+  const { agentInfo, sessionId } = useAIAgentStore()
+
+  const userNavs = [
+    {
+      title: t('profile'),
+      path: joinPaths(Routes.Account, userInfo?.wallet_address || ''),
+      icon: <FaRegUser />,
+      iconActive: <FaUser />,
+      isActive: pathname.includes(Routes.Account),
+    },
+  ]
+
+  const navs = [
+    {
+      title: 'AI Agent',
+      path: sessionId
+        ? `${Routes.AIChat}/${agentInfo?.agent_id}?sid=${sessionId}`
+        : Routes.AIList,
+      icon: <RiRobot2Line />,
+      iconActive: <RiRobot2Fill />,
+      isActive: pathname.startsWith(Routes.AI),
+    },
+    {
+      title: 'Feed',
+      path: Routes.Feed,
+      icon: <MdOutlineArticle />,
+      iconActive: <MdOutlineArticle />,
+      isActive: pathname === Routes.Feed,
+    },
+    {
+      title: t('Notification'),
+      path: Routes.Notification,
+      icon: <RiNotification3Line />,
+      iconActive: <RiNotification3Fill />,
+      isActive: pathname === Routes.Notification,
+    },
+  ]
+
+  useEffect(() => {
+    setIsCollapsed(responsive[collapseSize])
+  }, [responsive, collapseSize])
+
+  return (
+    <aside
+      className={cn(
+        'flex flex-col space-y-4 w-56 pt-4 select-none relative h-screen',
+        isCollapsed && 'w-10 items-center',
+        className
+      )}
+      {...props}
+    >
+      <Logo
+        showMeme
+        showLogo={!isCollapsed}
+        className="w-28"
+        linkClass="pl-1 relative"
+        betaClass={isCollapsed ? 'absolute -bottom-5' : ''}
+      />
+      <div className="pt-4 space-y-4">
+        <NavigationMenu className="grid grid-cols-1 max-w-full">
+          <NavigationMenuList className="grid grid-cols-1 space-x-0 space-y-3">
+            {navs.map((n, i) => (
+              <NavigationMenuItem key={i} className="w-full cursor-pointer">
+                <NavigationMenuLink
+                  className={cn(
+                    'border-[15px] text-lg w-full flex justify-start space-x-2 pl-2 cursor-pointer bg-clip-padding font-normal hover:opacity-90',
+                    !n.isActive &&
+                      'chamfer-gray bg-border-gray hover:bg-border-gray',
+                    n.isActive &&
+                      'font-bold chamfer-blue bg-border-blue hover:bg-border-blue',
+                    isCollapsed &&
+                      'border-[10px] space-x-0 p-0 justify-center text-xl'
+                  )}
+                  onClick={() => router.push(n.path)}
+                  title={n.title}
+                >
+                  {n.isActive ? n.iconActive : n.icon}
+                  {!isCollapsed && <span>{n.title}</span>}
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+            ))}
+          </NavigationMenuList>
+        </NavigationMenu>
+
+        <div
+          className={cn(
+            'flex space-x-2 mt-1',
+            isCollapsed && 'flex-col space-x-0 space-y-1'
+          )}
+        >
+          <div
+            className={cn(
+              'flex justify-center items-center mt-1 space-x-1 ',
+              className
+            )}
+            {...props}
+          >
+            <Button
+              type="button"
+              size={isCollapsed ? 'icon' : 'icon-lg'}
+              title={t('change.language')}
+              onClick={() =>
+                i18n.language === 'en' ? setLang('zh') : setLang('en')
+              }
+              className="border-transparent sm:hover:border-black"
+            >
+              <IoLanguageOutline size={20} />
+            </Button>
+          </div>
+
+          <SocialLinks
+            x={officialLinks.x}
+            tg={officialLinks.tg}
+            whitepaper={officialLinks.whitepaper}
+            size={20}
+            buttonProps={{ size: isCollapsed ? 'icon' : 'icon-lg' }}
+            className={cn(
+              'justify-start space-x-2',
+              isCollapsed && 'flex-col space-x-0 space-y-1'
+            )}
+          />
+        </div>
+
+        <PublishPostDialog />
+      </div>
+
+      <div
+        className={cn(
+          'flex flex-col items-start absolute bottom-4',
+          !userInfo && 'w-full'
+        )}
+      >
+        <NavAccount userInfo={userInfo} isCollapsed={isCollapsed} />
+
+        <RewardButton
+          shadow="none"
+          showReferral={isCollapsed ? false : true}
+          className={cn(
+            'border-none w-full justify-between mt-3',
+            isCollapsed && 'w-fit p-2'
+          )}
+        />
+      </div>
+    </aside>
+  )
+}

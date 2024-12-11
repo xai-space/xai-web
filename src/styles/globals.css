@@ -1,0 +1,237 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 10% 3.9%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 225 46% 10%;
+    --foreground: 0 0% 98%;
+
+    --card: 226 40% 14%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+
+    --secondary: 225 38% 15%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 229 30% 31%;
+    --input: 229 30% 31%;
+    --ring: 240 4.9% 83.9%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+:root {
+  ::-webkit-scrollbar {
+    width: 0.5rem;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: #3f3f46;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 9999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+  }
+}
+
+.hidden-scrollbar {
+  scrollbar-width: none; /* Firefox */
+}
+.hidden-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome、Safari */
+}
+
+object,
+embed {
+  width: 100% !important;
+  max-width: 600px;
+  border-radius: 4px;
+}
+
+.story object {
+  margin: 15px 0;
+  border-radius: 4px;
+}
+
+.moving-element {
+  animation: moveRight 0.4s linear;
+}
+
+@keyframes moveRight {
+  0% {
+    transform: translateX(-50%);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+* {
+  outline: none;
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+  -webkit-focus-ring-color: rgba(0, 0, 0, 0);
+}
+
+.chamfer-blue {
+  border-image: url('data:image/svg+xml;utf8,<svg width="316" height="55" viewBox="0 0 316 55" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M10.5667 0.961914C10.2336 0.961914 9.9142 1.09422 9.67869 1.32973L0.367819 10.6406C0.132309 10.8761 0 11.1955 0 11.5286V49.9387C0 52.7129 2.24899 54.9619 5.02326 54.9619H305.433C305.766 54.9619 306.086 54.8296 306.321 54.5941L315.632 45.2832C315.868 45.0477 316 44.7283 316 44.3952V5.98517C316 3.2109 313.751 0.961914 310.977 0.961914H10.5667ZM314.744 38.6363L299.674 53.7061H5.02326C2.94256 53.7061 1.25581 52.0194 1.25581 49.9387V17.2875L8.7907 9.75261L16.3256 2.21773C16.3256 2.21773 308.896 2.21773 310.977 2.21773C313.057 2.21773 314.744 3.90447 314.744 5.98517V38.6363Z" fill="%23215dd6"/><path d="M299.674 53.7061L314.744 38.6363V5.98517C314.744 3.90447 313.057 2.21773 310.977 2.21773H16.3256L8.7907 9.75261L1.25581 17.2875V49.9387C1.25581 52.0194 2.94256 53.7061 5.02326 53.7061H299.674Z" fill="%23182f62"/></svg>');
+}
+.chamfer-gray {
+  border-image: url('data:image/svg+xml;utf8,<svg width="316" height="55" viewBox="0 0 316 55" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M10.5667 0.961914C10.2336 0.961914 9.9142 1.09422 9.67869 1.32973L0.367819 10.6406C0.132309 10.8761 0 11.1955 0 11.5286V49.9387C0 52.7129 2.24899 54.9619 5.02326 54.9619H305.433C305.766 54.9619 306.086 54.8296 306.321 54.5941L315.632 45.2832C315.868 45.0477 316 44.7283 316 44.3952V5.98517C316 3.2109 313.751 0.961914 310.977 0.961914H10.5667ZM314.744 38.6363L299.674 53.7061H5.02326C2.94256 53.7061 1.25581 52.0194 1.25581 49.9387V17.2875L8.7907 9.75261L16.3256 2.21773C16.3256 2.21773 308.896 2.21773 310.977 2.21773C313.057 2.21773 314.744 3.90447 314.744 5.98517V38.6363Z" fill="%23424e7c"/><path d="M299.674 53.7061L314.744 38.6363V5.98517C314.744 3.90447 313.057 2.21773 310.977 2.21773H16.3256L8.7907 9.75261L1.25581 17.2875V49.9387C1.25581 52.0194 2.94256 53.7061 5.02326 53.7061H299.674Z" fill="%231a244b"/></svg>');
+}
+.chamfer-blue,
+.chamfer-gray {
+  border-image-slice: 16;
+}
+
+.clip-sm {
+  clip-path: polygon(
+    0 12%,
+    4% 0,
+    90% 0,
+    100% 0,
+    100% 89%,
+    96% 100%,
+    0 100%,
+    0 90%,
+    0 10%
+  );
+}
+.clip-base {
+  clip-path: polygon(
+    0 5%,
+    6% 0,
+    90% 0,
+    100% 0,
+    100% 95%,
+    94% 100%,
+    0 100%,
+    0 90%,
+    0 10%
+  );
+}
+.clip-md {
+  clip-path: polygon(
+    0 15%,
+    10% 0,
+    90% 0,
+    100% 0,
+    100% 85%,
+    90% 100%,
+    0 100%,
+    0 90%,
+    0 10%
+  );
+}
+.clip-lg {
+  clip-path: polygon(
+    0 16%,
+    16% 0,
+    90% 0,
+    100% 0,
+    100% 84%,
+    84% 100%,
+    0 100%,
+    0 90%,
+    0 10%
+  );
+}
+
+.conic::after {
+  content: '';
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  right: 4px;
+  left: 4px;
+  z-index: -2;
+}
+
+.conic::before {
+  content: '';
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  right: -20px;
+  left: 0px;
+  background: rgba(168, 239, 255, 1);
+  transform: rotateZ(-90deg) translate(-100%, -100%);
+  transform-origin: top left;
+  transition: transform 0.4s;
+  transition-timing-function: linear;
+}
+
+.conic:hover:before {
+  transform: rotateZ(0deg) translate(0%, -0%);
+}
+
+@keyframes rotate {
+  100% {
+    transform: rotate(1turn);
+  }
+}
+.conic,
+.conic::before,
+.conic::after {
+  box-sizing: border-box;
+}
