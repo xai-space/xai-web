@@ -25,7 +25,7 @@ import { apiUrl, staticUrl } from '@/config/url'
 import { aiApi } from '@/api/ai'
 import { useRouter } from 'next/router'
 import { Routes } from '@/routes'
-import { agentLogoDefault } from '@/config/link'
+import { defaultAgentLogo } from '@/config/link'
 import { defaultUserId } from '@/config/base'
 
 export const AIAgentCreateForm = () => {
@@ -84,7 +84,7 @@ export const AIAgentCreateForm = () => {
     try {
       setSubmiting(true)
 
-      const url = await onSubmitImg(true)
+      const url = await onSubmitImg()
 
       const { data } = await aiApi.createAgent({
         name: fields.name.value,
@@ -118,7 +118,7 @@ export const AIAgentCreateForm = () => {
         <DropdownMenuTrigger>
           <div className="relative cursor-pointer w-[100px] mx-auto">
             <img
-              src={blobUrl[0] ? blobUrl[0] : agentLogoDefault}
+              src={blobUrl[0] ? blobUrl[0] : defaultAgentLogo}
               alt="Logo"
               width={100}
               height={100}

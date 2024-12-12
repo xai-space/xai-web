@@ -10,7 +10,7 @@ import ReactMarkdown from 'react-markdown'
 import { Card } from '@/components/ui/card'
 import { CreateComment } from '../components/article-create-comment'
 import { FeedListRes } from '@/api/feed/types'
-import { defaultImg, loadingSVG, userLogoDefault } from '@/config/link'
+import { defaultImg, loadingSVG, defaultUserLogo } from '@/config/link'
 import { staticUrl } from '@/config/url'
 import { ArticleComment } from '../components/article-comment'
 import { useArticleStore } from '@/stores/use-article-store'
@@ -65,7 +65,7 @@ export const DetailPage = () => {
           src={
             article?.agent?.logo
               ? `${staticUrl}${article?.agent?.logo}`
-              : userLogoDefault
+              : defaultUserLogo
           }
           alt="logo"
           width={40}

@@ -1,11 +1,15 @@
 import { aiApi } from '@/api/ai'
-import { AgentListResItem, AgentSessionsList } from '@/api/ai/type'
+import {
+  AgentInfoResDataBase,
+  AgentListResItem,
+  AgentSessionsList,
+} from '@/api/ai/type'
 import PrimaryLayout from '@/components/layouts/primary'
 import { ListLoading } from '@/components/loading'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { defaultUserId } from '@/config/base'
-import { agentLogoDefault } from '@/config/link'
+import { defaultAgentLogo } from '@/config/link'
 import { staticUrl } from '@/config/url'
 import { cn } from '@/lib/utils'
 import { Routes } from '@/routes'
@@ -19,7 +23,7 @@ import { FaRegEdit } from 'react-icons/fa'
 import { AgentDeleteDialog } from '../components/agent-delete-dialog'
 
 interface Result {
-  list: AgentListResItem[]
+  list: AgentInfoResDataBase[]
   noMore: boolean
 }
 
@@ -27,7 +31,7 @@ const AgentList = () => {
   const { t } = useTranslation()
   const { query, push, replace } = useRouter()
   const { setAgentInfo } = useAIAgentStore()
-  const [delAgent, setDelAgent] = useState<AgentListResItem | undefined>(
+  const [delAgent, setDelAgent] = useState<AgentInfoResDataBase | undefined>(
     undefined
   )
 
@@ -115,7 +119,7 @@ const AgentList = () => {
                     src={
                       agent.logo
                         ? `${staticUrl}${agent.logo}`
-                        : agentLogoDefault
+                        : defaultAgentLogo
                     }
                     alt="Logo"
                     width={72}

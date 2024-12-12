@@ -827,5 +827,7 @@
   "delete.agent.info": "Once deleted, this Agent will no longer be available for use.",
   "no.have.agent": "You don't have any Agents yet. Go and create one quickly!",
   "new.session": "New conversation",
-  "back.artilce.list": "Return to the post list"
+  "back.artilce.list": "Return to the post list",
+  "select.nft": "Select NFT",
+  "collection.list": "Collection list"
 }

@@ -39,6 +39,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
     <>
       <Head>
         <title>XAI</title>
+        <meta name="referrer" content="no-referrer" />
         <meta
           name="keywords"
           content="meme, XAI, memecoin, crypto, web3, blockchain"

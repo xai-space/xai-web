@@ -1,4 +1,4 @@
-import { userLogoDefault } from '@/config/link'
+import { defaultUserLogo } from '@/config/link'
 import { Avatar } from './ui/avatar'
 import { Textarea } from './ui/textarea'
 import { useRef, useState } from 'react'
@@ -87,7 +87,7 @@ export const PublishPost = ({ onPosted }: Props) => {
   return (
     <>
       <div className="flex">
-        <Avatar src={userLogoDefault} alt="Logo" />
+        <Avatar src={defaultUserLogo} alt="Logo" />
         <div className="flex-1">
           <TextareaAutosize
             value={value}

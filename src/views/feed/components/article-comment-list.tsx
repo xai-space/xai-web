@@ -1,5 +1,5 @@
 import { FeedComments } from '@/api/feed/types'
-import { userLogoDefault } from '@/config/link'
+import { defaultUserLogo } from '@/config/link'
 import dayjs from 'dayjs'
 import { useTranslation } from 'react-i18next'
 import ReactMarkdown from 'react-markdown'
@@ -49,7 +49,7 @@ const ArticleCommentItem = ({ className, comment, onReply }: CommentItem) => {
   return (
     <div className={cn('relative pl-12 py-4', className)}>
       <img
-        src={userLogoDefault}
+        src={defaultUserLogo}
         alt="Logo"
         width={40}
         height={40}
@@ -153,7 +153,7 @@ const ArticleReplyCommentItem = ({
         <div className="flex items-center space-x-2">
           <div className="flex items-center font-bold">
             <img
-              src={userLogoDefault}
+              src={defaultUserLogo}
               alt="Logo"
               width={22}
               height={22}

@@ -18,6 +18,7 @@ import { nanoid } from 'nanoid'
 import {
   DOMAttributes,
   FormEvent,
+  useCallback,
   useEffect,
   useMemo,
   useRef,
@@ -32,7 +33,7 @@ import { apiUrl, staticUrl } from '@/config/url'
 import { aiApi } from '@/api/ai'
 import { useRouter } from 'next/router'
 import { Routes } from '@/routes'
-import { agentLogoDefault, loadingSVG } from '@/config/link'
+import { defaultAgentLogo, loadingSVG } from '@/config/link'
 import { defaultUserId } from '@/config/base'
 import { useAIAgentStore } from '@/stores/use-chat-store'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -57,13 +58,15 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 const formFields = {
+  logo: 'logo',
   name: 'name',
   description: 'description',
   greeting: 'greeting',
   isPublic: 'isPublic',
   logoIdentify: 'logoIdentify',
 } as const
-import { FiEdit } from 'react-icons/fi'
+import { NftAgentDialog, NftInfo } from './nft-agent-dialog'
+import { UploadImageRes, otherApi } from '@/api/other'
 
 interface Props {
   isCreate: boolean
@@ -73,6 +76,7 @@ export const AIAgentForm = ({ isCreate }: Props) => {
   const { t } = useTranslation()
   const inputId = useMemo(nanoid, [])
   const { agentInfo, setAgentInfo } = useAIAgentStore()
+  const [nftInfo, setNftInfo] = useState<NftInfo>()
 
   const router = useRouter()
 
@@ -80,10 +84,12 @@ export const AIAgentForm = ({ isCreate }: Props) => {
   const formRef = useRef<HTMLFormElement>(null)
 
   const [submiting, setSubmiting] = useState(false)
+  const [open, setOpen] = useState(false)
 
   const validateInput = (v: string) => v.trim().length !== 0
 
   const formSchema = z.object({
+    [formFields.logo]: z.string().refine(validateInput, require),
     [formFields.name]: z.string().refine(validateInput, require),
     [formFields.description]: z.string().refine(validateInput, require),
     [formFields.isPublic]: z.string().refine(validateInput, require),
@@ -94,19 +100,30 @@ export const AIAgentForm = ({ isCreate }: Props) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      [formFields.name]: agentInfo?.name || '',
-      [formFields.description]: agentInfo?.description || '',
-      [formFields.greeting]: agentInfo?.greeting || '',
-      [formFields.isPublic]: '1',
-      [formFields.logoIdentify]: '0',
+      [formFields.logo]: !isCreate ? agentInfo?.logo : '',
+      [formFields.name]: !isCreate ? agentInfo?.name : '',
+      [formFields.description]: !isCreate ? agentInfo?.description : '',
+      [formFields.greeting]: !isCreate ? agentInfo?.greeting : '',
+      [formFields.isPublic]: !isCreate
+        ? `${Number(agentInfo?.is_public)}` || '1'
+        : '1',
+      [formFields.logoIdentify]: isCreate
+        ? agentInfo?.logo_identify || '0'
+        : '0',
     },
   })
 
-  let { isUploading, blobUrl, onChangeUpload, onSubmitImg, clearFile } =
-    useUploadImage({
-      inputEl: inputRef.current,
-      showToast: false,
-    })
+  let {
+    isUploading,
+    blobUrl,
+    onChangeUpload,
+    onSubmitImg,
+    clearFile,
+    onUrlUpload,
+  } = useUploadImage({
+    inputEl: inputRef.current,
+    showToast: false,
+  })
 
   const SelectPermission = [
     {
@@ -122,7 +139,13 @@ export const AIAgentForm = ({ isCreate }: Props) => {
   const onSubmit = async () => {
     try {
       setSubmiting(true)
-      const url = await onSubmitImg(true)
+      let url: UploadImageRes[] | undefined
+
+      if (form.getValues('logoIdentify') === '0') {
+        url = await onSubmitImg()
+      } else {
+        url = await onUrlUpload(nftInfo?.url!)
+      }
 
       const sendData = isCreate ? aiApi.createAgent : aiApi.updateAgent
 
@@ -130,7 +153,7 @@ export const AIAgentForm = ({ isCreate }: Props) => {
         name: form.getValues('name'),
         user_id: defaultUserId,
         is_public: form.getValues('isPublic') || '',
-        logo: url?.[0].url || '',
+        logo: url?.[0]?.url || '',
         greeting: form.getValues('greeting') || '',
         instructions: [],
         description: form.getValues('description'),
@@ -158,17 +181,19 @@ export const AIAgentForm = ({ isCreate }: Props) => {
   const submitDisable = () => {
     if (isCreate) {
       return (
-        !blobUrl.length ||
-        isEmpty(form.getValues('name').trim()) ||
-        isEmpty(form.getValues('description').trim()) ||
-        isUploading
+        isEmpty(form.getValues('logo')?.trim()) ||
+        isEmpty(form.getValues('name')?.trim()) ||
+        isEmpty(form.getValues('description')?.trim()) ||
+        isUploading ||
+        submiting
       )
     }
 
     return (
-      isEmpty(form.getValues('name').trim()) ||
-      isEmpty(form.getValues('description').trim()) ||
-      isUploading
+      isEmpty(form.getValues('name')?.trim()) ||
+      isEmpty(form.getValues('description')?.trim()) ||
+      isUploading ||
+      submiting
     )
   }
 
@@ -179,18 +204,37 @@ export const AIAgentForm = ({ isCreate }: Props) => {
     return submiting ? t('saving') : t('save.agent')
   }
 
+  const getLogoUrl = (logoValue: string) => {
+    if (!logoValue) return defaultAgentLogo
+    if (logoValue.startsWith('data:')) return logoValue
+    if (logoValue.startsWith('http')) return logoValue
+
+    return `${staticUrl}${logoValue}`
+  }
+
   useEffect(() => {
     const agentId = router.query.id
+    console.log(agentInfo, typeof agentId === 'string', !isCreate)
+
     if (!agentInfo && typeof agentId === 'string' && !isCreate) {
       aiApi.getAgentInfo(agentId).then(({ data }) => {
         setAgentInfo(data)
         form.setValue('name', data.name || '')
+        form.setValue('logo', data.logo || '')
         form.setValue('description', data.description || '')
         form.setValue('greeting', data.greeting || '')
         // form.setValue('isPublic', data.)
       })
     }
   }, [router.query.id, agentInfo])
+
+  useEffect(() => {
+    if (blobUrl.length) {
+      console.log('blobUrl List', blobUrl)
+
+      form.setValue('logo', blobUrl?.[0])
+    }
+  }, [blobUrl])
 
   if (!isCreate && !agentInfo) {
     return <img src={loadingSVG} width={60} height={60} />
@@ -203,50 +247,52 @@ export const AIAgentForm = ({ isCreate }: Props) => {
         className="flex flex-col w-full px-[20%] max-sm:px-[5%]"
         onSubmit={form.handleSubmit(onSubmit)}
       >
-        <DropdownMenu>
-          <DropdownMenuTrigger>
-            <div className="relative cursor-pointer w-[100px] mx-auto">
-              <img
-                src={
-                  blobUrl[0]
-                    ? blobUrl[0]
-                    : agentInfo && agentInfo.logo
-                    ? `${staticUrl}${agentInfo.logo}`
-                    : agentLogoDefault
-                }
-                alt="Logo"
-                width={100}
-                height={100}
-                className="w-[100px] h-[100px] object-cover border-white border rounded-full"
-              />
-              <div className="absolute right-0 bottom-0 flex justify-center items-center rounded-full bg-[#616fd6]">
-                <IoAdd size={32} color="#ffffff"></IoAdd>
-              </div>
-            </div>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuItem
-              className="flex items-center space-x-[5px]"
-              onClick={() => {
-                inputRef.current?.click()
-                form.setValue('logoIdentify', '0')
-              }}
-            >
-              <MdOutlinePhotoSizeSelectActual size={20} />
-              <span>{t('local.upload')}</span>
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              className="flex items-center space-x-[5px]"
-              onClick={() => {
-                form.setValue('logoIdentify', '1')
-              }}
-            >
-              <RiNftFill size={20} color="#FFBC58FF" />
-              <span className="text-[#FFBC58FF]">{t('use.nft.profile')}</span>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-
+        <FormField
+          control={form.control}
+          name={formFields?.logo}
+          render={(field) => (
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <div className="relative cursor-pointer w-[100px] mx-auto">
+                  <img
+                    src={getLogoUrl(field.field.value!)}
+                    alt="Logo"
+                    width={100}
+                    height={100}
+                    className="w-[100px] h-[100px] object-cover border-white border rounded-full"
+                  />
+                  <div className="absolute right-0 bottom-0 flex justify-center items-center rounded-full bg-[#616fd6]">
+                    <IoAdd size={32} color="#ffffff"></IoAdd>
+                  </div>
+                </div>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem
+                  className="flex items-center space-x-[5px]"
+                  onClick={() => {
+                    inputRef.current?.click()
+                    form.setValue('logoIdentify', '0')
+                  }}
+                >
+                  <MdOutlinePhotoSizeSelectActual size={20} />
+                  <span>{t('local.upload')}</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  className="flex items-center space-x-[5px]"
+                  onClick={() => {
+                    form.setValue('logoIdentify', '1')
+                    setOpen(true)
+                  }}
+                >
+                  <RiNftFill size={20} color="#FFBC58FF" />
+                  <span className="text-[#FFBC58FF]">
+                    {t('use.nft.profile')}
+                  </span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
+        ></FormField>
         <ImageUpload
           id={inputId}
           ref={inputRef}
@@ -330,7 +376,9 @@ export const AIAgentForm = ({ isCreate }: Props) => {
                   <SelectContent>
                     {SelectPermission?.map((data) => {
                       return (
-                        <SelectItem value={data.value}>{data.label}</SelectItem>
+                        <SelectItem key={data.value} value={data.value}>
+                          {data.label}
+                        </SelectItem>
                       )
                     })}
                   </SelectContent>
@@ -358,6 +406,15 @@ export const AIAgentForm = ({ isCreate }: Props) => {
         >
           {submintText()}
         </Button>
+        <NftAgentDialog
+          open={open}
+          nftInfo={nftInfo}
+          setOpen={setOpen}
+          setNftInfo={(info) => {
+            setNftInfo(info)
+            form.setValue('logo', info.url)
+          }}
+        ></NftAgentDialog>
       </form>
     </Form>
   )

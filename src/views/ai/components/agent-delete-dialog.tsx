@@ -1,5 +1,5 @@
 import { aiApi } from '@/api/ai'
-import { AgentListResItem } from '@/api/ai/type'
+import { AgentInfoResDataBase, AgentListResItem } from '@/api/ai/type'
 import { Input } from '@/components/input'
 import { Button } from '@/components/ui/button'
 import {
@@ -15,8 +15,8 @@ import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 
 interface Props {
-  delAgent?: AgentListResItem
-  setDelAgent: (session?: AgentListResItem) => void
+  delAgent?: AgentInfoResDataBase
+  setDelAgent: (session?: AgentInfoResDataBase) => void
   onDeleted: () => void
 }
 export const AgentDeleteDialog = ({

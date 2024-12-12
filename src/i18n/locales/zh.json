@@ -822,5 +822,7 @@
   "delete.agent.info": "删除后，这个Agent将无法再使用",
   "no.have.agent": "你还没有任何的Agent快去创建一个吧！",
   "new.session": "新对话",
-  "back.artilce.list": "返回列表"
+  "back.artilce.list": "返回列表",
+  "select.nft": "选择NFT ",
+  "collection.list": "集合列表"
 }

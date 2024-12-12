@@ -101,7 +101,7 @@ export const aiApi = {
   },
 
   getAgentList: (query: AgentListReq) => {
-    return api.GET<ApiResponse<AgentListResItem[]>>(
+    return api.GET<ApiResponse<AgentInfoResDataBase[]>>(
       '/agent/v1/playground/agent/list' + qs.stringify(query)
     )
   },

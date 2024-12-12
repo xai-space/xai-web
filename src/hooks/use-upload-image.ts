@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { first } from 'lodash'
+import { first, isArray } from 'lodash'
 import { useMutation } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { useTranslation } from 'react-i18next'
@@ -22,7 +22,7 @@ export const useUploadImage = (options?: Options) => {
   const { t } = useTranslation()
   const [files, setFiles] = useState<File[]>([])
   const [blobUrl, setBlobUrl] = useState<(string)[]>([])
-  const [] = useState()
+  const isMultifile = maxFile > 1
 
   const {
     data,
@@ -31,7 +31,7 @@ export const useUploadImage = (options?: Options) => {
     reset,
   } = useMutation({
     mutationKey: [otherApi.uploadImage.name],
-    mutationFn: maxFile === 1 ? otherApi.uploadImage : otherApi.uploadImages,
+    mutationFn: isMultifile ? otherApi.uploadImages : otherApi.uploadImage,
     onMutate: () => showToast && toast.loading(t('uploading')),
     onSettled: (_, __, ___, id) => {
       id && toast.dismiss(id)
@@ -86,29 +86,41 @@ export const useUploadImage = (options?: Options) => {
 
 
     if (isUpload) {
-      onSubmitImg(true)
+      onSubmitImg()
     }
   }
 
-  const onSubmitImg = async (isFirst: boolean = false) => {
+  const onSubmitImg = async () => {
 
     const formData = new FormData()
 
     if (!files?.length) return
 
-    if (isFirst) {
+    if (!isMultifile) {
       formData.append('file', files[0]);
     } else {
       for (let i = 0; i < files.length; i++) {
-        formData.append('file', files[i], `${Math.random()}${files[i].name}`
+        formData.append('files', files[i], `${Math.random()}${files[i].name}`
         );
       }
     }
 
     try {
       const { data } = await mutateAsync(formData)
-      return Array.isArray(data) ? data : [data]
+      return isArray(data) ? data : [data]
 
+    } catch (err) {
+      reportException(err)
+    }
+  }
+
+  const onUrlUpload = async (url: string | string[]) => {
+    const formData = new FormData()
+    formData.append(isMultifile ? 'urls' : 'url', isArray(url) ? JSON.stringify(url) : url)
+
+    try {
+      const { data } = await mutateAsync(formData)
+      return isArray(data) ? data : [data]
     } catch (err) {
       reportException(err)
     }
@@ -161,6 +173,7 @@ export const useUploadImage = (options?: Options) => {
     blobUrl,
     isUploading,
     onChangeUpload,
+    onUrlUpload,
     onSubmitImg,
     clearFile,
     checkCount,

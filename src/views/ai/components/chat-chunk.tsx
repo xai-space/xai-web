@@ -13,7 +13,7 @@ export const ChatChunk = () => {
       <div className="flex items-start mt-4 mb-2">
         <Avatar
           src={
-            agentInfo?.logo ? `${staticUrl}${agentInfo.logo}` : agentLogoDefault
+            agentInfo?.logo ? `${staticUrl}${agentInfo.logo}` : defaultAgentLogo
           }
           className="w-8 h-8 mr-2"
         ></Avatar>

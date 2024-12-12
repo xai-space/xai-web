@@ -1,24 +1,18 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
-import { Card, CardContent, CardFooter } from '@/components/ui/card'
+import { useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { ScrollArea } from '@/components/ui/scroll-area'
-import { useChat } from '@/hooks/use-chat'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
-import { useSessionHistory } from '@/hooks/use-session-history'
-import { AgentInfoResDataBase, AgentSessionsHistoryRes } from '@/api/ai/type'
 import ReactMarkdown from 'react-markdown'
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Avatar } from '@/components/ui/avatar'
 import { useTranslation } from 'react-i18next'
-import { useRouter } from 'next/router'
 import { useChatStream } from '@/hooks/use-chat-stream'
-import { agentLogoDefault, loadingSVG } from '@/config/link'
+import { defaultAgentLogo, loadingSVG } from '@/config/link'
 import { staticUrl } from '@/config/url'
 import { useAIAgentStore } from '@/stores/use-chat-store'
 import { isEmpty } from 'lodash'
@@ -60,19 +54,21 @@ export function Chat({ scrollBarToBottom }: ChatProps) {
     <div className="flex flex-col h-full max-w-[775px] w-full mx-auto">
       <div className="flex-1">
         {/* Gretting */}
-        <div className="flex items-start mb-2">
-          <Avatar
-            src={
-              agentInfo?.logo
-                ? `${staticUrl}${agentInfo.logo}`
-                : agentLogoDefault
-            }
-            className="w-8 h-8 mr-2"
-          ></Avatar>
-          <div className="bg-gray-800 text-primary rounded-lg p-3 max-w-[80%]">
-            <div>{agentInfo?.greeting}</div>
+        {agentInfo?.greeting?.trim()?.length ? (
+          <div className="flex items-start mb-2">
+            <Avatar
+              src={
+                agentInfo?.logo
+                  ? `${staticUrl}${agentInfo.logo}`
+                  : defaultAgentLogo
+              }
+              className="w-8 h-8 mr-2"
+            ></Avatar>
+            <div className="bg-gray-800 text-primary rounded-lg p-3 max-w-[80%]">
+              <div>{agentInfo?.greeting}</div>
+            </div>
           </div>
-        </div>
+        ) : null}
 
         {sessions.map((item, index) => (
           <>
@@ -91,7 +87,7 @@ export function Chat({ scrollBarToBottom }: ChatProps) {
                   src={
                     agentInfo?.logo
                       ? `${staticUrl}${agentInfo.logo}`
-                      : agentLogoDefault
+                      : defaultAgentLogo
                   }
                   className="w-8 h-8 mr-2"
                 ></Avatar>

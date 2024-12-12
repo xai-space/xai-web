@@ -61,6 +61,8 @@ export interface AgentInfoResDataBase {
   logo: string
   user_id: string
   greeting: string
+  is_public: string,
+  logo_identify: string
 }
 
 export interface AgentCreateRes {

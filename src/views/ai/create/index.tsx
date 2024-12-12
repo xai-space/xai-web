@@ -1,5 +1,5 @@
 import PrimaryLayout from '@/components/layouts/primary'
-import { ReactNode } from 'react'
+import { ReactNode, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FaChevronLeft } from 'react-icons/fa6'
 import { useRouter } from 'next/router'

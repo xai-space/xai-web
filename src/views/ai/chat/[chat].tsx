@@ -5,7 +5,7 @@ import { PrimaryLayout } from '@/components/layouts/primary'
 import { Chat } from '../components/chat'
 import { aiApi } from '@/api/ai'
 import { staticUrl } from '@/config/url'
-import { agentLogoDefault } from '@/config/link'
+import { defaultAgentLogo } from '@/config/link'
 import { Button } from '@/components/ui/button'
 
 import { useTranslation } from 'react-i18next'
@@ -64,7 +64,7 @@ export const ChatPage = () => {
             src={
               agentInfo?.logo
                 ? `${staticUrl}${agentInfo?.logo}`
-                : agentLogoDefault
+                : defaultAgentLogo
             }
             alt="Logo"
             width={40}
