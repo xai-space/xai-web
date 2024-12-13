@@ -26,7 +26,6 @@ export const AINavAsiade = () => {
     const handle = async () => {
       const list = await aiApi.getAllSession({
         agent_id: '001f6b5d-1249-4abe-a6a8-003d4a037dcf',
-        user_id: defaultUserId,
       })
       if (list.data && Array.isArray(list.data)) {
         setList(list.data)

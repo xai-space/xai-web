@@ -88,7 +88,6 @@ export const AIAgentCreateForm = () => {
 
       const { data } = await aiApi.createAgent({
         name: fields.name.value,
-        user_id: defaultUserId,
         is_public: fields.isPublic.value,
         logo: Array.isArray(url) ? url[0] : url || '',
         greeting: fields.greeting.value,

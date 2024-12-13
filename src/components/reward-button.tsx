@@ -30,9 +30,10 @@ export const RewardButton = React.forwardRef<
   const router = useRouter()
 
   const totalIvite = useMemo(() => {
-    const amount1 = userInfo?.inviter_count.one ?? 0
-    const amount2 = userInfo?.inviter_count.two ?? 0
-    return amount1 + amount2
+    // const amount1 = userInfo?.inviter_count.one ?? 0
+    // const amount2 = userInfo?.inviter_count.two ?? 0
+    // return amount1 + amount2
+    return 0
   }, [userInfo])
 
   useEffect(() => {

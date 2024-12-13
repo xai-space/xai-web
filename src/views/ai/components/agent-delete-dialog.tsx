@@ -1,14 +1,9 @@
 import { aiApi } from '@/api/ai'
-import { AgentInfoResDataBase, AgentListResItem } from '@/api/ai/type'
-import { Input } from '@/components/input'
-import { Button } from '@/components/ui/button'
+import { AgentInfoResDataBase } from '@/api/ai/type'
 import {
-  Dialog,
-  DialogClose,
-  DialogFooter,
-  DialogHeader,
-} from '@/components/ui/dialog'
-import { defaultUserId } from '@/config/base'
+  BaseDeleteDialog,
+  DeleteDialogType,
+} from '@/components/base-delete-dialog'
 import { useAIAgentStore } from '@/stores/use-chat-store'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -26,6 +21,7 @@ export const AgentDeleteDialog = ({
 }: Props) => {
   const { t } = useTranslation()
   const { agentInfo, setAgentInfo } = useAIAgentStore()
+  console.log('delAgent', delAgent)
 
   const [loading, setLoading] = useState(false)
 
@@ -51,31 +47,12 @@ export const AgentDeleteDialog = ({
   }
 
   return (
-    <Dialog
-      open={!!delAgent}
-      onOpenChange={(v) => {
-        if (!v) setDelAgent(undefined)
-      }}
-    >
-      <DialogHeader className="font-bold">
-        {t('delete.agent.title')}
-      </DialogHeader>
-      <div>{t('delete.agent.info')}</div>
-      <DialogFooter>
-        <DialogClose>
-          <Button variant={'outline'} size={'lg'}>
-            {t('cancel')}
-          </Button>
-        </DialogClose>
-        <Button
-          variant={'red'}
-          size={'lg'}
-          onClick={onDelete}
-          isLoading={loading}
-        >
-          {loading ? t('deleting') : t('delete')}
-        </Button>
-      </DialogFooter>
-    </Dialog>
+    <BaseDeleteDialog
+      type={DeleteDialogType.Agent}
+      show={!!delAgent}
+      loading={loading}
+      onDelete={onDelete}
+      setShow={setDelAgent}
+    ></BaseDeleteDialog>
   )
 }

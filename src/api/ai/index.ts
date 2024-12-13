@@ -57,7 +57,7 @@ export const aiApi = {
 
   uploadImage: (formData: FormData) => {
     return api.POST<ApiResponse<{ filename: string; url: string }>>(
-      '/agent/v1/playground/upload',
+      '/v1/playground/upload',
       {
         body: formData,
         headers: {
@@ -69,7 +69,7 @@ export const aiApi = {
 
   createAgent: async (data: AgentCreate) => {
     return api.POST<ApiResponse<AgentResDataBase>>(
-      '/agent/v1/playground/agent/create',
+      '/v1/playground/agent/create',
       {
         body: data,
       }
@@ -78,7 +78,7 @@ export const aiApi = {
 
   updateAgent: async (data: AgentCreate) => {
     return api.PUT<ApiResponse<AgentResDataBase>>(
-      '/agent/v1/playground/agent/update',
+      '/v1/playground/agent/update',
       {
         body: data,
       }
@@ -86,33 +86,32 @@ export const aiApi = {
   },
 
   deleteAgent: async (agentId: string) => {
-    return api.POST<ApiResponse>('/agent/v1/playground/agent/delete', {
+    return api.POST<ApiResponse>('/v1/playground/agent/delete', {
       body: {
         agent_id: agentId,
-        user_id: defaultUserId
       }
     })
   },
 
   getAgentInfo: async (agentId: string) => {
     return api.GET<ApiResponse<AgentInfoResDataBase>>(
-      `/agent/v1/playground/agent/${agentId}`,
+      `/v1/playground/agent/${agentId}`,
     )
   },
 
   getAgentList: (query: AgentListReq) => {
     return api.GET<ApiResponse<AgentInfoResDataBase[]>>(
-      '/agent/v1/playground/agent/list' + qs.stringify(query)
+      '/v1/playground/agent/list' + qs.stringify(query)
     )
   },
 
   chat: async (data: AgentChat) => {
-    // return fetchEventSource('/agent/v1/playground/agent/chat', {
+    // return fetchEventSource('/v1/playground/agent/chat', {
 
     // })
 
     // return api.EVENTSOURCE<ApiResponse<AgentChatRes>>(
-    //   '/agent/v1/playground/agent/chat',
+    //   '/v1/playground/agent/chat',
     //   {
     //     body: data,
     //   }
@@ -121,7 +120,7 @@ export const aiApi = {
 
   getAllSession: async (data: AgentSessionsAll) => {
     return api.POST<ApiResponse<AgentSessionsAllRes[]>>(
-      '/agent/v1/playground/agent/sessions/all',
+      '/v1/playground/agent/sessions/all',
       {
         body: data,
       }
@@ -130,7 +129,7 @@ export const aiApi = {
 
   sessionReName: async (data: AgentSessionsRename) => {
     return api.POST<ApiResponse<AgentSessionsRenameRes>>(
-      '/agent/v1/playground/agent/session/rename',
+      '/v1/playground/agent/session/rename',
       {
         body: data,
       }
@@ -139,7 +138,7 @@ export const aiApi = {
 
   getSessionHistory: async (data: AgentSessionsHistory, session_id: string) => {
     return api.POST<ApiResponse<AgentSessionsHistoryRes>>(
-      `/agent/v1/playground/agent/sessions/${session_id}`,
+      `/v1/playground/agent/sessions/${session_id}`,
       {
         body: data,
       }
@@ -148,11 +147,10 @@ export const aiApi = {
 
   getSessionList: async (agentId: string, page = 1, limit = 10) => {
     return api.POST<ApiResponse<AgentSessionsList[]>>(
-      `/agent/v1/playground/agent/sessions/all?page=${page}&limit=${limit}`,
+      `/v1/playground/agent/sessions/all?page=${page}&limit=${limit}`,
       {
         body: {
           agent_id: agentId,
-          user_id: defaultUserId
         },
       }
     )
@@ -160,7 +158,7 @@ export const aiApi = {
 
   deleteSession: async (data: AgentSessionsDelete) => {
     return api.POST<ApiResponse<AgentSessionsDeleteRes>>(
-      `/agent/v1/playground/agent/session/delete`,
+      `/v1/playground/agent/session/delete`,
       {
         body: data,
       }

@@ -1,6 +1,7 @@
 import { aiApi } from '@/api/ai'
 import {
   AgentInfoResDataBase,
+  AgentListReq,
   AgentListResItem,
   AgentSessionsList,
 } from '@/api/ai/type'
@@ -21,6 +22,7 @@ import { useTranslation } from 'react-i18next'
 import { RiDeleteBin6Line } from 'react-icons/ri'
 import { FaRegEdit } from 'react-icons/fa'
 import { AgentDeleteDialog } from '../components/agent-delete-dialog'
+import { useUserStore } from '@/stores/use-user-store'
 
 interface Result {
   list: AgentInfoResDataBase[]
@@ -31,17 +33,25 @@ const AgentList = () => {
   const { t } = useTranslation()
   const { query, push, replace } = useRouter()
   const { setAgentInfo } = useAIAgentStore()
+  const { userInfo } = useUserStore()
   const [delAgent, setDelAgent] = useState<AgentInfoResDataBase | undefined>(
     undefined
   )
 
+  const isAll = !query.type || query.type === '1'
+
   const getLoadMoreList = async (s: Result | undefined): Promise<Result> => {
     let start = Math.floor((s?.list.length || 0) / 20) + 1
-    const { data } = await aiApi.getAgentList({
-      user_id: isAll ? '' : defaultUserId,
+    const bodyData: AgentListReq = {
       page: start,
       limit: 20,
-    })
+    }
+
+    if (!isAll && userInfo?.user.id) {
+      bodyData.user_id = userInfo?.user.id
+    }
+
+    const { data } = await aiApi.getAgentList(bodyData)
 
     return {
       list: data,
@@ -63,11 +73,11 @@ const AgentList = () => {
     reload()
   }
 
-  const isAll = !query.type || query.type === '1'
-
   useEffect(() => {
-    reloadList()
-  }, [query.type])
+    if (!isAll && userInfo?.user.id) {
+      reloadList()
+    }
+  }, [query.type, userInfo])
 
   return (
     <div className="max-w-[800px] w-[80%] mx-auto pt-8">
@@ -179,8 +189,8 @@ const AgentList = () => {
                     >
                       {agent.description}
                     </div>
-                    <div className="text-gray-400 leading-none text-sm">
-                      @{agent.user_id}
+                    <div className="text-gray-400 text-sm">
+                      {/* @{agent.user_id} */}
                     </div>
                   </div>
                 </div>

@@ -29,7 +29,6 @@ const defaultValues: Partial<ArticleFormValues> = {
 
 export const ArticleCreate = () => {
   const { getLang } = useLang()
-  const [text, setText] = useState('')
 
   const { t } = useTranslation()
 
@@ -48,7 +47,6 @@ export const ArticleCreate = () => {
   async function onSubmit(data: ArticleFormValues) {
     try {
       const res = await feedApi.createFeed({
-        user_id: defaultUserId,
         content: data.content,
       })
 
@@ -85,10 +83,6 @@ export const ArticleCreate = () => {
 
     callback([urls])
   }
-
-  useEffect(() => {
-    form.setValue('content', text)
-  }, [text, form])
 
   return (
     <Form {...form}>
@@ -132,7 +126,7 @@ export const ArticleCreate = () => {
           <Button
             type="submit"
             className="z-50"
-            disabled={text.length ? false : true}
+            disabled={!form.getValues('content')?.trim()?.length}
           >
             {t('create')}
           </Button>

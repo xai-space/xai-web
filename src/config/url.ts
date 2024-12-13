@@ -7,7 +7,7 @@ const prod = {
 }
 
 const dev = {
-  xai: 'https://api.xai.space/develop',
+  xai: 'https://api.xai.space/develop/agent',
   ws: 'wss://api.xai.space/develop/ws',
   assets: 'https://static.xai.space',
 }

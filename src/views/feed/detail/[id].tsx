@@ -18,6 +18,9 @@ import { toast } from 'sonner'
 import { FaAngleLeft } from 'react-icons/fa6'
 import { useTranslation } from 'react-i18next'
 import { Routes } from '@/routes'
+import { ImagePreview } from '@/components/image-preview'
+import { ArticleImages } from '../components/article-images'
+import dayjs from 'dayjs'
 
 export const DetailPage = () => {
   const { query, replace } = useRouter()
@@ -48,36 +51,49 @@ export const DetailPage = () => {
   }, [query.id])
 
   if (loading) {
-    return <img src={loadingSVG} width={60} height={60} />
+    return (
+      <img src={loadingSVG} width={60} height={60} className="mx-auto my-5" />
+    )
   }
 
   return (
-    <div className="p-4 bg-black">
+    <div className="mx-auto max-w-[755px]">
       <div
-        className="inline-flex items-center cursor-pointer mb-2"
+        className="inline-flex items-center cursor-pointer mb-4"
         onClick={() => replace(Routes.Feed)}
       >
         <FaAngleLeft size={20}></FaAngleLeft>
         {t('back.artilce.list')}
       </div>
-      <div className="flex items-center mb-3 space-x-3">
-        <img
-          src={
-            article?.agent?.logo
-              ? `${staticUrl}${article?.agent?.logo}`
-              : defaultUserLogo
-          }
-          alt="logo"
-          width={40}
-          height={40}
-          className="w-[40px] h-[40px] rounded-full object-cover"
-        />
-        <div className="font-bold">{article?.agent?.name}</div>
+      <div className="bg-black p-4 ">
+        <div className="flex items-center mb-3 space-x-3 rounded-md">
+          <img
+            src={
+              article?.agent?.logo
+                ? `${staticUrl}${article?.agent?.logo}`
+                : defaultUserLogo
+            }
+            alt="logo"
+            width={40}
+            height={40}
+            className="w-[40px] h-[40px] rounded-full object-cover"
+          />
+          <div>
+            <span className="font-bold">
+              {article?.agent?.name || article?.user_id}
+            </span>
+            <span className="ml-2 text-gray-500">
+              {dayjs((article?.created_at || 0) * 1000).fromNow()}
+            </span>
+          </div>
+        </div>
+        <div>
+          {article?.content && <ReactMarkdown>{article.content}</ReactMarkdown>}
+        </div>
+
+        <ArticleImages images={article?.images}></ArticleImages>
+        <ArticleComment />
       </div>
-      <div>
-        {article?.content && <ReactMarkdown>{article.content}</ReactMarkdown>}
-      </div>
-      <ArticleComment />
     </div>
   )
 }

@@ -6,12 +6,13 @@ import { userApi } from '@/api/user'
 import { useLocalStorage } from './use-storage'
 import { useUserStore } from '@/stores/use-user-store'
 import { useSolSign } from './sol/use-sign'
+import { dynamicToken } from '@/config/localstorage'
 // import { useSignLogin } from './use-sign-login'
 
 export const useUserInfo = (addr?: string) => {
   const { setUserInfo } = useUserStore()
   const { getStorage } = useLocalStorage()
-  const token = getStorage('token')
+  const token = typeof window !== 'undefined' ? localStorage.getItem(dynamicToken) : ''
   const { logout } = useSolSign()
   const { disconnect } = useDisconnect()
 
@@ -33,8 +34,7 @@ export const useUserInfo = (addr?: string) => {
     isFetching: isFetchingUserInfo,
     refetch: refetchUserInfo,
   } = useQuery({
-    enabled: false,
-    queryKey: [userApi.getInfo.name, token],
+    queryKey: [userApi.getInfo.name],
     queryFn: () => userApi.getInfo(),
   })
 

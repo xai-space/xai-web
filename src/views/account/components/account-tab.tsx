@@ -13,6 +13,7 @@ import { Routes } from '@/routes'
 import { useAccountContext } from '@/contexts/account'
 import { cn } from '@/lib/utils'
 import { joinPaths } from '@/utils'
+import { PostFeed } from '@/components/post-feed'
 
 export const AccountTab = () => {
   const { t } = useTranslation()
@@ -39,6 +40,14 @@ export const AccountTab = () => {
     {
       label: t('token.held'),
       value: UserListType.CoinsHeld,
+    },
+    {
+      label: t('published.posts'),
+      value: UserListType.PublishedPosts,
+    },
+    {
+      label: t('published.comments'),
+      value: UserListType.PublishedComments,
     },
     ...(isOtherUser ? [] : myAccountTabs),
   ]
@@ -122,6 +131,11 @@ export const AccountTab = () => {
           isPending={isFetching}
           onFetchNext={fetchNextPage}
         />
+      </TabsContent>
+
+      {/* Published Posts */}
+      <TabsContent value={UserListType.PublishedPosts.toString()}>
+        <PostFeed className="mx-0 !w-full max-w-full" isMy={true} />
       </TabsContent>
 
       {/* Only self can see. */}

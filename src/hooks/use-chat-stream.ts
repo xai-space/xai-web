@@ -59,7 +59,7 @@ export const useChatStream = () => {
         const newSessions = sessions.concat([chunk])
         setSessions(newSessions)
 
-        fetchEventSource(apiUrl.xai + '/agent/v1/playground/agent/chat', {
+        fetchEventSource(apiUrl.xai + '/v1/playground/chat', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -110,7 +110,6 @@ export const useChatStream = () => {
             const { data } = await sessionHistory.mutateAsync({
                 data: {
                     agent_id: query.id,
-                    user_id: defaultUserId,
                 },
                 session_id: query.sid!,
             })

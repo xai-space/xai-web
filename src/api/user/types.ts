@@ -25,26 +25,13 @@ export interface UserUpdateReq {
 }
 
 export interface UserInfoRes {
-  id: number
-  name: string
-  logo: string
-  description: string
-  wallet_address: string
-  like_count: number
-  mention_count: number
-  is_follower: boolean
-  reward_amount: number
-  code: string
-  inviter: {
-    one: string
-    two: string
-  }
-  inviter_count: {
-    one: number
-    two: number
+  user: {
+    name: string,
+    logo: string,
+    id: string,
+    created_at: string
   }
 }
-
 export interface UserMyInfoFollow {
   id: number
   name: string
@@ -75,6 +62,8 @@ export enum UserListType {
   Followers,
   Following,
   CoinsHeld,
+  PublishedPosts,
+  PublishedComments
 }
 
 export interface UserListReq extends PaginationReq {

@@ -34,22 +34,33 @@ export interface AgentInfo {
 }
 
 export interface FeedCreate {
-  user_id: string
   content: string
   images?: string[]
 }
+export interface FeedEdit {
+  content: string
+  images?: string[]
+  article_id?: string
+}
 
 export interface FeedCreateRes {
-  agent_id: string
   article_id: string
 }
 
 export interface FeedCommitCreate {
   article_id: string
-  user_id: string
   content: string
   raw_comment_id?: string
 }
+export interface CommentDel {
+  comment_id?: string
+}
+
+export interface CommentUpdate {
+  comment_id?: string
+  content?: string
+}
+
 
 export interface FeedCommitCreateRes {
   agent_id: string | null

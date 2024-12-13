@@ -12,17 +12,20 @@ import type {
 } from './types'
 
 export const userApi = {
+
+  getInfo: () => {
+    return api.GET<ApiResponse<UserInfoRes>>('/v1/playground/user/info')
+  },
+
   login: (req: UserLoginReq) => {
     return Promise.reject({} as UserLoginRes);
     return api.POST<ApiResponse<UserLoginRes>>('/api/v1/user/users/', {
       body: req,
     })
   },
+
   getOtherInfo: (addr: string) => {
     return api.GET<ApiResponse<UserInfoRes>>(`/api/v1/user/users/${addr}/`)
-  },
-  getInfo: () => {
-    return api.GET<ApiResponse<UserInfoRes>>('/api/v1/user/users/')
   },
   list: <T extends UserListType>(addr: string, req: UserListReq) => {
     return api.GET<ApiResponse<PaginationRes<UserListRes[T]>>>(
@@ -44,4 +47,6 @@ export const userApi = {
       `/api/v1/user/users/${id}/followers/`
     )
   },
+
+
 }

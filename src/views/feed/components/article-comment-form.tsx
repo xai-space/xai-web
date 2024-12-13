@@ -7,6 +7,7 @@ import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
+import TextareaAutosize from 'react-textarea-autosize'
 
 interface ReplyProps {
   replayUser?: {
@@ -35,7 +36,6 @@ export const ArticleCommentForm = ({ replayUser, onSended }: ReplyProps) => {
         await feedApi.createComment({
           article_id: query.id,
           content: comment,
-          user_id: defaultUserId,
           raw_comment_id: replayUser?.cid,
         })
         toast.success(t('comment.posted'))
@@ -58,14 +58,15 @@ export const ArticleCommentForm = ({ replayUser, onSended }: ReplyProps) => {
 
   return (
     <div className="mt-5">
-      <Input
+      <TextareaAutosize
+        className="w-full resize-none p-2 rounded-md min-h-[100px] max-h-[200px]"
         value={comment}
         disabled={loading}
         onChange={(e) => setComment(e.target.value)}
         placeholder={
           replayUser ? `${t('replay')} @${replayUser.name}` : t('enter.comment')
         }
-      ></Input>
+      ></TextareaAutosize>
       <Button onClick={postComment} className="mt-2" disabled={loading}>
         {loading ? t('posting') : t('post.comment')}
       </Button>

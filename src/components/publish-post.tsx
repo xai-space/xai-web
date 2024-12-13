@@ -1,7 +1,6 @@
 import { defaultUserLogo } from '@/config/link'
 import { Avatar } from './ui/avatar'
-import { Textarea } from './ui/textarea'
-import { useRef, useState } from 'react'
+import { ChangeEvent, ReactEventHandler, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Button } from './ui/button'
 import TextareaAutosize from 'react-textarea-autosize'
@@ -13,17 +12,24 @@ import { feedApi } from '@/api/feed'
 import { defaultUserId } from '@/config/base'
 import { toast } from 'sonner'
 import { useArticleStore } from '@/stores/use-article-store'
+import { FeedListRes } from '@/api/feed/types'
+import { staticUrl } from '@/config/url'
+import { cloneDeep, isEqual } from 'lodash'
 
 interface Props {
+  editArticle?: FeedListRes
   onPosted: () => void
 }
 
-export const PublishPost = ({ onPosted }: Props) => {
-  const [value, setValue] = useState('')
+export const PublishPost = ({ editArticle, onPosted }: Props) => {
+  const [editArticle2, setEditArticle2] = useState(cloneDeep(editArticle))
+  const [value, setValue] = useState(editArticle?.content || '')
   const imgRef = useRef<HTMLInputElement>(null)
   const { t } = useTranslation()
   const [loading, setLoading] = useState(false)
   const { feedList, setFeedList } = useArticleStore()
+
+  const isCreate = !editArticle
 
   const { closeItem, checkCount, blobUrl, onSubmitImg, onChangeUpload } =
     useUploadImage({
@@ -33,6 +39,12 @@ export const PublishPost = ({ onPosted }: Props) => {
     })
 
   const onUploadImg = () => {
+    const fileCount = (editArticle2?.images?.length || 0) + blobUrl.length
+
+    if (fileCount >= 3) {
+      return toast.warning(t('max.file.warn').replace('$1', '3'))
+    }
+
     if (checkCount()) imgRef.current?.click()
   }
 
@@ -45,8 +57,6 @@ export const PublishPost = ({ onPosted }: Props) => {
     const firstArticleId = feedList[0]?.article_id
     const newList = []
 
-    console.log('firstArticleId', firstArticleId)
-
     for (let i = 0; i < data.length; i++) {
       const item = data[i]
       console.log(item.article_id, firstArticleId)
@@ -56,9 +66,43 @@ export const PublishPost = ({ onPosted }: Props) => {
       } else break
     }
 
-    console.log(newList)
-
     setFeedList(newList.concat(feedList))
+  }
+
+  const onLocalChangeImg = (e: ChangeEvent<HTMLInputElement>) => {
+    const fileCount =
+      (editArticle2?.images?.length || 0) +
+      blobUrl.length +
+      (e.target.files?.length || 0)
+
+    if (fileCount > 3) {
+      return toast.warning(t('max.file.warn').replace('$1', '3'))
+    }
+
+    onChangeUpload(e)
+  }
+
+  const submitText = () => {
+    if (loading) {
+      return isCreate ? t('post...') : t('update...')
+    }
+
+    return isCreate ? t('post') : t('update')
+  }
+
+  const submitDisable = () => {
+    if (
+      !isCreate &&
+      // oldContent === newContent
+      (editArticle.content == value ||
+        // image1 === image2 && newImage = 0
+        (isEqual(editArticle?.images, editArticle2?.images) &&
+          blobUrl.length === 0))
+    ) {
+      return true
+    }
+
+    return !value.trim() || loading
   }
 
   const onSubmit = async () => {
@@ -66,15 +110,28 @@ export const PublishPost = ({ onPosted }: Props) => {
     setLoading(true)
     try {
       const url = await onSubmitImg()
-      const images = url?.map(({ url }) => url)
+      let images = url?.map(({ url }) => url)
+      images = isCreate ? images : editArticle2?.images.concat(images || [])
+      console.log(images, editArticle2?.images)
 
-      await feedApi.createFeed({
+      const sendPost = isCreate ? feedApi.createFeed : feedApi.updatePost
+
+      await sendPost({
         content: value,
-        user_id: defaultUserId,
         images: images,
+        article_id: editArticle2?.article_id,
       })
-      await updateFeed()
-      toast.success(t('published.successfully'))
+
+      // Create
+      if (!editArticle) {
+        await updateFeed()
+        toast.success(t('published.successfully'))
+      } else {
+        // Edit
+        editArticle.content = value
+        editArticle.images = images || []
+      }
+
       onPosted()
     } catch {
       toast.error(t('published.error'))
@@ -87,7 +144,14 @@ export const PublishPost = ({ onPosted }: Props) => {
   return (
     <>
       <div className="flex">
-        <Avatar src={defaultUserLogo} alt="Logo" />
+        <Avatar
+          src={
+            editArticle2?.agent?.logo
+              ? `${staticUrl}${editArticle2?.agent?.logo}`
+              : defaultUserLogo
+          }
+          alt="Logo"
+        />
         <div className="flex-1">
           <TextareaAutosize
             value={value}
@@ -99,6 +163,28 @@ export const PublishPost = ({ onPosted }: Props) => {
             autoFocus={true}
           ></TextareaAutosize>
           <div className="flex space-x-1">
+            {editArticle2?.images?.map((url, i) => {
+              return (
+                <div className="relative flex-1">
+                  <img
+                    src={`${staticUrl}${url}`}
+                    alt="Logo"
+                    className="rounded-md w-full h-full object-cover max-h-[15vh]"
+                  />
+                  <div className="absolute right-0 top-0 bg-black/50 border-dashed border border-gray-500 rounded-full">
+                    <IoClose
+                      className="cursor-pointer"
+                      size={20}
+                      onClick={() => {
+                        editArticle2?.images.splice(i, i + 1)
+                        setEditArticle2(cloneDeep(editArticle2))
+                      }}
+                    ></IoClose>
+                  </div>
+                </div>
+              )
+            })}
+
             {blobUrl.map((url, i) => {
               return (
                 <div className="relative flex-1">
@@ -130,15 +216,15 @@ export const PublishPost = ({ onPosted }: Props) => {
             onClick={onUploadImg}
           ></FaRegImage>
         </span>
-        <Button onClick={onSubmit} disabled={!value.trim() || loading}>
-          {t('post')}
+        <Button onClick={onSubmit} disabled={submitDisable()}>
+          {submitText()}
         </Button>
       </div>
       <ImageUpload
         ref={imgRef}
         className="hidden"
         multiple={true}
-        onChange={(e) => onChangeUpload(e, false)}
+        onChange={(e) => onLocalChangeImg(e)}
       ></ImageUpload>
     </>
   )

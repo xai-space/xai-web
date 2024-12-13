@@ -808,7 +808,7 @@
   "deleteing": "",
   "delete": "删除",
   "deleting": "删除中...",
-  "delete.session": "⚠️你确定删除这个会话吗？",
+  "delete.session": "你确定删除这个会话吗？",
   "delete.info": "",
   "delete.sessino.info": "删除后，聊天记录将不可恢复。",
   "delete.successful": "删除成功",
@@ -824,5 +824,17 @@
   "new.session": "新对话",
   "back.artilce.list": "返回列表",
   "select.nft": "选择NFT ",
-  "collection.list": "集合列表"
+  "collection.list": "集合列表",
+  "published.posts": "已发布的帖子",
+  "published.comments": "已发布的评论",
+  "delete.post": "你确定删除这条帖子吗？",
+  "delete.post.info": "删除后将无法恢复，并且你与其他人都永远无法看到这条帖子",
+  "delete.comment.title": "你确定删除这条评论吗？",
+  "delete.comment.info": "删除评论后将无法恢复，你与其他人将永远看不到这条评论",
+  "post...": "发布中...",
+  "update...": "更新中...",
+  "empty,comment": "还没有评论～",
+  "empty.session": "暂无聊天历史～",
+  "edit,comment": "编辑评论",
+  "update.successful": "更新成功"
 }

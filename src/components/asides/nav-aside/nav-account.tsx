@@ -40,9 +40,9 @@ export const NavAccount = ({
     }
 
     return (
-      <div className="flex items-center">
+      <div className="w-full flex items-center justify-between">
         <div
-          className="flex items-end cursor-pointer"
+          className="flex items-end cursor-pointer mr-2"
           onClick={() =>
             router.push(`${Routes.Account}/${userInfo?.wallet_address}`)
           }
@@ -52,9 +52,9 @@ export const NavAccount = ({
             className="rounded-full w-12 h-12"
           />
           <div className="flex flex-col space-y-1">
-            <span className="text-sm ml-2 font-semibold">
+            <div className="text-sm ml-2 font-semibold line-clamp-1 break-all">
               {userInfo?.name || '--'}
-            </span>
+            </div>
             <span className="text-xs ml-2 text-gray-500">
               {fmt.addr(userInfo?.wallet_address || primaryWallet?.address)}
             </span>
@@ -62,7 +62,7 @@ export const NavAccount = ({
         </div>
 
         <NavAccountPopover>
-          <IoIosMore className="ml-24 cursor-pointer" />
+          <IoIosMore className="cursor-pointer" size={20} />
         </NavAccountPopover>
       </div>
     )

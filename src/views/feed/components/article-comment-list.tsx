@@ -6,16 +6,103 @@ import ReactMarkdown from 'react-markdown'
 import { BiMessageRoundedDetail } from 'react-icons/bi'
 import { Button } from '@/components/ui/button'
 import { useArticleStore } from '@/stores/use-article-store'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ArticleCommentForm } from './article-comment-form'
 import { defaultUserId } from '@/config/base'
 import { cn } from '@/lib/utils'
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa6'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
+import { FiMoreHorizontal } from 'react-icons/fi'
+import { MdDelete, MdEdit } from 'react-icons/md'
+import {
+  BaseDeleteDialog,
+  DeleteDialogType,
+} from '@/components/base-delete-dialog'
+import { feedApi } from '@/api/feed'
+import { toast } from 'sonner'
+import { Dialog, DialogClose, DialogFooter } from '@/components/ui/dialog'
+import { useRouter } from 'next/router'
+import TextareaAutosize from 'react-textarea-autosize'
+import { cloneDeep } from 'lodash'
 
 export const ArticleCommentList = () => {
   const { t } = useTranslation()
 
-  const { article } = useArticleStore()
+  const { query } = useRouter()
+
+  const [delCommentId, setDelCommentId] = useState<string>()
+  const [editComment, setEditComment] = useState<FeedComments>()
+  const [editLoading, setEditLoading] = useState(false)
+  const [delLoading, setDelLoading] = useState(false)
+  const [editValue, setEditValue] = useState('')
+
+  const { article, setArticle } = useArticleStore()
+
+  const onDelComment = (id: string) => {
+    setDelCommentId(id)
+  }
+
+  const onEditComment = (comment: FeedComments) => {
+    setEditComment(cloneDeep(comment))
+  }
+
+  const onEdit = async () => {
+    try {
+      setEditLoading(true)
+      const { code, message } = await feedApi.updateComment({
+        comment_id: editComment?.comment_id,
+        content: editValue,
+      })
+
+      if (code == 200) {
+        const res = await feedApi.getDetail(query.id as unknown as string)
+        setArticle(res.data)
+        setEditComment(undefined)
+        toast.success(t('update.successful'))
+        return
+      }
+
+      toast.error(message)
+    } catch (err: any) {
+      toast.error(err.toString())
+    } finally {
+      setEditLoading(false)
+    }
+  }
+
+  const onDelete = async () => {
+    try {
+      setDelLoading(true)
+      const { code, message } = await feedApi.delComment({
+        comment_id: delCommentId,
+      })
+
+      if (code == 200) {
+        const res = await feedApi.getDetail(query.id as unknown as string)
+        setArticle(res.data)
+        setDelCommentId(undefined)
+        toast.success(t('delete.successful'))
+        return
+      }
+
+      toast.error(message)
+    } catch (e: any) {
+      toast.error(e.toString())
+    } finally {
+      setDelLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    if (editComment) {
+      setEditValue(editComment.content)
+    }
+  }, [editComment])
 
   return (
     <div className="mt-8">
@@ -26,9 +113,51 @@ export const ArticleCommentList = () => {
             key={comment.comment_id}
             className="border-t border-gray-400"
             comment={comment}
+            onDelComment={onDelComment}
+            onEditComment={onEditComment}
           ></ArticleCommentItem>
         )
       })}
+
+      {!article?.comments.length ? (
+        <div className="mt-2 text-gray-500">{t('empty,comment')}</div>
+      ) : null}
+
+      <Dialog
+        open={!!editComment}
+        onOpenChange={() => setEditComment(undefined)}
+      >
+        <div className="font-bold">{t('edit,comment')}</div>
+        <TextareaAutosize
+          value={editValue}
+          onChange={(e) => {
+            setEditValue(e.target.value)
+          }}
+          className="min-h-[100px] max-h-[200px] p-2 rounded-md resize-none"
+        ></TextareaAutosize>
+
+        <DialogFooter>
+          <DialogClose>
+            <Button className="px-8">{t('cancel')}</Button>
+          </DialogClose>
+          <Button
+            onClick={onEdit}
+            disabled={editLoading}
+            className="px-8"
+            variant={'purple'}
+          >
+            {editLoading ? t('updating') : t('update')}
+          </Button>
+        </DialogFooter>
+      </Dialog>
+
+      <BaseDeleteDialog
+        type={DeleteDialogType.Comment}
+        show={!!delCommentId}
+        setShow={setDelCommentId}
+        loading={delLoading}
+        onDelete={onDelete}
+      />
     </div>
   )
 }
@@ -38,12 +167,20 @@ interface CommentItem {
   rowComment?: FeedComments
   className?: string
   onReply?: () => void
+  onDelComment?: (id: string) => void
+  onEditComment?: (comment: FeedComments) => void
 }
 
-const ArticleCommentItem = ({ className, comment, onReply }: CommentItem) => {
-  const [show, setShow] = useState(false)
-
+const ArticleCommentItem = ({
+  className,
+  comment,
+  onReply,
+  onDelComment,
+  onEditComment,
+}: CommentItem) => {
   const { t } = useTranslation()
+
+  const [show, setShow] = useState(false)
   const [viewAll, setViewAll] = useState(false)
 
   return (
@@ -60,22 +197,31 @@ const ArticleCommentItem = ({ className, comment, onReply }: CommentItem) => {
       />
       <div>
         <div className="flex items-center space-x-2">
-          <div className="flex items-center font-bold">
-            <span>{comment.user_id}</span>
+          <div className="flex flex-1">
+            <div className="flex items-center font-bold">
+              <span>{comment.user_id}</span>
+            </div>
+            <span className="ml-2">
+              {dayjs(comment.created_at * 1000).fromNow()}
+            </span>
           </div>
-          <span>{dayjs(comment.created_at * 1000).fromNow()}</span>
+          <div className="">
+            <MoreHandler
+              comment={comment}
+              onDelComment={onDelComment}
+              onEditComment={onEditComment}
+            ></MoreHandler>
+          </div>
         </div>
         <ReactMarkdown className="mt-1">{comment.content}</ReactMarkdown>
 
         <div className="flex items-center mt-2 space-x-4">
-          {defaultUserId !== comment.user_id ? (
-            <div>
-              <BiMessageRoundedDetail
-                className="cursor-pointer hover:text-gray-300"
-                onClick={() => setShow(!show)}
-              ></BiMessageRoundedDetail>
-            </div>
-          ) : null}
+          <div>
+            <BiMessageRoundedDetail
+              className="cursor-pointer hover:text-gray-300"
+              onClick={() => setShow(!show)}
+            ></BiMessageRoundedDetail>
+          </div>
           {comment.reply_list.length ? (
             <div
               className={cn(
@@ -103,6 +249,7 @@ const ArticleCommentItem = ({ className, comment, onReply }: CommentItem) => {
             </div>
           ) : null}
         </div>
+
         {show ? (
           <ArticleCommentForm
             replayUser={{
@@ -115,6 +262,7 @@ const ArticleCommentItem = ({ className, comment, onReply }: CommentItem) => {
             }}
           ></ArticleCommentForm>
         ) : null}
+
         {comment.reply_list.length && viewAll ? (
           <div className="rounded-md">
             {comment.reply_list.map((reply) => {
@@ -127,6 +275,8 @@ const ArticleCommentItem = ({ className, comment, onReply }: CommentItem) => {
                     setViewAll(true)
                     onReply?.()
                   }}
+                  onDelComment={onDelComment}
+                  onEditComment={onEditComment}
                 ></ArticleReplyCommentItem>
               )
             })}
@@ -142,26 +292,37 @@ const ArticleReplyCommentItem = ({
   comment,
   rowComment,
   onReply,
+  onEditComment,
+  onDelComment,
 }: CommentItem) => {
   const [show, setShow] = useState(false)
-
-  const { t } = useTranslation()
 
   return (
     <div className={cn('pt-5', className)}>
       <div>
         <div className="flex items-center space-x-2">
-          <div className="flex items-center font-bold">
-            <img
-              src={defaultUserLogo}
-              alt="Logo"
-              width={22}
-              height={22}
-              className={cn('object-cover w-[22px] h-[22px] rounded-full mr-2')}
-            />
-            <span>{comment.user_id}</span>
+          <div className="flex flex-1">
+            <div className="flex items-center font-bold">
+              <img
+                src={defaultUserLogo}
+                alt="Logo"
+                width={22}
+                height={22}
+                className={cn(
+                  'object-cover w-[22px] h-[22px] rounded-full mr-2'
+                )}
+              />
+              <span className="ml-2">{comment.user_id}</span>
+            </div>
+            <span>{dayjs(comment.created_at * 1000).fromNow()}</span>
           </div>
-          <span>{dayjs(comment.created_at * 1000).fromNow()}</span>
+          <div>
+            <MoreHandler
+              comment={comment}
+              onDelComment={onDelComment}
+              onEditComment={onEditComment}
+            ></MoreHandler>
+          </div>
         </div>
         <div className="mt-1">
           <span className="text-gray-300">
@@ -211,6 +372,8 @@ const ArticleReplyCommentItem = ({
                     key={reply.comment_id}
                     comment={reply}
                     onReply={onReply}
+                    onDelComment={onDelComment}
+                    onEditComment={onEditComment}
                   ></ArticleReplyCommentItem>
                 )
               })}
@@ -219,5 +382,39 @@ const ArticleReplyCommentItem = ({
         ) : null}
       </div>
     </div>
+  )
+}
+
+const MoreHandler = ({ comment, onDelComment, onEditComment }: CommentItem) => {
+  const { t } = useTranslation()
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger>
+        <div className="text-gray-500 p-1 transition-all rounded-full cursor-pointer hover:text-white hover:bg-white/40">
+          <FiMoreHorizontal size={20} />
+        </div>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
+        <DropdownMenuItem
+          className="cursor-pointer"
+          onClick={() => onEditComment?.(comment)}
+        >
+          <div className="flex items-center space-x-1">
+            <MdEdit size={18} />
+            <span>{t('edit')}</span>
+          </div>
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          className="cursor-pointer"
+          onClick={() => onDelComment?.(comment.comment_id)}
+        >
+          <div className="flex items-center text-red-500 space-x-1">
+            <MdDelete size={18} />
+            <span>{t('delete')}</span>
+          </div>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   )
 }

@@ -17,6 +17,7 @@ import { MaintainTips } from '../maintain-tips'
 import { useRootFontSize } from '@/hooks/use-root-font-size'
 import { useKeepScrollPosition } from '@/hooks/use-keep-scroll-position'
 import { DynamicUserProfile } from '@dynamic-labs/sdk-react-core'
+import { useUserInfo } from '@/hooks/use-user-info'
 
 // Extends style css variable for react
 declare module 'react' {
@@ -40,6 +41,8 @@ export const AppLayout = ({ children }: { children: ReactNode }) => {
   useLang() // init lang
 
   useQueryChains() // init chains
+
+  useUserInfo() // init login
 
   useRootFontSize()
 

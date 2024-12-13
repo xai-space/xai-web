@@ -151,7 +151,6 @@ export const AIAgentForm = ({ isCreate }: Props) => {
 
       const { data } = await sendData({
         name: form.getValues('name'),
-        user_id: defaultUserId,
         is_public: form.getValues('isPublic') || '',
         logo: url?.[0]?.url || '',
         greeting: form.getValues('greeting') || '',

@@ -46,7 +46,7 @@ export const AccountAvatar = ({
         contentProps={{ className: 'max-w-[40vw]' }}
       >
         <img
-          src={userInfo?.logo}
+          src={userInfo?.user.logo}
           alt="avatar"
           className="w-full h-full object-fill"
         />
@@ -63,14 +63,14 @@ export const AccountAvatar = ({
         )}
         onClick={() => {
           clearFile()
-          if (isOtherUser && !isEmpty(userInfo?.logo)) {
+          if (isOtherUser && !isEmpty(userInfo?.user.logo)) {
             setOpen(true)
           }
         }}
       >
         <Avatar
-          src={userInfo?.logo || ''}
-          fallback={userInfo?.wallet_address.slice(-4)}
+          src={userInfo?.user.logo || ''}
+          // fallback={userInfo?.wallet_address.slice(-4)}
           size={128}
           className="border-4 border-zinc-100 bg-gray-50 bottom-10"
         />

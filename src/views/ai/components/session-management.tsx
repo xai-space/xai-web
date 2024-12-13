@@ -68,6 +68,8 @@ export const SessionManagement = () => {
     }
   )
 
+  if (!sessionList?.length) return <></>
+
   return (
     <>
       <DropdownMenu open={show} onOpenChange={setShow}>

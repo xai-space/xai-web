@@ -1,14 +1,12 @@
 import { useState } from "react"
 
-import { publicKey } from '@metaplex-foundation/umi'
 import { createUmi } from '@metaplex-foundation/umi-bundle-defaults'
-import { das } from '@metaplex-foundation/mpl-core-das';
-import { DasApiAsset, DasApiAssetList, dasApi } from "@metaplex-foundation/digital-asset-standard-api";
-import { useInfiniteScroll } from "ahooks";
+import { dasApi } from "@metaplex-foundation/digital-asset-standard-api";
+import { Asset, NFTInfo, NFTListRes, NetworkNFTList } from "@/api/nft";
 
 
 export const useSolNFTList = (nftListRef: React.RefObject<HTMLDivElement>) => {
-    const [list, setList] = useState<DasApiAsset[]
+    const [list, setList] = useState<NetworkNFTList[]
     >([])
     let limit = 20
 
@@ -18,47 +16,86 @@ export const useSolNFTList = (nftListRef: React.RefObject<HTMLDivElement>) => {
 
 
     const getSolanaNFTAsset = async () => {
-        const owner = publicKey('2Whhi93Ckub7Sc9DViCLTpKS4bdDy9zv3ctxEJAa7J6D')
-        console.log('owner');
+        // const owner = publicKey('2Whhi93Ckub7Sc9DViCLTpKS4bdDy9zv3ctxEJAa7J6D')
+        // console.log('owner');
 
-        // if (list.length % limit != 0) {
-        //     return {
-        //         list,
-        //         noMore: list.length !== limit
+        // // if (list.length % limit != 0) {
+        // //     return {
+        // //         list,
+        // //         noMore: list.length !== limit
+        // //     }
+        // // }
+
+        // const page = Math.floor(list.length / limit) + 1
+
+        // // @ts-ignore
+        // // const { items } = await umi.rpc.getAssetsByOwner({
+        // //     owner,
+        // //     limit,
+        // //     page
+        // // }) as DasApiAssetList
+
+        // const { data } = await (await fetch(`https://restapi.nftscan.com/api/v2/assets/chain/${address}?chain=eth;bnb;polygon;arbitrum;optimism;zksync;linea;avalanche;fantom`, {
+        //     headers: {
+        //         'X-API-KEY': 'zoDxKTSDDE2ELEm5SjWhpNsx'
         //     }
+        // })).json() as NFTListRes<NFTInfo>
+
+
+        // const list = {
+        //     chain: 'sol',
+        //     exceed_max_items: false,
+        //     collection_assets: data
+        // } as NetworkNFTList
+
+        // setList(list)
+        // return {
+        //     list,
+        //     noMore: items.length !== limit
         // }
+    }
 
-        const page = Math.floor(list.length / limit) + 1
+    // const { data, loading, loadingMore, mutate } = useInfiniteScroll(getSolanaNFTAsset, {
+    //     target: nftListRef.current,
+    //     isNoMore: (d) => d?.noMore == true
+    // })
 
-        // @ts-ignore
-        const { items } = await umi.rpc.getAssetsByOwner({
-            owner,
-            limit,
-            page
-        }) as DasApiAssetList
+    const getNFTList = async () => {
+        const address = '2Whhi93Ckub7Sc9DViCLTpKS4bdDy9zv3ctxEJAa7J6D'
 
-        setList([...list, ...items])
-        return {
-            list,
-            noMore: items.length !== limit
+        // getSolanaNFTAsset()
+        const { data } = await (await fetch(`https://solanaapi.nftscan.com/api/sol/account/own/all/${address}?show_attribute=false`, {
+            headers: {
+                'X-API-KEY': 'zoDxKTSDDE2ELEm5SjWhpNsx'
+            }
+        })).json() as NFTListRes<NFTInfo>
+
+        console.log('Solana NFT DATA', data);
+
+        const checkAssets = (item: Asset) => {
+            return item.mint_price
         }
+
+        const collectionAssets = data.filter((item) => {
+            return !!item.logo_url && item.items_total >= 1000 && item.collection && item.description && item.logo_url
+        })
+
+        const list = {
+            chain: 'sol',
+            exceed_max_items: false,
+            collection_assets: collectionAssets
+        } as NetworkNFTList
+
+        setList([list])
     }
 
-    const { data, loading, loadingMore, mutate } = useInfiniteScroll(getSolanaNFTAsset, {
-        target: nftListRef.current,
-        isNoMore: (d) => d?.noMore == true
-    })
-
-    const getNFTList = () => {
-        getSolanaNFTAsset()
-    }
 
     return {
         list,
         getNFTList,
         setList,
-        data,
-        loading,
-        loadingMore,
+        // data,
+        // loading,
+        // loadingMore,
     }
 }

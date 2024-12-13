@@ -13,6 +13,7 @@ import { useAIAgentStore } from '@/stores/use-chat-store'
 import { Routes } from '@/routes'
 import { SessionManagement } from '../components/session-management'
 import { FiPlus } from 'react-icons/fi'
+import { Avatar } from '@/components/ui/avatar'
 
 export const ChatPage = () => {
   const { t } = useTranslation()
@@ -60,16 +61,13 @@ export const ChatPage = () => {
     >
       <div className="sticky py-4 top-0 z-50 flex justify-between items-center bg-background">
         <div className="flex items-center mb-4">
-          <img
+          <Avatar
             src={
               agentInfo?.logo
                 ? `${staticUrl}${agentInfo?.logo}`
                 : defaultAgentLogo
             }
             alt="Logo"
-            width={40}
-            height={40}
-            className="w-[40px] h-[40px]"
           />
           <span className="ml-2">{agentInfo?.name}</span>
         </div>

@@ -13,6 +13,7 @@ export const useQueryChains = () => {
     isFetching,
     refetch,
   } = useQuery({
+    enabled: false,
     queryKey: [chainApi.getChain.name],
     queryFn: chainApi.getChain,
     select: ({ data }) => data,

@@ -36,7 +36,6 @@ export const SessionRenameDialog = ({ session, setSession }: Props) => {
         agent_id: agentInfo!.agent_id,
         session_id: session!.session_id,
         name: name,
-        user_id: defaultUserId,
       })
 
       const { data } = await aiApi.getSessionList(agentInfo!.agent_id)

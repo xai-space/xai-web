@@ -7,7 +7,6 @@ import { Dialog, DialogClose, DialogContent, DialogOverlay } from './ui/dialog'
 import { PublishPost } from './publish-post'
 
 export const PublishPostDialog = () => {
-  const router = useRouter()
   const { t } = useTranslation()
   const [show, setShow] = useState(false)
 

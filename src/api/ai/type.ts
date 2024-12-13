@@ -31,7 +31,6 @@ export interface AgentCreate {
   description: string
   instructions: string[]
   greeting: string
-  user_id: string
   is_public: string
   logo_identify: string
   agent_id?: string
@@ -99,7 +98,7 @@ export interface AgentListResItem {
 export interface AgentChat {
   agent_id: string
   message: string
-  user_id: string
+  user_id?: string
   session_id: string | null
   stream: boolean
 }
@@ -114,7 +113,6 @@ export interface AgentChatRes {
 
 export interface AgentSessionsAll {
   agent_id: string
-  user_id: string
 }
 
 export interface AgentSessionsAllRes {
@@ -128,7 +126,6 @@ export interface AgentSessionsRename {
   name: string
   agent_id: string
   session_id: string
-  user_id: string
 }
 
 export interface AgentSessionsRenameRes {
@@ -137,7 +134,6 @@ export interface AgentSessionsRenameRes {
 
 export interface AgentSessionsHistory {
   agent_id: string
-  user_id: string
 }
 
 export interface AgentSessionsHistoryRes {
@@ -161,7 +157,6 @@ export interface AgentSessionsList {
 export interface AgentSessionsDelete {
   session_id: string
   agent_id: string
-  user_id: string
 }
 
 export interface AgentSessionsDeleteRes {

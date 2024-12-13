@@ -98,92 +98,91 @@ export const NavAside = ({
   return (
     <aside
       className={cn(
-        'flex flex-col space-y-4 w-56 pt-4 select-none relative h-screen',
+        'flex flex-col space-y-4 w-52 pt-4 select-none relative h-screen justify-between',
         isCollapsed && 'w-10 items-center',
         className
       )}
       {...props}
     >
-      <Logo
-        showMeme
-        showLogo={!isCollapsed}
-        className="w-28"
-        linkClass="pl-1 relative"
-        betaClass={isCollapsed ? 'absolute -bottom-5' : ''}
-      />
-      <div className="pt-4 space-y-4">
-        <NavigationMenu className="grid grid-cols-1 max-w-full">
-          <NavigationMenuList className="grid grid-cols-1 space-x-0 space-y-3">
-            {navs.map((n, i) => (
-              <NavigationMenuItem key={i} className="w-full cursor-pointer">
-                <NavigationMenuLink
-                  className={cn(
-                    'border-[15px] text-lg w-full flex justify-start space-x-2 pl-2 cursor-pointer bg-clip-padding font-normal hover:opacity-90',
-                    !n.isActive &&
-                      'chamfer-gray bg-border-gray hover:bg-border-gray',
-                    n.isActive &&
-                      'font-bold chamfer-blue bg-border-blue hover:bg-border-blue',
-                    isCollapsed &&
-                      'border-[10px] space-x-0 p-0 justify-center text-xl'
-                  )}
-                  onClick={() => router.push(n.path)}
-                  title={n.title}
-                >
-                  {n.isActive ? n.iconActive : n.icon}
-                  {!isCollapsed && <span>{n.title}</span>}
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-            ))}
-          </NavigationMenuList>
-        </NavigationMenu>
+      <div>
+        <Logo
+          showMeme
+          showLogo={!isCollapsed}
+          className="w-28"
+          linkClass="pl-1 relative"
+          betaClass={isCollapsed ? 'absolute -bottom-5' : ''}
+        />
+        <div className="pt-4 space-y-4">
+          <NavigationMenu className="grid grid-cols-1 max-w-full">
+            <NavigationMenuList className="grid grid-cols-1 space-x-0 space-y-3">
+              {navs.map((n, i) => (
+                <NavigationMenuItem key={i} className="w-full cursor-pointer">
+                  <NavigationMenuLink
+                    className={cn(
+                      'border-[15px] text-lg w-full flex justify-start space-x-2 pl-2 cursor-pointer bg-clip-padding font-normal hover:opacity-90',
+                      !n.isActive &&
+                        'chamfer-gray bg-border-gray hover:bg-border-gray',
+                      n.isActive &&
+                        'font-bold chamfer-blue bg-border-blue hover:bg-border-blue',
+                      isCollapsed &&
+                        'border-[10px] space-x-0 p-0 justify-center text-xl'
+                    )}
+                    onClick={() => router.push(n.path)}
+                    title={n.title}
+                  >
+                    {n.isActive ? n.iconActive : n.icon}
+                    {!isCollapsed && <span>{n.title}</span>}
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+              ))}
+            </NavigationMenuList>
+          </NavigationMenu>
 
-        <div
-          className={cn(
-            'flex space-x-2 mt-1',
-            isCollapsed && 'flex-col space-x-0 space-y-1'
-          )}
-        >
           <div
             className={cn(
-              'flex justify-center items-center mt-1 space-x-1 ',
-              className
-            )}
-            {...props}
-          >
-            <Button
-              type="button"
-              size={isCollapsed ? 'icon' : 'icon-lg'}
-              title={t('change.language')}
-              onClick={() =>
-                i18n.language === 'en' ? setLang('zh') : setLang('en')
-              }
-              className="border-transparent sm:hover:border-black"
-            >
-              <IoLanguageOutline size={20} />
-            </Button>
-          </div>
-
-          <SocialLinks
-            x={officialLinks.x}
-            tg={officialLinks.tg}
-            whitepaper={officialLinks.whitepaper}
-            size={20}
-            buttonProps={{ size: isCollapsed ? 'icon' : 'icon-lg' }}
-            className={cn(
-              'justify-start space-x-2',
+              'flex justify-between items-center mt-1',
               isCollapsed && 'flex-col space-x-0 space-y-1'
             )}
-          />
-        </div>
+          >
+            <div
+              className={cn(
+                'flex justify-center items-center space-x-1 ',
+                className
+              )}
+              {...props}
+            >
+              <Button
+                type="button"
+                size={isCollapsed ? 'icon' : 'icon-lg'}
+                title={t('change.language')}
+                onClick={() =>
+                  i18n.language === 'en' ? setLang('zh') : setLang('en')
+                }
+                className="border-transparent sm:hover:border-black"
+              >
+                <IoLanguageOutline size={20} />
+              </Button>
+            </div>
 
-        <PublishPostDialog />
+            <SocialLinks
+              x={officialLinks.x}
+              tg={officialLinks.tg}
+              whitepaper={officialLinks.whitepaper}
+              size={20}
+              buttonProps={{ size: isCollapsed ? 'icon' : 'icon-lg' }}
+              className={cn(
+                'justify-start',
+                isCollapsed && 'flex-col space-x-0 space-y-1'
+              )}
+            />
+          </div>
+
+          <PublishPostDialog />
+        </div>
       </div>
 
       <div
-        className={cn(
-          'flex flex-col items-start absolute bottom-4',
-          !userInfo && 'w-full'
-        )}
+        className={cn('flex flex-col items-start pb-5', !userInfo && 'w-full')}
       >
         <NavAccount userInfo={userInfo} isCollapsed={isCollapsed} />
 

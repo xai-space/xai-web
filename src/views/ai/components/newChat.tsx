@@ -44,7 +44,6 @@ export function NewChatForm() {
       const input = {
         agent_id: '001f6b5d-1249-4abe-a6a8-003d4a037dcf',
         message: values.message,
-        user_id: defaultUserId,
         session_id: null,
         stream: false,
       }

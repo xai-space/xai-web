@@ -1,8 +1,8 @@
-import { EVMNFTListRes, NetworkNFTList } from "@/api/nft"
+import { Asset, NFTListRes, NetworkNFTList } from "@/api/nft"
 import { useState } from "react"
 
 export const useEvmNftList = () => {
-    const [networkNftList, setNetworkNftList] = useState<NetworkNFTList[]>([])
+    const [evmNftList, setNetworkNftList] = useState<NetworkNFTList[]>([])
     const address = '0x2192c06a46f2c0f851fbac993413ca49735160cc'
 
     const getEVMNFTList = async () => {
@@ -10,17 +10,22 @@ export const useEvmNftList = () => {
             headers: {
                 'X-API-KEY': 'zoDxKTSDDE2ELEm5SjWhpNsx'
             }
-        })).json() as EVMNFTListRes
+        })).json() as NFTListRes<NetworkNFTList>
 
 
-        console.log('evm', data);
+        const collectionAssets = data.map((item) => {
+            item.collection_assets = item.collection_assets.filter((assets) => {
+                return assets.contract_name && assets.items_total >= 1000 && assets.floor_price
+            })
+            return item
+        })
 
-        setNetworkNftList(data)
+        setNetworkNftList(collectionAssets)
     }
 
 
     return {
-        networkNftList,
+        evmNftList,
         getEVMNFTList,
     }
 }

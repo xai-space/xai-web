@@ -14,13 +14,42 @@ import { useRouter } from 'next/router'
 import { ImagePreview } from '@/components/image-preview'
 import { defaultUserId } from '@/config/base'
 import { Avatar } from '@/components/ui/avatar'
-import { MdFavoriteBorder } from 'react-icons/md'
+import { MdEdit, MdFavoriteBorder } from 'react-icons/md'
+import { FiMoreHorizontal } from 'react-icons/fi'
+import {
+  BaseDeleteDialog,
+  DeleteDialogType,
+} from '@/components/base-delete-dialog'
+import { feedApi } from '@/api/feed'
+import { toast } from 'sonner'
+import { useTranslation } from 'react-i18next'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from '@/components/ui/dropdown-menu'
+import { MdDelete } from 'react-icons/md'
+import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu'
+import { Dialog } from '@/components/ui/dialog'
+import { PublishPost } from '@/components/publish-post'
+import { ArticleImages } from './article-images'
+import { useUserStore } from '@/stores/use-user-store'
 
-const ArticleCard = ({ article }: { article: FeedListRes }) => {
+interface Props {
+  article: FeedListRes
+  onDeleted?: () => void
+  onEdited?: () => void
+}
+
+const ArticleCard = ({ article, onDeleted, onEdited }: Props) => {
   const { push } = useRouter()
+  const { t } = useTranslation()
+  const { userInfo } = useUserStore()
 
-  const [show, setShow] = useState(false)
-  const [imageUrl, setImageUrl] = useState('')
+  const [delArticle, setDelArticle] = useState<FeedListRes>()
+  const [delLoading, setDelLoading] = useState(false)
+
+  const [editArticle, setEditArticle] = useState<FeedListRes>()
 
   const getCommentCount = (commentList: FeedComments[]) => {
     let count = commentList.length
@@ -30,9 +59,29 @@ const ArticleCard = ({ article }: { article: FeedListRes }) => {
     return count
   }
 
+  const deletePost = async () => {
+    try {
+      setDelLoading(true)
+      const { code, message } = await feedApi.delPost({
+        article_id: delArticle?.article_id!,
+      })
+
+      if (code == 200) {
+        setDelArticle(undefined)
+        onDeleted?.()
+        return toast.success(t('delete.successful'))
+      }
+      toast.error(message)
+    } catch (error: any) {
+      toast.error(error?.toString())
+    } finally {
+      setDelLoading(false)
+    }
+  }
+
   return (
     <div className="border-b border-gray-700 w-full overflow-hidden duration-300 hover:bg-gray-800 transition-all">
-      <div className="flex p-4">
+      <div className="flex p-4 w-full">
         <div className="flex-shrink-0 rounded-full w-[40px] h-[40px] overflow-hidden">
           <Avatar
             src={
@@ -43,12 +92,43 @@ const ArticleCard = ({ article }: { article: FeedListRes }) => {
             alt="logo"
           />
         </div>
-        <div className="px-0 ml-3 flex flex-col">
-          <div>
-            <span>{article?.agent?.name || defaultUserId}</span>
-            <span className="text-gray-400 text-sm ml-2">
-              {dayjs(article.created_at * 1000).fromNow()}
-            </span>
+        <div className="flex-1 px-0 ml-3 flex flex-col">
+          <div className="flex w-full items-center justify-between">
+            <div>
+              <span>{article?.agent?.name || defaultUserId}</span>
+              <span className="text-gray-400 text-sm ml-2">
+                {dayjs(article.created_at * 1000).fromNow()}
+              </span>
+            </div>
+            {userInfo?.user.id === article.user_id ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger>
+                  <div className="text-gray-500 p-1 transition-all rounded-full cursor-pointer hover:text-white hover:bg-white/40">
+                    <FiMoreHorizontal size={20} />
+                  </div>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuItem
+                    className="cursor-pointer"
+                    onClick={() => setEditArticle(article)}
+                  >
+                    <div className="flex items-center space-x-1">
+                      <MdEdit size={18} />
+                      <span>{t('edit')}</span>
+                    </div>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    className="cursor-pointer"
+                    onClick={() => setDelArticle(article)}
+                  >
+                    <div className="flex items-center text-red-500 space-x-1">
+                      <MdDelete size={18} />
+                      <span>{t('delete')}</span>
+                    </div>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : null}
           </div>
 
           <CardDescription
@@ -61,29 +141,7 @@ const ArticleCard = ({ article }: { article: FeedListRes }) => {
           </CardDescription>
 
           {article.images ? (
-            <div
-              className={cn(
-                'grid mt-2 p-0 justify-between items-center gap-1 rounded-md overflow-hidden cursor-pointer',
-                `grid-cols-${article.images.length}`
-              )}
-            >
-              {article.images.map((url) => {
-                return (
-                  <img
-                    src={`${staticUrl}${url}`}
-                    alt="image"
-                    className={cn(
-                      'w-full h-full object-cover',
-                      article.images.length === 1 ? 'rounded-md' : ''
-                    )}
-                    onClick={() => {
-                      setShow(true)
-                      setImageUrl(url)
-                    }}
-                  />
-                )
-              })}
-            </div>
+            <ArticleImages images={article.images}></ArticleImages>
           ) : null}
           <div className="mt-2 flex space-x-5">
             <div
@@ -101,12 +159,34 @@ const ArticleCard = ({ article }: { article: FeedListRes }) => {
             </div>
           </div>
         </div>
-        <ImagePreview
-          open={show}
-          onOpenChange={setShow}
-          imageUrl={imageUrl}
-        ></ImagePreview>
       </div>
+
+      {/* Delete Post */}
+      <BaseDeleteDialog
+        type={DeleteDialogType.Post}
+        show={!!delArticle}
+        setShow={setDelArticle}
+        loading={delLoading}
+        onDelete={deletePost}
+      />
+
+      {/* Edit Post */}
+      <Dialog
+        open={!!editArticle}
+        contentProps={{
+          className: 'p-4',
+        }}
+        modal={true}
+        onOpenChange={() => setEditArticle(undefined)}
+      >
+        <PublishPost
+          editArticle={editArticle}
+          onPosted={() => {
+            setEditArticle(undefined)
+            onEdited?.()
+          }}
+        ></PublishPost>
+      </Dialog>
     </div>
   )
 }

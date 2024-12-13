@@ -23,7 +23,8 @@ export const AccountPage = () => {
     refetchUserInfo,
     refetchOtherUserInfo,
   } = useUserInfo(tokenAddr)
-  const currenUserAddr = String(userInfo?.wallet_address || '')
+  // const currenUserAddr = String(userInfo?.wallet_address || '')
+  const currenUserAddr = ''
   const isOtherUser = tokenAddr !== currenUserAddr
   const followersResults = useUserList(UserListType.Followers)
   const followingResults = useUserList(UserListType.Following)
@@ -45,7 +46,7 @@ export const AccountPage = () => {
         refetchFollow,
       }}
     >
-      <div className="flex-1 min-h-main flex gap-2 flex-col overflow-auto !ml-0 ">
+      <div className="flex-1 min-h-main flex gap-2 flex-col overflow-auto max-w-[800px] mx-auto">
         <aside
           className={cn(
             'flex flex-col gap-4 sticky top-20 mb-2',
@@ -66,8 +67,8 @@ export const AccountPage = () => {
 
 AccountPage.getLayout = (page: ReactNode) => (
   <PrimaryLayout>
-    <PageFallback>{page}</PageFallback>
-    {/* {page} */}
+    {/* <PageFallback>{page}</PageFallback> */}
+    {page}
   </PrimaryLayout>
 )
 

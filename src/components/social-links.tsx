@@ -52,13 +52,7 @@ export const SocialLinks = ({
   ]
 
   return (
-    <div
-      className={cn(
-        'flex justify-center items-center mt-1 space-x-1',
-        className
-      )}
-      {...props}
-    >
+    <>
       {links.map(({ title, link, icon }) =>
         !!link ? (
           <Button
@@ -78,7 +72,7 @@ export const SocialLinks = ({
           </Button>
         ) : null
       )}
-    </div>
+    </>
   )
 }
 

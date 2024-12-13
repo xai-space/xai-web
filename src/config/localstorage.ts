@@ -1,0 +1,1 @@
+export const dynamicToken = 'dynamic_authentication_token'

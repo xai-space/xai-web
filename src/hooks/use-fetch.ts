@@ -12,6 +12,8 @@ export enum ContentType {
   Json = 'application/json',
   FormData = 'multipart/form-data',
 }
+// https://api.xai.space/develop/agent/v1/playground/agent/create
+// https://api.xai.space/develop/agent/v1/playground/create
 
 export interface FetcherOptions extends Omit<RequestInit, 'body'> {
   contentType?: ContentType
@@ -28,7 +30,7 @@ export const useFetch = (baseURL: string) => {
   // Init headers config.
   const initHeaders = ({ requireAuth = true, headers }: FetcherOptions) => {
     const newHeaders = new Headers(headers)
-    const token = getStorage('token')
+    const token = localStorage.getItem('dynamic_authentication_token')?.slice(1, -1)
 
     // Content-Type header.
     if (!newHeaders.has(CommonHeaders.ContentType)) {
