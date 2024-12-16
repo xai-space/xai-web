@@ -1,5 +1,6 @@
 import { useLocalStorage } from './use-storage'
 import { ApiCode, ApiResponse } from '@/api/types'
+import { dynamicToken } from '@/config/localstorage'
 import { REQUEST_ERR } from '@/errors/request'
 
 export enum CommonHeaders {
@@ -30,7 +31,7 @@ export const useFetch = (baseURL: string) => {
   // Init headers config.
   const initHeaders = ({ requireAuth = true, headers }: FetcherOptions) => {
     const newHeaders = new Headers(headers)
-    const token = localStorage.getItem('dynamic_authentication_token')?.slice(1, -1)
+    const token = localStorage.getItem(dynamicToken)?.slice(1, -1)
 
     // Content-Type header.
     if (!newHeaders.has(CommonHeaders.ContentType)) {

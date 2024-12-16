@@ -12,9 +12,10 @@ import { ConnectWallet } from '../../connect-wallet'
 import { NavAccountPopover } from './nav-account-pop'
 import { useDynamicContext } from '@dynamic-labs/sdk-react-core'
 import { defaultAgentLogo } from '@/config/link'
+import { useUserStore } from '@/stores/use-user-store'
+import { staticUrl } from '@/config/url'
 
 export const NavAccount = ({
-  userInfo,
   isCollapsed,
 }: {
   userInfo: UserInfoRes | null
@@ -22,9 +23,12 @@ export const NavAccount = ({
 }) => {
   const { pathname, ...router } = useRouter()
   const { t } = useTranslation()
+  const { userInfo } = useUserStore()
   const { primaryWallet } = useDynamicContext()
 
   const avatar = '/images/logo.png'
+
+  console.log('userInfo-----', userInfo)
 
   const userInfoIsCollapsed = () => {
     // TODO: wait api
@@ -51,7 +55,11 @@ export const NavAccount = ({
           }
         >
           <Avatar
-            src={userInfo?.user?.logo || defaultAgentLogo}
+            src={
+              userInfo?.user?.logo
+                ? `${staticUrl}${userInfo?.user?.logo}`
+                : defaultAgentLogo
+            }
             className="rounded-full w-12 h-12"
           />
           <div className="flex flex-col space-y-1">

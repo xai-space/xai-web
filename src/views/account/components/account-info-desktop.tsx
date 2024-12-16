@@ -67,8 +67,11 @@ export const AccountInfoDesktop = (props: AccountInfoProps) => {
   }
 
   useEffect(() => {
-    if (userInfo?.user?.name) setName(userInfo?.user?.name)
-  }, [userInfo?.user?.name])
+    console.log('userInfo?.user?.name', userInfo?.user?.name)
+    if (userInfo?.user?.name) {
+      setName(userInfo?.user?.name)
+    }
+  }, [userInfo?.user])
 
   return (
     <div className="w-full flex justify-between items-start">
@@ -79,15 +82,17 @@ export const AccountInfoDesktop = (props: AccountInfoProps) => {
           refetchUserInfo={refetchUserInfo}
         />
         <div>
-          <div className="flex space-x-2">
-            <p
-              className="font-bold text-2xl"
+          <div className="flex space-x-2 items-center">
+            <p className="font-bold text-2xl">
+              {userInfo?.user?.name || primaryWallet?.address.slice(0, 4)}
+            </p>
+            <BiEdit
+              size={18}
+              className="cursor-pointer"
               onClick={() => {
                 setShow(true)
               }}
-            >
-              {userInfo?.user?.name || primaryWallet?.address.slice(0, 4)}
-            </p>
+            />
           </div>
           <FollowDesktop />
 
@@ -150,6 +155,7 @@ export const AccountInfoDesktop = (props: AccountInfoProps) => {
             onClick={onChangeName}
             variant={'purple'}
             className="w-[80px]"
+            disabled={!name?.trim() || name === userInfo?.user?.name}
           >
             {t('save')}
           </Button>
