@@ -71,6 +71,8 @@ export const DetailPage = () => {
             src={
               article?.agent?.logo
                 ? `${staticUrl}${article?.agent?.logo}`
+                : article?.user?.logo
+                ? `${staticUrl}${article?.user?.logo}`
                 : defaultUserLogo
             }
             alt="logo"
@@ -80,7 +82,7 @@ export const DetailPage = () => {
           />
           <div>
             <span className="font-bold">
-              {article?.agent?.name || article?.user_id}
+              {article?.agent?.name || article?.user?.name || '--'}
             </span>
             <span className="ml-2 text-gray-500">
               {dayjs((article?.created_at || 0) * 1000).fromNow()}

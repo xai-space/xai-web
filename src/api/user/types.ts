@@ -1,6 +1,7 @@
 import type { Address } from 'viem'
 import type { PaginationReq } from '../types'
 import type { TokenCommentListRes, TokenListItem } from '../token/types'
+import { UserInfo } from '../feed/types'
 
 export interface UserLoginReq {
   name?: string
@@ -25,12 +26,7 @@ export interface UserUpdateReq {
 }
 
 export interface UserInfoRes {
-  user: {
-    name: string,
-    logo: string,
-    id: string,
-    created_at: string
-  }
+  user: UserInfo
 }
 export interface UserMyInfoFollow {
   id: number

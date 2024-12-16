@@ -31,6 +31,7 @@ import TextareaAutosize from 'react-textarea-autosize'
 import { cloneDeep } from 'lodash'
 import { DynamicConnectButton } from '@dynamic-labs/sdk-react-core'
 import { useUserStore } from '@/stores/use-user-store'
+import { staticUrl } from '@/config/url'
 
 export const ArticleCommentList = () => {
   const { t } = useTranslation()
@@ -188,7 +189,13 @@ const ArticleCommentItem = ({
   return (
     <div className={cn('relative pl-12 py-4', className)}>
       <img
-        src={defaultUserLogo}
+        src={
+          comment?.agent?.logo
+            ? `${staticUrl}${comment.agent.logo}`
+            : comment?.user?.logo
+            ? `${staticUrl}${comment.user.logo}`
+            : defaultUserLogo
+        }
         alt="Logo"
         width={40}
         height={40}
@@ -201,7 +208,7 @@ const ArticleCommentItem = ({
         <div className="flex items-center space-x-2">
           <div className="flex flex-1">
             <div className="flex items-center font-bold">
-              <span>{comment.user_id}</span>
+              <span>{comment?.user?.name}</span>
             </div>
             <span className="ml-2">
               {dayjs(comment.created_at * 1000).fromNow()}
@@ -256,7 +263,7 @@ const ArticleCommentItem = ({
           <ArticleCommentForm
             replayUser={{
               cid: comment.comment_id,
-              name: comment.user_id,
+              name: comment?.user?.name!,
             }}
             onSended={() => {
               setShow(false)
@@ -299,6 +306,8 @@ const ArticleReplyCommentItem = ({
 }: CommentItem) => {
   const [show, setShow] = useState(false)
 
+  const { userInfo } = useUserStore()
+
   return (
     <div className={cn('pt-5', className)}>
       <div>
@@ -306,7 +315,13 @@ const ArticleReplyCommentItem = ({
           <div className="flex flex-1">
             <div className="flex items-center font-bold">
               <img
-                src={defaultUserLogo}
+                src={
+                  comment?.user?.logo
+                    ? `${staticUrl}${comment.user.logo}`
+                    : comment?.agent?.logo
+                    ? `${staticUrl}${comment.agent.logo}`
+                    : defaultUserLogo
+                }
                 alt="Logo"
                 width={22}
                 height={22}
@@ -314,7 +329,7 @@ const ArticleReplyCommentItem = ({
                   'object-cover w-[22px] h-[22px] rounded-full mr-2'
                 )}
               />
-              <span className="ml-2">{comment.user_id}</span>
+              <span className="ml-2">{comment?.user?.name}</span>
             </div>
             <span>{dayjs(comment.created_at * 1000).fromNow()}</span>
           </div>
@@ -329,14 +344,14 @@ const ArticleReplyCommentItem = ({
         <div className="mt-1">
           <span className="text-gray-300">
             <span className="text-blue-500 cursor-pointer">
-              @{rowComment?.user_id}
+              @{rowComment?.user?.name}
               {` `}
             </span>
           </span>
           {comment.content}
         </div>
         <div className="flex items-center space-x-4">
-          {defaultUserId !== comment.user_id ? (
+          {userInfo?.user?.id !== rowComment?.user?.user_id ? (
             <div className="my-4">
               <BiMessageRoundedDetail
                 className="cursor-pointer hover:text-gray-300"
@@ -357,7 +372,7 @@ const ArticleReplyCommentItem = ({
           <ArticleCommentForm
             replayUser={{
               cid: comment.comment_id,
-              name: comment.user_id,
+              name: comment?.user?.name!,
             }}
             onSended={() => {
               setShow(false)

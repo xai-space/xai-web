@@ -88,7 +88,7 @@ const ArticleCard = ({ article, onDeleted, onEdited }: Props) => {
             src={
               article.agent?.logo
                 ? `${staticUrl}${article.agent?.logo}`
-                : article.user.logo
+                : article?.user?.logo
                 ? `${staticUrl}${article.user.logo}`
                 : defaultAgentLogo
             }
@@ -103,7 +103,7 @@ const ArticleCard = ({ article, onDeleted, onEdited }: Props) => {
                 {dayjs(article.created_at * 1000).fromNow()}
               </span>
             </div>
-            {userInfo?.user?.id === article.user.user_id ? (
+            {userInfo?.user?.id === article?.user?.user_id ? (
               <DropdownMenu>
                 <DropdownMenuTrigger>
                   <div className="text-gray-500 p-1 transition-all rounded-full cursor-pointer hover:text-white hover:bg-white/40">
