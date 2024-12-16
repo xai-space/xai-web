@@ -3,25 +3,38 @@ import { useRouter } from 'next/router'
 import { Button } from './ui/button'
 import { useTranslation } from 'react-i18next'
 import { useState } from 'react'
-import { Dialog, DialogClose, DialogContent, DialogOverlay } from './ui/dialog'
+import { Dialog } from './ui/dialog'
 import { PublishPost } from './publish-post'
+import {
+  DynamicConnectButton,
+  useIsLoggedIn,
+} from '@dynamic-labs/sdk-react-core'
+import { toast } from 'sonner'
 
 export const PublishPostDialog = () => {
   const { t } = useTranslation()
+  const isLoggedIn = useIsLoggedIn()
   const [show, setShow] = useState(false)
 
   return (
     <>
-      <Button
-        className="w-full !mt-5"
-        variant="purple"
-        size={'lg'}
-        onClick={() => {
-          setShow(true)
-        }}
-      >
-        {t('publish.post')}
-      </Button>
+      <DynamicConnectButton buttonClassName="w-full">
+        <Button
+          variant="purple"
+          className="w-full"
+          size={'lg'}
+          onClick={(e) => {
+            if (isLoggedIn) {
+              e.stopPropagation()
+              setShow(true)
+            } else {
+              toast.error(t('no.login'))
+            }
+          }}
+        >
+          {t('publish.post')}
+        </Button>
+      </DynamicConnectButton>
 
       <Dialog
         open={show}

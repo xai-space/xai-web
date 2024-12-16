@@ -76,7 +76,7 @@ export const AgentCardList = ({ isAll }: AgentCardListProps) => {
 
   return (
     <>
-      <div className="grid grid-cols-2 gap-3 mt-4 w-full">
+      <div className="grid grid-cols-2 gap-3 mt-4 w-full max-sm:grid-cols-1">
         {data?.list.map((agent) => {
           return (
             <Card

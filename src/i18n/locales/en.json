@@ -843,5 +843,7 @@
   "edit,comment": "Edit comment",
   "update.successful": "Updated successfully",
   "no.login": "Please connect wallet",
-  "my.agent": "My Agent"
+  "my.agent": "My Agent",
+  "edit.name": "Edit Name",
+  "save": "Save"
 }

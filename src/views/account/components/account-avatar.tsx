@@ -14,6 +14,7 @@ import { useUploadImage } from '@/hooks/use-upload-image'
 import { cn } from '@/lib/utils'
 import { defaultAgentLogo } from '@/config/link'
 import { useUserStore } from '@/stores/use-user-store'
+import { staticUrl } from '@/config/url'
 
 export const AccountAvatar = ({
   isOtherUser,
@@ -33,10 +34,12 @@ export const AccountAvatar = ({
   const { userInfo } = useUserStore()
   const inputRef = useRef<HTMLInputElement>(null)
 
+  console.log(userInfo?.user)
+
   const { onChangeUpload, clearFile } = useUploadImage({
     inputEl: inputRef.current,
     onSuccess: (url) =>
-      update({ logo: url?.[0]?.filename, name: userInfo?.user.name }).then(() =>
+      update({ logo: url?.[0]?.url, name: userInfo?.user.name }).then(() =>
         refetchUserInfo()
       ),
   })
@@ -73,7 +76,11 @@ export const AccountAvatar = ({
         }}
       >
         <Avatar
-          src={userInfo?.user.logo || defaultAgentLogo}
+          src={
+            userInfo?.user?.logo
+              ? `${staticUrl}${userInfo?.user?.logo}`
+              : defaultAgentLogo
+          }
           // fallback={userInfo?.wallet_address.slice(-4)}
           size={128}
           className="border-4 border-zinc-100 bg-gray-50 bottom-10"

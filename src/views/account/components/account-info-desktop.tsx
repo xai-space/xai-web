@@ -5,7 +5,7 @@ import {
   MinusIcon,
   PlusIcon,
 } from '@radix-ui/react-icons'
-import { IoCopyOutline, IoSettingsOutline } from 'react-icons/io5'
+import { IoClose, IoCopyOutline, IoSettingsOutline } from 'react-icons/io5'
 
 import AccountAvatar from './account-avatar'
 import FollowDesktop from '@/views/account/components/follow-desktop'
@@ -30,10 +30,14 @@ import {
   useWalletItemActions,
   useWalletOptions,
 } from '@dynamic-labs/sdk-react-core'
+import { use, useEffect, useState } from 'react'
+import Input from '@/components/input'
+import { useUserStore } from '@/stores/use-user-store'
+import { BiCloset, BiEdit, BiSave } from 'react-icons/bi'
+import { Dialog, DialogFooter } from '@/components/ui/dialog'
 
 export const AccountInfoDesktop = (props: AccountInfoProps) => {
   const {
-    userInfo,
     isOtherUser,
     isFollowing,
     isUnfollowing,
@@ -46,25 +50,45 @@ export const AccountInfoDesktop = (props: AccountInfoProps) => {
   const { t } = useTranslation()
   const { copy } = useClipboard()
 
+  const { userInfo } = useUserStore()
+
   const { user, primaryWallet } = useDynamicContext()
   const userWallets = useWalletOptions()
 
-  console.log(userWallets)
+  const [show, setShow] = useState(false)
+
+  const [name, setName] = useState(userInfo?.user?.name)
+
+  const onChangeName = () => {
+    update({ name: name, logo: userInfo?.user.logo }).then(() => {
+      refetchUserInfo()
+      setShow(false)
+    })
+  }
+
+  useEffect(() => {
+    if (userInfo?.user?.name) setName(userInfo?.user?.name)
+  }, [userInfo?.user?.name])
 
   return (
     <div className="w-full flex justify-between items-start">
       <div className="flex space-x-4">
         <AccountAvatar
-          userInfo={userInfo}
           isOtherUser={isOtherUser}
           update={update}
           refetchUserInfo={refetchUserInfo}
         />
-
         <div>
-          <p className="font-bold text-2xl">
-            {userInfo?.user?.name || primaryWallet?.address.slice(0, 4)}
-          </p>
+          <div className="flex space-x-2">
+            <p
+              className="font-bold text-2xl"
+              onClick={() => {
+                setShow(true)
+              }}
+            >
+              {userInfo?.user?.name || primaryWallet?.address.slice(0, 4)}
+            </p>
+          </div>
           <FollowDesktop />
 
           <div className="flex space-x-4 items-center">
@@ -113,6 +137,31 @@ export const AccountInfoDesktop = (props: AccountInfoProps) => {
           </div>
         </div>
       </div>
+
+      <Dialog open={show} onOpenChange={setShow}>
+        <div className="font-bold">{t('edit.name')}</div>
+        <Input
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          autoFocus
+        ></Input>
+        <DialogFooter>
+          <Button
+            onClick={onChangeName}
+            variant={'purple'}
+            className="w-[80px]"
+          >
+            {t('save')}
+          </Button>
+          <Button
+            onClick={() => setShow(false)}
+            variant={'outline'}
+            className="w-[80px]"
+          >
+            {t('cancel')}
+          </Button>
+        </DialogFooter>
+      </Dialog>
       {/* <div className="flex space-x-6 items-center">
         {isOtherUser ? (
           <Button

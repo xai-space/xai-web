@@ -36,6 +36,7 @@ import NavAccount from './nav-account'
 import RewardButton from '@/components/reward-button'
 import { useAIAgentStore } from '@/stores/use-chat-store'
 import { PublishPostDialog } from '@/components/publish-post-dialog'
+import { DynamicConnectButton } from '@dynamic-labs/sdk-react-core'
 
 interface Props {
   collapseSize?: keyof ReturnType<typeof useResponsive>
@@ -151,17 +152,19 @@ export const NavAside = ({
               )}
               {...props}
             >
-              <Button
-                type="button"
-                size={isCollapsed ? 'icon' : 'icon-lg'}
-                title={t('change.language')}
-                onClick={() =>
-                  i18n.language === 'en' ? setLang('zh') : setLang('en')
-                }
-                className="border-transparent sm:hover:border-black"
-              >
-                <IoLanguageOutline size={20} />
-              </Button>
+              <DynamicConnectButton>
+                <Button
+                  type="button"
+                  size={isCollapsed ? 'icon' : 'icon-lg'}
+                  title={t('change.language')}
+                  onClick={() =>
+                    i18n.language === 'en' ? setLang('zh') : setLang('en')
+                  }
+                  className="border-transparent sm:hover:border-black"
+                >
+                  <IoLanguageOutline size={20} />
+                </Button>
+              </DynamicConnectButton>
             </div>
 
             <SocialLinks

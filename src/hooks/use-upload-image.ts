@@ -62,7 +62,6 @@ export const useUploadImage = (options?: Options) => {
 
     const newFiles = e.target.files!
 
-    console.log('newFiles', newFiles);
 
     if (!_checkCount(newFiles.length)) return
 
@@ -72,6 +71,8 @@ export const useUploadImage = (options?: Options) => {
     for (let i = 0; i < newFiles.length; i++) {
       const reader = new FileReader()
       const file = newFiles[i]
+      console.log(file);
+
       reader.onload = (event) => {
         const result = event.target?.result
         if (typeof result === 'string') {
@@ -87,11 +88,11 @@ export const useUploadImage = (options?: Options) => {
 
 
     if (isUpload) {
-      onSubmitImg()
+      onSubmitImg(fileList)
     }
   }
 
-  const onSubmitImg = async () => {
+  const onSubmitImg = async (files: File[]) => {
 
     const formData = new FormData()
     console.log('files', files);
