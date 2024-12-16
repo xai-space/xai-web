@@ -24,6 +24,12 @@ import {
 } from '@radix-ui/react-popover'
 import { useClipboard } from '@/hooks/use-clipboard'
 import { fmt } from '@/utils/fmt'
+import {
+  useDynamicContext,
+  useUserWallets,
+  useWalletItemActions,
+  useWalletOptions,
+} from '@dynamic-labs/sdk-react-core'
 
 export const AccountInfoDesktop = (props: AccountInfoProps) => {
   const {
@@ -40,6 +46,11 @@ export const AccountInfoDesktop = (props: AccountInfoProps) => {
   const { t } = useTranslation()
   const { copy } = useClipboard()
 
+  const { user, primaryWallet } = useDynamicContext()
+  const userWallets = useWalletOptions()
+
+  console.log(userWallets)
+
   return (
     <div className="w-full flex justify-between items-start">
       <div className="flex space-x-4">
@@ -51,7 +62,9 @@ export const AccountInfoDesktop = (props: AccountInfoProps) => {
         />
 
         <div>
-          <p className="font-bold text-2xl">{userInfo?.name}</p>
+          <p className="font-bold text-2xl">
+            {userInfo?.user?.name || primaryWallet?.address.slice(0, 4)}
+          </p>
           <FollowDesktop />
 
           <div className="flex space-x-4 items-center">
@@ -100,7 +113,7 @@ export const AccountInfoDesktop = (props: AccountInfoProps) => {
           </div>
         </div>
       </div>
-      <div className="flex space-x-6 items-center">
+      {/* <div className="flex space-x-6 items-center">
         {isOtherUser ? (
           <Button
             variant={'purple'}
@@ -138,13 +151,13 @@ export const AccountInfoDesktop = (props: AccountInfoProps) => {
             sideOffset={10}
             align="start"
             className="flex items-center gap-2 mt-10 w-52 rounded-md shadow-md shadow-border-blue/40 bg-secondary text-white p-2 cursor-pointer hover:opacity-75 text-sm border border-secondary"
-            onClick={() => copy(userInfo?.wallet_address ?? '')}
+            onClick={() => copy(primaryWallet?.address ?? '')}
           >
             <IoCopyOutline size={17} />
             <p>{t('copy.wallet.address')}</p>
           </PopoverContent>
         </Popover>
-      </div>
+      </div> */}
     </div>
   )
 }

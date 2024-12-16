@@ -12,14 +12,14 @@ import { Label } from '@/components/ui/label'
 import { useResponsive } from '@/hooks/use-responsive'
 import { useUploadImage } from '@/hooks/use-upload-image'
 import { cn } from '@/lib/utils'
+import { defaultAgentLogo } from '@/config/link'
+import { useUserStore } from '@/stores/use-user-store'
 
 export const AccountAvatar = ({
-  userInfo,
   isOtherUser,
   update,
   refetchUserInfo,
 }: {
-  userInfo: UserInfoRes | undefined
   isOtherUser: boolean
   update: UseMutateAsyncFunction<
     ApiResponse<UserInfoRes>,
@@ -30,11 +30,15 @@ export const AccountAvatar = ({
   refetchUserInfo: VoidFunction
 }) => {
   const [open, setOpen] = useState(false)
+  const { userInfo } = useUserStore()
   const inputRef = useRef<HTMLInputElement>(null)
+
   const { onChangeUpload, clearFile } = useUploadImage({
     inputEl: inputRef.current,
     onSuccess: (url) =>
-      update({ logo: url?.[0]?.filename }).then(() => refetchUserInfo()),
+      update({ logo: url?.[0]?.filename, name: userInfo?.user.name }).then(() =>
+        refetchUserInfo()
+      ),
   })
   const { isPad } = useResponsive()
 
@@ -46,7 +50,7 @@ export const AccountAvatar = ({
         contentProps={{ className: 'max-w-[40vw]' }}
       >
         <img
-          src={userInfo?.user.logo}
+          src={userInfo?.user?.logo}
           alt="avatar"
           className="w-full h-full object-fill"
         />
@@ -69,7 +73,7 @@ export const AccountAvatar = ({
         }}
       >
         <Avatar
-          src={userInfo?.user.logo || ''}
+          src={userInfo?.user.logo || defaultAgentLogo}
           // fallback={userInfo?.wallet_address.slice(-4)}
           size={128}
           className="border-4 border-zinc-100 bg-gray-50 bottom-10"
@@ -87,7 +91,7 @@ export const AccountAvatar = ({
               id="avatar-edit"
               className="absolute invisible"
               ref={inputRef}
-              onChange={onChangeUpload}
+              onChange={(e) => onChangeUpload(e, true)}
             />
           </>
         )}

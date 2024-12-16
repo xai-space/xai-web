@@ -10,7 +10,10 @@ import {
 import i18n from 'i18next'
 import { ThemeProvider as NextThemeProvider } from 'next-themes'
 import { DynamicWagmiConnector } from '@dynamic-labs/wagmi-connector'
-import { DynamicContextProvider } from '@dynamic-labs/sdk-react-core'
+import {
+  DynamicContextProvider,
+  useDynamicContext,
+} from '@dynamic-labs/sdk-react-core'
 
 import i18nConfig from '@/i18n'
 import { wagmiConfig } from '@/config/wagmi'

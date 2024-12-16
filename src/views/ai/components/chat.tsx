@@ -15,7 +15,9 @@ import { useChatStream } from '@/hooks/use-chat-stream'
 import { defaultAgentLogo, loadingSVG } from '@/config/link'
 import { staticUrl } from '@/config/url'
 import { useAIAgentStore } from '@/stores/use-chat-store'
-import { isEmpty } from 'lodash'
+import { useUserStore } from '@/stores/use-user-store'
+import { toast } from 'sonner'
+import { DynamicConnectButton } from '@dynamic-labs/sdk-react-core'
 
 const FormSchema = z.object({
   message: z.string(),
@@ -28,6 +30,7 @@ interface ChatProps {
 export function Chat({ scrollBarToBottom }: ChatProps) {
   const { t } = useTranslation()
   const { agentInfo } = useAIAgentStore()
+  const { userInfo } = useUserStore()
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -39,9 +42,17 @@ export function Chat({ scrollBarToBottom }: ChatProps) {
   const { sessions, isReplying, loading, sessionId, sendQuestion } =
     useChatStream()
 
-  async function onSubmit(data: z.infer<typeof FormSchema>) {
+  const onSubmit = (e?: React.MouseEvent<HTMLButtonElement>) => {
+    e?.preventDefault()
+
+    if (!userInfo?.user.id) {
+      toast.error(t('no.login'))
+      return
+    }
+
+    e?.stopPropagation()
     if (!isReplying) {
-      sendQuestion(data.message)
+      sendQuestion(form.getValues('message'))
       form.reset()
     }
   }
@@ -102,11 +113,11 @@ export function Chat({ scrollBarToBottom }: ChatProps) {
           </>
         ))}
       </div>
-      <div className="sticky bottom-0 z-50 w-full bg-background">
+      <div className="sticky bottom-0 z-50 w-full bg-background flex justify-stretch space-x-2">
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="flex w-full justify-stretch space-x-2"
+            className="flex-1"
+            onSubmit={form.handleSubmit(() => onSubmit())}
           >
             <FormField
               control={form.control}
@@ -124,15 +135,17 @@ export function Chat({ scrollBarToBottom }: ChatProps) {
                 </FormItem>
               )}
             />
-            <Button
-              type="submit"
-              disabled={isReplying || isEmpty(form.getValues('message').trim())}
-              className="!flex !h-[100%] px-10"
-            >
-              {isReplying ? t('ai.sending') : t('ai.send')}
-            </Button>
           </form>
         </Form>
+        <DynamicConnectButton>
+          <Button
+            disabled={isReplying || !form.getValues('message').trim()}
+            className="!flex !h-[100%] px-10"
+            onClick={onSubmit}
+          >
+            {isReplying ? t('ai.sending') : t('ai.send')}
+          </Button>
+        </DynamicConnectButton>
       </div>
     </div>
   )

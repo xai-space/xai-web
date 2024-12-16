@@ -11,6 +11,7 @@ import { Routes } from '@/routes'
 import { ConnectWallet } from '../../connect-wallet'
 import { NavAccountPopover } from './nav-account-pop'
 import { useDynamicContext } from '@dynamic-labs/sdk-react-core'
+import { defaultAgentLogo } from '@/config/link'
 
 export const NavAccount = ({
   userInfo,
@@ -28,6 +29,8 @@ export const NavAccount = ({
   const userInfoIsCollapsed = () => {
     // TODO: wait api
     // if (userInfo) {
+    const { primaryWallet } = useDynamicContext()
+
     if (isCollapsed) {
       return (
         <NavAccountPopover>
@@ -44,19 +47,19 @@ export const NavAccount = ({
         <div
           className="flex items-end cursor-pointer mr-2"
           onClick={() =>
-            router.push(`${Routes.Account}/${userInfo?.wallet_address}`)
+            router.push(`${Routes.Account}/${primaryWallet?.address}`)
           }
         >
           <Avatar
-            src={userInfo?.logo || avatar}
+            src={userInfo?.user?.logo || defaultAgentLogo}
             className="rounded-full w-12 h-12"
           />
           <div className="flex flex-col space-y-1">
             <div className="text-sm ml-2 font-semibold line-clamp-1 break-all">
-              {userInfo?.name || '--'}
+              {userInfo?.user?.name || '--'}
             </div>
             <span className="text-xs ml-2 text-gray-500">
-              {fmt.addr(userInfo?.wallet_address || primaryWallet?.address)}
+              {fmt.addr(primaryWallet?.address)}
             </span>
           </div>
         </div>

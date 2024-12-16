@@ -4,11 +4,11 @@ import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { useSessionHistory } from "./use-session-history"
 import { fetchEventSource } from "@microsoft/fetch-event-source"
-import { UseFormReturn } from "react-hook-form"
 import { useAIAgentStore } from "@/stores/use-chat-store"
 import { defaultUserId } from "@/config/base"
 import { aiApi } from "@/api/ai"
 import { Routes } from "@/routes"
+import { dynamicToken } from "@/config/localstorage"
 
 interface EventData {
     content: string,
@@ -59,16 +59,17 @@ export const useChatStream = () => {
         const newSessions = sessions.concat([chunk])
         setSessions(newSessions)
 
-        fetchEventSource(apiUrl.xai + '/v1/playground/chat', {
+        fetchEventSource(apiUrl.xai + '/v1/playground/agent/chat', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem(dynamicToken)?.slice(1, -1)}`
             },
             body: JSON.stringify({
                 "agent_id": agentInfo?.agent_id,
                 "message": question,
                 "user_id": defaultUserId,
-                "session_id": sessionId,
+                "session_id": query.sid,
                 "stream": true
             }),
             signal: ctrl.signal,

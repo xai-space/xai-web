@@ -14,6 +14,7 @@ import { useAccountContext } from '@/contexts/account'
 import { cn } from '@/lib/utils'
 import { joinPaths } from '@/utils'
 import { PostFeed } from '@/components/post-feed'
+import { AgentCardList } from '@/components/agent-card-list'
 
 export const AccountTab = () => {
   const { t } = useTranslation()
@@ -21,7 +22,7 @@ export const AccountTab = () => {
   const [isShowBorder, setIsShowBorder] = useState(true)
   const { query, ...router } = useRouter()
 
-  const tab = String(query.tab || UserListType.CoinsCreated)
+  const tab = String(query.tab || UserListType.Agent)
   const myAccountTabs = [
     {
       label: t('comments'),
@@ -33,23 +34,27 @@ export const AccountTab = () => {
     },
   ]
   const tabs = [
+    // {
+    //   label: t('token.created'),
+    //   value: UserListType.CoinsCreated,
+    // },
+    // {
+    //   label: t('token.held'),
+    //   value: UserListType.CoinsHeld,
+    // },
     {
-      label: t('token.created'),
-      value: UserListType.CoinsCreated,
-    },
-    {
-      label: t('token.held'),
-      value: UserListType.CoinsHeld,
+      label: t('my.agent'),
+      value: UserListType.Agent,
     },
     {
       label: t('published.posts'),
       value: UserListType.PublishedPosts,
     },
-    {
-      label: t('published.comments'),
-      value: UserListType.PublishedComments,
-    },
-    ...(isOtherUser ? [] : myAccountTabs),
+    // {
+    //   label: t('published.comments'),
+    //   value: UserListType.PublishedComments,
+    // },
+    // ...(isOtherUser ? [] : myAccountTabs),
   ]
 
   const {
@@ -136,6 +141,11 @@ export const AccountTab = () => {
       {/* Published Posts */}
       <TabsContent value={UserListType.PublishedPosts.toString()}>
         <PostFeed className="mx-0 !w-full max-w-full" isMy={true} />
+      </TabsContent>
+
+      {/* Published Posts */}
+      <TabsContent value={UserListType.Agent.toString()}>
+        <AgentCardList isAll={false} />
       </TabsContent>
 
       {/* Only self can see. */}

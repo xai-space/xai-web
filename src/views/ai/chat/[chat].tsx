@@ -84,6 +84,14 @@ export const ChatPage = () => {
           <Button
             variant="purple"
             onClick={() => {
+              push(Routes.AICreate)
+            }}
+          >
+            {t('create.agent')}
+          </Button>
+          <Button
+            variant="purple"
+            onClick={() => {
               replace(`${Routes.AIChat}/${agentInfo?.agent_id}?t=0`)
               setSessionId('')
               setSessionList([])

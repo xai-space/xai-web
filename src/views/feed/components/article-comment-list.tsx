@@ -29,6 +29,8 @@ import { Dialog, DialogClose, DialogFooter } from '@/components/ui/dialog'
 import { useRouter } from 'next/router'
 import TextareaAutosize from 'react-textarea-autosize'
 import { cloneDeep } from 'lodash'
+import { DynamicConnectButton } from '@dynamic-labs/sdk-react-core'
+import { useUserStore } from '@/stores/use-user-store'
 
 export const ArticleCommentList = () => {
   const { t } = useTranslation()
@@ -387,6 +389,7 @@ const ArticleReplyCommentItem = ({
 
 const MoreHandler = ({ comment, onDelComment, onEditComment }: CommentItem) => {
   const { t } = useTranslation()
+  const { userInfo } = useUserStore()
 
   return (
     <DropdownMenu>
@@ -396,24 +399,44 @@ const MoreHandler = ({ comment, onDelComment, onEditComment }: CommentItem) => {
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuItem
-          className="cursor-pointer"
-          onClick={() => onEditComment?.(comment)}
-        >
-          <div className="flex items-center space-x-1">
-            <MdEdit size={18} />
-            <span>{t('edit')}</span>
-          </div>
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          className="cursor-pointer"
-          onClick={() => onDelComment?.(comment.comment_id)}
-        >
-          <div className="flex items-center text-red-500 space-x-1">
-            <MdDelete size={18} />
-            <span>{t('delete')}</span>
-          </div>
-        </DropdownMenuItem>
+        <DynamicConnectButton buttonClassName="w-full">
+          <DropdownMenuItem
+            className="cursor-pointer"
+            onClick={(e) => {
+              if (!userInfo?.user.id) {
+                toast.error(t('no.login'))
+                return
+              }
+
+              e.stopPropagation()
+              onEditComment?.(comment)
+            }}
+          >
+            <div className="flex items-center space-x-1">
+              <MdEdit size={18} />
+              <span>{t('edit')}</span>
+            </div>
+          </DropdownMenuItem>
+        </DynamicConnectButton>
+        <DynamicConnectButton buttonClassName="w-full">
+          <DropdownMenuItem
+            className="cursor-pointer"
+            onClick={(e) => {
+              if (!userInfo?.user.id) {
+                toast.error(t('no.login'))
+                return
+              }
+
+              e.stopPropagation()
+              onDelComment?.(comment.comment_id)
+            }}
+          >
+            <div className="flex items-center text-red-500 space-x-1">
+              <MdDelete size={18} />
+              <span>{t('delete')}</span>
+            </div>
+          </DropdownMenuItem>
+        </DynamicConnectButton>
       </DropdownMenuContent>
     </DropdownMenu>
   )

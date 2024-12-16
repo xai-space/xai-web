@@ -49,6 +49,7 @@ export const useUserList = (type: UserListType, isOtherUser = true) => {
     fetchNextPage,
     refetch,
   } = useInfiniteQuery({
+    enabled: false,
     queryKey: [userApi.list.name, userAddr, type],
     queryFn: ({ pageParam }) => {
       if (isEmpty(userAddr)) return Promise.reject()
@@ -72,6 +73,7 @@ export const useUserList = (type: UserListType, isOtherUser = true) => {
     fetchNextPage: fetchNextMyTokens,
     refetch: refetchMyTokens,
   } = useInfiniteQuery({
+    enabled: false,
     queryKey: [tokenApi.getListByUser.name, userAddr, type],
     queryFn: ({ pageParam }) => {
       return tokenApi.getListByUser({
@@ -86,7 +88,7 @@ export const useUserList = (type: UserListType, isOtherUser = true) => {
       myTokenList: data.pages.flatMap((p) => p.data.results || []),
       myTokenTotal: data.pages[0].data.count,
     }),
-    enabled: isCreated,
+    // enabled: isCreated,
   })
   const myTokens = useMemo(() => {
     return isOtherUser ? myTokenList.filter((t) => t.is_active) : myTokenList

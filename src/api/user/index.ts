@@ -27,13 +27,14 @@ export const userApi = {
   getOtherInfo: (addr: string) => {
     return api.GET<ApiResponse<UserInfoRes>>(`/api/v1/user/users/${addr}/`)
   },
+
   list: <T extends UserListType>(addr: string, req: UserListReq) => {
     return api.GET<ApiResponse<PaginationRes<UserListRes[T]>>>(
       `/api/v1/user/infolist/${addr}/${qs.stringify(req)}`
     )
   },
   updateInfo: (req: UserUpdateReq) => {
-    return api.PATCH<ApiResponse<UserInfoRes>>('/api/v1/user/users/', {
+    return api.PUT<ApiResponse<UserInfoRes>>('/v1/playground/user/update', {
       body: req,
     })
   },

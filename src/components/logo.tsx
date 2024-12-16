@@ -31,7 +31,7 @@ export const Logo = ({
         <img
           src="/images/logo.png"
           alt="meme"
-          className="max-h-[80px] max-sm:w-8 object-cover"
+          className="max-h-[50px] max-sm:w-8 object-cover rounded-full"
         />
       )}
       <span

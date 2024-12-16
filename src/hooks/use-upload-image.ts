@@ -62,6 +62,7 @@ export const useUploadImage = (options?: Options) => {
 
     const newFiles = e.target.files!
 
+    console.log('newFiles', newFiles);
 
     if (!_checkCount(newFiles.length)) return
 
@@ -93,6 +94,7 @@ export const useUploadImage = (options?: Options) => {
   const onSubmitImg = async () => {
 
     const formData = new FormData()
+    console.log('files', files);
 
     if (!files?.length) return
 

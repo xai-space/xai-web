@@ -841,5 +841,7 @@
   "empty,comment": "There are no comments yet~",
   "empty.session": "There is no chat history yet~",
   "edit,comment": "Edit comment",
-  "update.successful": "Updated successfully"
+  "update.successful": "Updated successfully",
+  "no.login": "Please connect wallet",
+  "my.agent": "My Agent"
 }

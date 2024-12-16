@@ -112,7 +112,7 @@ export const NavAside = ({
           linkClass="pl-1 relative"
           betaClass={isCollapsed ? 'absolute -bottom-5' : ''}
         />
-        <div className="pt-4 space-y-4">
+        <div className="pt-2 space-y-4">
           <NavigationMenu className="grid grid-cols-1 max-w-full">
             <NavigationMenuList className="grid grid-cols-1 space-x-0 space-y-3">
               {navs.map((n, i) => (
@@ -186,14 +186,14 @@ export const NavAside = ({
       >
         <NavAccount userInfo={userInfo} isCollapsed={isCollapsed} />
 
-        <RewardButton
+        {/* <RewardButton
           shadow="none"
           showReferral={isCollapsed ? false : true}
           className={cn(
             'border-none w-full justify-between mt-3',
             isCollapsed && 'w-fit p-2'
           )}
-        />
+        /> */}
       </div>
     </aside>
   )

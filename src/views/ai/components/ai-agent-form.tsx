@@ -67,6 +67,8 @@ const formFields = {
 } as const
 import { NftAgentDialog, NftInfo } from './nft-agent-dialog'
 import { UploadImageRes, otherApi } from '@/api/other'
+import { DynamicConnectButton } from '@dynamic-labs/sdk-react-core'
+import { useUserStore } from '@/stores/use-user-store'
 
 interface Props {
   isCreate: boolean
@@ -77,6 +79,8 @@ export const AIAgentForm = ({ isCreate }: Props) => {
   const inputId = useMemo(nanoid, [])
   const { agentInfo, setAgentInfo } = useAIAgentStore()
   const [nftInfo, setNftInfo] = useState<NftInfo>()
+
+  const { userInfo } = useUserStore()
 
   const router = useRouter()
 
@@ -244,7 +248,6 @@ export const AIAgentForm = ({ isCreate }: Props) => {
       <form
         ref={formRef}
         className="flex flex-col w-full px-[20%] max-sm:px-[5%]"
-        onSubmit={form.handleSubmit(onSubmit)}
       >
         <FormField
           control={form.control}
@@ -398,13 +401,26 @@ export const AIAgentForm = ({ isCreate }: Props) => {
           data={SelectPermission}
         /> */}
 
-        <Button
-          type="submit"
-          className="mt-5 !mx-auto w-full"
-          disabled={submitDisable()}
-        >
-          {submintText()}
-        </Button>
+        <DynamicConnectButton buttonClassName="w-full">
+          <Button
+            type="submit"
+            className="mt-5 !mx-auto w-full"
+            disabled={submitDisable()}
+            onClick={(e) => {
+              e.preventDefault()
+
+              if (!userInfo?.user.id) {
+                toast.error(t('no.login'))
+                return
+              }
+
+              e.stopPropagation()
+              onSubmit()
+            }}
+          >
+            {submintText()}
+          </Button>
+        </DynamicConnectButton>
         <NftAgentDialog
           open={open}
           nftInfo={nftInfo}

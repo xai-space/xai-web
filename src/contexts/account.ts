@@ -4,7 +4,7 @@ import type { UserInfoRes } from '@/api/user/types'
 import { CONTEXT_ERR } from '@/errors/context'
 
 interface Value {
-  userInfo: UserInfoRes | undefined
+  userInfo: UserInfoRes | null
   isPending: boolean
   isOtherUser: boolean
   refetchUserInfo: VoidFunction

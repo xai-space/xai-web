@@ -1,4 +1,4 @@
-import { Asset, NFTInfo, NetworkNFTList } from '@/api/nft'
+import { Asset, NFTInfo } from '@/api/nft'
 import { Dialog, DialogClose } from '@/components/ui/dialog'
 import {
   Select,
@@ -7,7 +7,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { loadingSVG } from '@/config/link'
 import { useEvmNftList } from '@/hooks/use-evm-nft-list'
 import { useSolNFTList } from '@/hooks/use-sol-nft-list'
 import { cn } from '@/lib/utils'

@@ -8,6 +8,9 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import TextareaAutosize from 'react-textarea-autosize'
+import { useUserStore } from '@/stores/use-user-store'
+import { DynamicConnectButton } from '@dynamic-labs/sdk-react-core'
+import { isEmpty } from 'lodash'
 
 interface ReplyProps {
   replayUser?: {
@@ -21,11 +24,18 @@ export const ArticleCommentForm = ({ replayUser, onSended }: ReplyProps) => {
   const { query } = useRouter()
   const { t } = useTranslation()
   const { setArticle, setFeedList } = useArticleStore()
+  const { userInfo } = useUserStore()
 
   const [comment, setComment] = useState('')
   const [loading, setLoading] = useState(false)
 
-  const postComment = async () => {
+  const postComment = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (!userInfo?.user.id) {
+      toast.error(t('no.login'))
+      return
+    }
+    e.stopPropagation()
+
     if (comment.trim().length === 0) {
       toast.warning(t('input.comment'))
       return
@@ -67,9 +77,15 @@ export const ArticleCommentForm = ({ replayUser, onSended }: ReplyProps) => {
           replayUser ? `${t('replay')} @${replayUser.name}` : t('enter.comment')
         }
       ></TextareaAutosize>
-      <Button onClick={postComment} className="mt-2" disabled={loading}>
-        {loading ? t('posting') : t('post.comment')}
-      </Button>
+      <DynamicConnectButton>
+        <Button
+          onClick={postComment}
+          className="mt-2"
+          disabled={loading || isEmpty(comment.trim())}
+        >
+          {loading ? t('posting') : t('post.comment')}
+        </Button>
+      </DynamicConnectButton>
     </div>
   )
 }

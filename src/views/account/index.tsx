@@ -9,22 +9,23 @@ import { AccountTab } from '@/views/account/components/account-tab'
 import { useUserList } from '@/views/account/hooks/use-user-list'
 import { UserListType } from '@/api/user/types'
 import { PrimaryLayout } from '@/components/layouts/primary'
-import { PageFallback } from '@/components/page-fallback'
 import Profile from './components/profile'
+import { useDynamicContext } from '@dynamic-labs/sdk-react-core'
 
 export const AccountPage = () => {
   const { query } = useRouter()
   const tokenAddr = (query.address || '') as string
   const {
     userInfo,
-    otherUserInfo,
-    isFetchingOtherUserInfo,
+    // otherUserInfo,
+    // isFetchingOtherUserInfo,
     isFetchingUserInfo,
     refetchUserInfo,
-    refetchOtherUserInfo,
+    // refetchOtherUserInfo,
   } = useUserInfo(tokenAddr)
+  const { primaryWallet } = useDynamicContext()
   // const currenUserAddr = String(userInfo?.wallet_address || '')
-  const currenUserAddr = ''
+  const currenUserAddr = primaryWallet?.address
   const isOtherUser = tokenAddr !== currenUserAddr
   const followersResults = useUserList(UserListType.Followers)
   const followingResults = useUserList(UserListType.Following)
@@ -37,10 +38,10 @@ export const AccountPage = () => {
   return (
     <AccountProvider
       value={{
-        userInfo: isOtherUser ? otherUserInfo : userInfo,
-        isPending: isFetchingUserInfo || isFetchingOtherUserInfo,
+        userInfo: userInfo,
+        isPending: isFetchingUserInfo,
         isOtherUser: isOtherUser,
-        refetchUserInfo: isOtherUser ? refetchOtherUserInfo : refetchUserInfo,
+        refetchUserInfo: refetchUserInfo,
         followersResults,
         followingResults,
         refetchFollow,

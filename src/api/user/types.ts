@@ -63,7 +63,8 @@ export enum UserListType {
   Following,
   CoinsHeld,
   PublishedPosts,
-  PublishedComments
+  PublishedComments,
+  Agent,
 }
 
 export interface UserListReq extends PaginationReq {
