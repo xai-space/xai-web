@@ -39,7 +39,7 @@ export const AccountAvatar = ({
   const { onChangeUpload, clearFile } = useUploadImage({
     inputEl: inputRef.current,
     onSuccess: (url) =>
-      update({ logo: url?.[0]?.url, name: userInfo?.user.name }).then(() =>
+      update({ logo: url?.[0]?.url, name: userInfo?.user?.name }).then(() =>
         refetchUserInfo()
       ),
   })
@@ -70,7 +70,7 @@ export const AccountAvatar = ({
         )}
         onClick={() => {
           clearFile()
-          if (isOtherUser && !isEmpty(userInfo?.user.logo)) {
+          if (isOtherUser && !isEmpty(userInfo?.user?.logo)) {
             setOpen(true)
           }
         }}

@@ -32,8 +32,8 @@ export const PostFeed = ({ className, isMy = false }: Props) => {
       limit: 10,
     }
 
-    if (isMy && userInfo?.user.id) {
-      bodyData.user_id = userInfo?.user.id
+    if (isMy && userInfo?.user?.id) {
+      bodyData.user_id = userInfo?.user?.id
     }
 
     const { data } = await feedApi.getList(bodyData)
@@ -64,7 +64,7 @@ export const PostFeed = ({ className, isMy = false }: Props) => {
   }
 
   useEffect(() => {
-    if (isMy && userInfo?.user.id) {
+    if (isMy && userInfo?.user?.id) {
       mutate({
         list: [],
         noMore: true,

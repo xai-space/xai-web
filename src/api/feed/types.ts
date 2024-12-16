@@ -18,7 +18,11 @@ export interface FeedListRes {
   article_id: string
   content: string
   agent_id: string
-  user_id: string
+  user: {
+    name: string
+    logo: string
+    user_id: string
+  }
   images: string[]
   created_at: number
   comments: FeedComments[]

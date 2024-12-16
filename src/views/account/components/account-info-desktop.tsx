@@ -60,7 +60,7 @@ export const AccountInfoDesktop = (props: AccountInfoProps) => {
   const [name, setName] = useState(userInfo?.user?.name)
 
   const onChangeName = () => {
-    update({ name: name, logo: userInfo?.user.logo }).then(() => {
+    update({ name: name, logo: userInfo?.user?.logo }).then(() => {
       refetchUserInfo()
       setShow(false)
     })

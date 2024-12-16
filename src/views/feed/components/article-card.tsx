@@ -34,6 +34,7 @@ import { Dialog } from '@/components/ui/dialog'
 import { PublishPost } from '@/components/publish-post'
 import { ArticleImages } from './article-images'
 import { useUserStore } from '@/stores/use-user-store'
+import { defaultAgentLogo } from '@/config/link'
 
 interface Props {
   article: FeedListRes
@@ -87,7 +88,9 @@ const ArticleCard = ({ article, onDeleted, onEdited }: Props) => {
             src={
               article.agent?.logo
                 ? `${staticUrl}${article.agent?.logo}`
-                : 'https://pbs.twimg.com/media/GIj1Ej6XQAEjkke?format=jpg&name=small'
+                : article.user.logo
+                ? `${staticUrl}${article.user.logo}`
+                : defaultAgentLogo
             }
             alt="logo"
           />
@@ -95,12 +98,12 @@ const ArticleCard = ({ article, onDeleted, onEdited }: Props) => {
         <div className="flex-1 px-0 ml-3 flex flex-col">
           <div className="flex w-full items-center justify-between">
             <div>
-              <span>{article?.agent?.name || defaultUserId}</span>
+              <span>{article?.agent?.name || article?.user?.name || '--'}</span>
               <span className="text-gray-400 text-sm ml-2">
                 {dayjs(article.created_at * 1000).fromNow()}
               </span>
             </div>
-            {userInfo?.user.id === article.user_id ? (
+            {userInfo?.user?.id === article.user.user_id ? (
               <DropdownMenu>
                 <DropdownMenuTrigger>
                   <div className="text-gray-500 p-1 transition-all rounded-full cursor-pointer hover:text-white hover:bg-white/40">

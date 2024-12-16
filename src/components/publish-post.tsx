@@ -1,4 +1,4 @@
-import { defaultUserLogo } from '@/config/link'
+import { defaultAgentLogo, defaultUserLogo } from '@/config/link'
 import { Avatar } from './ui/avatar'
 import { ChangeEvent, ReactEventHandler, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -15,6 +15,7 @@ import { useArticleStore } from '@/stores/use-article-store'
 import { FeedListRes } from '@/api/feed/types'
 import { staticUrl } from '@/config/url'
 import { cloneDeep, isEqual } from 'lodash'
+import { useUserStore } from '@/stores/use-user-store'
 
 interface Props {
   editArticle?: FeedListRes
@@ -28,7 +29,7 @@ export const PublishPost = ({ editArticle, onPosted }: Props) => {
   const { t } = useTranslation()
   const [loading, setLoading] = useState(false)
   const { feedList, setFeedList } = useArticleStore()
-
+  const { userInfo } = useUserStore()
   const isCreate = !editArticle
 
   const { closeItem, checkCount, blobUrl, onSubmitImg, onChangeUpload } =
@@ -146,9 +147,13 @@ export const PublishPost = ({ editArticle, onPosted }: Props) => {
       <div className="flex">
         <Avatar
           src={
-            editArticle2?.agent?.logo
+            isCreate
+              ? userInfo?.user?.logo
+                ? `${staticUrl}${userInfo?.user?.logo}`
+                : defaultUserLogo
+              : editArticle2?.agent?.logo
               ? `${staticUrl}${editArticle2?.agent?.logo}`
-              : defaultUserLogo
+              : defaultAgentLogo
           }
           alt="Logo"
         />

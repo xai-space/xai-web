@@ -30,7 +30,7 @@ export const ArticleCommentForm = ({ replayUser, onSended }: ReplyProps) => {
   const [loading, setLoading] = useState(false)
 
   const postComment = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (!userInfo?.user.id) {
+    if (!userInfo?.user?.id) {
       toast.error(t('no.login'))
       return
     }

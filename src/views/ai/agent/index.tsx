@@ -52,7 +52,7 @@ const AgentList = () => {
             className="ml-5 !px-8"
             variant={!isAll ? 'purple' : 'secondary'}
             onClick={(e) => {
-              if (!userInfo?.user.id) {
+              if (!userInfo?.user?.id) {
                 toast.error(t('no.login'))
                 return
               }

@@ -39,7 +39,11 @@ export const NavAccount = ({
       return (
         <NavAccountPopover>
           <Avatar
-            src={userInfo?.logo || avatar}
+            src={
+              userInfo?.user?.logo
+                ? `${staticUrl}${userInfo?.user?.logo}`
+                : avatar
+            }
             className="rounded-full w-10 h-10"
           />
         </NavAccountPopover>

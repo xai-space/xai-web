@@ -92,10 +92,13 @@ export const useUploadImage = (options?: Options) => {
     }
   }
 
-  const onSubmitImg = async (files: File[]) => {
+  const onSubmitImg = async (_files?: File[]) => {
+
+    if (_files?.length) {
+      files.push(..._files)
+    }
 
     const formData = new FormData()
-    console.log('files', files);
 
     if (!files?.length) return
 
