@@ -135,7 +135,7 @@ const ArticleCard = ({ article, onDeleted, onEdited }: Props) => {
           </div>
 
           <CardDescription
-            className="mt-1 text-base break-all text-muted-foreground cursor-pointer"
+            className="mt-1 text-base break-all text-white cursor-pointer"
             onClick={() => {
               push(`${Routes.FeedDetail}/${article.article_id}`)
             }}

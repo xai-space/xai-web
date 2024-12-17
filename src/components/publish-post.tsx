@@ -92,13 +92,15 @@ export const PublishPost = ({ editArticle, onPosted }: Props) => {
   }
 
   const submitDisable = () => {
+    console.log(editArticle?.images, editArticle2?.images)
+
     if (
       !isCreate &&
       // oldContent === newContent
-      (editArticle.content == value ||
-        // image1 === image2 && newImage = 0
-        (isEqual(editArticle?.images, editArticle2?.images) &&
-          blobUrl.length === 0))
+      editArticle.content == value &&
+      // image1 === image2 && newImage = 0
+      isEqual(editArticle?.images, editArticle2?.images) &&
+      blobUrl.length === 0
     ) {
       return true
     }
@@ -151,8 +153,8 @@ export const PublishPost = ({ editArticle, onPosted }: Props) => {
               ? userInfo?.user?.logo
                 ? `${staticUrl}${userInfo?.user?.logo}`
                 : defaultUserLogo
-              : editArticle2?.agent?.logo
-              ? `${staticUrl}${editArticle2?.agent?.logo}`
+              : editArticle2?.user?.logo
+              ? `${staticUrl}${editArticle2?.user?.logo}`
               : defaultAgentLogo
           }
           alt="Logo"
@@ -176,7 +178,7 @@ export const PublishPost = ({ editArticle, onPosted }: Props) => {
                     alt="Logo"
                     className="rounded-md w-full h-full object-cover max-h-[15vh]"
                   />
-                  <div className="absolute right-0 top-0 bg-black/50 border-dashed border border-gray-500 rounded-full">
+                  <div className="absolute right-1 top-1 bg-black/50 border-dashed border border-gray-500 rounded-full">
                     <IoClose
                       className="cursor-pointer"
                       size={20}
@@ -198,7 +200,7 @@ export const PublishPost = ({ editArticle, onPosted }: Props) => {
                     alt="Logo"
                     className="rounded-md w-full h-full object-cover max-h-[15vh]"
                   />
-                  <div className="absolute right-0 top-0 bg-black/50 border-dashed border border-gray-500 rounded-full">
+                  <div className="absolute right-1 top-1 bg-black/50 border-dashed border border-gray-500 rounded-full">
                     <IoClose
                       className="cursor-pointer"
                       size={20}
