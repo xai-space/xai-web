@@ -152,19 +152,17 @@ export const NavAside = ({
               )}
               {...props}
             >
-              <DynamicConnectButton>
-                <Button
-                  type="button"
-                  size={isCollapsed ? 'icon' : 'icon-lg'}
-                  title={t('change.language')}
-                  onClick={() =>
-                    i18n.language === 'en' ? setLang('zh') : setLang('en')
-                  }
-                  className="border-transparent sm:hover:border-black"
-                >
-                  <IoLanguageOutline size={20} />
-                </Button>
-              </DynamicConnectButton>
+              <Button
+                type="button"
+                size={isCollapsed ? 'icon' : 'icon-lg'}
+                title={t('change.language')}
+                onClick={() =>
+                  i18n.language === 'en' ? setLang('zh') : setLang('en')
+                }
+                className="border-transparent sm:hover:border-black"
+              >
+                <IoLanguageOutline size={20} />
+              </Button>
             </div>
 
             <SocialLinks

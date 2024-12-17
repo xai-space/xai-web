@@ -49,7 +49,7 @@ import {
 } from '@/components/ui/form'
 import Input from '@/components/input'
 import { useForm } from 'react-hook-form'
-import { Textarea } from '@/components/ui/textarea'
+import TextareaAutosize from 'react-textarea-autosize'
 import {
   Select,
   SelectContent,
@@ -329,7 +329,12 @@ export const AIAgentForm = ({ isCreate }: Props) => {
                 {t('description')}*
               </FormLabel>
               <FormControl className="w-full">
-                <Textarea {...field} placeholder={t('description.input')} />
+                {/* <Textarea {...field} placeholder={t('description.input')} /> */}
+                <TextareaAutosize
+                  {...field}
+                  placeholder={t('description.input')}
+                  className="p-2 border-2 border-input rounded-sm resize-none min-h-24 text-sm focus:shadow-[0_0_5px_3px_#A4C9EC!important] bg-transparent"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

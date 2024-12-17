@@ -208,7 +208,7 @@ const ArticleCommentItem = ({
         <div className="flex items-center space-x-2">
           <div className="flex flex-1">
             <div className="flex items-center font-bold">
-              <span>{comment?.user?.name}</span>
+              <span>{comment?.user?.name || '--'}</span>
             </div>
             <span className="ml-2">
               {dayjs(comment.created_at * 1000).fromNow()}
