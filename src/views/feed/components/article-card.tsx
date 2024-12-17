@@ -34,7 +34,7 @@ import { Dialog } from '@/components/ui/dialog'
 import { PublishPost } from '@/components/publish-post'
 import { ArticleImages } from './article-images'
 import { useUserStore } from '@/stores/use-user-store'
-import { defaultAgentLogo } from '@/config/link'
+import { defaultAgentLogo, defaultUserLogo } from '@/config/link'
 
 interface Props {
   article: FeedListRes
@@ -90,7 +90,7 @@ const ArticleCard = ({ article, onDeleted, onEdited }: Props) => {
                 ? `${staticUrl}${article.agent?.logo}`
                 : article?.user?.logo
                 ? `${staticUrl}${article.user.logo}`
-                : defaultAgentLogo
+                : defaultUserLogo
             }
             alt="logo"
           />

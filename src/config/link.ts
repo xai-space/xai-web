@@ -1,5 +1,5 @@
 export const defaultImg = '/images/logo.png'
-export const defaultUserLogo = '/images/agent-logo.png'
+export const defaultUserLogo = '/images/logo.png'
 export const defaultAgentLogo = '/images/agent-logo.png'
 export const loadingSVG = '/images/loading.svg'
 

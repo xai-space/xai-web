@@ -12,7 +12,7 @@ import { Label } from '@/components/ui/label'
 import { useResponsive } from '@/hooks/use-responsive'
 import { useUploadImage } from '@/hooks/use-upload-image'
 import { cn } from '@/lib/utils'
-import { defaultAgentLogo } from '@/config/link'
+import { defaultAgentLogo, defaultUserLogo } from '@/config/link'
 import { useUserStore } from '@/stores/use-user-store'
 import { staticUrl } from '@/config/url'
 
@@ -79,7 +79,7 @@ export const AccountAvatar = ({
           src={
             userInfo?.user?.logo
               ? `${staticUrl}${userInfo?.user?.logo}`
-              : defaultAgentLogo
+              : defaultUserLogo
           }
           // fallback={userInfo?.wallet_address.slice(-4)}
           size={128}

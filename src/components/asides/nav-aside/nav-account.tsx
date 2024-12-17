@@ -11,7 +11,7 @@ import { Routes } from '@/routes'
 import { ConnectWallet } from '../../connect-wallet'
 import { NavAccountPopover } from './nav-account-pop'
 import { useDynamicContext } from '@dynamic-labs/sdk-react-core'
-import { defaultAgentLogo } from '@/config/link'
+import { defaultAgentLogo, defaultUserLogo } from '@/config/link'
 import { useUserStore } from '@/stores/use-user-store'
 import { staticUrl } from '@/config/url'
 
@@ -62,13 +62,15 @@ export const NavAccount = ({
             src={
               userInfo?.user?.logo
                 ? `${staticUrl}${userInfo?.user?.logo}`
-                : defaultAgentLogo
+                : defaultUserLogo
             }
             className="rounded-full w-12 h-12"
           />
           <div className="flex flex-col space-y-1">
             <div className="text-sm ml-2 font-semibold line-clamp-1 break-all">
-              {userInfo?.user?.name || '--'}
+              {userInfo?.user?.name ||
+                primaryWallet?.address.slice(0, 4) ||
+                '--'}
             </div>
             <span className="text-xs ml-2 text-gray-500">
               {fmt.addr(primaryWallet?.address)}
