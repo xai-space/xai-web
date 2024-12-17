@@ -11,6 +11,7 @@ import { UserListType } from '@/api/user/types'
 import { PrimaryLayout } from '@/components/layouts/primary'
 import Profile from './components/profile'
 import { useDynamicContext } from '@dynamic-labs/sdk-react-core'
+import { useUserFollow } from './hooks/use-user-follwer'
 
 export const AccountPage = () => {
   const { query } = useRouter()
@@ -30,6 +31,8 @@ export const AccountPage = () => {
   const followersResults = useUserList(UserListType.Followers)
   const followingResults = useUserList(UserListType.Following)
 
+  const { followers } = useUserFollow()
+
   const refetchFollow = () => {
     followersResults.refetch()
     followingResults.refetch()
@@ -42,7 +45,7 @@ export const AccountPage = () => {
         isPending: isFetchingUserInfo,
         isOtherUser: isOtherUser,
         refetchUserInfo: refetchUserInfo,
-        followersResults,
+        followers: followers,
         followingResults,
         refetchFollow,
       }}

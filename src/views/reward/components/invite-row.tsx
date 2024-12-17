@@ -34,7 +34,7 @@ export const InviteRow = () => {
         <div className="flex items-center space-x-2">
           <DiamondIcon size={36} />
           <p className="text-blue-600 text-2xl font-bold">
-            {BigNumber(fmt.decimals(userInfo?.reward_amount)).toFormat()}
+            {BigNumber(fmt.decimals(userInfo?.user?.reward_amount)).toFormat()}
           </p>
         </div>
       </div>
@@ -44,7 +44,7 @@ export const InviteRow = () => {
         <div className="flex items-center space-x-2">
           <UserIcon size={36} />
           <p className="text-blue-600 text-2xl font-bold">
-            {BigNumber(userInfo?.inviter_count.one ?? 0).toFormat()}
+            {BigNumber(userInfo?.user?.inviter_count?.one ?? 0).toFormat()}
           </p>
         </div>
       </div>
@@ -56,7 +56,7 @@ export const InviteRow = () => {
         <div className="flex items-center space-x-2">
           <UserIcon type="user2" size={38} />
           <p className="text-blue-600 text-2xl font-bold">
-            {BigNumber(userInfo?.inviter_count.two ?? 0).toFormat()}
+            {BigNumber(userInfo?.user?.inviter_count?.two ?? 0).toFormat()}
           </p>
         </div>
       </div>

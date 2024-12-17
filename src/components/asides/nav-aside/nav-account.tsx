@@ -28,8 +28,6 @@ export const NavAccount = ({
 
   const avatar = '/images/logo.png'
 
-  console.log('userInfo-----', userInfo)
-
   const userInfoIsCollapsed = () => {
     // TODO: wait api
     // if (userInfo) {

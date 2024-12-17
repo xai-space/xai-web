@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { useInfiniteQuery } from '@tanstack/react-query'
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
 import { useRouter } from 'next/router'
 import { isEmpty } from 'lodash'
 
@@ -46,25 +46,22 @@ export const useUserList = (type: UserListType, isOtherUser = true) => {
     isLoading,
     isFetching,
     isFetched,
-    fetchNextPage,
+    // fetchNextPage,
     refetch,
-  } = useInfiniteQuery({
-    enabled: false,
-    queryKey: [userApi.list.name, userAddr, type],
-    queryFn: ({ pageParam }) => {
+  } = useQuery({
+    enabled: true,
+    queryKey: [userApi.getFollowers.name, userAddr, type],
+    queryFn: async ({ pageParam }) => {
       if (isEmpty(userAddr)) return Promise.reject()
-      return userApi.list(userAddr, {
-        type,
-        page: pageParam,
-        page_size: 25,
-      })
+      const { data } = await userApi.getFollowers()
+      return data
     },
-    initialPageParam: 1,
-    getNextPageParam: (_, __, page) => page + 1,
-    select: (data) => ({
-      list: data.pages.flatMap((p) => p.data.results),
-      total: data.pages[0].data.count,
-    }),
+    // initialPageParam: 1,
+    // getNextPageParam: (_, __, page) => page + 1,
+    // select: (data) => ({
+    //   list: data.pages.flatMap((p) => p.data.results),
+    //   total: data.pages[0].data.count,
+    // }),
   })
   const {
     data: { myTokenList = [], myTokenTotal = 0 } = {},
@@ -113,11 +110,12 @@ export const useUserList = (type: UserListType, isOtherUser = true) => {
     tokenCreated: listMap[UserListType.CoinsCreated],
     comments: listMap[UserListType.Comments],
     mentions: listMap[UserListType.Mentions],
-    followers: listMap[UserListType.Followers],
+    // followers: listMap[UserListType.Followers],
+    followers: data,
     following: listMap[UserListType.Following],
     isLoading,
     isFetching,
-    fetchNextPage,
+    // fetchNextPage,
     refetch,
 
     myTokens,

@@ -19,13 +19,18 @@ import {
 export const FollowDesktop = () => {
   const { t } = useTranslation()
   const [tab, setTab] = useState(UserListType.Following)
-  const { isOtherUser, followersResults, followingResults, refetchFollow } =
+  const { isOtherUser, followers, followingResults, refetchFollow } =
     useAccountContext()
-  const {
-    followers,
-    isLoading: isLoadingFollowers,
-    isFetching: isFetchingFollowers,
-  } = followersResults
+  // const {
+  //   agent,
+  //   user,
+  //   // followers,
+  //   // isLoading: isLoadingFollowers,
+  //   // isFetching: isFetchingFollowers,
+  // } = followersResults
+
+  console.log(followers)
+
   const {
     following,
     isLoading: isLoadingFollowing,
@@ -49,7 +54,10 @@ export const FollowDesktop = () => {
             className="shadow-none pl-0 !border-none"
           >
             <span className="space-x-1 text-base">
-              <span className="font-bold">{followers.total}</span>
+              <span className="font-bold">
+                {(followers?.agent?.length ?? 0) +
+                  (followers?.user?.length ?? 0)}
+              </span>
               <span className="text-blue-600">{t('followers')}</span>
             </span>
           </Button>
@@ -85,12 +93,19 @@ export const FollowDesktop = () => {
               : t('following')}
           </DialogTitle>
         </DialogHeader>
-        {isFollowers ? (
+        <FollowersCards
+          cards={followers}
+          // total={following.total}
+          // isLoading={isLoadingFollowers}
+          // isPending={isFetchingFollowers}
+          onCardClick={() => closeRef.current?.click()}
+        />
+        {/* {isFollowers ? (
           <FollowersCards
-            cards={followers.list}
-            total={following.total}
-            isLoading={isLoadingFollowers}
-            isPending={isFetchingFollowers}
+            cards={following}
+            // total={following.total}
+            // isLoading={isLoadingFollowers}
+            // isPending={isFetchingFollowers}
             onCardClick={() => closeRef.current?.click()}
           />
         ) : (
@@ -101,7 +116,7 @@ export const FollowDesktop = () => {
             isPending={isFetchingFollowing}
             onCardClick={() => closeRef.current?.click()}
           />
-        )}
+        )} */}
       </DialogContent>
     </Dialog>
   )

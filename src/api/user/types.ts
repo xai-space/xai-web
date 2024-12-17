@@ -76,6 +76,17 @@ export interface UserListRes {
   [UserListType.Following]: UserFollow
 }
 
+export interface FollowerItem {
+  agent_id?: string
+  user_id?: string
+  name?: string
+  logo?: string
+}
+export interface UserFollowersRes {
+  agent: FollowerItem[]
+  user: FollowerItem[]
+}
+
 interface User {
   id: number
   name: string

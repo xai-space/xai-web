@@ -84,6 +84,13 @@ export const NavAside = ({
       isActive: pathname === Routes.Feed,
     },
     {
+      title: t('award'),
+      path: Routes.Reward,
+      icon: <IoDiamondOutline />,
+      iconActive: <IoDiamond />,
+      isActive: pathname === Routes.Reward,
+    },
+    {
       title: t('Notification'),
       path: Routes.Notification,
       icon: <RiNotification3Line />,
@@ -110,14 +117,27 @@ export const NavAside = ({
           showMeme
           showLogo={!isCollapsed}
           className="w-28"
-          linkClass="relative"
-          betaClass={isCollapsed ? 'absolute -bottom-5' : ''}
+          linkClass={isCollapsed ? 'relative flex item-center' : 'relative'}
+          betaClass={isCollapsed ? 'absolute -bottom-5 ml-1' : ''}
         />
-        <div className="pt-2 space-y-4">
+        <div
+          className={cn(
+            'pt-2 space-y-3',
+            isCollapsed && 'mt-5 flex flex-col items-center'
+          )}
+        >
           <NavigationMenu className="grid grid-cols-1 max-w-full">
-            <NavigationMenuList className="grid grid-cols-1 space-x-0 space-y-3">
+            <NavigationMenuList
+              className={cn(
+                'grid grid-cols-1 space-x-0 space-y-3',
+                isCollapsed && 'space-y-2'
+              )}
+            >
               {navs.map((n, i) => (
-                <NavigationMenuItem key={i} className="w-full cursor-pointer">
+                <NavigationMenuItem
+                  key={i}
+                  className={cn('w-full', isCollapsed && 'w-auto')}
+                >
                   <NavigationMenuLink
                     className={cn(
                       'border-[15px] text-lg w-full flex justify-start space-x-2 pl-2 cursor-pointer bg-clip-padding font-normal hover:opacity-90',
@@ -142,12 +162,12 @@ export const NavAside = ({
           <div
             className={cn(
               'flex justify-between items-center mt-1',
-              isCollapsed && 'flex-col space-x-0 space-y-1'
+              isCollapsed && 'flex-col justify-center space-x-0 space-y-2'
             )}
           >
             <div
               className={cn(
-                'flex justify-center items-center space-x-1 ',
+                'flex justify-center items-center space-x-1',
                 className
               )}
               {...props}
@@ -159,7 +179,7 @@ export const NavAside = ({
                 onClick={() =>
                   i18n.language === 'en' ? setLang('zh') : setLang('en')
                 }
-                className="border-transparent sm:hover:border-black"
+                className="border-transparent sm:hover:border-black w-full"
               >
                 <IoLanguageOutline size={20} />
               </Button>
@@ -170,15 +190,14 @@ export const NavAside = ({
               tg={officialLinks.tg}
               whitepaper={officialLinks.whitepaper}
               size={20}
-              buttonProps={{ size: isCollapsed ? 'icon' : 'icon-lg' }}
-              className={cn(
-                'justify-start',
-                isCollapsed && 'flex-col space-x-0 space-y-1'
-              )}
+              buttonProps={{
+                size: isCollapsed ? 'icon' : 'icon-lg',
+                className: isCollapsed ? 'w-full' : '',
+              }}
             />
           </div>
 
-          <PublishPostDialog />
+          <PublishPostDialog isCollapsed={isCollapsed} />
         </div>
       </div>
 

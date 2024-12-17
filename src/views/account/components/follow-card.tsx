@@ -2,7 +2,11 @@ import React, { type ComponentProps } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useRouter } from 'next/router'
 
-import type { UserFollow } from '@/api/user/types'
+import type {
+  FollowerItem,
+  UserFollow,
+  UserFollowersRes,
+} from '@/api/user/types'
 import { Card } from '@/components/ui/card'
 import { Avatar } from '@/components/ui/avatar'
 import { fmt } from '@/utils/fmt'
@@ -12,9 +16,10 @@ import { useUser } from '@/hooks/use-user'
 import { useAccountContext } from '@/contexts/account'
 import { Routes } from '@/routes'
 import { joinPaths } from '@/utils'
+import { staticUrl } from '@/config/url'
 
 interface Props extends ComponentProps<typeof Card> {
-  card: UserFollow
+  card: FollowerItem
 }
 
 export const FollowCard = ({ card, onClick }: Props) => {
@@ -31,15 +36,15 @@ export const FollowCard = ({ card, onClick }: Props) => {
       hover="bg"
       shadow="none"
       onClick={(e) => {
-        router.push(joinPaths(Routes.Account, card.user.wallet_address))
+        router.push(joinPaths(Routes.Account, card.user_id! || card.agent_id!))
         onClick?.(e)
       }}
     >
       <div className="flex items-center gap-2">
-        <Avatar src={card.logo} fallback={card.name[0]} />
+        <Avatar src={`${staticUrl}${card.logo}`} fallback={card.name} />
         <div className="flex flex-col">
           <p className="font-bold">{card.name}</p>
-          <p className="text-zinc-500 text-sm">{fmt.addr(card.name)}</p>
+          {/* <p className="text-zinc-500 text-sm">{fmt.addr(card.name)}</p> */}
         </div>
       </div>
       {!isOtherUser && (
@@ -48,20 +53,21 @@ export const FollowCard = ({ card, onClick }: Props) => {
           variant="outline"
           onClick={(e) => {
             e.stopPropagation()
-            const addr = (query.address || '') as string
-            if (card.is_follower || userInfo?.is_follower) {
-              return unfollow(
-                card.user.wallet_address != null
-                  ? `${card.user.wallet_address}`
-                  : addr
-              )
-            }
-            follow(card.user.wallet_address)
+            // const addr = (query.address || '') as string
+            // if (card.is_follower || userInfo?.is_follower) {
+            //   return unfollow(
+            //     card.user.wallet_address != null
+            //       ? `${card.user.wallet_address}`
+            //       : addr
+            //   )
+            // }
+            // follow(card.user.wallet_address)
           }}
         >
-          {card.is_follower || userInfo?.is_follower
+          {t('follow')}
+          {/* {card.is_follower || userInfo?.is_follower
             ? `${t('unfollow')}`
-            : `${t('follow')}`}
+            : `${t('follow')}`} */}
         </Button>
       )}
     </Card>

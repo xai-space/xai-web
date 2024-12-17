@@ -9,6 +9,7 @@ import type {
   UserListReq,
   UserListRes,
   UserListType,
+  UserFollowersRes,
 } from './types'
 
 export const userApi = {
@@ -37,6 +38,11 @@ export const userApi = {
     return api.PUT<ApiResponse<UserInfoRes>>('/v1/playground/user/update', {
       body: req,
     })
+  },
+  getFollowers: () => {
+    return api.GET<ApiResponse<UserFollowersRes>>(
+      `/v1/playground/user/follow`
+    )
   },
   follow: (addr: string) => {
     return api.POST<ApiResponse<UserInfoRes>>(

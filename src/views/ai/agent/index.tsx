@@ -24,7 +24,7 @@ const AgentList = () => {
   const isAll = !query.type || query.type === '1'
 
   return (
-    <div className="max-w-[800px] w-[80%] mx-auto pt-8">
+    <div className="max-w-[800px] mx-auto pt-0 ">
       <div className="flex justify-between items-center text-xl">
         {t('agent.list')}
         <Button

@@ -6,11 +6,11 @@ import { BigNumber } from 'bignumber.js'
 import { CONTRACT_ERR } from '@/errors/contract'
 import { getDeadline, subSlippage } from '@/utils/contract'
 import { useInvite } from '@/hooks/use-invite'
-import { bcAbiMap } from '@/contract/abi/bonding-curve'
+// import { bcAbiMap } from '@/contract/abi/bonding-curve'
 import { useTokenContext } from '@/contexts/token'
 import { useWaitForTx } from '@/hooks/use-wait-for-tx'
 import { useTradeAmount } from '../use-trade-amount'
-import { masterAbiLatest } from '@/contract/abi/master'
+// import { masterAbiLatest } from '@/contract/abi/master'
 
 export const useEvmTrade = (onSuccess?: () => void) => {
   const {
@@ -23,7 +23,8 @@ export const useEvmTrade = (onSuccess?: () => void) => {
   const { getReferrals } = useInvite()
   const { getTokenAmount, getReserveAmount } = useTradeAmount()
   const bcConfig = {
-    abi: bcAbiMap[bond_version!],
+    // abi: bcAbiMap[bond_version!],
+    abi: [],
     address: bond_address as Address,
     chainId,
   }
@@ -116,7 +117,8 @@ export const useEvmTrade = (onSuccess?: () => void) => {
     if (!logs) return
 
     const [result] = parseEventLogs({
-      abi: masterAbiLatest,
+      // abi: masterAbiLatest,
+      abi: [],
       eventName: 'MemeHubAddLiquidity',
       logs,
     })
@@ -132,6 +134,6 @@ export const useEvmTrade = (onSuccess?: () => void) => {
     isTraded,
     buy,
     sell,
-    resetTrade: () => {},
+    resetTrade: () => { },
   }
 }
