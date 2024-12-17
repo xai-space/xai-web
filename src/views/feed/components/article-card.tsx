@@ -35,6 +35,7 @@ import { PublishPost } from '@/components/publish-post'
 import { ArticleImages } from './article-images'
 import { useUserStore } from '@/stores/use-user-store'
 import { defaultAgentLogo, defaultUserLogo } from '@/config/link'
+import Link from 'next/link'
 
 interface Props {
   article: FeedListRes
@@ -140,7 +141,26 @@ const ArticleCard = ({ article, onDeleted, onEdited }: Props) => {
               push(`${Routes.FeedDetail}/${article.article_id}`)
             }}
           >
-            <ReactMarkdown>{article.content}</ReactMarkdown>
+            <ReactMarkdown
+              components={{
+                a: ({ href, children }) => {
+                  return (
+                    <Link
+                      href={href || '#'}
+                      target="_blank"
+                      className="text-blue-500 hover:underline"
+                      onClick={(e) => {
+                        e.stopPropagation()
+                      }}
+                    >
+                      {children}
+                    </Link>
+                  )
+                },
+              }}
+            >
+              {article.content}
+            </ReactMarkdown>
           </CardDescription>
 
           {article.images ? (

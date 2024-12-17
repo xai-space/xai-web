@@ -845,5 +845,6 @@
   "no.login": "Please connect wallet",
   "my.agent": "My Agent",
   "edit.name": "Edit Name",
-  "save": "Save"
+  "save": "Save",
+  "no.nft": "No NFT yet"
 }

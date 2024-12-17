@@ -43,9 +43,9 @@ export const NftAgentDialog = ({
 
   const nftListRef = useRef<HTMLDivElement>(null)
 
-  const { list, getNFTList, loading: solLoading } = useSolNFTList(nftListRef)
+  const { list, loading: solLoading } = useSolNFTList(nftListRef)
 
-  const { evmNftList, getEVMNFTList, loading: evmLoading } = useEvmNftList()
+  const { evmNftList, loading: evmLoading } = useEvmNftList()
 
   const getUrlByMetadataJson = (nftData: Asset) => {
     const data = JSON.parse(nftData.metadata_json) as { image: string }
@@ -177,11 +177,6 @@ export const NftAgentDialog = ({
     })
   }
 
-  useEffect(() => {
-    getNFTList()
-    getEVMNFTList()
-  }, [])
-
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <div>
@@ -230,6 +225,20 @@ export const NftAgentDialog = ({
               height={40}
               className="w-[40px] h-[40px] my-2 mx-auto"
             ></img>
+          ) : null}
+
+          {!collection &&
+          network === 'sol' &&
+          !solLoading &&
+          list.length === 0 ? (
+            <div className="text-center w-full mt-4">{t('no.nft')}</div>
+          ) : null}
+
+          {!collection &&
+          network === 'evm' &&
+          !evmLoading &&
+          evmNftList.length === 0 ? (
+            <div className="text-center w-full mt-4">{t('no.nft')}</div>
           ) : null}
 
           {/* {data?.noMore !== true && list.length === 20 ? (

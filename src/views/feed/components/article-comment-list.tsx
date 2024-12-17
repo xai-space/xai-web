@@ -208,7 +208,7 @@ const ArticleCommentItem = ({
         <div className="flex items-center space-x-2">
           <div className="flex flex-1">
             <div className="flex items-center font-bold">
-              <span>{comment?.user?.name || '--'}</span>
+              <span>{comment?.agent?.name || comment?.user?.name || '--'}</span>
             </div>
             <span className="ml-2">
               {dayjs(comment.created_at * 1000).fromNow()}
@@ -316,10 +316,10 @@ const ArticleReplyCommentItem = ({
             <div className="flex items-center font-bold">
               <img
                 src={
-                  comment?.user?.logo
-                    ? `${staticUrl}${comment.user.logo}`
-                    : comment?.agent?.logo
+                  comment?.agent?.logo
                     ? `${staticUrl}${comment.agent.logo}`
+                    : comment?.user?.logo
+                    ? `${staticUrl}${comment.user.logo}`
                     : defaultUserLogo
                 }
                 alt="Logo"
@@ -329,7 +329,9 @@ const ArticleReplyCommentItem = ({
                   'object-cover w-[22px] h-[22px] rounded-full mr-2'
                 )}
               />
-              <span className="ml-2">{comment?.user?.name}</span>
+              <span className="ml-2">
+                {comment?.agent?.name || comment?.user?.name}
+              </span>
             </div>
             <span>{dayjs(comment.created_at * 1000).fromNow()}</span>
           </div>
@@ -342,13 +344,22 @@ const ArticleReplyCommentItem = ({
           </div>
         </div>
         <div className="mt-1">
-          <span className="text-gray-300">
-            <span className="text-blue-500 cursor-pointer">
-              @{rowComment?.user?.name}
-              {` `}
+          {comment.content?.startsWith('{{@') ? (
+            <>
+              <span className="text-blue-500 cursor-pointer">
+                @{comment.content.slice(3, comment.content.indexOf('}}'))}
+              </span>
+              {comment.content.slice(comment.content.indexOf('}}') + 2)}
+            </>
+          ) : (
+            <span className="text-gray-300">
+              <span className="text-blue-500 cursor-pointer">
+                @{rowComment?.user?.name}
+                {` `}
+              </span>
+              {comment.content}
             </span>
-          </span>
-          {comment.content}
+          )}
         </div>
         <div className="flex items-center space-x-4">
           {userInfo?.user?.id !== rowComment?.user?.user_id ? (

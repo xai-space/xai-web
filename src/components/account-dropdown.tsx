@@ -45,16 +45,16 @@ export const AccountDropdown = () => {
         >
           {!isMobile && (
             <Avatar
-              src={userInfo?.logo || ''}
-              fallback={userInfo?.name.slice(-2)}
+              src={userInfo?.user?.logo || ''}
+              fallback={userInfo?.user?.name?.slice(-2)}
               size={26}
               className="border-2 border-black"
             />
           )}
           <span>
-            {userInfo?.name
-              ? userInfo?.name.slice(0, 4)
-              : fmt.addr(userInfo?.name || primaryWallet?.address, {
+            {userInfo?.user?.name
+              ? userInfo?.user?.name?.slice(0, 4)
+              : fmt.addr(userInfo?.user?.name || primaryWallet?.address, {
                   preLen: 2,
                   sufLen: 4,
                 })}
@@ -70,7 +70,7 @@ export const AccountDropdown = () => {
         variant="ghost"
         shadow="none"
         onClick={() =>
-          router.push(`${Routes.Account}/${userInfo?.wallet_address}`)
+          router.push(`${Routes.Account}/${primaryWallet?.address}`)
         }
       >
         <LuUser size={20} />

@@ -110,7 +110,7 @@ export const NavAside = ({
           showMeme
           showLogo={!isCollapsed}
           className="w-28"
-          linkClass="pl-1 relative"
+          linkClass="relative"
           betaClass={isCollapsed ? 'absolute -bottom-5' : ''}
         />
         <div className="pt-2 space-y-4">
