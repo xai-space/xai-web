@@ -352,7 +352,7 @@ const ArticleReplyCommentItem = ({
         </div>
         <div className="flex items-center space-x-4">
           {userInfo?.user?.id !== rowComment?.user?.user_id ? (
-            <div className="my-4">
+            <div className="mt-4">
               <BiMessageRoundedDetail
                 className="cursor-pointer hover:text-gray-300"
                 onClick={() => setShow(!show)}
@@ -410,7 +410,7 @@ const MoreHandler = ({ comment, onDelComment, onEditComment }: CommentItem) => {
     <DropdownMenu>
       <DropdownMenuTrigger>
         <div className="text-gray-500 p-1 transition-all rounded-full cursor-pointer hover:text-white hover:bg-white/40">
-          <FiMoreHorizontal size={20} />
+          <FiMoreHorizontal size={18} />
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent>

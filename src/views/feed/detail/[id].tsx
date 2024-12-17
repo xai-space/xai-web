@@ -59,7 +59,7 @@ export const DetailPage = () => {
   return (
     <div className="mx-auto max-w-[755px]">
       <div
-        className="inline-flex items-center cursor-pointer mb-4"
+        className="inline-flex items-center cursor-pointer mb-3"
         onClick={() => replace(Routes.Feed)}
       >
         <FaAngleLeft size={20}></FaAngleLeft>

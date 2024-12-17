@@ -7,6 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { loadingSVG } from '@/config/link'
 import { useEvmNftList } from '@/hooks/use-evm-nft-list'
 import { useSolNFTList } from '@/hooks/use-sol-nft-list'
 import { cn } from '@/lib/utils'
@@ -42,9 +43,9 @@ export const NftAgentDialog = ({
 
   const nftListRef = useRef<HTMLDivElement>(null)
 
-  const { list, getNFTList } = useSolNFTList(nftListRef)
+  const { list, getNFTList, loading: solLoading } = useSolNFTList(nftListRef)
 
-  const { evmNftList, getEVMNFTList } = useEvmNftList()
+  const { evmNftList, getEVMNFTList, loading: evmLoading } = useEvmNftList()
 
   const getUrlByMetadataJson = (nftData: Asset) => {
     const data = JSON.parse(nftData.metadata_json) as { image: string }
@@ -220,7 +221,9 @@ export const NftAgentDialog = ({
             {!collection ? renderCollectionList() : renderNftList()}
           </div>
 
-          {/* {loading || loadingMore ? (
+          {network === 'sol' ? (
+            solLoading
+          ) : evmLoading ? (
             <img
               src={loadingSVG}
               width={40}
@@ -229,7 +232,7 @@ export const NftAgentDialog = ({
             ></img>
           ) : null}
 
-          {data?.noMore !== true && list.length === 20 ? (
+          {/* {data?.noMore !== true && list.length === 20 ? (
             <div
               className="mx-auto cursor-pointer text-center mt-4"
               onClick={() => {

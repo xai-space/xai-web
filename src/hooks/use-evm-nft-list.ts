@@ -5,7 +5,10 @@ export const useEvmNftList = () => {
     const [evmNftList, setNetworkNftList] = useState<NetworkNFTList[]>([])
     const address = '0x2192c06a46f2c0f851fbac993413ca49735160cc'
 
+    const [loading, setLoading] = useState(false)
+
     const getEVMNFTList = async () => {
+        setLoading(true)
         const { data } = await (await fetch(`https://restapi.nftscan.com/api/v2/assets/chain/${address}?chain=eth;bnb;polygon;arbitrum;optimism;zksync;linea;avalanche;fantom`, {
             headers: {
                 'X-API-KEY': 'zoDxKTSDDE2ELEm5SjWhpNsx'
@@ -21,11 +24,13 @@ export const useEvmNftList = () => {
         })
 
         setNetworkNftList(collectionAssets)
+        setLoading(false)
     }
 
 
     return {
         evmNftList,
         getEVMNFTList,
+        loading,
     }
 }

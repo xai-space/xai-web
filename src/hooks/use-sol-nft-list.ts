@@ -9,6 +9,8 @@ export const useSolNFTList = (nftListRef: React.RefObject<HTMLDivElement>) => {
     const [list, setList] = useState<NetworkNFTList[]
     >([])
     let limit = 20
+    const [loading, setLoading] = useState(false)
+    const [loadingMore, setLoadingMore] = useState(false)
 
     const umi = createUmi(
         'https://maximum-crimson-spring.solana-mainnet.quiknode.pro/a6dab9a89e264894d6e1b914715a09b4befce3f6'
@@ -61,6 +63,7 @@ export const useSolNFTList = (nftListRef: React.RefObject<HTMLDivElement>) => {
     // })
 
     const getNFTList = async () => {
+        setLoading(true)
         const address = '2Whhi93Ckub7Sc9DViCLTpKS4bdDy9zv3ctxEJAa7J6D'
 
         // getSolanaNFTAsset()
@@ -87,6 +90,7 @@ export const useSolNFTList = (nftListRef: React.RefObject<HTMLDivElement>) => {
         } as NetworkNFTList
 
         setList([list])
+        setLoading(false)
     }
 
 
@@ -95,7 +99,7 @@ export const useSolNFTList = (nftListRef: React.RefObject<HTMLDivElement>) => {
         getNFTList,
         setList,
         // data,
-        // loading,
-        // loadingMore,
+        loading,
+        loadingMore,
     }
 }
