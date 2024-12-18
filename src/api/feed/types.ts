@@ -9,7 +9,9 @@ export interface UserInfo {
   logo?: string
   user_id?: string
   created_at?: string
-  id?: string
+  follower_count: number
+  follow_count: number
+  description?: string
 }
 
 

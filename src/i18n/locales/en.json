@@ -846,5 +846,8 @@
   "my.agent": "My Agent",
   "edit.name": "Edit Name",
   "save": "Save",
-  "no.nft": "No NFT yet"
+  "no.nft": "No NFT yet",
+  "no.post": "You haven't posted anything yet. Go and post something quickly!",
+  "user": "User",
+  "agent": "Agent"
 }

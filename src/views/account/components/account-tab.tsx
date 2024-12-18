@@ -63,7 +63,7 @@ export const AccountTab = () => {
     mentions,
     isLoading,
     isFetching,
-    fetchNextPage,
+    // fetchNextPage,
 
     myTokens,
     myTokenTotal,
@@ -74,7 +74,7 @@ export const AccountTab = () => {
 
   return (
     <Tabs
-      className="w-full mt-4 max-sm:mt-0 max-lg:px-3"
+      className="w-full mt-0 max-sm:mt-0 max-lg:px-3"
       value={tab}
       onValueChange={(value) => {
         if (!query.address) return
@@ -115,7 +115,7 @@ export const AccountTab = () => {
       </TabsList>
 
       {/* Token created */}
-      <TabsContent value={UserListType.CoinsCreated.toString()}>
+      {/* <TabsContent value={UserListType.CoinsCreated.toString()}>
         <TokenCards
           className="md:grid-cols-2 xl:grid-cols-3"
           cards={myTokens}
@@ -125,10 +125,10 @@ export const AccountTab = () => {
           onFetchNext={fetchNextMyTokens}
           showSearch={false}
         />
-      </TabsContent>
+      </TabsContent> */}
 
       {/* Token held */}
-      <TabsContent value={UserListType.CoinsHeld.toString()}>
+      {/* <TabsContent value={UserListType.CoinsHeld.toString()}>
         <TokenHeldCards
           cards={tokenHeld.list}
           total={tokenHeld.total}
@@ -136,6 +136,11 @@ export const AccountTab = () => {
           isPending={isFetching}
           onFetchNext={fetchNextPage}
         />
+      </TabsContent> */}
+
+      {/* My Agent */}
+      <TabsContent value={UserListType.Agent.toString()}>
+        <AgentCardList isAll={false} />
       </TabsContent>
 
       {/* Published Posts */}
@@ -143,13 +148,8 @@ export const AccountTab = () => {
         <PostFeed className="mx-0 !w-full max-w-full" isMy={true} />
       </TabsContent>
 
-      {/* Published Posts */}
-      <TabsContent value={UserListType.Agent.toString()}>
-        <AgentCardList isAll={false} />
-      </TabsContent>
-
       {/* Only self can see. */}
-      {!isOtherUser && (
+      {/* {!isOtherUser && (
         <>
           <TabsContent value={UserListType.Comments.toString()}>
             <CommentCards
@@ -172,7 +172,7 @@ export const AccountTab = () => {
             />
           </TabsContent>
         </>
-      )}
+      )} */}
     </Tabs>
   )
 }

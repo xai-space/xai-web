@@ -16,6 +16,11 @@ import { useTranslation } from 'react-i18next'
 import { FaCheck } from 'react-icons/fa6'
 import { FaChevronLeft } from 'react-icons/fa6'
 
+enum Network {
+  EVM = 'evm',
+  SOL = 'sol',
+}
+
 interface Props {
   open: boolean
   nftInfo: NftInfo | undefined
@@ -36,14 +41,12 @@ export const NftAgentDialog = ({
   setNftInfo,
 }: Props) => {
   const { t } = useTranslation()
-  const [network, setNetwork] = useState('evm')
-
-  const [showCollection, setShowCollection] = useState<string>('')
+  const [network, setNetwork] = useState(Network.EVM)
   const [collection, setCollection] = useState<NFTInfo>()
 
   const nftListRef = useRef<HTMLDivElement>(null)
 
-  const { list, loading: solLoading } = useSolNFTList(nftListRef)
+  const { solList, loading: solLoading } = useSolNFTList(nftListRef)
 
   const { evmNftList, loading: evmLoading } = useEvmNftList()
 
@@ -73,7 +76,7 @@ export const NftAgentDialog = ({
       const imageUrl = getUrlByMetadataJson(item)
 
       const handleCollectionNmae = () => {
-        if (network === 'evm') {
+        if (network === Network.EVM) {
           return `${item.contract_name}${
             typeof item.token_id === 'string' ? `#${item.token_id}` : ''
           }`
@@ -140,7 +143,7 @@ export const NftAgentDialog = ({
   }
 
   const renderCollectionList = () => {
-    return (network === 'evm' ? evmNftList : list).map((item, i) => {
+    return (network === Network.EVM ? evmNftList : solList).map((item, i) => {
       return item.collection_assets.map((_collection, i) => {
         return (
           <div
@@ -186,15 +189,15 @@ export const NftAgentDialog = ({
             defaultValue={network}
             onValueChange={(n) => {
               setCollection(undefined)
-              setNetwork(n)
+              setNetwork(n as Network)
             }}
           >
             <SelectTrigger className="w-[115px]">
               <SelectValue placeholder="Theme" className="w-[115px]" />
             </SelectTrigger>
             <SelectContent className="w-[115px]">
-              <SelectItem value="evm">EVM</SelectItem>
-              <SelectItem value="sol">SOL</SelectItem>
+              <SelectItem value={Network.EVM}>EVM</SelectItem>
+              <SelectItem value={Network.SOL}>SOL</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -216,7 +219,7 @@ export const NftAgentDialog = ({
             {!collection ? renderCollectionList() : renderNftList()}
           </div>
 
-          {network === 'sol' ? (
+          {network === Network.SOL ? (
             solLoading
           ) : evmLoading ? (
             <img
@@ -228,14 +231,14 @@ export const NftAgentDialog = ({
           ) : null}
 
           {!collection &&
-          network === 'sol' &&
+          network === Network.SOL &&
           !solLoading &&
-          list.length === 0 ? (
+          solList.length === 0 ? (
             <div className="text-center w-full mt-4">{t('no.nft')}</div>
           ) : null}
 
           {!collection &&
-          network === 'evm' &&
+          network === Network.EVM &&
           !evmLoading &&
           evmNftList.length === 0 ? (
             <div className="text-center w-full mt-4">{t('no.nft')}</div>

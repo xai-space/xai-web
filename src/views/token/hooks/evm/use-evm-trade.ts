@@ -112,14 +112,13 @@ export const useEvmTrade = (onSuccess?: () => void) => {
     })
   }
 
-  // Listen `MemeHubAddLiquidity` event logs
   useEffect(() => {
     if (!logs) return
 
     const [result] = parseEventLogs({
       // abi: masterAbiLatest,
       abi: [],
-      eventName: 'MemeHubAddLiquidity',
+      eventName: 'XAIAddLiquidity',
       logs,
     })
     if (!result) return

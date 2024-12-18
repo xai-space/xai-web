@@ -37,7 +37,7 @@ const AgentList = () => {
         </Button>
       </div>
 
-      {userInfo?.user?.id && (
+      {userInfo?.user_id && (
         <div className="flex mt-1">
           <Button
             className="!px-8"
@@ -52,7 +52,7 @@ const AgentList = () => {
             className="ml-5 !px-8"
             variant={!isAll ? 'purple' : 'secondary'}
             onClick={(e) => {
-              if (!userInfo?.user?.id) {
+              if (!userInfo?.user_id) {
                 toast.error(t('no.login'))
                 return
               }

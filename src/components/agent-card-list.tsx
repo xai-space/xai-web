@@ -44,8 +44,8 @@ export const AgentCardList = ({ isAll }: AgentCardListProps) => {
       limit: 20,
     }
 
-    if (!isAll && userInfo?.user?.id) {
-      bodyData.user_id = userInfo?.user?.id
+    if (!isAll && userInfo?.user_id) {
+      bodyData.user_id = userInfo?.user_id
     }
 
     const { data } = await aiApi.getAgentList(bodyData)
@@ -152,7 +152,7 @@ export const AgentCardList = ({ isAll }: AgentCardListProps) => {
                       {agent.description}
                     </div>
                     <div className="text-gray-400 text-sm">
-                      {/* @{agent.user_id} */}
+                      {/* @{agent.id} */}
                     </div>
                   </div>
                 </div>

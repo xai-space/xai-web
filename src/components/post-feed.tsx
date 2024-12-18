@@ -8,6 +8,9 @@ import { FeedList, FeedListRes } from '@/api/feed/types'
 import { FC, useEffect } from 'react'
 import { cn } from '@/lib/utils'
 import { useUserInfo } from '@/hooks/use-user-info'
+import { useTranslation } from 'react-i18next'
+import { PublishPost } from './publish-post'
+import { PublishPostDialog } from './publish-post-dialog'
 
 interface Result {
   list: FeedListRes[]
@@ -21,6 +24,7 @@ interface Props {
 
 export const PostFeed = ({ className, isMy = false }: Props) => {
   // const { data, isFetching, isLoading, fetchNextPage } = useFeeds()
+  const { t } = useTranslation()
   const { feedList, setFeedList } = useArticleStore()
   const { userInfo } = useUserInfo()
 
@@ -32,8 +36,17 @@ export const PostFeed = ({ className, isMy = false }: Props) => {
       limit: 10,
     }
 
-    if (isMy && userInfo?.user?.id) {
-      bodyData.user_id = userInfo?.user?.id
+    console.log('userInfo', userInfo?.user_id)
+
+    if (isMy) {
+      if (userInfo?.user_id) {
+        bodyData.user_id = userInfo?.user_id
+      } else {
+        return {
+          list: [],
+          noMore: true,
+        }
+      }
     }
 
     const { data } = await feedApi.getList(bodyData)
@@ -64,13 +77,27 @@ export const PostFeed = ({ className, isMy = false }: Props) => {
   }
 
   useEffect(() => {
-    if (isMy && userInfo?.user?.id) {
+    if (isMy && userInfo?.user_id) {
       mutate({
         list: [],
         noMore: true,
       })
     }
   }, [isMy, userInfo])
+
+  if (feedList.length === 0 && !loading && !loadingMore) {
+    return (
+      <div className="flex h-full mt-4">
+        {isMy ? (
+          <div>
+            <div>{t('no.post')}</div>
+          </div>
+        ) : (
+          <FeedAsiade />
+        )}
+      </div>
+    )
+  }
 
   return (
     <div
@@ -85,9 +112,6 @@ export const PostFeed = ({ className, isMy = false }: Props) => {
         />
       ))}
       {(loading || loadingMore) && <ListLoading />}
-      <div>
-        <FeedAsiade />
-      </div>
     </div>
   )
 }

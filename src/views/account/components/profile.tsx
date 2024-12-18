@@ -17,7 +17,6 @@ import { useResponsive } from '@/hooks/use-responsive'
 import AccountInfoMoblie from './account-info-mobile'
 
 export interface AccountInfoProps {
-  userInfo: UserInfoRes | undefined
   isOtherUser: boolean
   isFollowing: boolean
   isUnfollowing: boolean
@@ -68,7 +67,6 @@ export const Profile = () => {
       <div className="bg-background px-2 pt-2 relative after:absolute after:w-full after:h-px after:bg-border after:bottom-5 after:left-0">
         {!isPad ? (
           <AccountInfoDesktop
-            userInfo={userInfo}
             isOtherUser={isOtherUser}
             isFollowing={isFollowing}
             isUnfollowing={isUnfollowing}
@@ -80,7 +78,6 @@ export const Profile = () => {
           />
         ) : (
           <AccountInfoMoblie
-            userInfo={userInfo}
             isOtherUser={isOtherUser}
             isFollowing={isFollowing}
             isUnfollowing={isUnfollowing}

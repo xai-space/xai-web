@@ -65,13 +65,15 @@ export const useUserInfo = (addr?: string) => {
 
 
   useEffect(() => {
-    if (isLoggedIn) {
+    console.log('isLoggedIn refetchUserInfo')
+    if (isLoggedIn && !isFetchingUserInfo && !userInfo?.user_id) {
       refetchUserInfo()
-    } else {
-      if (userInfo?.user?.id) {
-        setUserInfo(null)
-        router.push('/')
-      }
+      return
+    }
+
+    if (!isLoggedIn && userInfo?.user_id) {
+      setUserInfo(null)
+      router.push('/')
     }
   }, [isLoggedIn])
 

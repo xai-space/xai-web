@@ -7,6 +7,14 @@ export interface AIMemeInfo {
   background?: string
 }
 
+export interface AgentInfoData {
+  agent_id: string
+  description?: string
+  logo: string
+  name: string
+  user_id: string
+}
+
 export interface AIMemeInfoQuery {
   input: string
   type?: 1 | 0

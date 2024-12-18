@@ -45,16 +45,16 @@ export const AccountDropdown = () => {
         >
           {!isMobile && (
             <Avatar
-              src={userInfo?.user?.logo || ''}
-              fallback={userInfo?.user?.name?.slice(-2)}
+              src={userInfo?.logo || ''}
+              fallback={userInfo?.name?.slice(-2)}
               size={26}
               className="border-2 border-black"
             />
           )}
           <span>
-            {userInfo?.user?.name
-              ? userInfo?.user?.name?.slice(0, 4)
-              : fmt.addr(userInfo?.user?.name || primaryWallet?.address, {
+            {userInfo?.name
+              ? userInfo?.name?.slice(0, 4)
+              : fmt.addr(userInfo?.name || primaryWallet?.address, {
                   preLen: 2,
                   sufLen: 4,
                 })}

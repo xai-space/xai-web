@@ -150,11 +150,11 @@ export const PublishPost = ({ editArticle, onPosted }: Props) => {
         <Avatar
           src={
             isCreate
-              ? userInfo?.user?.logo
-                ? `${staticUrl}${userInfo?.user?.logo}`
+              ? userInfo?.logo
+                ? `${staticUrl}${userInfo?.logo}`
                 : defaultUserLogo
-              : editArticle2?.user?.logo
-              ? `${staticUrl}${editArticle2?.user?.logo}`
+              : editArticle2?.logo
+              ? `${staticUrl}${editArticle2?.logo}`
               : defaultAgentLogo
           }
           alt="Logo"

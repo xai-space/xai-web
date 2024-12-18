@@ -12,7 +12,7 @@ import { Label } from '@/components/ui/label'
 import { useResponsive } from '@/hooks/use-responsive'
 import { useUploadImage } from '@/hooks/use-upload-image'
 import { cn } from '@/lib/utils'
-import { defaultAgentLogo, defaultUserLogo } from '@/config/link'
+import { defaultUserLogo } from '@/config/link'
 import { useUserStore } from '@/stores/use-user-store'
 import { staticUrl } from '@/config/url'
 
@@ -34,12 +34,10 @@ export const AccountAvatar = ({
   const { userInfo } = useUserStore()
   const inputRef = useRef<HTMLInputElement>(null)
 
-  console.log(userInfo?.user)
-
   const { onChangeUpload, clearFile } = useUploadImage({
     inputEl: inputRef.current,
     onSuccess: (url) =>
-      update({ logo: url?.[0]?.url, name: userInfo?.user?.name }).then(() =>
+      update({ logo: url?.[0]?.url, name: userInfo?.name }).then(() =>
         refetchUserInfo()
       ),
   })
@@ -53,7 +51,7 @@ export const AccountAvatar = ({
         contentProps={{ className: 'max-w-[40vw]' }}
       >
         <img
-          src={userInfo?.user?.logo}
+          src={userInfo?.logo}
           alt="avatar"
           className="w-full h-full object-fill"
         />
@@ -70,16 +68,14 @@ export const AccountAvatar = ({
         )}
         onClick={() => {
           clearFile()
-          if (isOtherUser && !isEmpty(userInfo?.user?.logo)) {
+          if (isOtherUser && !isEmpty(userInfo?.logo)) {
             setOpen(true)
           }
         }}
       >
         <Avatar
           src={
-            userInfo?.user?.logo
-              ? `${staticUrl}${userInfo?.user?.logo}`
-              : defaultUserLogo
+            userInfo?.logo ? `${staticUrl}${userInfo?.logo}` : defaultUserLogo
           }
           // fallback={userInfo?.wallet_address.slice(-4)}
           size={128}

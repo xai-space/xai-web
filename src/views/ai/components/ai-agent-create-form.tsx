@@ -8,7 +8,6 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
   DropdownMenuItem,
-  DropdownMenuPortal,
 } from '@/components/ui/dropdown-menu'
 import { Label } from '@/components/ui/label'
 import { createField, useFields } from '@/hooks/use-fields'
@@ -89,7 +88,7 @@ export const AIAgentCreateForm = () => {
       const { data } = await aiApi.createAgent({
         name: fields.name.value,
         is_public: fields.isPublic.value,
-        logo: Array.isArray(url) ? url[0] : url || '',
+        logo: url?.[0].url || '',
         greeting: fields.greeting.value,
         instructions: [],
         description: fields.desc.value,

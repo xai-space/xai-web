@@ -8,7 +8,7 @@ import { PublicKey } from "@metaplex-foundation/js";
 
 
 export const useSolNFTList = (nftListRef: React.RefObject<HTMLDivElement>) => {
-    const [list, setList] = useState<NetworkNFTList[]
+    const [solList, setSolList] = useState<NetworkNFTList[]
     >([])
     let limit = 20
     const [loading, setLoading] = useState(false)
@@ -86,13 +86,13 @@ export const useSolNFTList = (nftListRef: React.RefObject<HTMLDivElement>) => {
             return !!item.logo_url && item.items_total >= 1000 && item.collection && item.description && item.logo_url
         })
 
-        const list = {
-            chain: 'sol',
-            exceed_max_items: false,
-            collection_assets: collectionAssets
-        } as NetworkNFTList
-
-        setList([list])
+        if (collectionAssets.length) {
+            setSolList([{
+                chain: 'sol',
+                exceed_max_items: false,
+                collection_assets: collectionAssets
+            }])
+        }
         setLoading(false)
     }
 
@@ -107,9 +107,9 @@ export const useSolNFTList = (nftListRef: React.RefObject<HTMLDivElement>) => {
     }, [primaryWallet])
 
     return {
-        list,
+        solList,
         getNFTList,
-        setList,
+        setSolList,
         // data,
         loading,
         loadingMore,

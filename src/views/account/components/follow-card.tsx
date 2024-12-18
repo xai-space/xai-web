@@ -2,14 +2,9 @@ import React, { type ComponentProps } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useRouter } from 'next/router'
 
-import type {
-  FollowerItem,
-  UserFollow,
-  UserFollowersRes,
-} from '@/api/user/types'
+import { UserCategory, type FollowItem } from '@/api/user/types'
 import { Card } from '@/components/ui/card'
 import { Avatar } from '@/components/ui/avatar'
-import { fmt } from '@/utils/fmt'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useUser } from '@/hooks/use-user'
@@ -18,17 +13,21 @@ import { Routes } from '@/routes'
 import { joinPaths } from '@/utils'
 import { staticUrl } from '@/config/url'
 
-interface Props extends ComponentProps<typeof Card> {
-  card: FollowerItem
+export enum CardType {
+  following = 'following',
+  follower = 'follower',
 }
 
-export const FollowCard = ({ card, onClick }: Props) => {
+interface Props extends ComponentProps<typeof Card> {
+  card: FollowItem
+  cardType: CardType
+}
+
+export const FollowCard = ({ card, cardType, onClick }: Props) => {
   const { t } = useTranslation()
   const { query, ...router } = useRouter()
   const { userInfo, refetchFollow, isOtherUser } = useAccountContext()
-  const { follow, unfollow } = useUser({
-    onFollowSuccess: refetchFollow,
-  })
+  const { handleFollow, isHandling } = useUser()
 
   return (
     <Card
@@ -44,32 +43,33 @@ export const FollowCard = ({ card, onClick }: Props) => {
         <Avatar src={`${staticUrl}${card.logo}`} fallback={card.name} />
         <div className="flex flex-col">
           <p className="font-bold">{card.name}</p>
+          <p className="text-gray-500 text-sm truncate">{card.description}</p>
+
           {/* <p className="text-zinc-500 text-sm">{fmt.addr(card.name)}</p> */}
         </div>
       </div>
-      {!isOtherUser && (
+      {/* {!isOtherUser && (
         <Button
           size="xs"
           variant="outline"
-          onClick={(e) => {
+          onClick={async (e) => {
             e.stopPropagation()
-            // const addr = (query.address || '') as string
-            // if (card.is_follower || userInfo?.is_follower) {
-            //   return unfollow(
-            //     card.user.wallet_address != null
-            //       ? `${card.user.wallet_address}`
-            //       : addr
-            //   )
-            // }
-            // follow(card.user.wallet_address)
+            await handleFollow({
+              status: card.is_followed ? 0 : 1,
+              category: card.agent_id!
+                ? UserCategory.Agent
+                : UserCategory.User,
+              target_id: card.agent_id! || card.user_id!,
+            })
           }}
         >
-          {t('follow')}
-          {/* {card.is_follower || userInfo?.is_follower
-            ? `${t('unfollow')}`
-            : `${t('follow')}`} */}
+          {cardType === CardType.follower
+            ? card.is_followed
+              ? `${t('unfollow')}`
+              : `${t('follow')}`
+            : '这个不是粉丝列表'}
         </Button>
-      )}
+      )} */}
     </Card>
   )
 }

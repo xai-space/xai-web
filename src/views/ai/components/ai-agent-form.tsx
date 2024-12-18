@@ -414,7 +414,7 @@ export const AIAgentForm = ({ isCreate }: Props) => {
             onClick={(e) => {
               e.preventDefault()
 
-              if (!userInfo?.user?.id) {
+              if (!userInfo?.user_id) {
                 toast.error(t('no.login'))
                 return
               }

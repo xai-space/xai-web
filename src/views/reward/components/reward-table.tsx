@@ -22,7 +22,7 @@ export const RewardTable = ({ className }: ComponentProps<'h2'>) => {
     isLoading,
     fetchNextPage,
   } = useInfiniteQuery({
-    queryKey: [inviteApi.getRewardList.name, userInfo?.id],
+    queryKey: [inviteApi.getRewardList.name, userInfo?.user_id],
     queryFn: ({ pageParam }) => {
       return inviteApi.getRewardList({
         page: pageParam,

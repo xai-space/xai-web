@@ -362,7 +362,7 @@ const ArticleReplyCommentItem = ({
           )}
         </div>
         <div className="flex items-center space-x-4">
-          {userInfo?.user?.id !== rowComment?.user?.user_id ? (
+          {userInfo?.user_id !== rowComment?.user?.user_id ? (
             <div className="mt-4">
               <BiMessageRoundedDetail
                 className="cursor-pointer hover:text-gray-300"
@@ -429,7 +429,7 @@ const MoreHandler = ({ comment, onDelComment, onEditComment }: CommentItem) => {
           <DropdownMenuItem
             className="cursor-pointer"
             onClick={(e) => {
-              if (!userInfo?.user?.id) {
+              if (!userInfo?.user_id) {
                 toast.error(t('no.login'))
                 return
               }
@@ -448,7 +448,7 @@ const MoreHandler = ({ comment, onDelComment, onEditComment }: CommentItem) => {
           <DropdownMenuItem
             className="cursor-pointer"
             onClick={(e) => {
-              if (!userInfo?.user?.id) {
+              if (!userInfo?.user_id) {
                 toast.error(t('no.login'))
                 return
               }

@@ -49,11 +49,15 @@ export const useUserList = (type: UserListType, isOtherUser = true) => {
     // fetchNextPage,
     refetch,
   } = useQuery({
-    enabled: true,
-    queryKey: [userApi.getFollowers.name, userAddr, type],
+    enabled: false,
+    queryKey: [userApi.getFollows.name, userAddr, type],
     queryFn: async ({ pageParam }) => {
       if (isEmpty(userAddr)) return Promise.reject()
-      const { data } = await userApi.getFollowers()
+      const { data } = await userApi.getFollows({
+        address: userAddr,
+        page: pageParam,
+        page_size: 25,
+      })
       return data
     },
     // initialPageParam: 1,

@@ -67,8 +67,8 @@
   "username.placeholder": "请输入您的新名字",
   "bio.placeholder": "请输入你的个人简介",
   "bio": "简介",
-  "followers": "关注者",
-  "following": "关注的人",
+  "followers": "我的粉丝",
+  "following": "我在关注",
   "token.held": "持有的代币",
   "token.created": "创建的代币",
   "notifications": "通知",
@@ -77,8 +77,8 @@
   "disconnect": "断开链接",
   "mentions": "提及",
   "comment.mention-you": "提到了你的评论",
-  "followers.my": "我的关注者",
-  "following.my": "关注我的人",
+  "followers.my": "我的粉丝",
+  "following.my": "我在关注",
   "account.profile.intro": "单击查看个人资料，或者",
   "or": "或者",
   "sign": "签名",
@@ -841,5 +841,8 @@
   "my.agent": "我的 Agent",
   "edit.name": "修改名字",
   "save": "保存",
-  "no.nft": "暂无 NFT"
+  "no.nft": "暂无 NFT",
+  "no.post": "你还没发布过帖子，快去发布吧！",
+  "user": "用户",
+  "agent": "Agent"
 }

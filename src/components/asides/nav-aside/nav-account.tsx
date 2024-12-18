@@ -37,11 +37,7 @@ export const NavAccount = ({
       return (
         <NavAccountPopover>
           <Avatar
-            src={
-              userInfo?.user?.logo
-                ? `${staticUrl}${userInfo?.user?.logo}`
-                : avatar
-            }
+            src={userInfo?.logo ? `${staticUrl}${userInfo?.logo}` : avatar}
             className="rounded-full w-10 h-10"
           />
         </NavAccountPopover>
@@ -58,17 +54,13 @@ export const NavAccount = ({
         >
           <Avatar
             src={
-              userInfo?.user?.logo
-                ? `${staticUrl}${userInfo?.user?.logo}`
-                : defaultUserLogo
+              userInfo?.logo ? `${staticUrl}${userInfo?.logo}` : defaultUserLogo
             }
             className="rounded-full w-12 h-12"
           />
           <div className="flex flex-col space-y-1">
             <div className="text-sm ml-2 font-semibold line-clamp-1 break-all">
-              {userInfo?.user?.name ||
-                primaryWallet?.address.slice(0, 4) ||
-                '--'}
+              {userInfo?.name || primaryWallet?.address.slice(0, 4) || '--'}
             </div>
             <span className="text-xs ml-2 text-gray-500">
               {fmt.addr(primaryWallet?.address)}

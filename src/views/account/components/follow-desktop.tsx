@@ -15,12 +15,14 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
+import { useUserStore } from '@/stores/use-user-store'
 
 export const FollowDesktop = () => {
   const { t } = useTranslation()
   const [tab, setTab] = useState(UserListType.Following)
   const { isOtherUser, followers, followingResults, refetchFollow } =
     useAccountContext()
+  const { userInfo } = useUserStore()
   // const {
   //   agent,
   //   user,
@@ -28,8 +30,6 @@ export const FollowDesktop = () => {
   //   // isLoading: isLoadingFollowers,
   //   // isFetching: isFetchingFollowers,
   // } = followersResults
-
-  console.log(followers)
 
   const {
     following,
@@ -54,10 +54,7 @@ export const FollowDesktop = () => {
             className="shadow-none pl-0 !border-none"
           >
             <span className="space-x-1 text-base">
-              <span className="font-bold">
-                {(followers?.agent?.length ?? 0) +
-                  (followers?.user?.length ?? 0)}
-              </span>
+              <span className="font-bold">{userInfo?.follower_count ?? 0}</span>
               <span className="text-blue-600">{t('followers')}</span>
             </span>
           </Button>
@@ -71,7 +68,7 @@ export const FollowDesktop = () => {
             className="shadow-none !border-none"
           >
             <span className="space-x-1 text-base">
-              <span className="font-bold ">{following.total}</span>
+              <span className="font-bold ">{userInfo?.follow_count ?? 0}</span>
               <span className="text-blue-600">{t('following')}</span>
             </span>
           </Button>
@@ -93,30 +90,17 @@ export const FollowDesktop = () => {
               : t('following')}
           </DialogTitle>
         </DialogHeader>
-        <FollowersCards
-          cards={followers}
+        {/* <FollowersCards
           // total={following.total}
           // isLoading={isLoadingFollowers}
           // isPending={isFetchingFollowers}
           onCardClick={() => closeRef.current?.click()}
-        />
-        {/* {isFollowers ? (
-          <FollowersCards
-            cards={following}
-            // total={following.total}
-            // isLoading={isLoadingFollowers}
-            // isPending={isFetchingFollowers}
-            onCardClick={() => closeRef.current?.click()}
-          />
+        /> */}
+        {isFollowers ? (
+          <FollowersCards onCardClick={() => closeRef.current?.click()} />
         ) : (
-          <FollowingCards
-            cards={following.list}
-            total={followers.total}
-            isLoading={isLoadingFollowing}
-            isPending={isFetchingFollowing}
-            onCardClick={() => closeRef.current?.click()}
-          />
-        )} */}
+          <FollowingCards onCardClick={() => closeRef.current?.click()} />
+        )}
       </DialogContent>
     </Dialog>
   )

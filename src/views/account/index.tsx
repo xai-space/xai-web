@@ -11,7 +11,7 @@ import { UserListType } from '@/api/user/types'
 import { PrimaryLayout } from '@/components/layouts/primary'
 import Profile from './components/profile'
 import { useDynamicContext } from '@dynamic-labs/sdk-react-core'
-import { useUserFollow } from './hooks/use-user-follwer'
+import { useUserFollowingList } from './hooks/use-user-follwing-list'
 
 export const AccountPage = () => {
   const { query } = useRouter()
@@ -28,15 +28,13 @@ export const AccountPage = () => {
   // const currenUserAddr = String(userInfo?.wallet_address || '')
   const currenUserAddr = primaryWallet?.address
   const isOtherUser = tokenAddr !== currenUserAddr
-  const followersResults = useUserList(UserListType.Followers)
-  const followingResults = useUserList(UserListType.Following)
+  // const followersResults = useUserList(UserListType.Followers)
+  // const followingResults = useUserList(UserListType.Following)
 
-  const { followers } = useUserFollow()
-
-  const refetchFollow = () => {
-    followersResults.refetch()
-    followingResults.refetch()
-  }
+  // const refetchFollow = () => {
+  //   followersResults.refetch()
+  //   followingResults.refetch()
+  // }
 
   return (
     <AccountProvider
@@ -45,9 +43,9 @@ export const AccountPage = () => {
         isPending: isFetchingUserInfo,
         isOtherUser: isOtherUser,
         refetchUserInfo: refetchUserInfo,
-        followers: followers,
-        followingResults,
-        refetchFollow,
+        // followers: agentFollowers,
+        followingResults: () => {},
+        refetchFollow: () => {},
       }}
     >
       <div className="flex-1 min-h-main flex gap-2 flex-col overflow-auto max-w-[800px] mx-auto">
