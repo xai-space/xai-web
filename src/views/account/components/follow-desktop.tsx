@@ -22,7 +22,7 @@ export const FollowDesktop = () => {
   const [tab, setTab] = useState(UserListType.Following)
   const { isOtherUser, followers, followingResults, refetchFollow } =
     useAccountContext()
-  const { userInfo } = useUserStore()
+  const { userInfo, otherUserInfo } = useUserStore()
   // const {
   //   agent,
   //   user,
@@ -43,7 +43,7 @@ export const FollowDesktop = () => {
     <Dialog>
       <div
         className="flex items-center justify-start"
-        style={{ margin: '0 10px 10px 10px' }}
+        style={{ margin: '0 10px 10px 0px' }}
       >
         <DialogTrigger asChild>
           <Button
@@ -54,7 +54,9 @@ export const FollowDesktop = () => {
             className="shadow-none pl-0 !border-none"
           >
             <span className="space-x-1 text-base">
-              <span className="font-bold">{userInfo?.follower_count ?? 0}</span>
+              <span className="font-bold">
+                {otherUserInfo?.follower_count ?? 0}
+              </span>
               <span className="text-blue-600">{t('followers')}</span>
             </span>
           </Button>
@@ -68,7 +70,9 @@ export const FollowDesktop = () => {
             className="shadow-none !border-none"
           >
             <span className="space-x-1 text-base">
-              <span className="font-bold ">{userInfo?.follow_count ?? 0}</span>
+              <span className="font-bold ">
+                {otherUserInfo?.follow_count ?? 0}
+              </span>
               <span className="text-blue-600">{t('following')}</span>
             </span>
           </Button>

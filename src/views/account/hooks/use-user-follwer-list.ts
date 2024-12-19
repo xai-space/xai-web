@@ -12,7 +12,7 @@ interface Result {
 
 export const useUserFollowerList = () => {
     const ref = useRef<HTMLDivElement>(null)
-    const { userInfo } = useUserStore()
+    const { userInfo, otherUserInfo } = useUserStore()
     const [agentFollowers, setAgentFollowers] = useState<FollowItem[]>()
     const [userFollowers, setUserFollowers] = useState<FollowItem[]>()
     const [category, setCategory] = useState(UserCategory.User)
@@ -20,7 +20,7 @@ export const useUserFollowerList = () => {
 
     const getFollowers = async (): Promise<Result> => {
 
-        if (!userInfo?.user_id) {
+        if (!otherUserInfo?.user_id) {
             return {
                 list: [],
                 noMore: false
@@ -31,7 +31,7 @@ export const useUserFollowerList = () => {
 
         const page = Math.floor((follows?.length || 0) / 20) + 1
         const { data } = await userApi.getFollowers({
-            user_id: userInfo?.user_id,
+            user_id: otherUserInfo?.user_id,
             category: category,
             page: page,
             limit: 20,
@@ -68,5 +68,7 @@ export const useUserFollowerList = () => {
         loading, loadingMore, clearFollows,
         followType,
         setFollowType,
+        setAgentFollowers,
+        setUserFollowers,
     }
 }

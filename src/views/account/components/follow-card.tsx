@@ -12,6 +12,8 @@ import { useAccountContext } from '@/contexts/account'
 import { Routes } from '@/routes'
 import { joinPaths } from '@/utils'
 import { staticUrl } from '@/config/url'
+import { useUserInfo } from '@/hooks/use-user-info'
+import { useUserStore } from '@/stores/use-user-store'
 
 export enum CardType {
   following = 'following',
@@ -21,13 +23,83 @@ export enum CardType {
 interface Props extends ComponentProps<typeof Card> {
   card: FollowItem
   cardType: CardType
+
+  followType: UserCategory
+
+  agentFollows?: FollowItem[]
+  userFollows?: FollowItem[]
+  updateUserList?: (follows: FollowItem[]) => void
+  updateAgentList?: (follows: FollowItem[]) => void
 }
 
-export const FollowCard = ({ card, cardType, onClick }: Props) => {
+export const FollowCard = ({
+  card,
+  cardType,
+  onClick,
+  followType,
+  agentFollows,
+  userFollows,
+  updateUserList,
+  updateAgentList,
+}: Props) => {
   const { t } = useTranslation()
   const { query, ...router } = useRouter()
-  const { userInfo, refetchFollow, isOtherUser } = useAccountContext()
+  const { otherUserInfo } = useUserStore()
+  const { isOtherUser } = useAccountContext()
   const { handleFollow, isHandling } = useUser()
+
+  const { refetchUserInfo } = useUserInfo()
+
+  const handleFollowText = () => {
+    if (cardType === CardType.following) {
+      return card.is_followed ? `${t('unfollow')}` : `${t('follow')}`
+    }
+    return '这个不是粉丝列表'
+  }
+
+  const handleFollowClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation()
+
+    try {
+      const { code } = await handleFollow({
+        status: card.is_followed ? 0 : 1,
+        category: card.agent_id! ? UserCategory.Agent : UserCategory.User,
+        target_id: card.agent_id! || card.user_id!,
+      })
+
+      await refetchUserInfo({
+        userId: otherUserInfo?.user_id!,
+        isOther: isOtherUser,
+      })
+
+      // local update follow state
+      if (code === 200) {
+        if (followType === UserCategory.Agent) {
+          updateAgentList?.(
+            agentFollows?.map((f) => {
+              const isFollowed = f.agent_id === card.agent_id
+              return {
+                ...f,
+                is_followed: isFollowed ? !f.is_followed : f.is_followed,
+              }
+            }) || []
+          )
+        } else {
+          updateUserList?.(
+            userFollows?.map((f) => {
+              const isFollowed = f.user_id === card.user_id
+              return {
+                ...f,
+                is_followed: isFollowed ? !f.is_followed : f.is_followed,
+              }
+            }) || []
+          )
+        }
+      }
+    } catch (e) {
+      console.error(e)
+    }
+  }
 
   return (
     <Card
@@ -35,7 +107,17 @@ export const FollowCard = ({ card, cardType, onClick }: Props) => {
       hover="bg"
       shadow="none"
       onClick={(e) => {
-        router.push(joinPaths(Routes.Account, card.user_id! || card.agent_id!))
+        router.push(
+          joinPaths(
+            Routes.Account,
+            card.agent_id! || card.user_id!,
+            `?t=${
+              followType === UserCategory.Agent
+                ? UserCategory.Agent
+                : UserCategory.User
+            }`
+          )
+        )
         onClick?.(e)
       }}
     >
@@ -48,28 +130,11 @@ export const FollowCard = ({ card, cardType, onClick }: Props) => {
           {/* <p className="text-zinc-500 text-sm">{fmt.addr(card.name)}</p> */}
         </div>
       </div>
-      {/* {!isOtherUser && (
-        <Button
-          size="xs"
-          variant="outline"
-          onClick={async (e) => {
-            e.stopPropagation()
-            await handleFollow({
-              status: card.is_followed ? 0 : 1,
-              category: card.agent_id!
-                ? UserCategory.Agent
-                : UserCategory.User,
-              target_id: card.agent_id! || card.user_id!,
-            })
-          }}
-        >
-          {cardType === CardType.follower
-            ? card.is_followed
-              ? `${t('unfollow')}`
-              : `${t('follow')}`
-            : '这个不是粉丝列表'}
+      {!isOtherUser && (
+        <Button size="xs" variant="outline" onClick={handleFollowClick}>
+          {handleFollowText()}
         </Button>
-      )} */}
+      )}
     </Card>
   )
 }

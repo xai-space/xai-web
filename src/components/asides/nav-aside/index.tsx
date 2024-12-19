@@ -37,6 +37,7 @@ import RewardButton from '@/components/reward-button'
 import { useAIAgentStore } from '@/stores/use-chat-store'
 import { PublishPostDialog } from '@/components/publish-post-dialog'
 import { DynamicConnectButton } from '@dynamic-labs/sdk-react-core'
+import { UserCategory } from '@/api/user/types'
 
 interface Props {
   collapseSize?: keyof ReturnType<typeof useResponsive>
@@ -59,7 +60,11 @@ export const NavAside = ({
   const userNavs = [
     {
       title: t('profile'),
-      path: joinPaths(Routes.Account, userInfo?.wallet_address || ''),
+      path: joinPaths(
+        Routes.Account,
+        userInfo?.user_id || '',
+        `?t=${UserCategory.User}`
+      ),
       icon: <FaRegUser />,
       iconActive: <FaUser />,
       isActive: pathname.includes(Routes.Account),

@@ -16,8 +16,10 @@ import type {
 
 export const userApi = {
 
-  getInfo: () => {
-    return api.GET<ApiResponse<UserInfoRes>>('/agent/v1/playground/user/info')
+  getInfo: (userId: string) => {
+    return api.GET<ApiResponse<UserInfoRes>>(
+      `/agent/v1/playground/user/info/${userId}`
+    )
   },
 
   login: (req: UserLoginReq) => {
@@ -36,11 +38,13 @@ export const userApi = {
       `/api/v1/user/infolist/${addr}/${qs.stringify(req)}`
     )
   },
+
   updateInfo: (req: UserUpdateReq) => {
     return api.PUT<ApiResponse<UserInfoRes>>('/agent/v1/playground/user/update', {
       body: req,
     })
   },
+
   getFollows: (req: UserFollowsReq) => {
     return api.GET<ApiResponse<FollowItem[]>>(
       `/agent/v1/playground/user/follow${qs.stringify(req)}`

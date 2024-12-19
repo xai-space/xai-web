@@ -12,6 +12,7 @@ export interface UserInfo {
   follower_count: number
   follow_count: number
   description?: string
+  is_followed: boolean
 }
 
 

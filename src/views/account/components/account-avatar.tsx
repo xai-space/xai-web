@@ -31,13 +31,14 @@ export const AccountAvatar = ({
   refetchUserInfo: VoidFunction
 }) => {
   const [open, setOpen] = useState(false)
-  const { userInfo } = useUserStore()
+  const { otherUserInfo } = useUserStore()
+
   const inputRef = useRef<HTMLInputElement>(null)
 
   const { onChangeUpload, clearFile } = useUploadImage({
     inputEl: inputRef.current,
     onSuccess: (url) =>
-      update({ logo: url?.[0]?.url, name: userInfo?.name }).then(() =>
+      update({ logo: url?.[0]?.url, name: otherUserInfo?.name }).then(() =>
         refetchUserInfo()
       ),
   })
@@ -51,7 +52,7 @@ export const AccountAvatar = ({
         contentProps={{ className: 'max-w-[40vw]' }}
       >
         <img
-          src={userInfo?.logo}
+          src={`${staticUrl}${otherUserInfo?.logo}`}
           alt="avatar"
           className="w-full h-full object-fill"
         />
@@ -68,14 +69,16 @@ export const AccountAvatar = ({
         )}
         onClick={() => {
           clearFile()
-          if (isOtherUser && !isEmpty(userInfo?.logo)) {
+          if (isOtherUser && !isEmpty(otherUserInfo?.logo)) {
             setOpen(true)
           }
         }}
       >
         <Avatar
           src={
-            userInfo?.logo ? `${staticUrl}${userInfo?.logo}` : defaultUserLogo
+            otherUserInfo?.logo
+              ? `${staticUrl}${otherUserInfo?.logo}`
+              : defaultUserLogo
           }
           // fallback={userInfo?.wallet_address.slice(-4)}
           size={128}

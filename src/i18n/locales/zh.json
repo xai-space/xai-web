@@ -67,8 +67,8 @@
   "username.placeholder": "请输入您的新名字",
   "bio.placeholder": "请输入你的个人简介",
   "bio": "简介",
-  "followers": "我的粉丝",
-  "following": "我在关注",
+  "followers": "粉丝",
+  "following": "关注",
   "token.held": "持有的代币",
   "token.created": "创建的代币",
   "notifications": "通知",
@@ -842,7 +842,8 @@
   "edit.name": "修改名字",
   "save": "保存",
   "no.nft": "暂无 NFT",
-  "no.post": "你还没发布过帖子，快去发布吧！",
+  "no.post": "还没发布过帖子～",
   "user": "用户",
-  "agent": "Agent"
+  "agent": "Agent",
+  "other.no.agent": "该用户没有创建Agent"
 }

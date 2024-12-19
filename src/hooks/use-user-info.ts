@@ -5,69 +5,48 @@ import { useDisconnect } from 'wagmi'
 import { userApi } from '@/api/user'
 import { useUserStore } from '@/stores/use-user-store'
 import { dynamicToken } from '@/config/localstorage'
-import { useIsLoggedIn } from '@dynamic-labs/sdk-react-core'
+import { useDynamicContext, useIsLoggedIn } from '@dynamic-labs/sdk-react-core'
 import { useRouter } from 'next/router'
+import { Routes } from '@/routes'
 // import { useSignLogin } from './use-sign-login'
 
-export const useUserInfo = (addr?: string) => {
-  const { userInfo, setUserInfo } = useUserStore()
+interface RefetchUserInfoProps {
+  userId: string
+  isOther: boolean
+}
+
+export const useUserInfo = () => {
+  const { userInfo, otherUserInfo, setUserInfo, setOtherUserInfo } = useUserStore()
   const router = useRouter()
-  const token = typeof window !== 'undefined' ? localStorage.getItem(dynamicToken) : ''
 
   const isLoggedIn = useIsLoggedIn()
+  const { user } = useDynamicContext()
 
   const [isFetchingUserInfo, setIsFetchingUserInfo] = useState(false)
-  // Query other user info.
-  // const {
-  //   data: otherUserInfo,
-  //   isFetching: isFetchingOtherUserInfo,
-  //   refetch: refetchOtherUserInfo,
-  // } = useQuery({
-  //   enabled: false,
-  //   queryKey: [userApi.getOtherInfo.name, addr],
-  //   queryFn: () => userApi.getOtherInfo(addr!),
-  //   // enabled: !!addr,
-  // })
 
-
-  const refetchUserInfo = () => {
+  const refetchUserInfo = async ({
+    userId,
+    isOther,
+  }: RefetchUserInfoProps) => {
     setIsFetchingUserInfo(true)
-    userApi.getInfo().then((res) => {
-      setUserInfo(res.data)
-    }).finally(() => {
+    try {
+      const res = await userApi.getInfo(userId)
+      if (isOther) {
+        setOtherUserInfo(res.data)
+      } else {
+        setUserInfo(res.data)
+      }
+    } catch (e) {
+      console.error(e)
+    } finally {
       setIsFetchingUserInfo(false)
-    })
+    }
   }
-
-  // // Query my info.
-  // const {
-  //   data: userInfo,
-  //   isFetching: isFetchingUserInfo,
-  //   refetch: refetchUserInfo,
-  // } = useQuery({
-  //   enabled: false,
-  //   queryKey: [userApi.getInfo.name],
-  //   queryFn: () => userApi.getInfo(),
-  // })
-
-  // Update latest user info if it's not null.
-  // useEffect(() => {
-  //   if (!userInfo?.data) return
-  //   setUserInfo(userInfo.data)
-  // }, [userInfo])
-
-  // logout if has not token.
-  useEffect(() => {
-    if (!!token) return
-    // logout()
-    // disconnect()
-  }, [token])
-
 
   useEffect(() => {
     console.log('isLoggedIn refetchUserInfo')
-    if (isLoggedIn && !isFetchingUserInfo && !userInfo?.user_id) {
-      refetchUserInfo()
+    if (isLoggedIn && !isFetchingUserInfo && !userInfo?.user_id && user?.userId) {
+      refetchUserInfo({ userId: user.userId, isOther: false })
       return
     }
 
@@ -75,10 +54,24 @@ export const useUserInfo = (addr?: string) => {
       setUserInfo(null)
       router.push('/')
     }
-  }, [isLoggedIn])
+  }, [isLoggedIn, user])
+
+  useEffect(() => {
+    const newOtherUser = router.query.uid
+    if (!newOtherUser) return
+
+    if (router.pathname.startsWith(Routes.Account) && newOtherUser !== otherUserInfo?.user_id) {
+      refetchUserInfo({
+        userId: newOtherUser as string,
+        isOther: true,
+      })
+    }
+
+  }, [router.query.uid])
 
   return {
     userInfo: userInfo,
+    otherUserInfo,
     // otherUserInfo: otherUserInfo?.data,
     isFetchingUserInfo,
     // isFetchingOtherUserInfo,

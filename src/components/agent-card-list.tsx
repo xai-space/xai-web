@@ -18,6 +18,7 @@ import { AgentDeleteDialog } from '@/views/ai/components/agent-delete-dialog'
 import { useTranslation } from 'react-i18next'
 import { useRouter } from 'next/router'
 import { useAIAgentStore } from '@/stores/use-chat-store'
+import { useAccountContext } from '@/contexts/account'
 
 interface Result {
   list: AgentInfoResDataBase[]
@@ -30,10 +31,12 @@ interface AgentCardListProps {
 
 export const AgentCardList = ({ isAll }: AgentCardListProps) => {
   const { t } = useTranslation()
-  const { userInfo } = useUserStore()
+  const { otherUserInfo } = useUserStore()
   const [delAgent, setDelAgent] = useState<AgentInfoResDataBase | undefined>(
     undefined
   )
+
+  const { isOtherUser } = useAccountContext()
   const { setAgentInfo } = useAIAgentStore()
   const { push } = useRouter()
 
@@ -44,8 +47,8 @@ export const AgentCardList = ({ isAll }: AgentCardListProps) => {
       limit: 20,
     }
 
-    if (!isAll && userInfo?.user_id) {
-      bodyData.user_id = userInfo?.user_id
+    if (!isAll && otherUserInfo?.user_id) {
+      bodyData.user_id = otherUserInfo?.user_id
     }
 
     const { data } = await aiApi.getAgentList(bodyData)
@@ -165,7 +168,7 @@ export const AgentCardList = ({ isAll }: AgentCardListProps) => {
       {loading || loadingMore ? (
         <ListLoading />
       ) : data?.noMore && !data.list.length ? (
-        <span>{t('no.have.agent')}</span>
+        <span>{!isOtherUser ? t('no.have.agent') : t('other.no.agent')}</span>
       ) : null}
 
       <AgentDeleteDialog

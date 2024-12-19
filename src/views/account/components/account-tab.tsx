@@ -8,7 +8,7 @@ import { MentionCards } from './mention-cards'
 import { CommentCards } from '@/components/comment-cards'
 import { TokenCards } from '@/components/token-cards'
 import { useUserList } from '../hooks/use-user-list'
-import { UserListType } from '@/api/user/types'
+import { UserCategory, UserListType } from '@/api/user/types'
 import { Routes } from '@/routes'
 import { useAccountContext } from '@/contexts/account'
 import { cn } from '@/lib/utils'
@@ -23,16 +23,17 @@ export const AccountTab = () => {
   const { query, ...router } = useRouter()
 
   const tab = String(query.tab || UserListType.Agent)
-  const myAccountTabs = [
-    {
-      label: t('comments'),
-      value: UserListType.Comments,
-    },
-    {
-      label: t('mentions'),
-      value: UserListType.Mentions,
-    },
-  ]
+  // const myAccountTabs = [
+  //   {
+  //     label: t('comments'),
+  //     value: UserListType.Comments,
+  //   },
+  //   {
+  //     label: t('mentions'),
+  //     value: UserListType.Mentions,
+  //   },
+  // ]
+
   const tabs = [
     // {
     //   label: t('token.created'),
@@ -43,7 +44,7 @@ export const AccountTab = () => {
     //   value: UserListType.CoinsHeld,
     // },
     {
-      label: t('my.agent'),
+      label: t('agent.list'),
       value: UserListType.Agent,
     },
     {
@@ -57,31 +58,31 @@ export const AccountTab = () => {
     // ...(isOtherUser ? [] : myAccountTabs),
   ]
 
-  const {
-    tokenHeld,
-    comments,
-    mentions,
-    isLoading,
-    isFetching,
-    // fetchNextPage,
+  // const {
+  //   tokenHeld,
+  //   comments,
+  //   mentions,
+  //   isLoading,
+  //   isFetching,
+  //   // fetchNextPage,
 
-    myTokens,
-    myTokenTotal,
-    isLoadingMyTokens,
-    isFetchingMyTokens,
-    fetchNextMyTokens,
-  } = useUserList(Number(tab), isOtherUser)
+  //   myTokens,
+  //   myTokenTotal,
+  //   isLoadingMyTokens,
+  //   isFetchingMyTokens,
+  //   fetchNextMyTokens,
+  // } = useUserList(Number(tab), isOtherUser)
 
   return (
     <Tabs
       className="w-full mt-0 max-sm:mt-0 max-lg:px-3"
       value={tab}
       onValueChange={(value) => {
-        if (!query.address) return
+        if (!query.uid) return
         router.push(
           {
-            pathname: joinPaths(Routes.Account, query.address as string),
-            query: { tab: value },
+            pathname: joinPaths(Routes.Account, query.uid as string),
+            query: { tab: value, t: query.t },
           },
           undefined,
           { shallow: true }

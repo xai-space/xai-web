@@ -12,22 +12,16 @@ import { PrimaryLayout } from '@/components/layouts/primary'
 import Profile from './components/profile'
 import { useDynamicContext } from '@dynamic-labs/sdk-react-core'
 import { useUserFollowingList } from './hooks/use-user-follwing-list'
+import { useUserStore } from '@/stores/use-user-store'
 
 export const AccountPage = () => {
   const { query } = useRouter()
-  const tokenAddr = (query.address || '') as string
-  const {
-    userInfo,
-    // otherUserInfo,
-    // isFetchingOtherUserInfo,
-    isFetchingUserInfo,
-    refetchUserInfo,
-    // refetchOtherUserInfo,
-  } = useUserInfo(tokenAddr)
-  const { primaryWallet } = useDynamicContext()
+  const userId = (query.uid || '') as string
+  const { userInfo, otherUserInfo } = useUserStore()
+
+  console.log('otherUserInfo', otherUserInfo)
+
   // const currenUserAddr = String(userInfo?.wallet_address || '')
-  const currenUserAddr = primaryWallet?.address
-  const isOtherUser = tokenAddr !== currenUserAddr
   // const followersResults = useUserList(UserListType.Followers)
   // const followingResults = useUserList(UserListType.Following)
 
@@ -39,10 +33,9 @@ export const AccountPage = () => {
   return (
     <AccountProvider
       value={{
-        userInfo: userInfo,
-        isPending: isFetchingUserInfo,
-        isOtherUser: isOtherUser,
-        refetchUserInfo: refetchUserInfo,
+        userInfo: otherUserInfo,
+        isPending: false,
+        isOtherUser: userInfo?.user_id !== userId,
         // followers: agentFollowers,
         followingResults: () => {},
         refetchFollow: () => {},

@@ -26,7 +26,7 @@ export const PostFeed = ({ className, isMy = false }: Props) => {
   // const { data, isFetching, isLoading, fetchNextPage } = useFeeds()
   const { t } = useTranslation()
   const { feedList, setFeedList } = useArticleStore()
-  const { userInfo } = useUserInfo()
+  const { otherUserInfo } = useUserInfo()
 
   const getLoadMoreList = async (): Promise<Result> => {
     let start = Math.floor(feedList.length / 10) + 1
@@ -36,11 +36,9 @@ export const PostFeed = ({ className, isMy = false }: Props) => {
       limit: 10,
     }
 
-    console.log('userInfo', userInfo?.user_id)
-
     if (isMy) {
-      if (userInfo?.user_id) {
-        bodyData.user_id = userInfo?.user_id
+      if (otherUserInfo?.user_id) {
+        bodyData.user_id = otherUserInfo?.user_id
       } else {
         return {
           list: [],
@@ -59,7 +57,7 @@ export const PostFeed = ({ className, isMy = false }: Props) => {
     }
   }
 
-  const { loading, loadingMore, mutate } = useInfiniteScroll(
+  const { loading, loadingMore, mutate, reload } = useInfiniteScroll(
     () => getLoadMoreList(),
     {
       target: document,
@@ -77,13 +75,14 @@ export const PostFeed = ({ className, isMy = false }: Props) => {
   }
 
   useEffect(() => {
-    if (isMy && userInfo?.user_id) {
+    if (isMy && otherUserInfo?.user_id) {
       mutate({
         list: [],
         noMore: true,
       })
+      reload()
     }
-  }, [isMy, userInfo])
+  }, [isMy, otherUserInfo])
 
   if (feedList.length === 0 && !loading && !loadingMore) {
     return (

@@ -6,7 +6,7 @@ import { fmt } from '@/utils/fmt'
 import { useTranslation } from 'react-i18next'
 import { cn } from '@/lib/utils'
 import { useRouter } from 'next/router'
-import { UserInfoRes } from '@/api/user/types'
+import { UserCategory, UserInfoRes } from '@/api/user/types'
 import { Routes } from '@/routes'
 import { ConnectWallet } from '../../connect-wallet'
 import { NavAccountPopover } from './nav-account-pop'
@@ -49,7 +49,9 @@ export const NavAccount = ({
         <div
           className="flex items-end cursor-pointer mr-2"
           onClick={() =>
-            router.push(`${Routes.Account}/${primaryWallet?.address}`)
+            router.push(
+              `${Routes.Account}/${userInfo?.user_id}?t=${UserCategory.User}`
+            )
           }
         >
           <Avatar

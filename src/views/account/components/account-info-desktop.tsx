@@ -48,7 +48,7 @@ export const AccountInfoDesktop = (props: AccountInfoProps) => {
   const { t } = useTranslation()
   const { copy } = useClipboard()
 
-  const { userInfo } = useUserStore()
+  const { userInfo, otherUserInfo } = useUserStore()
 
   const { user, primaryWallet } = useDynamicContext()
   const userWallets = useWalletOptions()
@@ -66,7 +66,7 @@ export const AccountInfoDesktop = (props: AccountInfoProps) => {
         <div>
           <div className="flex space-x-2 items-center">
             <p className="font-bold text-2xl">
-              {userInfo?.name || primaryWallet?.address.slice(0, 4)}
+              {otherUserInfo?.name || primaryWallet?.address.slice(0, 4)}
             </p>
           </div>
           <FollowDesktop />
@@ -125,12 +125,14 @@ export const AccountInfoDesktop = (props: AccountInfoProps) => {
             className="flex items-center space-x-2"
             disabled={isFollowing || isUnfollowing}
             onClick={() =>
-              userInfo?.is_follower ? unfollow(tokenAddr) : follow(tokenAddr)
+              otherUserInfo?.is_followed
+                ? unfollow(tokenAddr)
+                : follow(tokenAddr)
             }
           >
-            {userInfo?.is_follower ? <MinusIcon /> : <PlusIcon />}
+            {otherUserInfo?.is_followed ? <MinusIcon /> : <PlusIcon />}
             <span className="text-sm">
-              {userInfo?.is_follower ? t('unfollow') : t('follow')}
+              {otherUserInfo?.is_followed ? t('unfollow') : t('follow')}
             </span>
           </Button>
         ) : (

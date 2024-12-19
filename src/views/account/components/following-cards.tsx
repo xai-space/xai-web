@@ -22,6 +22,8 @@ export const FollowingCards = ({ onCardClick }: Props) => {
     ref,
     setFollowType,
     followType,
+    setUserFollows,
+    setAgentFollows,
   } = useUserFollowingList()
 
   return (
@@ -52,6 +54,11 @@ export const FollowingCards = ({ onCardClick }: Props) => {
         userFollows?.length ? (
           userFollows?.map((f, i) => (
             <FollowCard
+              followType={followType}
+              agentFollows={agentFollows}
+              userFollows={userFollows}
+              updateUserList={setUserFollows}
+              updateAgentList={setAgentFollows}
               cardType={CardType.following}
               card={f}
               key={i}
@@ -67,6 +74,11 @@ export const FollowingCards = ({ onCardClick }: Props) => {
         agentFollows?.length ? (
           agentFollows?.map((f, i) => (
             <FollowCard
+              followType={followType}
+              agentFollows={agentFollows}
+              userFollows={userFollows}
+              updateUserList={setUserFollows}
+              updateAgentList={setAgentFollows}
               cardType={CardType.following}
               card={f}
               key={i}

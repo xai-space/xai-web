@@ -14,8 +14,15 @@ interface Props {
 
 export const FollowersCards = ({ onCardClick }: Props) => {
   const { t } = useTranslation()
-  const { agentFollowers, userFollowers, loading, followType, setFollowType } =
-    useUserFollowerList()
+  const {
+    agentFollowers,
+    userFollowers,
+    loading,
+    followType,
+    setFollowType,
+    setAgentFollowers,
+    setUserFollowers,
+  } = useUserFollowerList()
 
   return (
     <CustomSuspense
@@ -45,6 +52,11 @@ export const FollowersCards = ({ onCardClick }: Props) => {
         userFollowers?.length ? (
           userFollowers?.map((f, i) => (
             <FollowCard
+              followType={followType}
+              agentFollows={agentFollowers}
+              userFollows={userFollowers}
+              updateUserList={setUserFollowers}
+              updateAgentList={setAgentFollowers}
               cardType={CardType.follower}
               card={f}
               key={i}
@@ -60,6 +72,11 @@ export const FollowersCards = ({ onCardClick }: Props) => {
         agentFollowers?.length ? (
           agentFollowers?.map((f, i) => (
             <FollowCard
+              followType={followType}
+              agentFollows={agentFollowers}
+              userFollows={userFollowers}
+              updateUserList={setUserFollowers}
+              updateAgentList={setAgentFollowers}
               cardType={CardType.follower}
               card={f}
               key={i}

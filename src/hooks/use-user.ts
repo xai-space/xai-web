@@ -35,7 +35,7 @@ export const useUser = (options?: Options) => {
   const { isPending: isHandling, mutateAsync: handleFollow } = useMutation({
     mutationKey: [userApi.postFollow.name],
     mutationFn: userApi.postFollow,
-    onMutate: () => toast.loading(t('user.follow.loading')),
+    onMutate: () => toast.loading(t('loading')),
     onSettled: (_, __, ___, id) => {
       onFollowFinlly?.()
       return toast.dismiss(id)

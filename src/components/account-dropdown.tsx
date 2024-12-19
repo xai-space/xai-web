@@ -25,6 +25,7 @@ import { cn } from '@/lib/utils'
 // import { useSignLogin } from '@/hooks/use-sign-login'
 import { useDynamicContext } from '@dynamic-labs/sdk-react-core'
 import { IoWalletOutline } from 'react-icons/io5'
+import { UserCategory } from '@/api/user/types'
 
 export const AccountDropdown = () => {
   const { t } = useTranslation()
@@ -70,7 +71,9 @@ export const AccountDropdown = () => {
         variant="ghost"
         shadow="none"
         onClick={() =>
-          router.push(`${Routes.Account}/${primaryWallet?.address}`)
+          router.push(
+            `${Routes.Account}/${userInfo?.user_id}?t=${UserCategory.User}`
+          )
         }
       >
         <LuUser size={20} />
