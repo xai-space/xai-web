@@ -21,14 +21,20 @@ export const NotificationPage = () => {
   return (
     <div className="w-full px-10 max-sm:px-0">
       <Tabs defaultValue="all">
-        <div className="fixed z-10">
-          <TabsList className="flex justify-start bg-[#000]">
-            {navList.map((item, index) => (
-              <TabsTrigger className="flex-auto" key={index} value={item.value}>
-                {item.title}
-              </TabsTrigger>
-            ))}
-          </TabsList>
+        <div className="fixed w-[71vw] z-10">
+          <div>
+            <TabsList className="flex justify-start bg-[#000]">
+              {navList.map((item, index) => (
+                <TabsTrigger
+                  className="flex-auto"
+                  key={index}
+                  value={item.value}
+                >
+                  {item.title}
+                </TabsTrigger>
+              ))}
+            </TabsList>
+          </div>
         </div>
         <TabsContent value="all">
           <NoticeCardList />
