@@ -4,7 +4,7 @@ import ArticleCard from '@/views/feed/components/article-card'
 import { FeedAsiade } from '@/views/feed/components/article-sider'
 import { useInfiniteScroll } from 'ahooks'
 import { ListLoading } from './loading'
-import { FeedList, FeedListRes } from '@/api/feed/types'
+import { FeedList, FeedListItem } from '@/api/feed/types'
 import { FC, useEffect } from 'react'
 import { cn } from '@/lib/utils'
 import { useUserInfo } from '@/hooks/use-user-info'
@@ -13,7 +13,7 @@ import { PublishPost } from './publish-post'
 import { PublishPostDialog } from './publish-post-dialog'
 
 interface Result {
-  list: FeedListRes[]
+  list: FeedListItem[]
   noMore: boolean
 }
 
@@ -49,11 +49,17 @@ export const PostFeed = ({ className, isMy = false }: Props) => {
 
     const { data } = await feedApi.getList(bodyData)
 
-    setFeedList(feedList.concat(data))
+    if (data?.list) {
+      setFeedList(feedList.concat(data?.list))
+      return {
+        list: data?.list,
+        noMore: data?.list.length !== 10,
+      }
+    }
 
     return {
-      list: data,
-      noMore: data.length !== 10,
+      list: [],
+      noMore: true,
     }
   }
 

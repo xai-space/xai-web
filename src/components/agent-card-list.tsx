@@ -56,8 +56,8 @@ export const AgentCardList = ({
     const { data } = await aiApi.getAgentList(bodyData)
 
     return {
-      list: data,
-      noMore: data.length !== 20,
+      list: data.list,
+      noMore: data.list.length !== 20,
     }
   }
 

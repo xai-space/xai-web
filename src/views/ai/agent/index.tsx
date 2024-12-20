@@ -27,14 +27,24 @@ const AgentList = () => {
     <div className="max-w-[800px] mx-auto pt-0 ">
       <div className="flex justify-between items-center text-xl">
         {t('agent.list')}
-        <Button
-          onClick={() => {
-            setAgentInfo(undefined)
-            push(Routes.AICreate)
-          }}
-        >
-          {t('create.agent')}
-        </Button>
+        <div className="flex space-x-4">
+          <Button
+            onClick={() => {
+              push(Routes.Create)
+            }}
+            variant="purple"
+          >
+            {t('create.token')}
+          </Button>
+          <Button
+            onClick={() => {
+              setAgentInfo(undefined)
+              push(Routes.AICreate)
+            }}
+          >
+            {t('create.agent')}
+          </Button>
+        </div>
       </div>
 
       {userInfo?.user_id && (

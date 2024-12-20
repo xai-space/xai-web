@@ -61,6 +61,11 @@ export interface AgentResDataBase {
   name: string
 }
 
+export interface AgentListRes {
+  list: AgentInfoResDataBase[]
+  total: number
+}
+
 export interface AgentInfoResDataBase {
   agent_id: string
   name: string

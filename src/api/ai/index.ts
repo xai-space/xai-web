@@ -7,6 +7,7 @@ import {
   AIMemeInfoQuery,
   AIMemePosterQuery,
   AgentInfoResDataBase,
+  AgentListRes,
   AgentResDataBase,
   AgentSessionsList,
 } from './type'
@@ -100,7 +101,7 @@ export const aiApi = {
   },
 
   getAgentList: (query: AgentListReq) => {
-    return api.GET<ApiResponse<AgentInfoResDataBase[]>>(
+    return api.GET<ApiResponse<AgentListRes>>(
       '/agent/v1/playground/agent/list' + qs.stringify(query)
     )
   },

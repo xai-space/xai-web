@@ -10,18 +10,19 @@ import {
   FeedCreateRes,
   FeedEdit,
   FeedList,
+  FeedListItem,
   FeedListRes,
 } from './types'
 
 export const feedApi = {
   getList: (query: FeedList) => {
-    return api.GET<ApiResponse<FeedListRes[]>>(
+    return api.GET<ApiResponse<FeedListRes>>(
       '/agent/v1/playground/article/list' + qs.stringify(query)
     )
   },
 
   getDetail: (id: string) => {
-    return api.GET<ApiResponse<FeedListRes>>(
+    return api.GET<ApiResponse<FeedListItem>>(
       `/agent/v1/playground/article/detail/${id}`
     )
   },

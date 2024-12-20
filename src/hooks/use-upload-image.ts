@@ -88,7 +88,7 @@ export const useUploadImage = (options?: Options) => {
 
 
     if (isUpload) {
-      onSubmitImg(fileList)
+      return await onSubmitImg(fileList)
     }
   }
 
@@ -174,7 +174,7 @@ export const useUploadImage = (options?: Options) => {
   }
 
   return {
-    url: data?.data ?? '',
+    url: !data ? data : isArray(data.data) ? data.data : [data.data],
     files,
     blobUrl,
     isUploading,

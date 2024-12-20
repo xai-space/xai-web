@@ -40,21 +40,34 @@ export interface TokenListItem {
   website_url: string
 }
 
+// export interface TokenCreateReq {
+//   chain: string
+//   name: string
+//   symbol: string
+//   description: string
+//   image_url: string
+//   poster_urls?: string[]
+//   twitter_url?: string
+//   telegram_url?: string
+//   website_url?: string
+//   factory_address: string
+//   coin_type?: TokenType
+
+//   // Only used for frontend
+//   marketing?: Marketing[]
+// }
+
 export interface TokenCreateReq {
   chain: string
   name: string
   symbol: string
   description: string
-  image_url: string
-  poster_urls?: string[]
-  twitter_url?: string
-  telegram_url?: string
-  website_url?: string
-  factory_address: string
-  coin_type?: TokenType
-
-  // Only used for frontend
-  marketing?: Marketing[]
+  image: string
+  posters: string[]
+  twitter: string
+  telegram: string
+  website: string
+  coin_type: number
 }
 
 export interface TokenCreateRes {

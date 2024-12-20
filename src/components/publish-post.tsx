@@ -12,13 +12,13 @@ import { feedApi } from '@/api/feed'
 import { defaultUserId } from '@/config/base'
 import { toast } from 'sonner'
 import { useArticleStore } from '@/stores/use-article-store'
-import { FeedListRes } from '@/api/feed/types'
+import { FeedListItem } from '@/api/feed/types'
 import { staticUrl } from '@/config/url'
 import { cloneDeep, isEqual } from 'lodash'
 import { useUserStore } from '@/stores/use-user-store'
 
 interface Props {
-  editArticle?: FeedListRes
+  editArticle?: FeedListItem
   onPosted: () => void
 }
 

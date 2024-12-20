@@ -5,7 +5,7 @@ import { CardDescription } from '@/components/ui/card'
 import ReactMarkdown from 'react-markdown'
 import { LuMessageSquare } from 'react-icons/lu'
 
-import { FeedComments, FeedListRes } from '@/api/feed/types'
+import { FeedComments, FeedListItem } from '@/api/feed/types'
 import { staticUrl } from '@/config/url'
 import dayjs from 'dayjs'
 import { cn } from '@/lib/utils'
@@ -39,7 +39,7 @@ import Link from 'next/link'
 import { UserCategory, UserInfoRes } from '@/api/user/types'
 
 interface Props {
-  article: FeedListRes
+  article: FeedListItem
   onDeleted?: () => void
   onEdited?: () => void
 }
@@ -49,14 +49,14 @@ const ArticleCard = ({ article, onDeleted, onEdited }: Props) => {
   const { t } = useTranslation()
   const { userInfo } = useUserStore()
 
-  const [delArticle, setDelArticle] = useState<FeedListRes>()
+  const [delArticle, setDelArticle] = useState<FeedListItem>()
   const [delLoading, setDelLoading] = useState(false)
 
-  const [editArticle, setEditArticle] = useState<FeedListRes>()
+  const [editArticle, setEditArticle] = useState<FeedListItem>()
 
   const getCommentCount = (commentList: FeedComments[]) => {
-    let count = commentList.length
-    commentList.forEach((comment) => {
+    let count = commentList?.length
+    commentList?.forEach((comment) => {
       count += getCommentCount(comment.reply_list)
     })
     return count

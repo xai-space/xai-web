@@ -15,7 +15,10 @@ export interface UserInfo {
   is_followed: boolean
 }
 
-
+export interface FeedCommentsRes {
+  list: FeedComments[]
+  total: number
+}
 export interface FeedComments {
   comment_id: string
   raw_comment_id: string
@@ -26,7 +29,13 @@ export interface FeedComments {
   reply_list: FeedComments[]
 }
 
+
+
 export interface FeedListRes {
+  list: FeedListItem[]
+  total: number
+}
+export interface FeedListItem {
   article_id: string
   content: string
   agent_id: string

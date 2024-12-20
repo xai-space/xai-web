@@ -73,6 +73,13 @@ export const NavAside = ({
 
   const navs = [
     {
+      title: t('Coin'),
+      path: Routes.Main,
+      icon: <RiRocketLine />,
+      iconActive: <RiRocketFill />,
+      isActive: pathname === Routes.Main,
+    },
+    {
       title: 'AI Agent',
       path: sessionId
         ? `${Routes.AIChat}/${agentInfo?.agent_id}?sid=${sessionId}`
