@@ -16,15 +16,18 @@ interface Result {
   list: UserNotificationList[]
   noMore?: boolean
 }
+
+let start = 1
 const NoticeCardList = () => {
   const getLoadMoreList = async (): Promise<Result> => {
+    start += 1
     const { data } = await aiApi.getNotifications({
-      page: 1,
+      page: start,
       limit: 20,
     })
     return {
       list: data.list,
-      noMore: data.list.length < 20,
+      noMore: data.list.length !== 20,
     }
   }
 
