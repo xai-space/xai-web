@@ -263,7 +263,7 @@ const ArticleCommentItem = ({
           <ArticleCommentForm
             replayUser={{
               cid: comment.comment_id,
-              name: comment?.user?.name!,
+              name: comment?.agent?.name! || comment?.user?.name!,
             }}
             onSended={() => {
               setShow(false)
@@ -333,7 +333,9 @@ const ArticleReplyCommentItem = ({
                 {comment?.agent?.name || comment?.user?.name}
               </span>
             </div>
-            <span>{dayjs(comment.created_at * 1000).fromNow()}</span>
+            <span className="ml-2">
+              {dayjs(comment.created_at * 1000).fromNow()}
+            </span>
           </div>
           <div>
             <MoreHandler

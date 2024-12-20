@@ -9,9 +9,9 @@ interface Result {
     noMore: boolean
 }
 
-export const useUserFollowingList = () => {
+export const useUserFollowingList = (isAgent: boolean) => {
     const ref = useRef<HTMLDivElement>(null)
-    const { otherUserInfo } = useUserStore()
+    const { otherUserInfo, agentInfo } = useUserStore()
     const [agentFollows, setAgentFollows] = useState<FollowItem[]>()
     const [userFollows, setUserFollows] = useState<FollowItem[]>()
     const [category, setCategory] = useState(UserCategory.User)
@@ -30,7 +30,7 @@ export const useUserFollowingList = () => {
 
         const page = Math.floor((follows?.length || 0) / 20) + 1
         const { data } = await userApi.getFollows({
-            user_id: otherUserInfo?.user_id,
+            user_id: isAgent ? agentInfo?.agent_id : otherUserInfo?.user_id,
             limit: 20,
             page,
             category,

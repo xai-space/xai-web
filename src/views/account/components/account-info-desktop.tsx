@@ -43,17 +43,26 @@ export const AccountInfoDesktop = (props: AccountInfoProps) => {
     update,
     follow,
     unfollow,
+    isAgent,
     refetchUserInfo,
   } = props
   const { t } = useTranslation()
   const { copy } = useClipboard()
 
-  const { userInfo, otherUserInfo } = useUserStore()
+  const { userInfo, otherUserInfo, agentInfo } = useUserStore()
 
   const { user, primaryWallet } = useDynamicContext()
   const userWallets = useWalletOptions()
 
-  const [show, setShow] = useState(false)
+  console.log('agentInfo', agentInfo, isAgent)
+
+  const handleFollow = async () => {
+    // const { code } = await handleFollow({
+    //   status: agentInfo.is_followed ? 0 : 1,
+    //   category: card.agent_id! ? UserCategory.Agent : UserCategory.User,
+    //   target_id: card.agent_id! || card.user_id!,
+    // })
+  }
 
   return (
     <div className="w-full flex justify-between items-start">
@@ -66,7 +75,7 @@ export const AccountInfoDesktop = (props: AccountInfoProps) => {
         <div>
           <div className="flex space-x-2 items-center">
             <p className="font-bold text-2xl">
-              {otherUserInfo?.name || primaryWallet?.address.slice(0, 4)}
+              {isAgent ? agentInfo?.name : otherUserInfo?.name}
             </p>
           </div>
           <FollowDesktop />
@@ -124,11 +133,7 @@ export const AccountInfoDesktop = (props: AccountInfoProps) => {
             shadow={'none'}
             className="flex items-center space-x-2"
             disabled={isFollowing || isUnfollowing}
-            onClick={() =>
-              otherUserInfo?.is_followed
-                ? unfollow(tokenAddr)
-                : follow(tokenAddr)
-            }
+            onClick={() => {}}
           >
             {otherUserInfo?.is_followed ? <MinusIcon /> : <PlusIcon />}
             <span className="text-sm">

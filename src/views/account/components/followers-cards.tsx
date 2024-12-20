@@ -7,6 +7,7 @@ import { UserCategory, UserListRes, UserListType } from '@/api/user/types'
 import { useUserFollowingList } from '../hooks/use-user-follwing-list'
 import { Button } from '@/components/ui/button'
 import { useUserFollowerList } from '../hooks/use-user-follwer-list'
+import { useAccountContext } from '@/contexts/account'
 
 interface Props {
   onCardClick?: () => void
@@ -14,6 +15,7 @@ interface Props {
 
 export const FollowersCards = ({ onCardClick }: Props) => {
   const { t } = useTranslation()
+  const { isAgent } = useAccountContext()
   const {
     agentFollowers,
     userFollowers,
@@ -22,7 +24,7 @@ export const FollowersCards = ({ onCardClick }: Props) => {
     setFollowType,
     setAgentFollowers,
     setUserFollowers,
-  } = useUserFollowerList()
+  } = useUserFollowerList(isAgent)
 
   return (
     <CustomSuspense

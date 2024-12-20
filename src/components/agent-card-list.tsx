@@ -18,7 +18,6 @@ import { AgentDeleteDialog } from '@/views/ai/components/agent-delete-dialog'
 import { useTranslation } from 'react-i18next'
 import { useRouter } from 'next/router'
 import { useAIAgentStore } from '@/stores/use-chat-store'
-import { useAccountContext } from '@/contexts/account'
 
 interface Result {
   list: AgentInfoResDataBase[]
@@ -27,16 +26,19 @@ interface Result {
 
 interface AgentCardListProps {
   isAll: boolean
+  isOtherUser?: boolean
 }
 
-export const AgentCardList = ({ isAll }: AgentCardListProps) => {
+export const AgentCardList = ({
+  isAll,
+  isOtherUser = false,
+}: AgentCardListProps) => {
   const { t } = useTranslation()
   const { otherUserInfo } = useUserStore()
   const [delAgent, setDelAgent] = useState<AgentInfoResDataBase | undefined>(
     undefined
   )
 
-  const { isOtherUser } = useAccountContext()
   const { setAgentInfo } = useAIAgentStore()
   const { push } = useRouter()
 

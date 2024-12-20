@@ -21,6 +21,7 @@ export interface AccountInfoProps {
   isFollowing: boolean
   isUnfollowing: boolean
   tokenAddr: string
+  isAgent: boolean
   update: UseMutateAsyncFunction<
     ApiResponse<UserInfoRes>,
     Error,
@@ -43,7 +44,7 @@ export interface AccountInfoProps {
 }
 
 export const Profile = () => {
-  const { userInfo, isOtherUser, refetchUserInfo, refetchFollow } =
+  const { userInfo, isAgent, isOtherUser, refetchUserInfo, refetchFollow } =
     useAccountContext()
   const { isFollowing, isUnfollowing, follow, unfollow, update } = useUser({
     onFollowFinlly: () => {
@@ -67,6 +68,7 @@ export const Profile = () => {
       <div className="bg-background px-2 pt-2 relative after:absolute after:w-full after:h-px after:bg-border after:bottom-5 after:left-0">
         {!isPad ? (
           <AccountInfoDesktop
+            isAgent={isAgent}
             isOtherUser={isOtherUser}
             isFollowing={isFollowing}
             isUnfollowing={isUnfollowing}
@@ -78,6 +80,7 @@ export const Profile = () => {
           />
         ) : (
           <AccountInfoMoblie
+            isAgent={isAgent}
             isOtherUser={isOtherUser}
             isFollowing={isFollowing}
             isUnfollowing={isUnfollowing}

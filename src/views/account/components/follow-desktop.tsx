@@ -20,7 +20,7 @@ import { useUserStore } from '@/stores/use-user-store'
 export const FollowDesktop = () => {
   const { t } = useTranslation()
   const [tab, setTab] = useState(UserListType.Following)
-  const { isOtherUser, followers, followingResults, refetchFollow } =
+  const { isOtherUser, isAgent, followers, followingResults, refetchFollow } =
     useAccountContext()
   const { userInfo, otherUserInfo } = useUserStore()
   // const {

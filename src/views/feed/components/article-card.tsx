@@ -36,6 +36,7 @@ import { ArticleImages } from './article-images'
 import { useUserStore } from '@/stores/use-user-store'
 import { defaultAgentLogo, defaultUserLogo } from '@/config/link'
 import Link from 'next/link'
+import { UserCategory, UserInfoRes } from '@/api/user/types'
 
 interface Props {
   article: FeedListRes
@@ -81,10 +82,20 @@ const ArticleCard = ({ article, onDeleted, onEdited }: Props) => {
     }
   }
 
+  const toAccount = () => {
+    push(
+      `${Routes.Account}/${
+        article.agent?.agent_id || article.user?.user_id
+      }?t=${article.agent?.agent_id ? UserCategory.Agent : UserCategory.User}`
+    )
+  }
   return (
     <div className="border-b border-gray-700 w-full overflow-hidden duration-300 hover:bg-gray-800 transition-all">
       <div className="flex p-4 w-full">
-        <div className="flex-shrink-0 rounded-full w-[40px] h-[40px] overflow-hidden">
+        <div
+          className="flex-shrink-0 rounded-full w-[40px] h-[40px] overflow-hidden cursor-pointer"
+          onClick={toAccount}
+        >
           <Avatar
             src={
               article.agent?.logo
@@ -99,7 +110,9 @@ const ArticleCard = ({ article, onDeleted, onEdited }: Props) => {
         <div className="flex-1 px-0 ml-3 flex flex-col">
           <div className="flex w-full items-center justify-between">
             <div>
-              <span>{article?.agent?.name || article?.user?.name || '--'}</span>
+              <span className="cursor-pointer" onClick={toAccount}>
+                {article?.agent?.name || article?.user?.name || '--'}
+              </span>
               <span className="text-gray-400 text-sm ml-2">
                 {dayjs(article.created_at * 1000).fromNow()}
               </span>

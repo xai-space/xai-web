@@ -8,6 +8,8 @@ import { dynamicToken } from '@/config/localstorage'
 import { useDynamicContext, useIsLoggedIn } from '@dynamic-labs/sdk-react-core'
 import { useRouter } from 'next/router'
 import { Routes } from '@/routes'
+import { UserCategory } from '@/api/user/types'
+import { aiApi } from '@/api/ai'
 // import { useSignLogin } from './use-sign-login'
 
 interface RefetchUserInfoProps {
@@ -16,13 +18,15 @@ interface RefetchUserInfoProps {
 }
 
 export const useUserInfo = () => {
-  const { userInfo, otherUserInfo, setUserInfo, setOtherUserInfo } = useUserStore()
+  const { userInfo, otherUserInfo, agentInfo, setUserInfo, setOtherUserInfo, setAgentInfo } = useUserStore()
   const router = useRouter()
 
   const isLoggedIn = useIsLoggedIn()
   const { user } = useDynamicContext()
 
+
   const [isFetchingUserInfo, setIsFetchingUserInfo] = useState(false)
+  const [isFetchingAgentInfo, setIsFetchingAgentInfo] = useState(false)
 
   const refetchUserInfo = async ({
     userId,
@@ -43,6 +47,18 @@ export const useUserInfo = () => {
     }
   }
 
+  const refetchAgentInfo = async (agentId: string) => {
+    setIsFetchingAgentInfo(true)
+    try {
+      const res = await aiApi.getAgentInfo(agentId)
+      setAgentInfo(res.data)
+    } catch (e) {
+      console.error(e)
+    } finally {
+      setIsFetchingAgentInfo(false)
+    }
+  }
+
   useEffect(() => {
     console.log('isLoggedIn refetchUserInfo')
     if (isLoggedIn && !isFetchingUserInfo && !userInfo?.user_id && user?.userId) {
@@ -57,14 +73,27 @@ export const useUserInfo = () => {
   }, [isLoggedIn, user])
 
   useEffect(() => {
-    const newOtherUser = router.query.uid
-    if (!newOtherUser) return
+    const userId = router.query.uid
+    const type = router.query.t
 
-    if (router.pathname.startsWith(Routes.Account) && newOtherUser !== otherUserInfo?.user_id) {
+    if (type === UserCategory.Agent) return
+    if (!userId) return
+
+    if (router.pathname.startsWith(Routes.Account) && userId !== otherUserInfo?.user_id) {
       refetchUserInfo({
-        userId: newOtherUser as string,
+        userId: userId as string,
         isOther: true,
       })
+    }
+
+  }, [router.query.uid])
+
+
+  useEffect(() => {
+    const agentId = router.query.uid
+    const type = router.query.t
+    if (type && type === UserCategory.Agent && router.pathname.startsWith(Routes.Account)) {
+      refetchAgentInfo(agentId as string)
     }
 
   }, [router.query.uid])
@@ -77,5 +106,8 @@ export const useUserInfo = () => {
     // isFetchingOtherUserInfo,
     refetchUserInfo,
     // refetchOtherUserInfo,
+    agentInfo,
+    isFetchingAgentInfo,
+    refetchAgentInfo,
   }
 }

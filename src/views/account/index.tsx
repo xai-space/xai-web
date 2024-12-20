@@ -7,7 +7,7 @@ import { useRouter } from 'next/router'
 import { FollowDesktop } from '@/views/account/components/follow-desktop'
 import { AccountTab } from '@/views/account/components/account-tab'
 import { useUserList } from '@/views/account/hooks/use-user-list'
-import { UserListType } from '@/api/user/types'
+import { UserCategory, UserListType } from '@/api/user/types'
 import { PrimaryLayout } from '@/components/layouts/primary'
 import Profile from './components/profile'
 import { useDynamicContext } from '@dynamic-labs/sdk-react-core'
@@ -18,8 +18,6 @@ export const AccountPage = () => {
   const { query } = useRouter()
   const userId = (query.uid || '') as string
   const { userInfo, otherUserInfo } = useUserStore()
-
-  console.log('otherUserInfo', otherUserInfo)
 
   // const currenUserAddr = String(userInfo?.wallet_address || '')
   // const followersResults = useUserList(UserListType.Followers)
@@ -36,9 +34,11 @@ export const AccountPage = () => {
         userInfo: otherUserInfo,
         isPending: false,
         isOtherUser: userInfo?.user_id !== userId,
+        isAgent: query.t === UserCategory.Agent,
         // followers: agentFollowers,
         followingResults: () => {},
         refetchFollow: () => {},
+        refetchUserInfo: () => {},
       }}
     >
       <div className="flex-1 min-h-main flex gap-2 flex-col overflow-auto max-w-[800px] mx-auto">

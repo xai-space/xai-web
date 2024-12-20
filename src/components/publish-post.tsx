@@ -153,8 +153,8 @@ export const PublishPost = ({ editArticle, onPosted }: Props) => {
               ? userInfo?.logo
                 ? `${staticUrl}${userInfo?.logo}`
                 : defaultUserLogo
-              : editArticle2?.logo
-              ? `${staticUrl}${editArticle2?.logo}`
+              : editArticle2?.user?.logo
+              ? `${staticUrl}${editArticle2?.user?.logo}`
               : defaultAgentLogo
           }
           alt="Logo"

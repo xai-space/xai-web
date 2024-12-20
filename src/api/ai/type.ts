@@ -69,6 +69,7 @@ export interface AgentInfoResDataBase {
   user_id: string
   greeting: string
   is_public: string,
+  is_followed: boolean
   logo_identify: string
 }
 

@@ -7,6 +7,7 @@ interface Value {
   userInfo: UserInfoRes | null
   isPending: boolean
   isOtherUser: boolean
+  isAgent: boolean
   refetchUserInfo: VoidFunction
   followers?: UserFollowersRes
   followingResults: ReturnType<any>
