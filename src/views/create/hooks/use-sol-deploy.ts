@@ -21,6 +21,10 @@ import { useSvmTrade } from '@/views/token/hooks/svm/use-svm-trade'
 
 const deployFee = 0.05
 
+interface DeployParams extends DeployFormParams {
+  tokenId: string
+}
+
 export const useSolDeploy = (onFinally?: VoidFunction) => {
   const { primaryWallet } = useDynamicContext()
   const { chainsInfo } = useDynamicWallet()
@@ -55,11 +59,11 @@ export const useSolDeploy = (onFinally?: VoidFunction) => {
     reset: resetDeploy,
   } = useMutation({
     mutationKey: ['deploy_token'],
-    mutationFn: async ({ name, buyAmount, symbol }: DeployFormParams) => {
+    mutationFn: async ({ name, buyAmount, symbol, tokenId }: DeployParams) => {
       if (!checkForDeploy()) return
       if (!program) throw error
 
-      let identifier = uuidV4()
+      let identifier = tokenId
       identifier = identifier.replace(/-/g, '')
 
       const metadata = {

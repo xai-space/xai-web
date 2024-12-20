@@ -78,9 +78,6 @@ export const useCreateTokenForm = () => {
   const { evmChainsMap, loadingChains } = useChainsStore()
   const { url, onChangeUpload } = useUploadImage()
 
-  console.log("url: ", url);
-
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
