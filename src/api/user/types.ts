@@ -25,9 +25,7 @@ export interface UserUpdateReq {
   wallet_address?: string
 }
 
-export interface UserInfoRes extends UserInfo {
-
-}
+export interface UserInfoRes extends UserInfo {}
 export interface UserMyInfoFollow {
   id: number
   name: string
@@ -239,4 +237,56 @@ export interface UserNotificationItem {
     }
   }
   created_at: number
+}
+
+export interface UserNotificationRes {
+  list: UserNotificationList[]
+  total: number
+}
+
+export interface UserNotificationList {
+  /**
+   * 消息类型，data 会根据类型变化，枚举：follow
+   */
+  action: string
+  created_at: number
+  data: UserNotificationData
+  id: string
+  /**
+   * 是否已读
+   */
+  is_read: number
+  /**
+   * 当前用户id
+   */
+  user_id: string
+  [property: string]: any
+}
+
+export interface UserNotificationData {
+  /**
+   * 来源用户
+   */
+  from_user: FromUser
+  /**
+   * 关注状态，1:关注；0:取关
+   */
+  status: boolean
+  /**
+   * 目标用户，被关注/取关的对象
+   */
+  user_id: string
+  [property: string]: any
+}
+
+export interface FromUser {
+  logo: string
+  name: string
+  user_id: string
+  [property: string]: any
+}
+
+export interface NoticeParams {
+  page: number
+  limit: number
 }

@@ -13,9 +13,12 @@ import Profile from './components/profile'
 import { useDynamicContext } from '@dynamic-labs/sdk-react-core'
 import { useUserFollowingList } from './hooks/use-user-follwing-list'
 import { useUserStore } from '@/stores/use-user-store'
+import { PostFeed } from '@/components/post-feed'
 
 export const AccountPage = () => {
   const { query } = useRouter()
+  console.log('query:', query)
+
   const userId = (query.uid || '') as string
   const { userInfo, otherUserInfo } = useUserStore()
 
@@ -53,8 +56,11 @@ export const AccountPage = () => {
             <FollowDesktop />
           </div>
         </aside>
-
-        <AccountTab />
+        {query.t === 'agent' ? (
+          <PostFeed className="mx-0 !w-full max-w-full" isMy={true} />
+        ) : (
+          <AccountTab />
+        )}
       </div>
     </AccountProvider>
   )
