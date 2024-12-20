@@ -70,7 +70,7 @@ export const useDeploy = (chainName: string) => {
 
     if (network === Network.Svm) {
       // Solana
-      return solDeploy.deploy(params)
+      return solDeploy.deploy({ ...params, tokenId: tokenId! })
     }
 
     if (network === Network.Tvm) {

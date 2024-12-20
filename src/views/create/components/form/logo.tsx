@@ -148,8 +148,10 @@ export const LogoField = () => {
                   onChange={async (e) => {
                     try {
                       const url = await onChangeUpload(e, true)
+                      console.log('url', url)
                       if (isArray(url)) form.setValue('logo', url[0].url)
                     } catch (error) {
+                      console.log(error)
                     } finally {
                       if (inputRef.current) inputRef.current.value = ''
                     }

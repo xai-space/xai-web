@@ -88,6 +88,8 @@ export const useUploadImage = (options?: Options) => {
 
 
     if (isUpload) {
+      // clear files
+      files.splice(0, files.length)
       return await onSubmitImg(fileList)
     }
   }
@@ -111,8 +113,12 @@ export const useUploadImage = (options?: Options) => {
       }
     }
 
+
     try {
       const { data } = await mutateAsync(formData)
+
+      console.log("Image Data: ", data);
+
       return isArray(data) ? data : [data]
 
     } catch (err) {
