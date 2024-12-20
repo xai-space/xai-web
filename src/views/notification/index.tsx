@@ -4,7 +4,6 @@ import { PrimaryLayout } from '@/components/layouts/primary'
 import NoticeCardList from './components/notice-card-list'
 import { useTranslation } from 'react-i18next'
 import { NoticeAtion } from '@/api/user/types'
-
 interface NavList {
   title: string
   value: string

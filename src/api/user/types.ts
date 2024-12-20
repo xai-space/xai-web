@@ -25,7 +25,7 @@ export interface UserUpdateReq {
   wallet_address?: string
 }
 
-export interface UserInfoRes extends UserInfo {}
+export interface UserInfoRes extends UserInfo { }
 export interface UserMyInfoFollow {
   id: number
   name: string

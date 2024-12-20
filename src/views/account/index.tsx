@@ -13,6 +13,7 @@ import Profile from './components/profile'
 import { useDynamicContext } from '@dynamic-labs/sdk-react-core'
 import { useUserFollowingList } from './hooks/use-user-follwing-list'
 import { useUserStore } from '@/stores/use-user-store'
+import { PostFeed } from '@/components/post-feed'
 
 import { AgentUserInfo } from '../../components/agent-user-info'
 
