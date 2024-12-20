@@ -103,12 +103,12 @@ export const useUserInfo = () => {
   }, [router.query.uid])
 
 
-  useEffect(() => {
-    if (!userInfo?.user_id) {
-      router.push('/')
-      toast.error(t('no.login'))
-    }
-  }, [userInfo])
+  // useEffect(() => {
+  //   if (!userInfo?.user_id) {
+  //     router.push('/')
+  //     toast.error(t('no.login'))
+  //   }
+  // }, [userInfo])
 
   return {
     userInfo: userInfo,
