@@ -63,7 +63,7 @@ export const FollowMoblie = () => {
             className="shadow-none !border-none p-0"
           >
             <span className="space-x-1 text-sm flex flex-col">
-              <span className="font-bold ">{following.total}</span>
+              <span className="font-bold ">{following?.total}</span>
               <span className="text-blue-600">{t('following')}</span>
             </span>
           </Button>

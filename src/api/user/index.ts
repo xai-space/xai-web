@@ -12,10 +12,11 @@ import type {
   UserUpdateFollowReq,
   UserFollowsReq,
   FollowItem,
+  UserNotificationRes,
+  NoticeParams,
 } from './types'
 
 export const userApi = {
-
   getInfo: (userId: string) => {
     return api.GET<ApiResponse<UserInfoRes>>(
       `/agent/v1/playground/user/info/${userId}`
@@ -23,7 +24,7 @@ export const userApi = {
   },
 
   login: (req: UserLoginReq) => {
-    return Promise.reject({} as UserLoginRes);
+    return Promise.reject({} as UserLoginRes)
     return api.POST<ApiResponse<UserLoginRes>>('/api/v1/user/users/', {
       body: req,
     })
@@ -40,9 +41,12 @@ export const userApi = {
   },
 
   updateInfo: (req: UserUpdateReq) => {
-    return api.PUT<ApiResponse<UserInfoRes>>('/agent/v1/playground/user/update', {
-      body: req,
-    })
+    return api.PUT<ApiResponse<UserInfoRes>>(
+      '/agent/v1/playground/user/update',
+      {
+        body: req,
+      }
+    )
   },
 
   getFollows: (req: UserFollowsReq) => {
@@ -57,12 +61,9 @@ export const userApi = {
     )
   },
   postFollow: (req: UserUpdateFollowReq) => {
-    return api.POST<ApiResponse>(
-      `/agent/v1/playground/user/follow`,
-      {
-        body: req,
-      }
-    )
+    return api.POST<ApiResponse>(`/agent/v1/playground/user/follow`, {
+      body: req,
+    })
   },
   follow: (addr: string) => {
     return api.POST<ApiResponse<UserInfoRes>>(
@@ -75,9 +76,9 @@ export const userApi = {
     )
   },
 
-  getNotifications: () => {
+  getNotifications: (params: NoticeParams) => {
     return api.GET<ApiResponse<UserNotificationRes>>(
-      `/agent/v1/playground/notification/list`
+      `/agent/v1/playground/notification/list` + qs.stringify(params)
     )
   },
 }
