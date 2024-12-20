@@ -248,6 +248,7 @@ export const AIAgentForm = ({ isCreate }: Props) => {
       <form
         ref={formRef}
         className="flex flex-col w-full px-[20%] max-sm:px-[5%]"
+        onSubmit={form.handleSubmit(onSubmit)}
       >
         <FormField
           control={form.control}
@@ -406,26 +407,13 @@ export const AIAgentForm = ({ isCreate }: Props) => {
           data={SelectPermission}
         /> */}
 
-        <DynamicConnectButton buttonClassName="w-full">
-          <Button
-            type="submit"
-            className="mt-5 !mx-auto w-full"
-            disabled={submitDisable()}
-            onClick={(e) => {
-              e.preventDefault()
-
-              if (!userInfo?.user_id) {
-                toast.error(t('no.login'))
-                return
-              }
-
-              e.stopPropagation()
-              onSubmit()
-            }}
-          >
-            {submintText()}
-          </Button>
-        </DynamicConnectButton>
+        <Button
+          type="submit"
+          className="mt-5 !mx-auto w-full"
+          disabled={submitDisable()}
+        >
+          {submintText()}
+        </Button>
         <NftAgentDialog
           open={open}
           nftInfo={nftInfo}

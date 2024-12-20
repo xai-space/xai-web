@@ -10,6 +10,8 @@ import { useRouter } from 'next/router'
 import { Routes } from '@/routes'
 import { UserCategory } from '@/api/user/types'
 import { aiApi } from '@/api/ai'
+import { toast } from 'sonner'
+import { useTranslation } from 'react-i18next'
 // import { useSignLogin } from './use-sign-login'
 
 interface RefetchUserInfoProps {
@@ -20,6 +22,8 @@ interface RefetchUserInfoProps {
 export const useUserInfo = () => {
   const { userInfo, otherUserInfo, agentInfo, setUserInfo, setOtherUserInfo, setAgentInfo } = useUserStore()
   const router = useRouter()
+
+  const { t } = useTranslation()
 
   const isLoggedIn = useIsLoggedIn()
   const { user } = useDynamicContext()
@@ -97,6 +101,14 @@ export const useUserInfo = () => {
     }
 
   }, [router.query.uid])
+
+
+  // useEffect(() => {
+  //   if (!userInfo?.user_id) {
+  //     router.push('/')
+  //     toast.error(t('no.login'))
+  //   }
+  // }, [userInfo])
 
   return {
     userInfo: userInfo,

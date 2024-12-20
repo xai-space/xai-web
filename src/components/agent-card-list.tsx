@@ -34,7 +34,7 @@ export const AgentCardList = ({
   isOtherUser = false,
 }: AgentCardListProps) => {
   const { t } = useTranslation()
-  const { otherUserInfo } = useUserStore()
+  const { userInfo, otherUserInfo } = useUserStore()
   const [delAgent, setDelAgent] = useState<AgentInfoResDataBase | undefined>(
     undefined
   )
@@ -49,8 +49,10 @@ export const AgentCardList = ({
       limit: 20,
     }
 
-    if (!isAll && otherUserInfo?.user_id) {
-      bodyData.user_id = otherUserInfo?.user_id
+    const userId = isOtherUser ? otherUserInfo?.user_id : userInfo?.user_id
+
+    if (!isAll && userId) {
+      bodyData.user_id = userId
     }
 
     const { data } = await aiApi.getAgentList(bodyData)
