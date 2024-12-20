@@ -95,13 +95,13 @@ export const NavAside = ({
       iconActive: <MdOutlineArticle />,
       isActive: pathname === Routes.Feed,
     },
-    {
-      title: t('award'),
-      path: Routes.Reward,
-      icon: <IoDiamondOutline />,
-      iconActive: <IoDiamond />,
-      isActive: pathname === Routes.Reward,
-    },
+    // {
+    //   title: t('award'),
+    //   path: Routes.Reward,
+    //   icon: <IoDiamondOutline />,
+    //   iconActive: <IoDiamond />,
+    //   isActive: pathname === Routes.Reward,
+    // },
     {
       title: t('Notification'),
       path: Routes.Notification,
