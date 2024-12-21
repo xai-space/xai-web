@@ -30,8 +30,9 @@ import {
   AgentUpadeRes,
   AgentUpdate,
 } from './type'
+import { userApi } from '../user/index'
 import { CommonHeaders, ContentType } from '@/hooks/use-fetch'
-import { fetchEventSource } from '@microsoft/fetch-event-source';
+import { fetchEventSource } from '@microsoft/fetch-event-source'
 import { defaultUserId } from '@/config/base'
 
 export const aiApi = {
@@ -90,13 +91,13 @@ export const aiApi = {
     return api.POST<ApiResponse>('/agent/v1/playground/agent/delete', {
       body: {
         agent_id: agentId,
-      }
+      },
     })
   },
 
   getAgentInfo: async (agentId: string) => {
     return api.GET<ApiResponse<AgentInfoResDataBase>>(
-      `/agent/v1/playground/agent/${agentId}`,
+      `/agent/v1/playground/agent/${agentId}`
     )
   },
 
@@ -108,9 +109,7 @@ export const aiApi = {
 
   chat: async (data: AgentChat) => {
     // return fetchEventSource('/agent/v1/playground/agent/chat', {
-
     // })
-
     // return api.EVENTSOURCE<ApiResponse<AgentChatRes>>(
     //   '/agent/v1/playground/agent/chat',
     //   {
@@ -165,4 +164,5 @@ export const aiApi = {
       }
     )
   },
+  getNotifications: userApi.getNotifications,
 }
