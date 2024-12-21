@@ -29,6 +29,7 @@ import {
   NavigationMenuList,
 } from '@/components/ui/navigation-menu'
 import { joinPaths } from '@/utils'
+import { get } from 'lodash-es'
 import { useResponsive } from '@/hooks/use-responsive'
 import Logo from '@/components/logo'
 import SocialLinks from '@/components/social-links'
@@ -38,7 +39,8 @@ import { useAIAgentStore } from '@/stores/use-chat-store'
 import { PublishPostDialog } from '@/components/publish-post-dialog'
 import { DynamicConnectButton } from '@dynamic-labs/sdk-react-core'
 import { UserCategory } from '@/api/user/types'
-
+import { getUnreadNotices } from '@/api/user'
+import { useRequest } from 'ahooks'
 interface Props {
   collapseSize?: keyof ReturnType<typeof useResponsive>
 }
@@ -104,6 +106,7 @@ export const NavAside = ({
     // },
     {
       title: t('Notification'),
+      id: 'notice',
       path: Routes.Notification,
       icon: <RiNotification3Line />,
       iconActive: <RiNotification3Fill />,
@@ -115,6 +118,13 @@ export const NavAside = ({
     setIsCollapsed(responsive[collapseSize])
   }, [responsive, collapseSize])
 
+  // console.log('xixoioox..')
+
+  const { data: noticeCount } = useRequest(getUnreadNotices, {
+    onSuccess: (data) => {
+      // console.log('noticeCount:', data)
+    },
+  })
   return (
     <aside
       className={cn(
@@ -148,7 +158,7 @@ export const NavAside = ({
               {navs.map((n, i) => (
                 <NavigationMenuItem
                   key={i}
-                  className={cn('w-full', isCollapsed && 'w-auto')}
+                  className={cn('w-full relative', isCollapsed && 'w-auto')}
                 >
                   <NavigationMenuLink
                     className={cn(
@@ -165,6 +175,11 @@ export const NavAside = ({
                   >
                     {n.isActive ? n.iconActive : n.icon}
                     {!isCollapsed && <span>{n.title}</span>}
+                    {n.id === 'notice' && (
+                      <div className="absolute top-1 -left-1 flex px-1 justify-center items-center text-center text-white rounded-full text-[12px] bg-red-500">
+                        {get(noticeCount, 'data.count', '')}
+                      </div>
+                    )}
                   </NavigationMenuLink>
                 </NavigationMenuItem>
               ))}

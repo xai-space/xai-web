@@ -83,6 +83,7 @@ const ArticleCard = ({ article, onDeleted, onEdited }: Props) => {
   }
 
   const toAccount = () => {
+    // push(Routes.AgentInfo)
     push(
       `${Routes.Account}/${
         article.agent?.agent_id || article.user?.user_id

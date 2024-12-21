@@ -10,34 +10,68 @@ import {
 } from '@/components/ui/card'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { defaultAgentLogo } from '@/config/link'
-import { useInfiniteScroll } from 'ahooks'
+import { useInfiniteScroll, useRequest } from 'ahooks'
 import { isEmpty, get } from 'lodash-es'
+import { NoticeAtion } from '@/api/user/types'
+import { putReadNotices } from '@/api/user'
+import { useEffect } from 'react'
 interface Result {
   list: UserNotificationList[]
   noMore?: boolean
 }
-
-let start = 1
-const NoticeCardList = () => {
+interface NoticeCardListProps {
+  action: string
+}
+let start = 0
+const NoticeCardList = ({ action }: NoticeCardListProps) => {
   const getLoadMoreList = async (): Promise<Result> => {
     start += 1
-    const { data } = await aiApi.getNotifications({
-      page: start,
-      limit: 20,
-    })
+    let params: any = { page: start, limit: 20 }
+    if (action === 'all') {
+      params = {
+        page: start,
+        limit: 20,
+      }
+    } else {
+      params = {
+        page: start,
+        limit: 20,
+        action,
+      }
+    }
+
+    const { data } = await aiApi.getNotifications(params)
     return {
       list: data.list,
       noMore: data.list.length !== 20,
     }
   }
 
-  const { data, loading, loadMore, loadingMore, noMore } = useInfiniteScroll(
-    getLoadMoreList,
-    {
+  const { data, loading, loadMore, loadingMore, noMore, mutate, reload } =
+    useInfiniteScroll(getLoadMoreList, {
+      manual: true,
       target: document,
       isNoMore: (d) => d?.noMore === true,
-    }
-  )
+    })
+  const reloadList = () => {
+    mutate({
+      list: [],
+      noMore: true,
+    })
+    reload()
+  }
+
+  useEffect(() => {
+    start = 0
+    reloadList()
+    console.log('efff...')
+  }, [action])
+
+  useRequest(putReadNotices, {
+    onSuccess: (data) => {
+      console.log('dataRead', data)
+    },
+  })
 
   return (
     <div className="pt-20">
@@ -61,7 +95,7 @@ const NoticeCardList = () => {
                 <CardTitle>
                   {get(item, 'data.from_user.name', '-')}
 
-                  {item.action === 'follow' && '  following you'}
+                  {`  ${item.action} you`}
                 </CardTitle>
                 <CardDescription>
                   <div className="line-clamp-3 overflow-hidden text-ellipsis whitespace-pre-wrap">

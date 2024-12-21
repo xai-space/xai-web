@@ -15,7 +15,9 @@ import { ApiResponse } from '@/api/types'
 import AccountInfoDesktop from './account-info-desktop'
 import { useResponsive } from '@/hooks/use-responsive'
 import AccountInfoMoblie from './account-info-mobile'
-
+import { useRequest } from 'ahooks'
+import { aiApi } from '@/api/ai'
+import { useEffect } from 'react'
 export interface AccountInfoProps {
   isOtherUser: boolean
   isFollowing: boolean
@@ -57,7 +59,20 @@ export const Profile = () => {
   const { isPad } = useResponsive()
   const tokenAddr = (query.address || '') as string
 
-  // console.log('userinfo:', userInfo)
+  console.log('queryProfile:', query)
+  useEffect(() => {
+    getAgentProfile()
+  }, [query.uid])
+  const { data: profileData, runAsync: getAgentProfile } = useRequest(
+    () => aiApi.getAgentInfo(query.uid as string),
+    {
+      manual: true,
+      onSuccess: (res) => {
+        console.log('getAgentProfile:', res)
+        return res.data
+      },
+    }
+  )
 
   return (
     <div className="flex-1 border border-border rounded-md">
