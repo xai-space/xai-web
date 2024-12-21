@@ -11,16 +11,15 @@ interface NavList {
 
 export const NotificationPage = () => {
   const { t } = useTranslation()
-
   const navList: NavList[] = [
     {
       title: t('all'),
       value: 'all',
     },
-    {
-      title: t('following'),
-      value: 'follow',
-    },
+    // {
+    //   title: t('following'),
+    //   value: 'follow',
+    // },
   ]
   return (
     <div className="w-full px-10 max-sm:px-0">
@@ -28,7 +27,7 @@ export const NotificationPage = () => {
         <div className="fixed z-10">
           <TabsList className="flex justify-start bg-[#000]">
             {navList.map((item, index) => (
-              <TabsTrigger className="min-w-24" key={index} value={item.value}>
+              <TabsTrigger className="min-w-28" key={index} value={item.value}>
                 {item.title}
               </TabsTrigger>
             ))}
