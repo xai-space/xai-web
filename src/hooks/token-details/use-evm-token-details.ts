@@ -54,6 +54,8 @@ export const useEvmTokenDetails = (
     headmaster = zeroAddress,
     maxSupply = BI_ZERO,
   ] = pools
+
+  console.log('reserveTotal--????????--', reserveTotal)
   const isGraduated = headmaster !== zeroAddress
   const tokenLeftAmount = formatEther(tokenLeft)
   const reserveTotalAmount = formatEther(reserveTotal)

@@ -10,17 +10,44 @@ export const IDL: ContractSolanaXai = {
         {
           "name": "programSystemAccount",
           "isMut": true,
-          "isSigner": false
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "program_system_account"
+              }
+            ]
+          }
         },
         {
           "name": "programSigner",
           "isMut": true,
-          "isSigner": false
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "program_signer"
+              }
+            ]
+          }
         },
         {
           "name": "feeConfig",
           "isMut": true,
-          "isSigner": false
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "fee_config"
+              }
+            ]
+          }
         },
         {
           "name": "migrationAccount",
@@ -51,17 +78,44 @@ export const IDL: ContractSolanaXai = {
         {
           "name": "initTokenConfig",
           "isMut": true,
-          "isSigner": false
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "init_token_config"
+              }
+            ]
+          }
         },
         {
           "name": "programConfig",
           "isMut": true,
-          "isSigner": false
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "program_config"
+              }
+            ]
+          }
         },
         {
           "name": "recommendRewardVault",
           "isMut": true,
-          "isSigner": false
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "recommend_reward_vault"
+              }
+            ]
+          }
         },
         {
           "name": "owner",
@@ -76,7 +130,16 @@ export const IDL: ContractSolanaXai = {
         {
           "name": "eventAuthority",
           "isMut": false,
-          "isSigner": false
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "__event_authority"
+              }
+            ]
+          }
         },
         {
           "name": "program",
@@ -90,19 +153,62 @@ export const IDL: ContractSolanaXai = {
       "name": "initCreateTokenAccount",
       "accounts": [
         {
+          "name": "identifierAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
           "name": "mint",
           "isMut": true,
-          "isSigner": false
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "mint"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "identifier_account"
+              }
+            ]
+          }
         },
         {
           "name": "curveConfig",
           "isMut": true,
-          "isSigner": false
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "curve_config"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Mint",
+                "path": "mint"
+              }
+            ]
+          }
         },
         {
           "name": "programSigner",
           "isMut": false,
-          "isSigner": false
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "program_signer"
+              }
+            ]
+          }
         },
         {
           "name": "vault",
@@ -141,10 +247,6 @@ export const IDL: ContractSolanaXai = {
           "type": {
             "defined": "InitTokenParams"
           }
-        },
-        {
-          "name": "identifier",
-          "type": "string"
         }
       ]
     },
@@ -157,24 +259,76 @@ export const IDL: ContractSolanaXai = {
           "isSigner": false
         },
         {
-          "name": "mint",
+          "name": "identifierAccount",
           "isMut": false,
           "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "mint"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "identifier_account"
+              }
+            ]
+          }
         },
         {
           "name": "curveConfig",
           "isMut": true,
-          "isSigner": false
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "curve_config"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Mint",
+                "path": "mint"
+              }
+            ]
+          }
         },
         {
           "name": "programSigner",
           "isMut": false,
-          "isSigner": false
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "program_signer"
+              }
+            ]
+          }
         },
         {
           "name": "feeConfig",
           "isMut": false,
-          "isSigner": false
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "fee_config"
+              }
+            ]
+          }
         },
         {
           "name": "feeReceiverAccount",
@@ -189,7 +343,16 @@ export const IDL: ContractSolanaXai = {
         {
           "name": "initTokenConfig",
           "isMut": false,
-          "isSigner": false
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "init_token_config"
+              }
+            ]
+          }
         },
         {
           "name": "user",
@@ -220,16 +383,6 @@ export const IDL: ContractSolanaXai = {
           "name": "associatedTokenProgram",
           "isMut": false,
           "isSigner": false
-        },
-        {
-          "name": "eventAuthority",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "program",
-          "isMut": false,
-          "isSigner": false
         }
       ],
       "args": [
@@ -238,10 +391,6 @@ export const IDL: ContractSolanaXai = {
           "type": {
             "defined": "InitTokenParams"
           }
-        },
-        {
-          "name": "identifier",
-          "type": "string"
         }
       ]
     },
@@ -251,7 +400,21 @@ export const IDL: ContractSolanaXai = {
         {
           "name": "feeRecommendReward",
           "isMut": true,
-          "isSigner": false
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "fee_recommend_reward"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "recommender"
+              }
+            ]
+          }
         },
         {
           "name": "recommender",
@@ -277,7 +440,22 @@ export const IDL: ContractSolanaXai = {
         {
           "name": "curveConfig",
           "isMut": true,
-          "isSigner": false
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "curve_config"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Mint",
+                "path": "token_mint"
+              }
+            ]
+          }
         },
         {
           "name": "vault",
@@ -287,17 +465,50 @@ export const IDL: ContractSolanaXai = {
         {
           "name": "vaultSol",
           "isMut": true,
-          "isSigner": false
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "curve_config"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Mint",
+                "path": "token_mint"
+              }
+            ]
+          }
         },
         {
           "name": "programSigner",
           "isMut": false,
-          "isSigner": false
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "program_signer"
+              }
+            ]
+          }
         },
         {
           "name": "feeConfig",
           "isMut": false,
-          "isSigner": false
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "fee_config"
+              }
+            ]
+          }
         },
         {
           "name": "feeReceiverAccount",
@@ -327,7 +538,16 @@ export const IDL: ContractSolanaXai = {
         {
           "name": "recommendRewardVault",
           "isMut": true,
-          "isSigner": false
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "recommend_reward_vault"
+              }
+            ]
+          }
         },
         {
           "name": "tokenProgram",
@@ -362,7 +582,22 @@ export const IDL: ContractSolanaXai = {
         {
           "name": "curveConfig",
           "isMut": true,
-          "isSigner": false
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "curve_config"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Mint",
+                "path": "token_mint"
+              }
+            ]
+          }
         },
         {
           "name": "vault",
@@ -372,17 +607,50 @@ export const IDL: ContractSolanaXai = {
         {
           "name": "vaultSol",
           "isMut": true,
-          "isSigner": false
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "curve_config"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Mint",
+                "path": "token_mint"
+              }
+            ]
+          }
         },
         {
           "name": "programSigner",
           "isMut": false,
-          "isSigner": false
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "program_signer"
+              }
+            ]
+          }
         },
         {
           "name": "feeConfig",
           "isMut": false,
-          "isSigner": false
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "fee_config"
+              }
+            ]
+          }
         },
         {
           "name": "feeReceiverAccount",
@@ -412,7 +680,16 @@ export const IDL: ContractSolanaXai = {
         {
           "name": "recommendRewardVault",
           "isMut": true,
-          "isSigner": false
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "recommend_reward_vault"
+              }
+            ]
+          }
         },
         {
           "name": "tokenProgram",
@@ -447,12 +724,35 @@ export const IDL: ContractSolanaXai = {
         {
           "name": "feeRecommendReward",
           "isMut": true,
-          "isSigner": false
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "fee_recommend_reward"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "recommender"
+              }
+            ]
+          }
         },
         {
           "name": "recommendRewardVault",
           "isMut": true,
-          "isSigner": false
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "recommend_reward_vault"
+              }
+            ]
+          }
         },
         {
           "name": "recommender",
@@ -467,7 +767,16 @@ export const IDL: ContractSolanaXai = {
         {
           "name": "eventAuthority",
           "isMut": false,
-          "isSigner": false
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "__event_authority"
+              }
+            ]
+          }
         },
         {
           "name": "program",
@@ -573,7 +882,21 @@ export const IDL: ContractSolanaXai = {
         {
           "name": "curveConfig",
           "isMut": true,
-          "isSigner": false
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "curve_config"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "amm_coin_mint"
+              }
+            ]
+          }
         },
         {
           "name": "tokenProgram",
@@ -621,7 +944,16 @@ export const IDL: ContractSolanaXai = {
         {
           "name": "programSigner",
           "isMut": false,
-          "isSigner": false
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "program_signer"
+              }
+            ]
+          }
         },
         {
           "name": "vaultToken",
@@ -631,7 +963,22 @@ export const IDL: ContractSolanaXai = {
         {
           "name": "vaultSol",
           "isMut": true,
-          "isSigner": false
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "curve_config"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Mint",
+                "path": "token_mint"
+              }
+            ]
+          }
         },
         {
           "name": "tokenMint",
@@ -641,7 +988,16 @@ export const IDL: ContractSolanaXai = {
         {
           "name": "programSystemAccount",
           "isMut": false,
-          "isSigner": false
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "program_system_account"
+              }
+            ]
+          }
         },
         {
           "name": "migration",
@@ -686,7 +1042,16 @@ export const IDL: ContractSolanaXai = {
         {
           "name": "programSystemAccount",
           "isMut": true,
-          "isSigner": false
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "program_system_account"
+              }
+            ]
+          }
         },
         {
           "name": "newOwner",
@@ -707,7 +1072,16 @@ export const IDL: ContractSolanaXai = {
         {
           "name": "programSystemAccount",
           "isMut": true,
-          "isSigner": false
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "program_system_account"
+              }
+            ]
+          }
         },
         {
           "name": "newAdmin",
@@ -728,12 +1102,30 @@ export const IDL: ContractSolanaXai = {
         {
           "name": "programSystemAccount",
           "isMut": true,
-          "isSigner": false
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "program_system_account"
+              }
+            ]
+          }
         },
         {
           "name": "feeConfig",
           "isMut": true,
-          "isSigner": false
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "fee_config"
+              }
+            ]
+          }
         },
         {
           "name": "newFeeReceiverAccount",
@@ -754,12 +1146,30 @@ export const IDL: ContractSolanaXai = {
         {
           "name": "programSystemAccount",
           "isMut": false,
-          "isSigner": false
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "program_system_account"
+              }
+            ]
+          }
         },
         {
           "name": "feeConfig",
           "isMut": true,
-          "isSigner": false
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "fee_config"
+              }
+            ]
+          }
         },
         {
           "name": "admin",
@@ -782,12 +1192,30 @@ export const IDL: ContractSolanaXai = {
         {
           "name": "programSystemAccount",
           "isMut": false,
-          "isSigner": false
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "program_system_account"
+              }
+            ]
+          }
         },
         {
           "name": "initTokenConfig",
           "isMut": true,
-          "isSigner": false
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "init_token_config"
+              }
+            ]
+          }
         },
         {
           "name": "admin",

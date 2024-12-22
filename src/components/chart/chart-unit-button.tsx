@@ -24,7 +24,7 @@ export const ChartUnitButton = ({
         className={linkStyle(activeUnit === 'master' && 'text-blue-600')}
         onClick={() => onClick('master')}
       >
-        {tokenChain?.native.symbol}
+        {tokenChain?.master_symbol}
       </button>
       /
       <button

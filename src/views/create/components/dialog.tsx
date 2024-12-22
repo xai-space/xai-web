@@ -125,7 +125,7 @@ export const CreateTokenStatusDialog = () => {
             )
             return
           }
-          router.push(joinPaths(Routes.Main, 'solana_devnet', deployedAddr))
+          router.push(joinPaths(Routes.Main, chain!, deployedAddr))
         }}
         showCancel={false}
         confirmText={t('go-to.buy')}

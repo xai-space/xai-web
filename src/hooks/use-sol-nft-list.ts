@@ -15,9 +15,9 @@ export const useSolNFTList = (nftListRef: React.RefObject<HTMLDivElement>) => {
     const [loadingMore, setLoadingMore] = useState(false)
     const { primaryWallet } = useDynamicContext()
 
-    const umi = createUmi(
-        'https://maximum-crimson-spring.solana-mainnet.quiknode.pro/a6dab9a89e264894d6e1b914715a09b4befce3f6'
-    ).use(dasApi())
+    // const umi = createUmi(
+    //     'https://maximum-crimson-spring.solana-mainnet.quiknode.pro/a6dab9a89e264894d6e1b914715a09b4befce3f6'
+    // ).use(dasApi())
 
 
     const getSolanaNFTAsset = async () => {

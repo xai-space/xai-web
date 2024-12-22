@@ -63,8 +63,7 @@ export const useSolDeploy = (onFinally?: VoidFunction) => {
       if (!checkForDeploy()) return
       if (!program) throw error
 
-      let identifier = tokenId
-      identifier = identifier.replace(/-/g, '')
+      let identifierAccount = new web3.PublicKey(tokenId)
 
       const metadata = {
         name,
@@ -76,7 +75,7 @@ export const useSolDeploy = (onFinally?: VoidFunction) => {
 
       const createTokenCtx = getCreateTokenAccount(
         new web3.PublicKey(primaryWallet!.address),
-        identifier
+        identifierAccount
       )
 
       setDeployedAddr(createTokenCtx.mint.toBase58())
@@ -93,11 +92,11 @@ export const useSolDeploy = (onFinally?: VoidFunction) => {
 
       const ixs = await Promise.all([
         program.methods
-          .initCreateTokenAccount(metadata, identifier)
+          .initCreateTokenAccount(metadata)
           .accounts(createTokenCtx)
           .instruction(),
         program.methods
-          .createToken(metadata, identifier)
+          .createToken(metadata)
           .accounts(createTokenCtx)
           .instruction(),
         ...buyIxs,

@@ -45,8 +45,6 @@ export const ChainSelect = forwardRef<HTMLDivElement, Props>((p, ref) => {
   const { currentNetwork } = useDynamicWallet()
 
   const isSelected = useMemo(() => {
-    console.log(chains, 'chains')
-
     const idx = chains?.findIndex((c) => {
       return false
       // const v = value || defaultValue || chainId.toString()
@@ -129,7 +127,7 @@ export const ChainSelect = forwardRef<HTMLDivElement, Props>((p, ref) => {
           onClick={() => switchChain(c)}
         >
           <img
-            src={`${staticUrl}${c.logo_url?.slice(1)}`}
+            src={`${staticUrl}${c.logo_url}`}
             alt={c.id}
             className="w-7 h-7 rounded-full"
           />

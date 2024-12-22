@@ -43,8 +43,6 @@ export const CreateTokenForm = () => {
   }
 
   useEffect(() => {
-    console.log('from.tsx-url: ', url)
-
     if (isArray(url)) {
       form?.setValue(formFields!.logo!, url[0]?.url)
     }

@@ -3,10 +3,12 @@ import { createContext, useContext } from 'react'
 import { CONTEXT_ERR } from '@/errors/context'
 import { Network } from '@/enums/contract'
 import { ChainData } from '@/api/chain/type'
+import { useTokenInfo } from '@/views/token/hooks/use-token-info'
+import { useTokenWs } from '@/views/token/hooks/use-token-ws'
 
 interface Context
-  extends Omit<ReturnType<any>, 'isRefetchingTokenInfo'>,
-  ReturnType<any> {
+  extends Omit<ReturnType<typeof useTokenInfo>, 'isRefetchingTokenInfo'>,
+  ReturnType<typeof useTokenWs> {
   isGraduated: boolean | undefined
   reserveSymbol: string | undefined
   chainId: number

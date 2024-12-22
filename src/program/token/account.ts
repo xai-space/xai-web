@@ -52,10 +52,13 @@ const commentAccounts = (mintPDA: web3.PublicKey) => {
 
 export const getCreateTokenAccount = (
   signer: web3.PublicKey,
-  identifier: string
+  identifierAccount: web3.PublicKey
 ) => {
+  console.log("identifierAccount: ", identifierAccount);
+  console.log("programIds.programId: ", programIds.programId.toBase58());
+
   const [mintPDA] = web3.PublicKey.findProgramAddressSync(
-    [Buffer.from('mint'), Buffer.from(identifier)],
+    [Buffer.from('mint'), identifierAccount.toBuffer()],
     programIds.programId
   )
 
@@ -86,6 +89,7 @@ export const getCreateTokenAccount = (
     feeReceiverAccount: programIds.feeReceiverAccount,
     initTokenConfig,
     rent: web3.SYSVAR_RENT_PUBKEY,
+    identifierAccount,
     ...cm,
   }
 }
