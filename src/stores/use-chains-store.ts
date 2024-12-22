@@ -48,8 +48,6 @@ export const useChainsStore = create<ChainsStore>((set, get) => ({
         evmChainsMap[c?.id] = c
         evmChainsMap[c?.evm_id] = c
       } else if (c.network_type === Network.Svm) {
-        console.log(c);
-
         svmChiansMap[c?.id] = c
         svmChiansMap[c?.id] = c
       } else if (c.network_type === Network.Tvm) {

@@ -21,7 +21,7 @@ export const useSvmTradeAmount = (tokenAddr?: string) => {
   }
 
   const comments = async (amount: string) => {
-    const amountIn = new BN(parseSol(amount).toFixed(0))
+    const amountIn = new BN(parseSol(amount))
 
     const { curveConfig } = getCurveAccount(tokenAddr!)
     const feeConfig = getFeeAccount()

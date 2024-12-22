@@ -33,7 +33,7 @@ export const tokenApi = {
     })
   },
   getList: (req: TokenListReq & { search?: string }) => {
-    return api.GET<ApiResponse<TokenListItem[]>>(
+    return api.GET<ApiResponse<PaginationRes<TokenListItem>>>(
       '/api/v2/coins/list' + qs.stringify(req)
     )
   },

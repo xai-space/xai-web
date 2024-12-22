@@ -30,8 +30,6 @@ export const useVersionedTransaction = () => {
     if (!primaryWallet) return
     if (isSolanaWallet(primaryWallet)) {
       const signer = await primaryWallet?.getSigner()
-      console.log("signer: ", signer);
-
       return (await signer?.signAndSendTransaction(transaction, options))
         .signature
     }

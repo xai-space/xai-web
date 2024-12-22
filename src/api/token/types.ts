@@ -1,3 +1,4 @@
+import { Network } from '@/enums/contract'
 import { TokenType } from '@/enums/token'
 // import type { TokenVersion } from '@/contract/abi/token'
 // import type { RecommendVersion } from '@/contract/abi/recommend'
@@ -29,7 +30,7 @@ export interface TokenListItem {
   is_graduated: boolean
   max_supply: string
   name: string
-  network: string
+  network: Network
   poster_urls: string[]
   start_price: string
   symbol: string

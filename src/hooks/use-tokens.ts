@@ -22,17 +22,13 @@ export const useTokens = () => {
     },
     initialPageParam: 1,
     getNextPageParam: (_, __, page) => page + 1,
-    select: (data) => {
-      return ({
-        totalToken: data.pages[0].data.length,
-        tokens: data.pages
-          .flatMap((p) => p.data)
-          .filter(Boolean) as TokenListItem[],
-      })
-    },
+    select: (data) => ({
+      totalToken: data.pages[0].data.count,
+      tokens: data.pages
+        .flatMap((p) => p.data.results)
+        .filter(Boolean) as TokenListItem[],
+    }),
   })
-
-  console.log("tokens: ", tokens);
 
   return {
     totalToken,

@@ -70,7 +70,7 @@ export const useSolDeploy = (onFinally?: VoidFunction) => {
         symbol,
         // TODO: wait api
         uri: 'https://5vfxc4tr6xoy23qefqbj4qx2adzkzapneebanhcalf7myvn5gzja.arweave.net/7UtxcnH13Y1uBCwCnkL6APKsge0hAgacQFl-zFW9NlI',
-        decimals: chainsInfo?.master_symbol,
+        decimals: chainsInfo?.master_decimals,
       }
 
       const createTokenCtx = getCreateTokenAccount(

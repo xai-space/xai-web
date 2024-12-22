@@ -19,6 +19,12 @@ import { PoolItem } from '@/hooks/token/use-tokens-pools'
 import { BI_ZERO } from '@/constants/number'
 import { getTokenProgress } from '@/utils/contract'
 import { staticUrl } from '@/config/url'
+import { Network } from '@/enums/contract'
+import { useQuery } from '@tanstack/react-query'
+import { programIds } from '@/program'
+import { IDL } from '@/program/token/idl'
+import { useProgram } from '@/packages/react-sol'
+import { getCurveAccount } from '@/program/token/account'
 
 interface Props extends ComponentProps<typeof Card> {
   card: TokenListItem
@@ -26,6 +32,39 @@ interface Props extends ComponentProps<typeof Card> {
 
   pool: PoolItem | undefined
   onlyGraduated?: boolean
+}
+
+export const useTokenPools = (token: TokenListItem) => {
+  const { program, error } = useProgram({
+    idl: IDL,
+    programId: programIds.programId,
+  })
+
+  const { data: pools, refetch: refetchPools } = useQuery({
+    queryKey: ['getPools', token.contract_address],
+    queryFn: async () => {
+      if (!program) throw error
+
+      const { curveConfig } = getCurveAccount(token.contract_address)
+
+      const curve = await program.account['curveConfig'].fetch(curveConfig)
+
+      return curve
+    },
+    enabled: !!token.contract_address,
+    refetchInterval: 10_000,
+  })
+
+  const {
+    graduated: isGraduated,
+    solAim,
+    tokenReserve,
+    tokenMaxSupply,
+  } = pools || {}
+
+  console.log(token.name, isGraduated, solAim, tokenReserve, tokenMaxSupply)
+
+  return { isGraduated, solAim, tokenReserve, tokenMaxSupply }
 }
 
 export const TokenCard = ({
@@ -42,14 +81,9 @@ export const TokenCard = ({
   const { t } = useTranslation()
   const { chain, chainName } = useChainInfo(card.chain)
 
-  const {
-    tokenReserve = BI_ZERO,
-    headmaster = zeroAddress,
-    maxSupply = BI_ZERO,
-  } = pool ?? {}
-  const isGraduated = headmaster !== zeroAddress
+  const { isGraduated, tokenReserve, tokenMaxSupply } = useTokenPools(card)
 
-  const progress = getTokenProgress(tokenReserve, maxSupply, isGraduated)
+  const progress = getTokenProgress(tokenReserve, tokenMaxSupply, isGraduated)
 
   const handleClick = () => {
     // if (!card.is_active) {
@@ -60,6 +94,16 @@ export const TokenCard = ({
       return router.push(
         joinPaths(Routes.Main, chainName, card.contract_address)
       )
+    }
+  }
+
+  const handleImage = () => {
+    if (/\/\//.test(card.image)) {
+      return card.image
+    }
+
+    if (card.image.startsWith('http:/')) {
+      return `${staticUrl}${card.image.slice(6)}`
     }
   }
 
@@ -80,10 +124,10 @@ export const TokenCard = ({
       conPadding={'sm'}
       {...props}
     >
-      <TokenCardBadge token={card} isGraduated={isGraduated} />
+      <TokenCardBadge token={card} isGraduated={isGraduated!} />
 
       <Img
-        src={card.image}
+        src={handleImage()}
         alt="logo"
         title={card.name}
         className="shrink-0 w-32 h-32 xl:w-40 xl:h-40 rounded-r-none max-sm:mr-2"
