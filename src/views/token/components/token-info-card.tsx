@@ -18,6 +18,7 @@ import { SocialLinks } from '../../../components/social-links'
 import { AvatarCard } from '@/components/avatar-card'
 import { listedMarketCap } from '@/config/trade'
 import { EllipsisText } from '@/components/ellipsis-text'
+import { staticUrl } from '@/config/url'
 
 export const TokenInfoCard = ({ className }: ComponentProps<'div'>) => {
   const { t } = useTranslation()
@@ -59,7 +60,7 @@ export const TokenInfoCard = ({ className }: ComponentProps<'div'>) => {
 
   return (
     <AvatarCard
-      src={tokenInfo?.image_url}
+      src={tokenInfo?.image}
       className="mt-20"
       avatarChildren={
         isGraduated && (
@@ -74,8 +75,8 @@ export const TokenInfoCard = ({ className }: ComponentProps<'div'>) => {
     >
       {/* Chain logo */}
       <div className="absolute left-2 top-2 flex items-center gap-1">
-        <Avatar src={tokenChain?.logo} size={20} />
-        <p className="text-sm max-w-20 break-all">{tokenChain?.displayName}</p>
+        <Avatar src={`${staticUrl}${tokenChain?.logo_url}`} size={20} />
+        <p className="text-sm max-w-20 break-all truncate">{tokenChain?.id}</p>
       </div>
 
       {/* Name/symbol */}
@@ -89,9 +90,12 @@ export const TokenInfoCard = ({ className }: ComponentProps<'div'>) => {
 
       {/* Links */}
       <SocialLinks
-        x={tokenInfo?.twitter_url}
-        tg={tokenInfo?.telegram_url}
+        x={tokenInfo?.twitter}
+        tg={tokenInfo?.telegram}
         website={tokenInfo?.website_url}
+        buttonProps={{
+          className: 'border-transparent sm:hover:border-black bg-transparent',
+        }}
       />
 
       {/* Poster */}

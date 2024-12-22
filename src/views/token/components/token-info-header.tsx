@@ -50,7 +50,7 @@ export const TokenInfoHeader = ({ className }: ComponentProps<'div'>) => {
         <div className="max-sm:flex max-sm:w-full max-sm:justify-between max-sm:space-x-2">
           <div className="flex items-center max-w-64 break-all line-clamp-1 max-sm:flex-1">
             <Avatar
-              src={tokenInfo?.image_url ?? ''}
+              src={tokenInfo?.image ?? ''}
               size={26}
               className="border-2 border-black"
             />
@@ -66,12 +66,12 @@ export const TokenInfoHeader = ({ className }: ComponentProps<'div'>) => {
           </div>
           <div className="sm:hidden flex items-center">
             <img
-              src={tokenChain?.logo}
-              alt={tokenChain?.displayName}
+              src={tokenChain?.logo_url}
+              alt={tokenChain?.id}
               className="w-5 h-5 rounded"
             />
             <span className="ml-1 whitespace-nowrap">
-              {fmt.withChain(tokenChain?.displayName)}
+              {fmt.withChain(tokenChain?.id)}
             </span>
           </div>
         </div>

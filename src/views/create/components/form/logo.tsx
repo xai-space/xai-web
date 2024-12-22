@@ -121,7 +121,7 @@ export const LogoField = () => {
                 ) : field.value ? (
                   <div>
                     <img
-                      src={`${staticUrl}${field.value}` as string}
+                      src={`${staticUrl}${field.value}`}
                       alt="logo"
                       className="absolute top-0 left-0 w-full h-full object-cover"
                     />

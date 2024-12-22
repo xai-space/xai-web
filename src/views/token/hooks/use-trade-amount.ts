@@ -59,6 +59,7 @@ export const useTradeAmount = () => {
     if (isGraduated) return [BI_ZERO, '0'] as const
 
     if (network === Network.Svm) {
+      console.log('reserveTotalAmount----', reserveTotalAmount)
       return [parseSol(reserveTotalAmount), reserveTotalAmount] as const
     }
 

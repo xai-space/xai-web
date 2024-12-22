@@ -1,5 +1,5 @@
 import { web3 } from '@coral-xyz/anchor'
-import { useConnection, useWallet } from '@solana/wallet-adapter-react'
+import { useConnection } from '@solana/wallet-adapter-react'
 import type { SendTransactionOptions } from '@solana/wallet-adapter-base'
 import { isSolanaWallet } from '@dynamic-labs/solana'
 
@@ -30,6 +30,8 @@ export const useVersionedTransaction = () => {
     if (!primaryWallet) return
     if (isSolanaWallet(primaryWallet)) {
       const signer = await primaryWallet?.getSigner()
+      console.log("signer: ", signer);
+
       return (await signer?.signAndSendTransaction(transaction, options))
         .signature
     }

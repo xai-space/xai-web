@@ -41,7 +41,7 @@ const NoticeCardList = () => {
 
   return (
     <div className="pt-20">
-      {data?.list.map((item, index) => (
+      {data?.list.map(({ data }, index) => (
         <div className="mb-4" key={index}>
           <Card>
             <CardHeader className="flex flex-row items-center">
@@ -49,8 +49,8 @@ const NoticeCardList = () => {
                 <Avatar>
                   <AvatarImage
                     src={
-                      isEmpty(item.data.from_user.logo)
-                        ? `${staticUrl}${item.data.from_user.logo}`
+                      isEmpty(data.from_user.logo)
+                        ? `${staticUrl}${data.from_user.logo}`
                         : defaultAgentLogo
                     }
                   />
@@ -58,14 +58,10 @@ const NoticeCardList = () => {
                 </Avatar>
               </div>
               <div>
-                <CardTitle>
-                  {get(item, 'data.from_user.name', '-')}
-
-                  {item.action === 'follow' && '  following you'}
-                </CardTitle>
+                <CardTitle>{get(data, 'from_user.name', '-')}</CardTitle>
                 <CardDescription>
                   <div className="line-clamp-3 overflow-hidden text-ellipsis whitespace-pre-wrap">
-                    {get(item, 'data.from_user.description', '-')}
+                    {get(data, 'from_user.description', '-')}
                   </div>
                 </CardDescription>
               </div>

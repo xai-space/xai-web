@@ -16,6 +16,7 @@ import { TradeButton } from './trade-button'
 import { TradeTabs } from './trade-tabs'
 import { useInvite } from '@/hooks/use-invite'
 import { useTradeBalance } from '../../hooks/use-trade-balance'
+import { formatSol } from '@/packages/react-sol'
 
 export const TradeTab = ({ className }: ComponentProps<'div'>) => {
   const [tab, setTab] = useState(TradeType.Buy.toString())
@@ -80,7 +81,12 @@ export const TradeTab = ({ className }: ComponentProps<'div'>) => {
 
           <div className="flex flex-col mt-3 mb-1">
             <TradeInput value={value} onChange={setValue} disabled={disabled} />
-            <TradeItems disabled={disabled} onItemClick={setValue} />
+            <TradeItems
+              disabled={disabled}
+              onItemClick={(v) => {
+                setValue(isBuy ? v : formatSol(v))
+              }}
+            />
           </div>
 
           <TradeButton

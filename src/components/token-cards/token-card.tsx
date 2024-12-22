@@ -18,6 +18,7 @@ import { joinPaths } from '@/utils'
 import { PoolItem } from '@/hooks/token/use-tokens-pools'
 import { BI_ZERO } from '@/constants/number'
 import { getTokenProgress } from '@/utils/contract'
+import { staticUrl } from '@/config/url'
 
 interface Props extends ComponentProps<typeof Card> {
   card: TokenListItem
@@ -51,11 +52,10 @@ export const TokenCard = ({
   const progress = getTokenProgress(tokenReserve, maxSupply, isGraduated)
 
   const handleClick = () => {
-    if (!card.is_active) {
-      toast.error(t('token.active-first'))
-      return
-    }
-
+    // if (!card.is_active) {
+    //   toast.error(t('token.active-first'))
+    //   return
+    // }
     if (card.contract_address) {
       return router.push(
         joinPaths(Routes.Main, chainName, card.contract_address)
@@ -83,7 +83,7 @@ export const TokenCard = ({
       <TokenCardBadge token={card} isGraduated={isGraduated} />
 
       <Img
-        src={card.image_url}
+        src={card.image}
         alt="logo"
         title={card.name}
         className="shrink-0 w-32 h-32 xl:w-40 xl:h-40 rounded-r-none max-sm:mr-2"
@@ -95,11 +95,11 @@ export const TokenCard = ({
               {card?.symbol}({card?.name})
             </span>
             <Avatar
-              src={chain?.logo}
+              src={`${staticUrl}${chain?.logo_url}`}
               alt="logo"
               size={20}
               className="mt-1"
-              title={chain?.displayName}
+              title={chain?.id}
             />
           </CardTitle>
           <p
@@ -112,23 +112,23 @@ export const TokenCard = ({
             {card?.description}
           </p>
         </div>
-        {card.is_active ? (
-          <Progress
-            className={cn('h-5 self-end w-full')}
-            indicatorClass={'bg-green-500'}
-            value={progress}
-          />
-        ) : (
+        {/* {card.is_active ? ( */}
+        <Progress
+          className={cn('h-5 self-end w-full')}
+          indicatorClass={'bg-green-500'}
+          value={progress}
+        />
+        {/*  ) : (
           <Button
-            size="sm"
-            onClick={(e) => {
-              e.stopPropagation()
-              toast.info('Coming Soon')
-            }}
-          >
-            {t('token.activate')}
-          </Button>
-        )}
+             size="sm"
+             onClick={(e) => {
+               e.stopPropagation()
+               toast.info('Coming Soon')
+             }}
+           >
+             {t('token.activate')}
+           </Button>
+         )}*/}
       </div>
     </Card>
   )

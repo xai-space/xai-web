@@ -6,6 +6,7 @@ import { useDynamicContext } from '@dynamic-labs/sdk-react-core'
 import { isSolanaWallet } from '@dynamic-labs/solana'
 
 import { useTokenContext } from '@/contexts/token'
+import { formatSol } from '@/packages/react-sol'
 
 export const useSvmTradeBalance = () => {
   // const { publicKey } = useWallet()
@@ -38,7 +39,7 @@ export const useSvmTradeBalance = () => {
 
       const tokenAmount = await connection.getTokenAccountBalance(tokenAccount)
 
-      return tokenAmount.value.uiAmount ?? 0
+      return tokenAmount.value.amount ?? 0
     },
     enabled: !!tokenAddr && !!primaryWallet && isSolanaWallet(primaryWallet),
     refetchInterval: 5_000,
@@ -51,7 +52,7 @@ export const useSvmTradeBalance = () => {
 
   return {
     nativeBalance: balanceSol,
-    tokenBalance: tokenBalance.toString(),
+    tokenBalance: tokenBalance,
     isFetchingBalance: isFetchingReserve || isFetchingToken,
     refetchBalance,
   }

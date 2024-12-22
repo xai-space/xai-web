@@ -15,7 +15,7 @@ export const useTokenInfo = (tokenAddr: string, chainName: string) => {
   const { chainsMap } = useChainsStore()
 
   const { chainId } = useChainInfo(chainName)
-  const { network: currentNetWork } = chainsMap[chainName] || {}
+  const { network_type: currentNetWork } = chainsMap[chainName] || {}
   const [fallbackGraduated, setFallbackGraduated] = useState<Address>()
 
   const {

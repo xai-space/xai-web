@@ -30,7 +30,7 @@ export const TokenProgress = ({
     tokenAddr,
   } = useTokenContext()
   const tokenDetailsFc = () => {
-    if (Network.Svm === tokenChain?.network) {
+    if (Network.Svm === tokenChain?.network_type) {
       return useSolTokenDetails(tokenAddr)
     }
 
@@ -48,7 +48,7 @@ export const TokenProgress = ({
   const threshold = BigNumber(totalSupply).lte(0)
     ? t('threshold')
     : ` ${fmt.decimals(totalSupply, { fixed: 3 })} ${
-        tokenChain?.native.symbol ?? ''
+        tokenChain?.master_decimals ?? ''
       } `
 
   return (
