@@ -15,6 +15,7 @@ import { useChainInfo } from '@/hooks/use-chain-info'
 import { parseMediaUrl } from '@/utils'
 import { CoinApi } from '@/api/coin'
 import { staticUrl } from '@/config/url'
+import { CoinType } from '@/config/coin'
 
 export const formFields = {
   fullname: 'fullname',
@@ -67,7 +68,7 @@ const formSchema = z
     [formFields.chainName]: z.string().refine(validateInput, require),
     [formFields.logo]: z.string().refine(validateInput, require),
     [formFields.poster]: z.array(z.string()).optional(),
-    [formFields.coinType]: z.number(),
+    [formFields.coinType]: z.string(),
     buyAmount: z.string().optional(),
   })
   .merge(marketingSchema)
@@ -90,7 +91,7 @@ export const useCreateTokenForm = () => {
       [formFields.chainName]: '',
       [formFields.logo]: '',
       [formFields.poster]: [],
-      [formFields.coinType]: TokenType.Normal,
+      [formFields.coinType]: `${CoinType.Default}`,
       [formFields.marketing]: [],
       buyAmount: '',
     },
@@ -119,7 +120,7 @@ export const useCreateTokenForm = () => {
       twitter: parseMediaUrl('x', values.twitter),
       telegram: parseMediaUrl('tg', values.telegram),
       website: parseMediaUrl('website', values.website),
-      coin_type: values.coinType as number,
+      coin_type: Number(values.coinType),
       posters: values.poster as string[],
       buyAmount: values.buyAmount || '0',
       // Below only used for frontend.

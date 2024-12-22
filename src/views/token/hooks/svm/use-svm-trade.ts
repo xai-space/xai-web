@@ -140,7 +140,6 @@ export const useSvmTrade = (tokenAddr?: string, onSuccess?: VoidFunction) => {
     const tokenAmount = await getTokenAmount(reserveAmount)
 
     const amountIn = new BN(parseSol(reserveAmount).toString())
-    console.log('amountIn', amountIn.toString(), new BN(subSlippage(formatSol(tokenAmount), slippage, network)).toString())
 
     const ctx = await getTradeAccount(
       new web3.PublicKey(primaryWallet?.address!),
@@ -179,7 +178,6 @@ export const useSvmTrade = (tokenAddr?: string, onSuccess?: VoidFunction) => {
     }) => {
       if (!checkForTrade(reserveAmount)) return
       if (!program) throw error
-      console.log("reserveAmount", reserveAmount);
 
       await getBuyInstructions(reserveAmount, slippage, tokenAddr!)
 

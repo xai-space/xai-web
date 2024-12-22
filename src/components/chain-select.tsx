@@ -21,6 +21,7 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
+  SelectValue,
 } from '@/components/ui/select'
 import { useChainsStore } from '@/stores/use-chains-store'
 import { ChainData } from '@/api/chain/type'
@@ -100,6 +101,28 @@ export const ChainSelect = forwardRef<HTMLDivElement, Props>((p, ref) => {
   }, [evmChainsMap])
 
   if (loadingChains) return <div>{t('loading')}</div>
+
+  // return (
+  //   <Select defaultValue={defaultValue} onValueChange={onValueChange}>
+  //     <SelectTrigger>
+  //       <SelectValue placeholder="Select a chain" />
+  //     </SelectTrigger>
+  //     <SelectContent>
+  //       {chains.slice(0, 7)?.map((c, i) => (
+  //         <SelectItem key={c.id} value={c.id}>
+  //           <div className="flex items-center space-x-2">
+  //             <img
+  //               src={`${staticUrl}${c.logo_url}`}
+  //               alt={c.id}
+  //               className="w-6 h-6"
+  //             />
+  //             <span>{c.id}</span>
+  //           </div>
+  //         </SelectItem>
+  //       ))}
+  //     </SelectContent>
+  //   </Select>
+  // )
 
   return (
     <RadioGroup

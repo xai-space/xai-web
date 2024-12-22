@@ -83,14 +83,14 @@ export const DescriptionField = () => {
         <FormItem className="max-w-[500px]">
           <FormLabel className="font-bold flex items-center">
             *{t('description')}
-            <LuRefreshCcw
+            {/* <LuRefreshCcw
               className={cn(
                 'ml-2',
                 loadingDesc ? 'animate-spin' : 'cursor-pointer'
               )}
               title="Regenerate"
               onClick={createDesc}
-            />
+            /> */}
           </FormLabel>
           <FormControl>
             <Textarea

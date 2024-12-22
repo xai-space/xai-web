@@ -38,8 +38,6 @@ export const ChainField = () => {
               defaultValue={id}
               value={field.value}
               onChange={(c) => {
-                console.log(c)
-
                 field.onChange(c.id)
               }}
             />

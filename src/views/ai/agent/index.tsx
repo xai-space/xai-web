@@ -1,19 +1,19 @@
-import { aiApi } from '@/api/ai'
-import { AgentInfoResDataBase, AgentListReq } from '@/api/ai/type'
 import PrimaryLayout from '@/components/layouts/primary'
-import { ListLoading } from '@/components/loading'
 import { Button } from '@/components/ui/button'
 import { Routes } from '@/routes'
 import { useAIAgentStore } from '@/stores/use-chat-store'
-import { useInfiniteScroll } from 'ahooks'
 import { useRouter } from 'next/router'
-import { ReactNode, useEffect, useState } from 'react'
+import { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
-import { AgentDeleteDialog } from '../components/agent-delete-dialog'
 import { useUserStore } from '@/stores/use-user-store'
 import { toast } from 'sonner'
-import { DynamicConnectButton } from '@dynamic-labs/sdk-react-core'
 import { AgentCardList } from '@/components/agent-card-list'
+import { DropdownMenu } from '@radix-ui/react-dropdown-menu'
+import {
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 
 const AgentList = () => {
   const { t } = useTranslation()
@@ -28,15 +28,22 @@ const AgentList = () => {
       <div className="flex justify-between items-center text-xl">
         {t('agent.list')}
         <div className="flex space-x-4">
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <Button variant="secondary">{t('create.token')}</Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem
+                onClick={() => {
+                  push(Routes.Create)
+                }}
+              >
+                {t('create.token')}
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
           <Button
-            onClick={() => {
-              push(Routes.Create)
-            }}
-            variant="purple"
-          >
-            {t('create.token')}
-          </Button>
-          <Button
+            variant="secondary"
             onClick={() => {
               setAgentInfo(undefined)
               push(Routes.AICreate)

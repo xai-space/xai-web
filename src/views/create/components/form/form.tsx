@@ -14,7 +14,6 @@ import {
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { LogoField } from './logo'
-import { PosterField } from './poster'
 import { fmt } from '@/utils/fmt'
 import { useCreateTokenContext } from '@/contexts/create-token'
 import { useAimemeInfoStore } from '@/stores/use-ai-meme-info-store'
@@ -22,6 +21,14 @@ import { DescriptionField } from './desc'
 import { ChainField } from './chain-field'
 import { InitialBuyField } from './initial-buy-field'
 import { isArray } from 'lodash'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import { CoinType } from '@/config/coin'
 
 export const CreateTokenForm = () => {
   const { t } = useTranslation()
@@ -30,6 +37,12 @@ export const CreateTokenForm = () => {
   const [open, setOpen] = useState(false)
 
   const { loadingInfo, loadingLogo } = useAimemeInfoStore()
+
+  const coinTypeOptions = [
+    { value: CoinType.Default, label: t('coin.type.default') },
+    { value: CoinType.Agent, label: t('coin.type.agent') },
+    { value: CoinType.NFTAgent, label: t('coin.type.nftagent') },
+  ]
 
   const isZeroFee = BigNumber(deployFee).isZero()
   const disabled = isDeploying || isZeroFee
@@ -101,10 +114,49 @@ export const CreateTokenForm = () => {
             </div>
           </div>
 
-          {/* Chain / coinType */}
-          <div className="h-[150px] flex flex-col justify-between max-sm:flex-row max-sm:h-min max-sm:justify-start max-sm:space-x-4 max-sm:flex-wrap">
-            <ChainField />
-            {/* <CoinTypeField /> */}
+          <div className="flex flex-col justify-between">
+            {/* Chain / coinType */}
+            <div className="flex flex-col justify-between max-sm:flex-row max-sm:h-min max-sm:justify-start max-sm:space-x-4 max-sm:flex-wrap">
+              <ChainField />
+              {/* <CoinTypeField /> */}
+            </div>
+
+            {/* Coin type */}
+            <div className="flex flex-col justify-between max-sm:flex-row max-sm:h-min max-sm:justify-start max-sm:space-x-4 max-sm:flex-wrap">
+              <FormField
+                control={form?.control}
+                name={formFields?.coinType!}
+                render={({ field }) => (
+                  <FormItem className="flex-1 mr-4">
+                    <FormLabel className="font-bold">
+                      {t('coin.type')}
+                    </FormLabel>
+                    <FormControl>
+                      <Select
+                        defaultValue={field.value}
+                        onValueChange={(value) => {
+                          form.setValue(formFields?.coinType!, value)
+                        }}
+                      >
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {coinTypeOptions.map((item) => (
+                            <SelectItem
+                              key={item.value}
+                              value={`${item.value}`}
+                            >
+                              {item.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+            </div>
           </div>
         </div>
 
@@ -112,7 +164,7 @@ export const CreateTokenForm = () => {
         <DescriptionField />
 
         {/* Poster */}
-        <PosterField />
+        {/* <PosterField /> */}
 
         {/* Twitter & telegram */}
         <div className="flex justify-between max-w-[500px]">

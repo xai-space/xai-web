@@ -39,10 +39,11 @@ export const useTokenConfig = (chain: string | undefined) => {
     isLoading: isLoadingConfig,
     refetch: refetchConfig,
   } = useQuery({
+    enabled: false,
     queryKey: [tokenApi.getConfig.name, chain],
     queryFn: tokenApi.getConfig,
     select: ({ data }) => data,
-    refetchInterval: 30_000,
+    // refetchInterval: 30_000,
   })
   const [
     { address: bcAddress, version: bcVersion },
