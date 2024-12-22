@@ -17,7 +17,8 @@ export const useComments = (enableFetchComments = true) => {
     refetch: refetchComments,
     fetchNextPage,
   } = useInfiniteQuery({
-    enabled: enableFetchComments && !!chainName && !!tokenAddr,
+    // enabled: enableFetchComments && !!chainName && !!tokenAddr,
+    enabled: false,
     queryKey: [tokenApi.getComments.name + uniqueId, chainName, tokenAddr],
     refetchOnWindowFocus: false,
     initialPageParam: 1,

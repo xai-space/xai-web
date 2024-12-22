@@ -118,7 +118,7 @@ export const TokenInfoCard = ({ className }: ComponentProps<'div'>) => {
           <span className="truncate mx-2">
             {fmt.addr(
               tokenInfo?.contract_address ?? tokenMetadata?.token ?? '',
-              { len: 12 }
+              { len: 8 }
             )}
           </span>
           {isCopied ? <IoCheckmark size={16} /> : <MdContentCopy size={16} />}

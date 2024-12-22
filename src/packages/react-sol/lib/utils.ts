@@ -18,7 +18,9 @@ export const formatSol = (amount: number | string) => {
 }
 
 export const parseSol = (amount: number | string) => {
-  return BigNumber(amount).multipliedBy(web3.LAMPORTS_PER_SOL)
+  const a = BigNumber(amount).multipliedBy(web3.LAMPORTS_PER_SOL).toString()
+  if (a.indexOf('.') === -1) return a
+  return a.slice(0, a.indexOf('.')) || '0'
 }
 
 export const isSolAddress = (addr: string) => {

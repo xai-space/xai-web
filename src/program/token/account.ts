@@ -54,9 +54,6 @@ export const getCreateTokenAccount = (
   signer: web3.PublicKey,
   identifierAccount: web3.PublicKey
 ) => {
-  console.log("identifierAccount: ", identifierAccount);
-  console.log("programIds.programId: ", programIds.programId.toBase58());
-
   const [mintPDA] = web3.PublicKey.findProgramAddressSync(
     [Buffer.from('mint'), identifierAccount.toBuffer()],
     programIds.programId

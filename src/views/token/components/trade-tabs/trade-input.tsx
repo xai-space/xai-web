@@ -83,7 +83,6 @@ export const TradeInput = ({ value, onChange, disabled }: Props) => {
     if (BigNumber(value).lte(0)) return
     if (isBuy) {
       if (!(await checkLastOrder())) return
-      console.log('getTokenAmount--------', value)
       const [_, tokenAmount] = await getTokenAmount(value)
       amount = tokenAmount
     } else {

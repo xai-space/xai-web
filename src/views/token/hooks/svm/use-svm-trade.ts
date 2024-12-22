@@ -139,7 +139,7 @@ export const useSvmTrade = (tokenAddr?: string, onSuccess?: VoidFunction) => {
   ) => {
     const tokenAmount = await getTokenAmount(reserveAmount)
 
-    const amountIn = new BN(parseSol(reserveAmount).toString())
+    const amountIn = new BN(parseSol(reserveAmount))
 
     const ctx = await getTradeAccount(
       new web3.PublicKey(primaryWallet?.address!),
@@ -211,7 +211,7 @@ export const useSvmTrade = (tokenAddr?: string, onSuccess?: VoidFunction) => {
         tokenAddr!
       )
 
-      const amountIn = new BN(parseSol(tokenAmount).toFixed(0))
+      const amountIn = new BN(parseSol(tokenAmount))
 
       const remainingAccounts = await initRecommendAccounts()
 

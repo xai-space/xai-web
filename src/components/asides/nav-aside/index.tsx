@@ -230,7 +230,8 @@ export const NavAside = ({
             />
           </div>
 
-          <PublishPostDialog isCollapsed={isCollapsed} />
+          {/* <PublishPostDialog isCollapsed={isCollapsed} /> */}
+          <Button variant="purple" className="w-full"></Button>
         </div>
       </div>
 
