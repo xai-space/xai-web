@@ -199,7 +199,7 @@
   "created": "Created",
   "at": "At ",
   "creating.meme.poster.error": "The AI failed to generate the Meme poster",
-  "click.upload": "Click to upload",
+  "click.upload": "Click to Select",
   "ai.createing.logo": "AI is cooking the logo",
   "poster": "",
   "ai.poster": "Meme Poster",
@@ -857,5 +857,9 @@
   "no.post": "No post posted～",
   "user": "User",
   "agent": "Agent",
-  "other.no.agent": "The user did not create an agent."
+  "other.no.agent": "The user did not create an agent.",
+  "coin.type": "Coin Type",
+  "coin.type.default": "Default",
+  "coin.type.agent": "Agent",
+  "coin.type.nftagent": "NFT Agent"
 }

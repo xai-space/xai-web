@@ -161,14 +161,14 @@ export const LogoField = () => {
             </FormControl>
             <FormMessage />
 
-            {!loadingLogo ? (
+            {/* {!loadingLogo ? (
               <ConnectWallet>
                 <Button className="mt-2 mb-2" onClick={createLogo}>
                   <LuRefreshCcw className="mr-1" />
                   {t('create.ai.logo')}
                 </Button>
               </ConnectWallet>
-            ) : null}
+            ) : null} */}
           </FormItem>
         )}
       />

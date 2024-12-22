@@ -85,12 +85,6 @@ export const TradeInput = ({ value, onChange, disabled }: Props) => {
       if (!(await checkLastOrder())) return
       console.log('getTokenAmount--------', value)
       const [_, tokenAmount] = await getTokenAmount(value)
-      console.log(
-        'tokenAmount',
-        _.toString(),
-        tokenAmount.toString(),
-        formatSol(tokenAmount)
-      )
       amount = tokenAmount
     } else {
       const [, reserveAmount] = await getReserveAmount(value)

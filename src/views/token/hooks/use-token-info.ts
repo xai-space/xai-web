@@ -78,7 +78,6 @@ export const useTokenInfo = (tokenAddr: string, chainName: string) => {
     refetchDetails,
     graduatedPool,
     setFallbackGraduated,
-
     ...tokenDetails,
     progress,
     isGraduated,

@@ -7,7 +7,7 @@ import { useQuery } from '@tanstack/react-query'
 
 import { formatSol, useProgram } from '@/packages/react-sol'
 import { programIds } from '@/program'
-import { getCurveAccount } from '@/program/token/account'
+import { getCurveAccount, getFeeAccount } from '@/program/token/account'
 import { IDL } from '@/program/token/idl'
 export const useSolTokenDetails = (tokenAddr: string) => {
   const { connection } = useConnection()
@@ -49,6 +49,21 @@ export const useSolTokenDetails = (tokenAddr: string) => {
     refetchInterval: 10_000,
   })
 
+  const { data: feeConfig, refetch: refetchFeeConfig } = useQuery({
+    queryKey: ['getFeeConfig'],
+    queryFn: async () => {
+      if (!program) throw error
+
+      const feeConfigPDA = getFeeAccount()
+
+      const feeConfig = await program.account["feeConfig"].fetch(feeConfigPDA);
+
+      return feeConfig
+    },
+    enabled: !!tokenAddr,
+    refetchInterval: 10_000,
+  })
+
   const {
     graduated: isGraduated,
     solAim,
@@ -56,12 +71,11 @@ export const useSolTokenDetails = (tokenAddr: string) => {
     tokenMaxSupply,
   } = pools || {}
 
+  const fee = BigNumber(feeConfig?.tradeFeeNumerator).div(feeConfig?.tradeFeeDenominator).plus(1)
 
   const totalSupply = formatSol(tokenMaxSupply)
-  const reserveTotalAmount = formatSol(solAim)
+  const reserveTotalAmount = formatSol(BigNumber(solAim).multipliedBy(fee).toString())
   const tokenLeftAmount = formatSol(tokenReserve)
-
-  console.log('pools---solAim', pools?.solAim.toString(), reserveTotalAmount)
 
   const progress = useMemo(() => {
     if (isGraduated) return '100'
@@ -77,6 +91,7 @@ export const useSolTokenDetails = (tokenAddr: string) => {
   const refetchDetails = () => {
     refetchMetadata()
     refetchPools()
+    refetchFeeConfig()
   }
 
   const tokendata = {
