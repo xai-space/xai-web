@@ -23,7 +23,7 @@ export const TokenPage = () => {
   const { chain: tokenChain, chainId, network } = useChainInfo(chainName)
   const tradeWs = useTokenWs(otherInfo.isNotFound)
 
-  const reserveSymbol = tokenChain?.native.symbol
+  const reserveSymbol = tokenChain?.master_symbol
 
   return (
     <TokenProvider

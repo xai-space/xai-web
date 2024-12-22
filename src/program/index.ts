@@ -8,7 +8,7 @@ const TOKEN_METADATA_PROGRAM_ID = new web3.PublicKey(
 
 const prod = {
   metadata: TOKEN_METADATA_PROGRAM_ID,
-  programId: new web3.PublicKey('AXN3uMe2m5QZiD6KxPMrgptVgLaKKseGQTv4kiJV2HdM'),
+  programId: new web3.PublicKey('XdEv8PpYt88HUV3VujjRJdYBQMinoJLNBBznNcvrcin'),
   feeReceiverAccount: new web3.PublicKey(
     '6zqCRRZSGdBHQBYESmck5KoFppwMzQ29aSqP3dVzzaW8'
   ),
@@ -16,7 +16,7 @@ const prod = {
 
 const dev = {
   metadata: TOKEN_METADATA_PROGRAM_ID,
-  programId: new web3.PublicKey('AXN3uMe2m5QZiD6KxPMrgptVgLaKKseGQTv4kiJV2HdM'),
+  programId: new web3.PublicKey('XdEv8PpYt88HUV3VujjRJdYBQMinoJLNBBznNcvrcin'),
   feeReceiverAccount: new web3.PublicKey(
     '6zqCRRZSGdBHQBYESmck5KoFppwMzQ29aSqP3dVzzaW8'
   ),

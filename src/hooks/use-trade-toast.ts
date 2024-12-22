@@ -18,7 +18,7 @@ interface Options {
 export const useTradeToast = () => {
   const { chainName, rewardInfo, tradePrice, tokenInfo, network, isGraduated } =
     useTokenContext()
-  const { chain: { explorer, native } = {} } = useChainInfo(chainName)
+  const { chain: { master_symbol, scanner } = {} } = useChainInfo(chainName)
 
   const getRewardAmount = (type: TradeType, reserveAmount: string) => {
     if (isGraduated) return '0'
@@ -43,10 +43,10 @@ export const useTradeToast = () => {
       createElement(TxStatus, {
         hash,
         tokenLabel: `${fmt.decimals(tokenAmount)} ${tokenInfo?.symbol}`,
-        reserveLabel: `${fmt.decimals(reserveAmount)} ${native?.symbol}`,
+        reserveLabel: `${fmt.decimals(reserveAmount)} ${master_symbol}`,
         reward: getRewardAmount(type, reserveAmount),
         isBuy: type === TradeType.Buy,
-        txUrl: `${explorer}/tx/${hash}`,
+        txUrl: scanner?.transaction?.replace('{transaction}', hash) ?? '',
         network,
         getToastId: () => toastId,
       }),

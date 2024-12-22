@@ -23,7 +23,6 @@ export const TradeItems = ({ disabled, onItemClick }: Props) => {
 
   const onSellClick = (value: string) => {
     const percent = BigNumber(value).div(100).multipliedBy(tokenBalance)
-
     if (percent.lte(0)) return
     onItemClick?.(percent.toFixed())
   }

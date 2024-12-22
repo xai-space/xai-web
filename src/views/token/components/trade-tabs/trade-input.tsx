@@ -14,6 +14,8 @@ import { CustomSuspense } from '@/components/custom-suspense'
 import { Img } from '@/components/img'
 import { utilLang } from '@/utils/lang'
 import { useTradeAmount } from '../../hooks/use-trade-amount'
+import { staticUrl } from '@/config/url'
+import { formatSol } from '@/packages/react-sol'
 
 interface Props {
   value: string
@@ -41,7 +43,7 @@ export const TradeInput = ({ value, onChange, disabled }: Props) => {
 
   const tokenSymbol = tokenInfo?.symbol || tokenMetadata?.symbol
 
-  const balance = isBuy ? reserveBalance : tokenBalance
+  const balance = isBuy ? reserveBalance : formatSol(tokenBalance)
   const balanceSymbol = isBuy ? reserveSymbol : tokenSymbol
   const balanceLabel = `${fmt.decimals(balance)} ${balanceSymbol}`
 
@@ -81,7 +83,14 @@ export const TradeInput = ({ value, onChange, disabled }: Props) => {
     if (BigNumber(value).lte(0)) return
     if (isBuy) {
       if (!(await checkLastOrder())) return
-      const [, tokenAmount] = await getTokenAmount(value)
+      console.log('getTokenAmount--------', value)
+      const [_, tokenAmount] = await getTokenAmount(value)
+      console.log(
+        'tokenAmount',
+        _.toString(),
+        tokenAmount.toString(),
+        formatSol(tokenAmount)
+      )
       amount = tokenAmount
     } else {
       const [, reserveAmount] = await getReserveAmount(value)
@@ -131,7 +140,9 @@ export const TradeInput = ({ value, onChange, disabled }: Props) => {
               {isBuy ? reserveSymbol : fmt.ellipsis(tokenSymbol)}
             </span>
             <Img
-              src={isBuy ? tokenChain?.logo : tokenInfo?.image_url}
+              src={
+                isBuy ? `${staticUrl}${tokenChain?.logo_url}` : tokenInfo?.image
+              }
               width={20}
               height={20}
               className="object-contain rounded"

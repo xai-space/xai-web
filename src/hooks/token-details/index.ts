@@ -19,15 +19,19 @@ export const useTokenDetails = <T extends keyof TokenDetailsMap>(
   type: T,
   ...params: TokenDetailsParams[T]
 ) => {
-  if (type === Network.Svm)
+  if (type === Network.Svm) {
+
     return useSolTokenDetails(
       ...(params as TokenDetailsParams[Network.Svm])
     ) as TokenDetailsReturn[Network.Svm]
+  }
 
-  //   if (type === Network.Evm)
-  return useEvmTokenDetails(
-    ...(params as TokenDetailsParams[Network.Evm])
-  ) as TokenDetailsReturn[Network.Evm]
+  if (type === Network.Evm) {
+    return useEvmTokenDetails(
+      ...(params as TokenDetailsParams[Network.Evm])
+    ) as TokenDetailsReturn[Network.Evm]
+
+  }
   // TODO/mul: more chains...
 
   const getTokenFC = () => {

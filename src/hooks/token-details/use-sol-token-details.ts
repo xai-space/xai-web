@@ -56,9 +56,12 @@ export const useSolTokenDetails = (tokenAddr: string) => {
     tokenMaxSupply,
   } = pools || {}
 
+
   const totalSupply = formatSol(tokenMaxSupply)
   const reserveTotalAmount = formatSol(solAim)
   const tokenLeftAmount = formatSol(tokenReserve)
+
+  console.log('pools---solAim', pools?.solAim.toString(), reserveTotalAmount)
 
   const progress = useMemo(() => {
     if (isGraduated) return '100'

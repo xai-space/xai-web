@@ -40,6 +40,25 @@ export interface TokenListItem {
   website_url: string
 }
 
+export interface TokenListItem {
+  airdrop: string;
+  bonding_curve: string;
+  chain: string;
+  creator_user: string;
+  description: string;
+  factory: string;
+  id: string;
+  image: string;
+  max_supply: string;
+  name: string;
+  posters: string[];
+  symbol: string;
+  telegram: string;
+  total_supply: string;
+  twitter: string;
+}
+
+
 // export interface TokenCreateReq {
 //   chain: string
 //   name: string

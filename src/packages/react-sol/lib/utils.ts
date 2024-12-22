@@ -14,11 +14,11 @@ import {
 } from '@solana/spl-token'
 
 export const formatSol = (amount: number | string) => {
-  return BigNumber(amount).div(web3.LAMPORTS_PER_SOL).toFixed()
+  return BigNumber(amount).div(web3.LAMPORTS_PER_SOL).toString()
 }
 
 export const parseSol = (amount: number | string) => {
-  return BigNumber(amount).multipliedBy(web3.LAMPORTS_PER_SOL).toNumber()
+  return BigNumber(amount).multipliedBy(web3.LAMPORTS_PER_SOL)
 }
 
 export const isSolAddress = (addr: string) => {
