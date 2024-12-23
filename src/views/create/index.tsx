@@ -43,9 +43,9 @@ export const CreatePage = () => {
           'pr-6 max-sm:w-full max-sm:px-0'
         )}
       >
-        {/* <CreateTokenTitle className="w-fit max-sm:mt-3">
+        <CreateTokenTitle className="w-fit max-sm:mt-3">
           {t('create.new')}
-        </CreateTokenTitle> */}
+        </CreateTokenTitle>
 
         {/* <div className="sm:hidden">
           <NewsAsideMobile defalutTab={1} />

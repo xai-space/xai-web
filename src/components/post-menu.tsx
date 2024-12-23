@@ -12,6 +12,8 @@ import { useState } from 'react'
 import { Dialog } from './ui/dialog'
 import { PublishPost } from './publish-post'
 import { toast } from 'sonner'
+import { useRouter } from 'next/router'
+import { Routes } from '@/routes'
 
 interface PostMenuProps {
   isCollapsed: boolean
@@ -20,7 +22,12 @@ interface PostMenuProps {
 export const PostMenu = ({ isCollapsed }: PostMenuProps) => {
   const { t } = useTranslation()
   const isLoggedIn = useIsLoggedIn()
+  const router = useRouter()
   const [show, setShow] = useState(false)
+
+  const toCreatePage = (id: string) => {
+    router.replace(Routes.Create + '?type=' + id)
+  }
 
   return (
     <>
@@ -44,13 +51,22 @@ export const PostMenu = ({ isCollapsed }: PostMenuProps) => {
           >
             {t('publish.post')}
           </DropdownMenuItem>
-          <DropdownMenuItem className="cursor-pointer">
+          <DropdownMenuItem
+            className="cursor-pointer"
+            onClick={() => toCreatePage('0')}
+          >
             {t('create.token')}
           </DropdownMenuItem>
-          <DropdownMenuItem className="cursor-pointer">
+          <DropdownMenuItem
+            className="cursor-pointer"
+            onClick={() => toCreatePage('1')}
+          >
             {t('create.agent.token')}
           </DropdownMenuItem>
-          <DropdownMenuItem className="cursor-pointer">
+          <DropdownMenuItem
+            className="cursor-pointer"
+            onClick={() => toCreatePage('2')}
+          >
             {t('create.nft-agent.token')}
           </DropdownMenuItem>
         </DropdownMenuContent>

@@ -858,5 +858,8 @@
   "coin.type.agent": "Agent",
   "coin.type.nftagent": "NFT Agent",
   "create.nft-agent.token": "发布NFT Agent代币",
-  "create.agent.token": "发布Agent代币"
+  "create.agent.token": "发布Agent代币",
+  "select.chain": "选择链",
+  "agent.personality": "Agent 性格特征",
+  "ai.identify.image": "正在基于NFT生成性格特征..."
 }
