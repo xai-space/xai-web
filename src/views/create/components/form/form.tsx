@@ -29,9 +29,12 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { CoinType } from '@/config/coin'
+import { useRouter } from 'next/router'
+import { Routes } from '@/routes'
 
 export const CreateTokenForm = () => {
   const { t } = useTranslation()
+  const router = useRouter()
   const { url, form, formFields, isDeploying, deployFee, reserveSymbol } =
     useCreateTokenContext()
   const [open, setOpen] = useState(false)
@@ -111,25 +114,28 @@ export const CreateTokenForm = () => {
           </div>
         </div>
 
-        <div className="flex">
+        <div className="flex space-x-5">
           {/* Chain / coinType */}
-          <div className="flex flex-col justify-between max-sm:flex-row max-sm:h-min max-sm:justify-start max-sm:space-x-4 max-sm:flex-wrap">
+          <div className="flex-1 flex flex-col justify-between max-sm:flex-row max-sm:h-min max-sm:justify-start max-sm:space-x-4 max-sm:flex-wrap">
             <ChainField />
             {/* <CoinTypeField /> */}
           </div>
 
           {/* Coin type */}
-          {/* <div className="flex flex-col justify-between max-sm:flex-row max-sm:h-min max-sm:justify-start max-sm:space-x-4 max-sm:flex-wrap">
+          <div className="flex-1 flex flex-col justify-between max-sm:flex-row max-sm:h-min max-sm:justify-start max-sm:space-x-4 max-sm:flex-wrap">
             <FormField
               control={form?.control}
               name={formFields?.coinType!}
               render={({ field }) => (
-                <FormItem className="flex-1 mr-4">
+                <FormItem className="flex-1">
                   <FormLabel className="font-bold">{t('coin.type')}</FormLabel>
                   <FormControl>
                     <Select
                       defaultValue={field.value}
+                      value={field.value}
                       onValueChange={(value) => {
+                        console.log(value)
+                        router.replace(Routes.Create + '?type=' + value)
                         form.setValue(formFields?.coinType!, value)
                       }}
                     >
@@ -148,7 +154,7 @@ export const CreateTokenForm = () => {
                 </FormItem>
               )}
             />
-          </div> */}
+          </div>
         </div>
 
         {/* Description */}
@@ -208,7 +214,11 @@ export const CreateTokenForm = () => {
         {/* Submit button */}
         <div className="flex flex-col items-start space-y-3 max-w-[500px] max-sm:items-center">
           <InitialBuyField open={open} onOpenChange={setOpen} />
-          <Button variant="blue" className="px-10 mt-3" disabled={disabled}>
+          <Button
+            variant="secondary"
+            className="px-10 mt-3"
+            disabled={disabled}
+          >
             {isDeploying ? t('creating') : t('create')}
           </Button>
 

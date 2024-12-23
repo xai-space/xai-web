@@ -33,6 +33,8 @@ export const AIIdeaBar = (props: Props) => {
     onInputGen(value)
   }
 
+  return <></>
+
   return (
     <div
       className={clsx(

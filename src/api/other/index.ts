@@ -26,4 +26,12 @@ export const otherApi = {
   getContracts: () => {
     return api.GET<ApiResponse<GetContractRes>>('/api/v1/contract/')
   },
+
+  imageIdentify: (formData: { url: string }) => {
+    return api.POST<ApiResponse<{
+      description: string
+    }>>('/agent/v1/playground/image/identify', {
+      body: formData,
+    })
+  },
 }

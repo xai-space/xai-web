@@ -18,6 +18,7 @@ import { cn } from '@/lib/utils'
 import { useAudioPlayer } from '@/hooks/use-audio-player'
 import { useCheckAccount } from '@/hooks/use-check-chain'
 import { useCreateTokenContext } from '@/contexts/create-token'
+import { CoinType } from '@/config/coin'
 
 let memeDescAbort = new AbortController()
 
@@ -82,7 +83,10 @@ export const DescriptionField = () => {
       render={({ field }) => (
         <FormItem className="max-w-[500px]">
           <FormLabel className="font-bold flex items-center">
-            *{t('description')}
+            {(form.getValues(formFields.coinType) as unknown as CoinType) ==
+            CoinType.Default
+              ? t('description')
+              : t('agent.personality')}
             {/* <LuRefreshCcw
               className={cn(
                 'ml-2',
@@ -97,7 +101,10 @@ export const DescriptionField = () => {
               placeholder={t('description.placeholder')}
               rows={5}
               {...field}
-              disabled={loadingDesc}
+              disabled={
+                loadingDesc ||
+                +form.getValues(formFields.coinType) == CoinType.NFTAgent
+              }
             />
           </FormControl>
           <FormMessage />

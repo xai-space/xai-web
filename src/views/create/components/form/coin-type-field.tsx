@@ -62,6 +62,7 @@ export const CoinTypeField = () => {
           <FormControl>
             <Select
               defaultValue={TokenType.Normal.toString()}
+              value={field.value}
               onValueChange={field.onChange}
             >
               <SelectTrigger className="w-min" shadow="none">

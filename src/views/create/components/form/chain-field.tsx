@@ -12,8 +12,10 @@ import { ChainSelect } from '@/components/chain-select'
 import { useCreateTokenContext } from '@/contexts/create-token'
 import { useChainInfo } from '@/hooks/use-chain-info'
 import { useDynamicWallet } from '@/hooks/dynamic/use-dynamic-wallet'
+import { useTranslation } from 'react-i18next'
 
 export const ChainField = () => {
+  const { t } = useTranslation()
   const { form, formFields } = useCreateTokenContext()
   // const { chainId = 0 } = useAccount()
   const { chainsInfo } = useDynamicWallet()
@@ -32,7 +34,7 @@ export const ChainField = () => {
       name={formFields.chainName}
       render={({ field }) => (
         <FormItem className="mt-0">
-          <FormLabel className="mt-0 font-bold">*{fmt.withChain(id)}</FormLabel>
+          <FormLabel className="mt-0 font-bold">{t('select.chain')}</FormLabel>
           <FormControl>
             <ChainSelect
               defaultValue={id}
