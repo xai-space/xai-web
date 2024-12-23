@@ -1,5 +1,5 @@
-import { isEmpty } from 'lodash'
-import { useRef, useState } from 'react'
+import { isEmpty, set } from 'lodash'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { AiOutlineEdit } from 'react-icons/ai'
 
 import { UseMutateAsyncFunction } from '@tanstack/react-query'
@@ -15,6 +15,7 @@ import { cn } from '@/lib/utils'
 import { defaultUserLogo } from '@/config/link'
 import { useUserStore } from '@/stores/use-user-store'
 import { staticUrl } from '@/config/url'
+import { useRouter } from 'next/router'
 
 export const AccountAvatar = ({
   isOtherUser,
@@ -31,7 +32,24 @@ export const AccountAvatar = ({
   refetchUserInfo: VoidFunction
 }) => {
   const [open, setOpen] = useState(false)
-  const { otherUserInfo } = useUserStore()
+  const { otherUserInfo, agentInfo, userInfo } = useUserStore()
+  const { query } = useRouter()
+  console.log('query-avator:', query)
+  const [avatar, setAvatar] = useState('')
+  // console.log('otherUserInfo&&:', otherUserInfo)
+  console.log('userInfo&&:', userInfo)
+
+  const avatarUrl = useMemo(() => {
+    if (query.t === 'agent') {
+      console.log('setAvatar....')
+      setAvatar(agentInfo?.logo as string)
+    }
+    if (query.t === 'user') {
+      if (userInfo?.logo === 'None') return
+
+      setAvatar(userInfo?.logo as string)
+    }
+  }, [agentInfo, userInfo])
 
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -75,11 +93,7 @@ export const AccountAvatar = ({
         }}
       >
         <Avatar
-          src={
-            otherUserInfo?.logo
-              ? `${staticUrl}${otherUserInfo?.logo}`
-              : defaultUserLogo
-          }
+          src={avatar ? `${staticUrl}${avatar}` : defaultUserLogo}
           // fallback={userInfo?.wallet_address.slice(-4)}
           size={128}
           className="border-4 border-zinc-100 bg-gray-50 bottom-10"

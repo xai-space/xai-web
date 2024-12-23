@@ -15,6 +15,8 @@ import { useUserFollowingList } from './hooks/use-user-follwing-list'
 import { useUserStore } from '@/stores/use-user-store'
 import { PostFeed } from '@/components/post-feed'
 
+import { AgentUserInfo } from '../../components/agent-user-info'
+
 export const AccountPage = () => {
   const { query } = useRouter()
   console.log('query:', query)
@@ -35,6 +37,7 @@ export const AccountPage = () => {
     <AccountProvider
       value={{
         userInfo: otherUserInfo,
+        useUserInfo: useUserInfo,
         isPending: false,
         isOtherUser: userInfo?.user_id !== userId,
         isAgent: query.t === UserCategory.Agent,
@@ -57,7 +60,7 @@ export const AccountPage = () => {
           </div>
         </aside>
         {query.t === 'agent' ? (
-          <PostFeed className="mx-0 !w-full max-w-full" isMy={true} />
+          <AgentUserInfo className="mx-0 !w-full max-w-full" />
         ) : (
           <AccountTab />
         )}

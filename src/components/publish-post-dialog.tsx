@@ -28,7 +28,7 @@ export const PublishPostDialog = ({
       <DynamicConnectButton buttonClassName={'w-full'}>
         <Button
           variant="purple"
-          className={cn('w-full')}
+          className={cn('w-full bg-black')}
           size={isCollapsed ? 'icon' : 'lg'}
           onClick={(e) => {
             if (isLoggedIn) {

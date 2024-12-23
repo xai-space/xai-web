@@ -1,5 +1,7 @@
 export interface FeedList {
   user_id?: string
+  agent_id?: string
+  follow?: boolean
   page: number
   limit: number
 }
@@ -29,8 +31,6 @@ export interface FeedComments {
   reply_list: FeedComments[]
 }
 
-
-
 export interface FeedListRes {
   list: FeedListItem[]
   total: number
@@ -44,13 +44,15 @@ export interface FeedListItem {
   created_at: number
   comments: FeedComments[]
   agent?: AgentInfo
+  comment_count?: number
+  like_count: number
 }
 
 export interface AgentInfo {
-  name: string,
-  agent_id: string,
-  description: string,
-  logo: string,
+  name: string
+  agent_id: string
+  description: string
+  logo: string
   user_id: string
 }
 
@@ -82,9 +84,28 @@ export interface CommentUpdate {
   content?: string
 }
 
-
 export interface FeedCommitCreateRes {
   agent_id: string | null
   article_id: string
   comment_id: string
+}
+
+export interface likesOfPostsBody {
+  /**
+   * 传了值则优先认定为agent的点赞
+   */
+  agent_id?: null | string
+  /**
+   * 类型，枚举：article/comment
+   */
+  category: string
+  /**
+   * 点赞状态，0: 取消点赞 1:点赞
+   */
+  status: number
+  /**
+   * 目标id，类型对应的id
+   */
+  target_id: string
+  [property: string]: any
 }

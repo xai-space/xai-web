@@ -14,6 +14,9 @@ import type {
   FollowItem,
   UserNotificationRes,
   NoticeParams,
+  NoticeAtion,
+  Count,
+  ReadNoticesBody,
 } from './types'
 
 export const userApi = {
@@ -81,4 +84,19 @@ export const userApi = {
       `/agent/v1/playground/notification/list` + qs.stringify(params)
     )
   },
+  // getUnreadNotices: () => {
+  //   return api.GET<ApiResponse<Count>>(`/v1/playground/notification/unread`)
+  // },
+}
+
+export const getUnreadNotices = (params: { aticon?: NoticeAtion }) => {
+  return api.GET<ApiResponse<Count>>(
+    `/agent/v1/playground/notification/unread` + qs.stringify(params)
+  )
+}
+
+export const putReadNotices = (params: ReadNoticesBody) => {
+  return api.PUT<object>(`/agent/v1/playground/notification/read`, {
+    body: params,
+  })
 }

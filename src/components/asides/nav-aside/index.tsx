@@ -9,6 +9,7 @@ import {
   RiRocketFill,
   RiRocketLine,
 } from 'react-icons/ri'
+import { AiOutlineHome } from 'react-icons/ai'
 import { MdOutlineArticle } from 'react-icons/md'
 import { RiNotification3Fill } from 'react-icons/ri'
 import { FaRegUser } from 'react-icons/fa6'
@@ -29,6 +30,7 @@ import {
   NavigationMenuList,
 } from '@/components/ui/navigation-menu'
 import { joinPaths } from '@/utils'
+import { get } from 'lodash-es'
 import { useResponsive } from '@/hooks/use-responsive'
 import Logo from '@/components/logo'
 import SocialLinks from '@/components/social-links'
@@ -38,7 +40,8 @@ import { useAIAgentStore } from '@/stores/use-chat-store'
 import { PublishPostDialog } from '@/components/publish-post-dialog'
 import { DynamicConnectButton } from '@dynamic-labs/sdk-react-core'
 import { UserCategory } from '@/api/user/types'
-
+import { getUnreadNotices } from '@/api/user'
+import { useRequest } from 'ahooks'
 interface Props {
   collapseSize?: keyof ReturnType<typeof useResponsive>
 }
@@ -73,28 +76,29 @@ export const NavAside = ({
 
   const navs = [
     {
-      title: t('Coin'),
+      title: 'Home',
       path: Routes.Main,
-      icon: <RiRocketLine />,
-      iconActive: <RiRocketFill />,
+      icon: <AiOutlineHome className="text-[#000]" />,
+      iconActive: <AiOutlineHome className="text-[#6474cc]" />,
       isActive: pathname === Routes.Main,
+    },
+    {
+      title: t('Coin'),
+      path: Routes.Coin,
+      icon: <RiRocketLine className="text-[#000]" />,
+      iconActive: <RiRocketFill className="text-[#6474cc]" />,
+      isActive: pathname === Routes.Coin,
     },
     {
       title: 'AI Agent',
       path: sessionId
         ? `${Routes.AIChat}/${agentInfo?.agent_id}?sid=${sessionId}`
         : Routes.AIList,
-      icon: <RiRobot2Line />,
-      iconActive: <RiRobot2Fill />,
+      icon: <RiRobot2Line className="text-[#000]" />,
+      iconActive: <RiRobot2Fill className="text-[#6474cc]" />,
       isActive: pathname.startsWith(Routes.AI),
     },
-    {
-      title: 'Feed',
-      path: Routes.Feed,
-      icon: <MdOutlineArticle />,
-      iconActive: <MdOutlineArticle />,
-      isActive: pathname === Routes.Feed,
-    },
+
     // {
     //   title: t('award'),
     //   path: Routes.Reward,
@@ -104,9 +108,10 @@ export const NavAside = ({
     // },
     {
       title: t('Notification'),
+      id: 'notice',
       path: Routes.Notification,
-      icon: <RiNotification3Line />,
-      iconActive: <RiNotification3Fill />,
+      icon: <RiNotification3Line className="text-[#000]" />,
+      iconActive: <RiNotification3Fill className="text-[#6474cc]" />,
       isActive: pathname === Routes.Notification,
     },
   ]
@@ -115,6 +120,13 @@ export const NavAside = ({
     setIsCollapsed(responsive[collapseSize])
   }, [responsive, collapseSize])
 
+  // console.log('xixoioox..')
+
+  const { data: noticeCount } = useRequest(getUnreadNotices, {
+    onSuccess: (data) => {
+      // console.log('noticeCount:', data)
+    },
+  })
   return (
     <aside
       className={cn(
@@ -148,15 +160,15 @@ export const NavAside = ({
               {navs.map((n, i) => (
                 <NavigationMenuItem
                   key={i}
-                  className={cn('w-full', isCollapsed && 'w-auto')}
+                  className={cn('w-full relative', isCollapsed && 'w-auto')}
                 >
                   <NavigationMenuLink
                     className={cn(
-                      'border-[15px] text-lg w-full flex justify-start space-x-2 pl-2 cursor-pointer bg-clip-padding font-normal hover:opacity-90',
+                      'text-lg w-full flex justify-start space-x-2 pl-2 cursor-pointer bg-clip-padding font-normal hover:opacity-90',
                       !n.isActive &&
-                        'chamfer-gray bg-border-gray hover:bg-border-gray',
+                        'chamfer-gray bg-border-white hover:bg-[#ccc]',
                       n.isActive &&
-                        'font-bold chamfer-blue bg-border-blue hover:bg-border-blue',
+                        'font-bold chamfer-blue bg-[#ccc] hover:bg-border-blue',
                       isCollapsed &&
                         'border-[10px] space-x-0 p-0 justify-center text-xl'
                     )}
@@ -164,7 +176,14 @@ export const NavAside = ({
                     title={n.title}
                   >
                     {n.isActive ? n.iconActive : n.icon}
-                    {!isCollapsed && <span>{n.title}</span>}
+                    {!isCollapsed && (
+                      <span className="text-[#000]">{n.title}</span>
+                    )}
+                    {/* {n.id === 'notice' && (
+                      <div className="absolute top-1 -left-1 flex px-1 justify-center items-center text-center text-white rounded-full text-[12px] bg-red-500">
+                        {get(noticeCount, 'data.count', '')}
+                      </div>
+                    )} */}
                   </NavigationMenuLink>
                 </NavigationMenuItem>
               ))}
@@ -191,7 +210,7 @@ export const NavAside = ({
                 onClick={() =>
                   i18n.language === 'en' ? setLang('zh') : setLang('en')
                 }
-                className="border-transparent sm:hover:border-black w-full"
+                className="border-transparent text-white bg-black sm:hover:border-black w-full"
               >
                 <IoLanguageOutline size={20} />
               </Button>
@@ -204,7 +223,9 @@ export const NavAside = ({
               size={20}
               buttonProps={{
                 size: isCollapsed ? 'icon' : 'icon-lg',
-                className: isCollapsed ? 'w-full' : '',
+                className: isCollapsed
+                  ? 'w-full bg-black text-white'
+                  : 'bg-black text-white',
               }}
             />
           </div>

@@ -14,8 +14,9 @@ import { useRouter } from 'next/router'
 import { ImagePreview } from '@/components/image-preview'
 import { defaultUserId } from '@/config/base'
 import { Avatar } from '@/components/ui/avatar'
-import { MdEdit, MdFavoriteBorder } from 'react-icons/md'
+import { MdEdit, MdFavorite, MdFavoriteBorder } from 'react-icons/md'
 import { FiMoreHorizontal } from 'react-icons/fi'
+
 import {
   BaseDeleteDialog,
   DeleteDialogType,
@@ -37,6 +38,7 @@ import { useUserStore } from '@/stores/use-user-store'
 import { defaultAgentLogo, defaultUserLogo } from '@/config/link'
 import Link from 'next/link'
 import { UserCategory, UserInfoRes } from '@/api/user/types'
+import { useArticleStore } from '@/stores/use-article-store'
 
 interface Props {
   article: FeedListItem
@@ -53,6 +55,7 @@ const ArticleCard = ({ article, onDeleted, onEdited }: Props) => {
   const [delLoading, setDelLoading] = useState(false)
 
   const [editArticle, setEditArticle] = useState<FeedListItem>()
+  const { setPostsList } = useArticleStore()
 
   const getCommentCount = (commentList: FeedComments[]) => {
     let count = commentList?.length
@@ -83,14 +86,33 @@ const ArticleCard = ({ article, onDeleted, onEdited }: Props) => {
   }
 
   const toAccount = () => {
+    // push(Routes.AgentInfo)
+    setPostsList([])
     push(
       `${Routes.Account}/${
         article.agent?.agent_id || article.user?.user_id
       }?t=${article.agent?.agent_id ? UserCategory.Agent : UserCategory.User}`
     )
   }
+
+  // likes-posts
+  const [likes, setLikes] = useState(article.like_count)
+  // const [isLiked, setIsLiked] = useState(article.is_liked)
+  const postLike = async () => {
+    console.log('postLike')
+    try {
+      await feedApi.updateLikesofPosts({
+        category: 'article',
+        target_id: article.article_id,
+        status: 1,
+      })
+      setLikes((pre) => pre + 1)
+    } catch (error) {
+      console.error(error)
+    }
+  }
   return (
-    <div className="border-b border-gray-700 w-full overflow-hidden duration-300 hover:bg-gray-800 transition-all">
+    <div className="border-b border-[#e5e5e5] w-full overflow-hidden duration-300 hover:bg-gray-200 transition-all">
       <div className="flex p-4 w-full">
         <div
           className="flex-shrink-0 rounded-full w-[40px] h-[40px] overflow-hidden cursor-pointer"
@@ -109,7 +131,7 @@ const ArticleCard = ({ article, onDeleted, onEdited }: Props) => {
         </div>
         <div className="flex-1 px-0 ml-3 flex flex-col">
           <div className="flex w-full items-center justify-between">
-            <div>
+            <div className="text-black">
               <span className="cursor-pointer" onClick={toAccount}>
                 {article?.agent?.name || article?.user?.name || '--'}
               </span>
@@ -155,6 +177,7 @@ const ArticleCard = ({ article, onDeleted, onEdited }: Props) => {
             }}
           >
             <ReactMarkdown
+              className={'text-black'}
               components={{
                 a: ({ href, children }) => {
                   return (
@@ -181,17 +204,21 @@ const ArticleCard = ({ article, onDeleted, onEdited }: Props) => {
           ) : null}
           <div className="mt-2 flex space-x-5">
             <div
-              className="flex items-center space-x-1 text-gray-500 cursor-pointer hover:text-gray-200"
+              className="flex items-center space-x-1 text-gray-500 cursor-pointer hover:text-gray-800"
               onClick={() => {
                 push(`${Routes.FeedDetail}/${article.article_id}`)
               }}
             >
               <LuMessageSquare size={20} />
-              <span>{getCommentCount(article.comments)}</span>
+              <span>{article?.comment_count}</span>
             </div>
-            <div className="flex items-center space-x-1 text-gray-500 cursor-pointer hover:text-gray-200">
+            <div
+              className="flex items-center space-x-1 text-gray-500 cursor-pointer hover:text-gray-800"
+              onClick={() => postLike()}
+            >
+              {/* <MdFavorite fill="#f87171" size={20} /> */}
               <MdFavoriteBorder size={20} />
-              <span>{getCommentCount(article.comments)}</span>
+              <span>{likes}</span>
             </div>
           </div>
         </div>

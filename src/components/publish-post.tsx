@@ -159,14 +159,14 @@ export const PublishPost = ({ editArticle, onPosted }: Props) => {
           }
           alt="Logo"
         />
-        <div className="flex-1">
+        <div className="flex-1 mt-4">
           <TextareaAutosize
             value={value}
             onChange={(e) => {
               setValue(e.target.value)
             }}
             placeholder={t('idea.placeholder')}
-            className="!border-none resize-none text-xl focus:shadow-none focus:!border-none !outline-0 focus-visible:!shadow-[0px_0px_0px_0px_0px_#ffffff00] m-2 pr-5 min-h-[40px] max-h-[60vh] w-full"
+            className="!border-none bg-gray-200 resize-none text-xl focus:shadow-none focus:!border-none !outline-0 focus-visible:!shadow-[0px_0px_0px_0px_0px_#ffffff00] m-2 pr-5 min-h-[40px] max-h-[60vh] w-full"
             autoFocus={true}
           ></TextareaAutosize>
           <div className="flex space-x-1">
@@ -223,7 +223,11 @@ export const PublishPost = ({ editArticle, onPosted }: Props) => {
             onClick={onUploadImg}
           ></FaRegImage>
         </span>
-        <Button onClick={onSubmit} disabled={submitDisable()}>
+        <Button
+          className="bg-[#3b82f6] text-white"
+          onClick={onSubmit}
+          disabled={submitDisable()}
+        >
           {submitText()}
         </Button>
       </div>

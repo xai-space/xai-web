@@ -12,6 +12,7 @@ import {
   FeedList,
   FeedListItem,
   FeedListRes,
+  likesOfPostsBody,
 } from './types'
 
 export const feedApi = {
@@ -55,12 +56,9 @@ export const feedApi = {
   },
 
   delPost: async (data: FeedCreateRes) => {
-    return api.POST<ApiResponse>(
-      '/agent/v1/playground/article/delete',
-      {
-        body: data,
-      }
-    )
+    return api.POST<ApiResponse>('/agent/v1/playground/article/delete', {
+      body: data,
+    })
   },
 
   updateComment: async (data: CommentUpdate) => {
@@ -79,5 +77,11 @@ export const feedApi = {
         body: data,
       }
     )
+  },
+
+  updateLikesofPosts: async (data: likesOfPostsBody) => {
+    return api.POST<object>('/agent/v1/playground/article/like', {
+      body: data,
+    })
   },
 }

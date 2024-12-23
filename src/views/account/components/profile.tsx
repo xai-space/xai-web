@@ -15,6 +15,11 @@ import { ApiResponse } from '@/api/types'
 import AccountInfoDesktop from './account-info-desktop'
 import { useResponsive } from '@/hooks/use-responsive'
 import AccountInfoMoblie from './account-info-mobile'
+import { useRequest } from 'ahooks'
+import { aiApi } from '@/api/ai'
+import { AgentInfoResDataBase } from '@/api/ai/type'
+import { useEffect } from 'react'
+import { useUserStore } from '@/stores/use-user-store'
 
 export interface AccountInfoProps {
   isOtherUser: boolean
@@ -44,23 +49,44 @@ export interface AccountInfoProps {
 }
 
 export const Profile = () => {
-  const { userInfo, isAgent, isOtherUser, refetchUserInfo, refetchFollow } =
-    useAccountContext()
+  const {
+    userInfo,
+    useUserInfo,
+    isAgent,
+    isOtherUser,
+    refetchUserInfo,
+    refetchFollow,
+  } = useAccountContext()
   const { isFollowing, isUnfollowing, follow, unfollow, update } = useUser({
     onFollowFinlly: () => {
       refetchUserInfo()
       refetchFollow()
     },
   })
+  const { setUserInfo } = useUserStore()
+
   const { t } = useTranslation()
   const { query } = useRouter()
   const { isPad } = useResponsive()
   const tokenAddr = (query.address || '') as string
 
-  // console.log('userinfo:', userInfo)
+  console.log('queryProfile:', query)
+  useEffect(() => {
+    getAgentProfile()
+  }, [query.uid])
+  const { data: profileData, runAsync: getAgentProfile } = useRequest(
+    () => aiApi.getAgentInfo(query.uid as string),
+    {
+      manual: true,
+      onSuccess: (res) => {
+        console.log('getAgentProfile:', res)
+        return res.data
+      },
+    }
+  )
 
   return (
-    <div className="flex-1 border border-border rounded-md">
+    <div className="flex-1 rounded-md">
       <div
         className="bg-cover bg-center h-72"
         style={{ backgroundImage: `url(/images/profile-bg.jpg)` }}

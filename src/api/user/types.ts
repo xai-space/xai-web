@@ -25,7 +25,7 @@ export interface UserUpdateReq {
   wallet_address?: string
 }
 
-export interface UserInfoRes extends UserInfo {}
+export interface UserInfoRes extends UserInfo { }
 export interface UserMyInfoFollow {
   id: number
   name: string
@@ -286,7 +286,28 @@ export interface FromUser {
   [property: string]: any
 }
 
+// export enum NoticeAtion {
+//   All = 'all',
+//   Follow = 'follow',
+//   Like = 'like',
+//   Comment = 'comment',
+//   Reply = 'reply',
+// }
+
 export interface NoticeParams {
   page: number
   limit: number
+  action: NoticeAtion
+}
+
+export type NoticeAtion = 'all' | 'follow' | 'like' | 'comment' | 'reply'
+
+export interface Count {
+  count: number
+}
+
+export interface ReadNoticesBody {
+  action: string
+  notification_id: string
+  [property: string]: any
 }

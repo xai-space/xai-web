@@ -114,7 +114,7 @@ export const ArticleCommentList = () => {
         return (
           <ArticleCommentItem
             key={comment.comment_id}
-            className="border-t border-gray-400"
+            className="border-t border-gray-400 text-black"
             comment={comment}
             onDelComment={onDelComment}
             onEditComment={onEditComment}
