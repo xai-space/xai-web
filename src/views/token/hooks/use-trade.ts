@@ -11,6 +11,8 @@ import { CONTRACT_ERR } from '@/errors/contract'
 import { Network } from '@/enums/contract'
 import { useTradeAmount } from './use-trade-amount'
 import { useSvmTrade } from './svm/use-svm-trade'
+import { useEvmDex } from './evm/use-evm-dex'
+import { useSvmDex } from './svm/use-svm-dex'
 
 // Used for trade success tips.
 export const lastTrade = {
@@ -31,12 +33,25 @@ export const useTrade = (onSuccess?: () => void) => {
   const { showToast } = useTradeToast()
 
   const { getTokenAmount, getReserveAmount } = useTradeAmount()
-  const { dexHash, isDexSubmitting, isDexTraded, dexBuy, dexSell } =
-    useDexTrade(tokenAddr as Address, graduatedPool, chainId, {
-      onSuccess,
-    })
+
+  const evmDex = useEvmDex(tokenAddr as Address, graduatedPool, chainId, {
+    onSuccess,
+  })
+
+  const svmDex = useSvmDex(tokenAddr as Address, graduatedPool, chainId, {
+    onSuccess,
+  })
+
   const evmTrade = useEvmTrade(onSuccess)
   const svmTrade = useSvmTrade(tokenAddr, onSuccess)
+
+  const { dexHash, isDexSubmitting, isDexTraded, dexBuy, dexSell } = useMemo(() => {
+    return {
+      [Network.Evm]: evmDex,
+      [Network.Svm]: svmDex,
+      [Network.Tvm]: evmDex,
+    }[network]
+  }, [network, evmDex])
 
   const {
     hash: tradeHash,
@@ -78,8 +93,6 @@ export const useTrade = (onSuccess?: () => void) => {
     // TODO: add Sol, Ton
     if (network === Network.Evm) {
       if (!isAddress(tokenAddr)) {
-        console.log('CONTRACT_ERR')
-
         CONTRACT_ERR.tokenInvalid()
         return false
       }

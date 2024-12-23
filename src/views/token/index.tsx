@@ -10,7 +10,6 @@ import { useTokenQuery } from './hooks/use-token-query'
 import { useChainInfo } from '@/hooks/use-chain-info'
 import { useTokenWs } from './hooks/use-token-ws'
 import { PrimaryLayout } from '@/components/layouts/primary'
-import { PageFallback } from '@/components/page-fallback'
 
 export const TokenPage = () => {
   const { isMobile } = useResponsive()
