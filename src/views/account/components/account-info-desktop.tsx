@@ -6,12 +6,11 @@ import {
   PlusIcon,
 } from '@radix-ui/react-icons'
 import { IoClose, IoCopyOutline, IoSettingsOutline } from 'react-icons/io5'
-
 import AccountAvatar from './account-avatar'
 import FollowDesktop from '@/views/account/components/follow-desktop'
 import { AccountInfoProps, HoverCardPop } from './profile'
 import { useTranslation } from 'react-i18next'
-import router from 'next/router'
+import router, { useRouter } from 'next/router'
 import { Routes } from '@/routes'
 import { cn } from '@/lib/utils'
 import DiamondIcon from '@/components/diamond-icon'
@@ -23,7 +22,7 @@ import {
   PopoverTrigger,
 } from '@radix-ui/react-popover'
 import { useClipboard } from '@/hooks/use-clipboard'
-import { fmt } from '@/utils/fmt'
+import { userApi } from '@/api/user'
 import {
   useDynamicContext,
   useUserWallets,
@@ -31,10 +30,12 @@ import {
   useWalletOptions,
 } from '@dynamic-labs/sdk-react-core'
 import { use, useEffect, useState } from 'react'
-import Input from '@/components/input'
+
 import { useUserStore } from '@/stores/use-user-store'
+import { UserCategory, UserInfoRes } from '@/api/user/types'
 
 export const AccountInfoDesktop = (props: AccountInfoProps) => {
+  const { query } = useRouter()
   const {
     isOtherUser,
     isFollowing,
@@ -49,19 +50,27 @@ export const AccountInfoDesktop = (props: AccountInfoProps) => {
   const { t } = useTranslation()
   const { copy } = useClipboard()
 
-  const { userInfo, otherUserInfo, agentInfo } = useUserStore()
+  const { userInfo, otherUserInfo, setOtherUserInfo, agentInfo } =
+    useUserStore()
+  console.log('otherUserInfo$$;', otherUserInfo)
 
   const { user, primaryWallet } = useDynamicContext()
   const userWallets = useWalletOptions()
 
-  console.log('agentInfo', agentInfo, isAgent)
+  // console.log('agentInfo', agentInfo, isAgent)
+  const followFetch = async () => {
+    const category =
+      query.t === 'agent' ? UserCategory.Agent : UserCategory.User
+    if (query.t === 'agent') {
+    }
+    const res = await userApi.postFollow({
+      category: category,
+      target_id: query.uid as string,
+      status: 1,
+    })
 
-  const handleFollow = async () => {
-    // const { code } = await handleFollow({
-    //   status: agentInfo.is_followed ? 0 : 1,
-    //   category: card.agent_id! ? UserCategory.Agent : UserCategory.User,
-    //   target_id: card.agent_id! || card.user_id!,
-    // })
+    // otherUserInfo?.is_followed = true;
+    // setOtherUserInfo((pre) => ({ ...pre, is_followed: true }))
   }
 
   return (
@@ -133,7 +142,7 @@ export const AccountInfoDesktop = (props: AccountInfoProps) => {
             shadow={'none'}
             className="flex items-center space-x-2"
             disabled={isFollowing || isUnfollowing}
-            onClick={() => {}}
+            onClick={() => followFetch()}
           >
             {otherUserInfo?.is_followed ? <MinusIcon /> : <PlusIcon />}
             <span className="text-sm">

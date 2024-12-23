@@ -15,8 +15,12 @@ import { cn } from '@/lib/utils'
 import { joinPaths } from '@/utils'
 import { PostFeed } from '@/components/post-feed'
 import { AgentCardList } from '@/components/agent-card-list'
+import { AgentUserInfo } from '@/components/agent-user-info'
+import { useArticleStore } from '@/stores/use-article-store'
 
 export const AccountTab = () => {
+  const { setPostsList } = useArticleStore()
+
   const { t } = useTranslation()
   const { isOtherUser } = useAccountContext()
   const [isShowBorder, setIsShowBorder] = useState(true)
@@ -98,8 +102,8 @@ export const AccountTab = () => {
         {tabs.map((t) => (
           <TabsTrigger
             className={cn(
-              'h-full w-full max-sm:px-2 max-sm:text-xs',
-              ' data-[state=active]:text-white data-[state=active]:bg-background',
+              'h-full w-full text-gray-400 max-sm:px-2 max-sm:text-xs',
+              ' data-[state=active]:text-black data-[state=active]:bg-background',
               'data-[state=active]:hover:bg-transparent hover:bg-transparent relative',
               'after:absolute hover:after:w-full after:h-[2px] after:bg-purple-500 after:bottom-0 after:left-0 after:hover:animate-left-to-right',
               isShowBorder &&
@@ -109,6 +113,9 @@ export const AccountTab = () => {
             value={t.value.toString()}
             onMouseEnter={() => setIsShowBorder(false)}
             onMouseLeave={() => setIsShowBorder(true)}
+            onClick={() => {
+              setPostsList([])
+            }}
           >
             {t.label}
           </TabsTrigger>
@@ -127,7 +134,6 @@ export const AccountTab = () => {
           showSearch={false}
         />
       </TabsContent> */}
-
       {/* Token held */}
       {/* <TabsContent value={UserListType.CoinsHeld.toString()}>
         <TokenHeldCards
@@ -143,12 +149,10 @@ export const AccountTab = () => {
       <TabsContent value={UserListType.Agent.toString()}>
         <AgentCardList isAll={false} />
       </TabsContent>
-
       {/* Published Posts */}
       <TabsContent value={UserListType.PublishedPosts.toString()}>
-        <PostFeed className="mx-0 !w-full max-w-full" isMy={true} />
+        <AgentUserInfo className="mx-0 !w-full max-w-full" isMy={true} />
       </TabsContent>
-
       {/* Only self can see. */}
       {/* {!isOtherUser && (
         <>

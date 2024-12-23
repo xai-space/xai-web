@@ -69,7 +69,7 @@ export const ArticleCommentForm = ({ replayUser, onSended }: ReplyProps) => {
   return (
     <div className="mt-5">
       <TextareaAutosize
-        className="w-full resize-none p-2 rounded-md min-h-[100px] max-h-[200px]"
+        className="w-full bg-gray-200 text-black resize-none p-2 rounded-md min-h-[100px] max-h-[200px]"
         value={comment}
         disabled={loading}
         onChange={(e) => setComment(e.target.value)}
@@ -80,7 +80,7 @@ export const ArticleCommentForm = ({ replayUser, onSended }: ReplyProps) => {
       <DynamicConnectButton>
         <Button
           onClick={postComment}
-          className="mt-2"
+          className="mt-2 text-white bg-[#2563eb]"
           disabled={loading || isEmpty(comment.trim())}
         >
           {loading ? t('posting') : t('post.comment')}

@@ -17,7 +17,10 @@ import { useResponsive } from '@/hooks/use-responsive'
 import AccountInfoMoblie from './account-info-mobile'
 import { useRequest } from 'ahooks'
 import { aiApi } from '@/api/ai'
+import { AgentInfoResDataBase } from '@/api/ai/type'
 import { useEffect } from 'react'
+import { useUserStore } from '@/stores/use-user-store'
+
 export interface AccountInfoProps {
   isOtherUser: boolean
   isFollowing: boolean
@@ -46,14 +49,22 @@ export interface AccountInfoProps {
 }
 
 export const Profile = () => {
-  const { userInfo, isAgent, isOtherUser, refetchUserInfo, refetchFollow } =
-    useAccountContext()
+  const {
+    userInfo,
+    useUserInfo,
+    isAgent,
+    isOtherUser,
+    refetchUserInfo,
+    refetchFollow,
+  } = useAccountContext()
   const { isFollowing, isUnfollowing, follow, unfollow, update } = useUser({
     onFollowFinlly: () => {
       refetchUserInfo()
       refetchFollow()
     },
   })
+  const { setUserInfo } = useUserStore()
+
   const { t } = useTranslation()
   const { query } = useRouter()
   const { isPad } = useResponsive()
@@ -75,7 +86,7 @@ export const Profile = () => {
   )
 
   return (
-    <div className="flex-1 border border-border rounded-md">
+    <div className="flex-1 rounded-md">
       <div
         className="bg-cover bg-center h-72"
         style={{ backgroundImage: `url(/images/profile-bg.jpg)` }}

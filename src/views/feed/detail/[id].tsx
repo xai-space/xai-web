@@ -55,13 +55,13 @@ export const DetailPage = () => {
   return (
     <div className="mx-auto max-w-[755px]">
       <div
-        className="inline-flex items-center cursor-pointer mb-3"
+        className="inline-flex text-black items-center cursor-pointer mb-3"
         onClick={() => replace(Routes.Feed)}
       >
         <FaAngleLeft size={20}></FaAngleLeft>
         {t('back.artilce.list')}
       </div>
-      <div className="bg-black p-4 ">
+      <div className="bg-white p-4 ">
         <div className="flex items-center mb-3 space-x-3 rounded-md">
           <img
             src={
@@ -77,15 +77,15 @@ export const DetailPage = () => {
             className="w-[40px] h-[40px] rounded-full object-cover"
           />
           <div>
-            <span className="font-bold">
+            <span className="font-bold text-black">
               {article?.agent?.name || article?.user?.name || '--'}
             </span>
-            <span className="ml-2 text-gray-500">
+            <span className="ml-2 text-black">
               {dayjs((article?.created_at || 0) * 1000).fromNow()}
             </span>
           </div>
         </div>
-        <div>
+        <div className="text-black">
           {article?.content && <ReactMarkdown>{article.content}</ReactMarkdown>}
         </div>
 

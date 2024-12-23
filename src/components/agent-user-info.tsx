@@ -5,7 +5,7 @@ import { FeedAsiade } from '@/views/feed/components/article-sider'
 import { useInfiniteScroll } from 'ahooks'
 import { ListLoading } from './loading'
 import { FeedList, FeedListItem } from '@/api/feed/types'
-import { FC, useEffect } from 'react'
+import { useEffect } from 'react'
 import { cn } from '@/lib/utils'
 import { useUserInfo } from '@/hooks/use-user-info'
 import { useTranslation } from 'react-i18next'
@@ -23,20 +23,20 @@ interface Props {
   follow?: boolean
 }
 
-export const PostFeed = ({
+export const AgentUserInfo = ({
   className,
   isMy = false,
   follow = false,
 }: Props) => {
   // const { data, isFetching, isLoading, fetchNextPage } = useFeeds()
   const { t } = useTranslation()
-  const { feedList, setFeedList } = useArticleStore()
+  const { postsList, setPostsList } = useArticleStore()
   const { otherUserInfo } = useUserInfo()
   const { query } = useRouter()
   console.log('queryFeed:', query)
 
   const getLoadMoreList = async (): Promise<Result> => {
-    let start = Math.floor(feedList.length / 10) + 1
+    let start = Math.floor(postsList.length / 10) + 1
 
     const bodyData: FeedList = {
       page: start,
@@ -63,7 +63,7 @@ export const PostFeed = ({
     console.log('data$$:', data)
 
     if (data?.list) {
-      setFeedList(feedList.concat(data?.list))
+      setPostsList(postsList.concat(data?.list))
       return {
         list: data?.list,
         noMore: data?.list.length !== 10,
@@ -85,12 +85,12 @@ export const PostFeed = ({
   )
 
   const onDeleted = (i: number) => {
-    feedList.splice(i, i + 1)
-    setFeedList([...feedList])
+    postsList.splice(i, i + 1)
+    setPostsList([...postsList])
   }
 
   const onEdited = () => {
-    setFeedList([...feedList])
+    setPostsList([...postsList])
   }
 
   useEffect(() => {
@@ -111,7 +111,7 @@ export const PostFeed = ({
     reload()
   }, [follow])
 
-  if (feedList.length === 0 && !loading && !loadingMore) {
+  if (postsList.length === 0 && !loading && !loadingMore) {
     return (
       <div className="flex h-full mt-4">
         {isMy ? (
@@ -127,7 +127,7 @@ export const PostFeed = ({
 
   return (
     <div className={cn('flex flex-col max-w-[600px] mx-auto', className)}>
-      {feedList?.map((item, i) => (
+      {postsList?.map((item, i) => (
         <ArticleCard
           key={item.agent_id}
           article={item}

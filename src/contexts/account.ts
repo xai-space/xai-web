@@ -1,10 +1,15 @@
 import { createContext, useContext } from 'react'
 
-import type { UserFollow, UserFollowersRes, UserInfoRes } from '@/api/user/types'
+import type {
+  UserFollow,
+  UserFollowersRes,
+  UserInfoRes,
+} from '@/api/user/types'
 import { CONTEXT_ERR } from '@/errors/context'
 
 interface Value {
   userInfo: UserInfoRes | null
+  useUserInfo: () => any
   isPending: boolean
   isOtherUser: boolean
   isAgent: boolean

@@ -3,7 +3,7 @@ export enum Routes {
 
   NotFound = '/404',
   NotFoundEmpty = '/404?t=empty',
-
+  Coin = '/coin',
   TokenPage = '/[chain]/[address]',
 
   Create = '/create',
@@ -15,7 +15,7 @@ export enum Routes {
   AI = '/ai',
   AIChat = '/ai/chat',
   AIList = '/ai/agent',
-  AgentInfo = '/ai/agentInfo',
+  AgentOrUserInfo = '/ai/agentOrUserInfo',
   AICreate = '/ai/create',
   AIEdit = '/ai/edit',
 
