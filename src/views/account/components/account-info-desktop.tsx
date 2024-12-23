@@ -50,8 +50,7 @@ export const AccountInfoDesktop = (props: AccountInfoProps) => {
   const { t } = useTranslation()
   const { copy } = useClipboard()
 
-  const { userInfo, otherUserInfo, setOtherUserInfo, agentInfo } =
-    useUserStore()
+  const { otherUserInfo, setOtherUserInfo, agentInfo } = useUserStore()
   console.log('otherUserInfo$$;', otherUserInfo)
 
   const { user, primaryWallet } = useDynamicContext()
@@ -69,8 +68,7 @@ export const AccountInfoDesktop = (props: AccountInfoProps) => {
       status: 1,
     })
 
-    // otherUserInfo?.is_followed = true;
-    // setOtherUserInfo((pre) => ({ ...pre, is_followed: true }))
+    // setOtherUserInfo({})
   }
 
   return (
