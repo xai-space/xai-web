@@ -26,12 +26,12 @@ export const PostMenu = ({ isCollapsed }: PostMenuProps) => {
     <>
       <DropdownMenu>
         <DropdownMenuTrigger className="w-full">
-          <Button variant={'secondary'} className="w-full flex space-x-3">
+          <Button className="w-full bg-black text-white flex space-x-3">
             <span>{t('post')}</span>
             <FaCaretDown />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent>
+        <DropdownMenuContent className="border-[#e5e5e5]">
           <DropdownMenuItem
             className="cursor-pointer"
             onClick={() => {

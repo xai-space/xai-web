@@ -77,8 +77,8 @@ const NoticeCardList = ({ action }: NoticeCardListProps) => {
     <div className="pt-20">
       {data?.list.map((item, index) => (
         <div className="mb-4" key={index}>
-          <Card>
-            <CardHeader className="flex flex-row items-center">
+          <div className="px-4 py-2 border-b border-[#e5e5e5]">
+            <div className="flex flex-row items-center">
               <div className="mr-2">
                 <Avatar>
                   <AvatarImage
@@ -92,19 +92,19 @@ const NoticeCardList = ({ action }: NoticeCardListProps) => {
                 </Avatar>
               </div>
               <div>
-                <CardTitle>
+                <div>
                   {get(item, 'data.from_user.name', '-')}
 
                   {`  ${item.action} you`}
-                </CardTitle>
-                <CardDescription>
+                </div>
+                <div>
                   <div className="line-clamp-3 overflow-hidden text-ellipsis whitespace-pre-wrap">
                     {get(item, 'data.from_user.description', '-')}
                   </div>
-                </CardDescription>
+                </div>
               </div>
-            </CardHeader>
-          </Card>
+            </div>
+          </div>
         </div>
       ))}
     </div>

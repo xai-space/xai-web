@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { use, useMemo } from 'react'
 import { IoIosMore } from 'react-icons/io'
 
 import { Avatar } from '../../ui/avatar'
@@ -25,6 +25,7 @@ export const NavAccount = ({
   const { t } = useTranslation()
   const { userInfo } = useUserStore()
   const { primaryWallet } = useDynamicContext()
+  console.log('userInfo$$:', userInfo)
 
   const avatar = '/images/logo.png'
 
@@ -56,7 +57,9 @@ export const NavAccount = ({
         >
           <Avatar
             src={
-              userInfo?.logo ? `${staticUrl}${userInfo?.logo}` : defaultUserLogo
+              userInfo?.logo && userInfo?.logo !== 'None'
+                ? `${staticUrl}${userInfo?.logo}`
+                : defaultUserLogo
             }
             className="rounded-full w-12 h-12"
           />
