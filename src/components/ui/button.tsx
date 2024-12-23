@@ -21,7 +21,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          'text-primary-foreground !shadow-offset-border hover:!shadow-none text-white bg-border-bg',
+          'text-primary-foreground !shadow-offset-border hover:!shadow-none bg-border-bg',
         destructive:
           'bg-destructive text-destructive-foreground hover:bg-destructive/90',
         outline: 'border-2 border-white sm:hover:opacity-90 active:opacity-90',
@@ -39,7 +39,7 @@ const buttonVariants = cva(
         red: 'bg-red-500 border-none sm:hover:bg-red-500/90 active:bg-red-500/90 text-white',
         'hover-circle':
           'h-9 w-9 rounded-full sm:hover:bg-zinc-100 !duration-300 shrink-0 !p-1',
-        blue: 'bg-clip-padding border-solid chamfer-blue bg-border-blue',
+        blue: 'bg-clip-padding border-solid chamfer-blue bg-border-blue text-primary-foreground',
         gray: 'bg-clip-padding border-solid chamfer-gray bg-border-gray',
       },
       glitch: {
