@@ -12,7 +12,7 @@ import {
 import { AiOutlineHome } from 'react-icons/ai'
 import { MdOutlineArticle } from 'react-icons/md'
 import { RiNotification3Fill } from 'react-icons/ri'
-import { FaRegUser } from 'react-icons/fa6'
+import { FaCaretDown, FaRegUser } from 'react-icons/fa6'
 import { FaUser } from 'react-icons/fa6'
 
 import { useRouter } from 'next/router'
@@ -42,6 +42,8 @@ import { DynamicConnectButton } from '@dynamic-labs/sdk-react-core'
 import { UserCategory } from '@/api/user/types'
 import { getUnreadNotices } from '@/api/user'
 import { useRequest } from 'ahooks'
+import { PostMenu } from '@/components/post-menu'
+
 interface Props {
   collapseSize?: keyof ReturnType<typeof useResponsive>
 }
@@ -230,8 +232,7 @@ export const NavAside = ({
             />
           </div>
 
-          <PublishPostDialog isCollapsed={isCollapsed} />
-          {/* <Button variant="purple" className="w-full"></Button> */}
+          <PostMenu isCollapsed={isCollapsed} />
         </div>
       </div>
 

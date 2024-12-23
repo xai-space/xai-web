@@ -10,7 +10,6 @@ import {
   useIsLoggedIn,
 } from '@dynamic-labs/sdk-react-core'
 import { toast } from 'sonner'
-import { useResponsive } from 'ahooks'
 import { FaPlus } from 'react-icons/fa6'
 import { cn } from '@/lib/utils'
 

@@ -253,7 +253,7 @@
   "addr.empty": "Cannot find contract address",
   "claimed": "Claimed",
   "tx.record": "Transaction record",
-  "create.token": "Start coin",
+  "create.token": "Create token",
   "random.meme": "Random Memecoin",
   "download.img": "Download Image",
   "no.opponent": "No Opponent  ",
@@ -512,7 +512,7 @@
   "like.consensus": "The consensus of the likes will receive 0.1% tokens each",
   "start.vacation": "Start your legendary journey and to the moon!",
   "create.post": "Create Post",
-  "post": "Publish",
+  "post": "Post",
   "mind": "What's on your mind",
   "codeName": "Symbol",
   "fullName": "Full name",
@@ -717,8 +717,8 @@
   "there.noting": "There's nothing here.",
   "goto.burn": "Go to burn",
   "like": "Love",
-  "notice.like":"like",
-  "notice":{
+  "notice.like": "like",
+  "notice": {
     "like": "like",
     "comment": "comment",
     "follow": "following",
@@ -861,5 +861,7 @@
   "coin.type": "Coin Type",
   "coin.type.default": "Default",
   "coin.type.agent": "Agent",
-  "coin.type.nftagent": "NFT Agent"
+  "coin.type.nftagent": "NFT Agent",
+  "create.nft-agent.token": "Create NFT agent token",
+  "create.agent.token": "Create Agent token"
 }

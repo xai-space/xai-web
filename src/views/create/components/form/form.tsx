@@ -65,99 +65,90 @@ export const CreateTokenForm = () => {
     <Form {...form}>
       <form
         onSubmit={form?.handleSubmit(onSubmitBefore)}
-        className="flex flex-col space-y-3 max-sm:w-full max-sm:space-y-2"
+        className="space-y-3 max-sm:w-full max-sm:space-y-2 max-w-[400px]"
       >
         {/* Loog/name/chain/symbol */}
-        <div className="flex md:gap-5 max-sm:flex-col max-sm:space-y-2">
-          <div className="flex">
-            {/* Logo */}
-            <LogoField />
+        <div className="md:gap-5 max-sm:space-y-2">
+          {/* Logo */}
+          <LogoField />
 
-            {/* name/symbol */}
-            <div className="h-[150px] flex flex-col ml-5 items-center justify-between flex-1">
-              <FormField
-                control={form?.control}
-                name={formFields?.fullname!}
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel className="mt-0 font-bold">
-                      *{t('name')}
-                    </FormLabel>
-                    <FormControl className="w-full">
-                      <Input
-                        placeholder={t('name.placeholder')}
-                        {...field}
-                        className="w-full"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form?.control}
-                name={formFields?.symbol!}
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel className="font-bold">*{t('symbol')}</FormLabel>
-                    <FormControl className="w-full">
-                      <Input
-                        placeholder={t('symbol.placeholder')}
-                        {...field}
-                        className="w-full"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+          {/* name/symbol */}
+          <div className="flex space-x-5 items-center justify-between flex-1">
+            <FormField
+              control={form?.control}
+              name={formFields?.fullname!}
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel className="mt-0 font-bold">*{t('name')}</FormLabel>
+                  <FormControl className="w-full">
+                    <Input
+                      placeholder={t('name.placeholder')}
+                      {...field}
+                      className="w-full"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form?.control}
+              name={formFields?.symbol!}
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel className="font-bold">*{t('symbol')}</FormLabel>
+                  <FormControl className="w-full">
+                    <Input
+                      placeholder={t('symbol.placeholder')}
+                      {...field}
+                      className="w-full"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+        </div>
+
+        <div className="flex">
+          {/* Chain / coinType */}
+          <div className="flex flex-col justify-between max-sm:flex-row max-sm:h-min max-sm:justify-start max-sm:space-x-4 max-sm:flex-wrap">
+            <ChainField />
+            {/* <CoinTypeField /> */}
           </div>
 
-          <div className="flex flex-col justify-between">
-            {/* Chain / coinType */}
-            <div className="flex flex-col justify-between max-sm:flex-row max-sm:h-min max-sm:justify-start max-sm:space-x-4 max-sm:flex-wrap">
-              <ChainField />
-              {/* <CoinTypeField /> */}
-            </div>
-
-            {/* Coin type */}
-            <div className="flex flex-col justify-between max-sm:flex-row max-sm:h-min max-sm:justify-start max-sm:space-x-4 max-sm:flex-wrap">
-              <FormField
-                control={form?.control}
-                name={formFields?.coinType!}
-                render={({ field }) => (
-                  <FormItem className="flex-1 mr-4">
-                    <FormLabel className="font-bold">
-                      {t('coin.type')}
-                    </FormLabel>
-                    <FormControl>
-                      <Select
-                        defaultValue={field.value}
-                        onValueChange={(value) => {
-                          form.setValue(formFields?.coinType!, value)
-                        }}
-                      >
-                        <SelectTrigger>
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {coinTypeOptions.map((item) => (
-                            <SelectItem
-                              key={item.value}
-                              value={`${item.value}`}
-                            >
-                              {item.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-            </div>
-          </div>
+          {/* Coin type */}
+          {/* <div className="flex flex-col justify-between max-sm:flex-row max-sm:h-min max-sm:justify-start max-sm:space-x-4 max-sm:flex-wrap">
+            <FormField
+              control={form?.control}
+              name={formFields?.coinType!}
+              render={({ field }) => (
+                <FormItem className="flex-1 mr-4">
+                  <FormLabel className="font-bold">{t('coin.type')}</FormLabel>
+                  <FormControl>
+                    <Select
+                      defaultValue={field.value}
+                      onValueChange={(value) => {
+                        form.setValue(formFields?.coinType!, value)
+                      }}
+                    >
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {coinTypeOptions.map((item) => (
+                          <SelectItem key={item.value} value={`${item.value}`}>
+                            {item.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+          </div> */}
         </div>
 
         {/* Description */}

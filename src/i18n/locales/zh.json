@@ -248,7 +248,7 @@
   "not.involved": "购买阶段已经结束，但你没有参与购买",
   "claimed": "已领取",
   "tx.record": "交易记录",
-  "create.token": "创建代币",
+  "create.token": "发币代币",
   "random.meme": "创建随机 Meme 代币",
   "download.img": "下载图片",
   "no.opponent": "没有竞争者",
@@ -707,8 +707,8 @@
   "there.noting": "这里空空如也~",
   "goto.burn": "前往销毁",
   "like": "喜欢",
-  "notice.like":"点赞",
-  "notice":{
+  "notice.like": "点赞",
+  "notice": {
     "like": "点赞",
     "comment": "评论",
     "follow": "关注",
@@ -856,5 +856,7 @@
   "coin.type": "代币类型",
   "coin.type.default": "默认",
   "coin.type.agent": "Agent",
-  "coin.type.nftagent": "NFT Agent"
+  "coin.type.nftagent": "NFT Agent",
+  "create.nft-agent.token": "发布NFT Agent代币",
+  "create.agent.token": "发布Agent代币"
 }

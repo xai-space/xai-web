@@ -27,7 +27,7 @@ const AgentList = () => {
     <div className="max-w-[800px] mx-auto pt-0 ">
       <div className="flex justify-between items-center text-xl">
         {t('agent.list')}
-        <div className="flex space-x-4">
+        {/* <div className="flex space-x-4">
           <DropdownMenu>
             <DropdownMenuTrigger>
               <Button variant="secondary">{t('create.token')}</Button>
@@ -51,7 +51,7 @@ const AgentList = () => {
           >
             {t('create.agent')}
           </Button>
-        </div>
+        </div> */}
       </div>
 
       {userInfo?.user_id && (

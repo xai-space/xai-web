@@ -33,7 +33,7 @@ export const useChainsStore = create<ChainsStore>((set, get) => ({
   tvmChainsMap: {},
 
   setChains: (chains) => {
-    set({ chains: chains, loadingChains: false })
+    set({ chains: chains.filter((c) => c.is_active), loadingChains: false })
   },
   setChainsMap: (chains) => {
     const chainsMap: ChainsStore['chainsMap'] = {}

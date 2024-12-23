@@ -98,8 +98,8 @@ export const LogoField = () => {
               <div
                 className={cn(
                   'relative flex',
-                  'border-2 rounded-md overflow-hidden',
-                  'w-[150px] h-[150px]'
+                  'border-2 rounded-full overflow-hidden',
+                  'w-[80px] h-[80px] '
                 )}
               >
                 {loadingLogo ? (
