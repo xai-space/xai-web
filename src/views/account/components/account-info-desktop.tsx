@@ -50,27 +50,35 @@ export const AccountInfoDesktop = (props: AccountInfoProps) => {
   const { t } = useTranslation()
   const { copy } = useClipboard()
 
-  const { userInfo, otherUserInfo, setOtherUserInfo, agentInfo } =
-    useUserStore()
+  const { otherUserInfo, setOtherUserInfo, agentInfo } = useUserStore()
   console.log('otherUserInfo$$;', otherUserInfo)
 
   const { user, primaryWallet } = useDynamicContext()
   const userWallets = useWalletOptions()
 
   // console.log('agentInfo', agentInfo, isAgent)
+
+  let status: 0 | 1 = 1
   const followFetch = async () => {
     const category =
       query.t === 'agent' ? UserCategory.Agent : UserCategory.User
     if (query.t === 'agent') {
     }
+    if (otherUserInfo?.is_followed) {
+      status = 0
+    } else {
+      status = 1
+    }
     const res = await userApi.postFollow({
       category: category,
       target_id: query.uid as string,
-      status: 1,
+      status: status,
     })
-
-    // otherUserInfo?.is_followed = true;
-    // setOtherUserInfo((pre) => ({ ...pre, is_followed: true }))
+    if (status) {
+      setOtherUserInfo({ ...otherUserInfo, is_followed: true })
+    } else {
+      setOtherUserInfo({ ...otherUserInfo, is_followed: false })
+    }
   }
 
   return (

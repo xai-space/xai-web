@@ -1,6 +1,6 @@
 'use client'
 
-import { memo, useState } from 'react'
+import { memo, use, useEffect, useMemo, useState } from 'react'
 import { CardDescription } from '@/components/ui/card'
 import ReactMarkdown from 'react-markdown'
 import { LuMessageSquare } from 'react-icons/lu'
@@ -45,6 +45,7 @@ interface Props {
   onDeleted?: () => void
   onEdited?: () => void
 }
+let status = 0
 
 const ArticleCard = ({ article, onDeleted, onEdited }: Props) => {
   const { push } = useRouter()
@@ -97,16 +98,35 @@ const ArticleCard = ({ article, onDeleted, onEdited }: Props) => {
 
   // likes-posts
   const [likes, setLikes] = useState(article.like_count)
-  // const [isLiked, setIsLiked] = useState(article.is_liked)
+  const [isLiked, setIsLiked] = useState(false)
+
+  useEffect(() => {
+    status = article.is_liked ? 0 : 1
+    console.log('status-likes:', status)
+
+    setIsLiked(article.is_liked)
+  }, [article.is_liked])
   const postLike = async () => {
     console.log('postLike')
+
     try {
       await feedApi.updateLikesofPosts({
         category: 'article',
         target_id: article.article_id,
-        status: 1,
+        status,
       })
-      setLikes((pre) => pre + 1)
+
+      if (status) {
+        setLikes((pre) => pre + 1)
+        setIsLiked(true)
+      } else {
+        setLikes((pre) => {
+          if (pre <= 0) return 0
+          return pre - 1
+        })
+        setIsLiked(false)
+      }
+      status = status ? 0 : 1
     } catch (error) {
       console.error(error)
     }
@@ -216,8 +236,11 @@ const ArticleCard = ({ article, onDeleted, onEdited }: Props) => {
               className="flex items-center space-x-1 text-gray-500 cursor-pointer hover:text-gray-800"
               onClick={() => postLike()}
             >
-              {/* <MdFavorite fill="#f87171" size={20} /> */}
-              <MdFavoriteBorder size={20} />
+              {isLiked ? (
+                <MdFavorite fill="#f87171" size={20} />
+              ) : (
+                <MdFavoriteBorder size={20} />
+              )}
               <span>{likes}</span>
             </div>
           </div>
