@@ -11,7 +11,6 @@ export const TokenDesktop = () => {
       <div className="flex flex-col flex-1">
         <TokenInfoHeader />
         <Chart />
-
         <CommentTradeTab />
       </div>
 

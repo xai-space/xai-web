@@ -69,6 +69,7 @@ export const CreateTokenForm = () => {
       <form
         onSubmit={form?.handleSubmit(onSubmitBefore)}
         className="space-y-3 max-sm:w-full max-sm:space-y-2 max-w-[400px]"
+        autoComplete="off"
       >
         {/* Loog/name/chain/symbol */}
         <div className="md:gap-5 max-sm:space-y-2">

@@ -63,7 +63,7 @@ export const SlippageButton = (props: Props) => {
           </div>
         }
       >
-        <Button size="sm" variant={'gray'} shadow="none" disabled={disabled}>
+        <Button size="sm" shadow="none" disabled={disabled}>
           {t('set-max-slippage')}({value}%)
         </Button>
       </AlertDialog>

@@ -202,7 +202,11 @@ export const LogoField = () => {
             setNftInfo(info)
             form.setValue('logo', info.url)
             const { data } = await otherApi.imageIdentify({ url: info.url })
-            form.setValue('description', data?.description)
+            // form.setValue('description', data?.description)
+            form.setValue(
+              'description',
+              'Dogwifhat (WIF) is a well-known meme coin based on the Solana blockchain that has quickly gained attention in the crypto community. Its defining feature is a Shiba Inu wearing a quirky pink knitted hat, distinguished by its playful and lighthearted style.'
+            )
           } catch (error) {
             console.log(error)
           } finally {
