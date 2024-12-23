@@ -25,7 +25,7 @@ export const useTokenWs = (disabled = false) => {
   const { chainName, tokenAddr } = useTokenQuery()
   const router = useRouter()
   const ws = useWebsocket<TokenWsOnEvents, TokenWsEmitEvents>(
-    `${apiUrl.ws}/v2/coin/trades`,
+    `${apiUrl.ws}/api/v2/ws/trades`,
     {
       disabled,
       shouldReconnect: () => router.pathname === Routes.TokenPage,
@@ -38,6 +38,7 @@ export const useTokenWs = (disabled = false) => {
   const [rewardInfo, setRewardInfo] = useState<TokenWsRewardInfo>()
 
   const onTrades = ({ data, extra }: TokenWsOnEvents['trades']) => {
+
     setHasMoreTrades(!!extra?.hasmore)
     setTradeRecords((prev) =>
       orderBy(uniqBy([...prev, ...data], uniqKey), [sortKey], 'desc')
@@ -61,7 +62,7 @@ export const useTokenWs = (disabled = false) => {
 
     ws.emit('history', {
       chain: chainName,
-      token: tokenAddr,
+      address: tokenAddr,
       offset: tradeRecords.length,
       limit: pageSize * 2,
     })
@@ -79,7 +80,7 @@ export const useTokenWs = (disabled = false) => {
     setTradeRecords([])
     ws.emit('listen', {
       chain: chainName,
-      token: tokenAddr,
+      address: tokenAddr,
       offset: 0,
       limit: pageSize,
     })

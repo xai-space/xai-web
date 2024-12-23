@@ -9,7 +9,7 @@ export interface TokenWsEmitEvents {
 
 interface TokenWsListen {
   chain: string
-  token: string
+  address: string
   offset?: number
   limit?: number
 }

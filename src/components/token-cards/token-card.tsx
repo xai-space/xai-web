@@ -62,8 +62,6 @@ export const useTokenPools = (token: TokenListItem) => {
     tokenMaxSupply,
   } = pools || {}
 
-  console.log(token.name, isGraduated, solAim, tokenReserve, tokenMaxSupply)
-
   return { isGraduated, solAim, tokenReserve, tokenMaxSupply }
 }
 
