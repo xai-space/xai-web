@@ -23,6 +23,7 @@ const baseHeight = {
 
 const config = {
   darkMode: ['class'],
+  // lightMode: ['class'],
   content: [
     './pages/**/*.{ts,tsx}',
     './components/**/*.{ts,tsx}',

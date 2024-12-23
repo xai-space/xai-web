@@ -38,7 +38,7 @@ export const PrimaryLayout = ({
     <main className={cn('min-h-main flex max-w-[100vw]', className)}>
       <div
         className={cn(
-          'border-r px-4 max-lg:hidden min-h-screen bg-black z-50',
+          'border-r border-[#e5e5e5] px-4 max-lg:hidden min-h-screen z-50',
           navAsideClass
         )}
       >
