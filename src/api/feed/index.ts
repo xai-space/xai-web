@@ -13,6 +13,7 @@ import {
   FeedListItem,
   FeedListRes,
   likesOfPostsBody,
+  FeatureFollowRes,
 } from './types'
 
 export const feedApi = {
@@ -83,5 +84,11 @@ export const feedApi = {
     return api.POST<object>('/agent/v1/playground/article/like', {
       body: data,
     })
+  },
+
+  getFeatureFollow: () => {
+    return api.GET<ApiResponse<FeatureFollowRes>>(
+      `/agent/v1/playground/user/follow/recommend`
+    )
   },
 }

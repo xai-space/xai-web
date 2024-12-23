@@ -110,3 +110,35 @@ export interface likesOfPostsBody {
   target_id: string
   [property: string]: any
 }
+
+export interface FeatureFollowRes {
+  agent: null | Agent
+  /**
+   * 类型，枚举：user/agent
+   */
+  category: string
+  user: null | User
+  [property: string]: any
+}
+
+export interface Agent {
+  agent_id: string
+  description: string
+  is_be_followed: boolean
+  is_followed: boolean
+  logo: string
+  name: string
+  token_id: null
+  user_id: string
+  [property: string]: any
+}
+
+export interface User {
+  description: string
+  is_be_followed: boolean
+  is_followed: boolean
+  logo: string
+  name: string
+  user_id: string
+  [property: string]: any
+}
