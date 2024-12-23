@@ -20,6 +20,10 @@ import { useCreateTokenContext } from '@/contexts/create-token'
 import ConnectWallet from '@/components/connect-wallet'
 import { staticUrl } from '@/config/url'
 import { isArray } from 'lodash'
+import { NftAgentDialog } from '@/views/ai/components/nft-agent-dialog'
+import { useNftAgentToken } from '../../hooks/use-nft-agent-token'
+import { CoinType } from '@/config/coin'
+import { otherApi } from '@/api/other'
 
 let memeLogoSign = new AbortController()
 
@@ -28,6 +32,8 @@ export const LogoField = () => {
   const { loadingLogo, setLoadingLogo } = useAimemeInfoStore()
   const { playGuaGua } = useAudioPlayer()
   const inputRef = useRef<HTMLInputElement>(null)
+  const { showNftAgentDialog, setShowNftAgentDialog, nftInfo, setNftInfo } =
+    useNftAgentToken()
 
   // TODO: check for connect
   // const { checkForConnect } = useCheckAccount()
@@ -88,7 +94,7 @@ export const LogoField = () => {
   }, [])
 
   return (
-    <div>
+    <>
       <FormField
         control={form?.control}
         name={formFields?.logo!}
@@ -98,8 +104,8 @@ export const LogoField = () => {
               <div
                 className={cn(
                   'relative flex',
-                  'border-2 rounded-full overflow-hidden',
-                  'w-[80px] h-[80px] '
+                  'border-2 rounded-md overflow-hidden',
+                  'h-[150px]'
                 )}
               >
                 {loadingLogo ? (
@@ -119,11 +125,16 @@ export const LogoField = () => {
                     </div>
                   </div>
                 ) : field.value ? (
-                  <div>
+                  <div className="flex items-center justify-center w-full">
                     <img
-                      src={`${staticUrl}${field.value}`}
+                      src={
+                        +form.getValues(formFields.coinType) ==
+                        CoinType.NFTAgent
+                          ? nftInfo?.url
+                          : `${staticUrl}${field.value}`
+                      }
                       alt="logo"
-                      className="absolute top-0 left-0 w-full h-full object-cover"
+                      className="absolute top-0 left-[50%] -translate-x-[50%] w-max max-w-full h-max  max-h-[150px] object-cover"
                     />
                   </div>
                 ) : (
@@ -145,6 +156,15 @@ export const LogoField = () => {
                   className="h-full opacity-0"
                   inputClassName="h-full w-full absolute top-0 left-0 cursor-pointer z-10"
                   ref={inputRef}
+                  onClick={(e) => {
+                    if (
+                      +form.getValues(formFields.coinType) == CoinType.NFTAgent
+                    ) {
+                      setShowNftAgentDialog(true)
+                      e.stopPropagation()
+                      e.preventDefault()
+                    }
+                  }}
                   onChange={async (e) => {
                     try {
                       const url = await onChangeUpload(e, true)
@@ -172,6 +192,24 @@ export const LogoField = () => {
           </FormItem>
         )}
       />
-    </div>
+      <NftAgentDialog
+        open={showNftAgentDialog}
+        nftInfo={nftInfo}
+        setOpen={setShowNftAgentDialog}
+        setNftInfo={async (info) => {
+          const loading = toast.loading(t('ai.identify.image'))
+          try {
+            setNftInfo(info)
+            form.setValue('logo', info.url)
+            const { data } = await otherApi.imageIdentify({ url: info.url })
+            form.setValue('description', data?.description)
+          } catch (error) {
+            console.log(error)
+          } finally {
+            toast.dismiss(loading)
+          }
+        }}
+      ></NftAgentDialog>
+    </>
   )
 }

@@ -91,6 +91,14 @@ export const ChainSelect = forwardRef<HTMLDivElement, Props>((p, ref) => {
     }
   }
 
+  const changeValue = (c: string) => {
+    onValueChange?.(c)
+    const chain = chains.find((chain) => chain.id === c)
+    if (chain) {
+      switchChain(chain)
+    }
+  }
+
   useEffect(() => {
     const strId = chainId.toString()
     const chain = evmChainsMap[strId]
@@ -103,12 +111,16 @@ export const ChainSelect = forwardRef<HTMLDivElement, Props>((p, ref) => {
   if (loadingChains) return <div>{t('loading')}</div>
 
   return (
-    <Select defaultValue={defaultValue} onValueChange={onValueChange}>
+    <Select
+      defaultValue={defaultValue}
+      value={value}
+      onValueChange={changeValue}
+    >
       <SelectTrigger>
         <SelectValue placeholder="Select a chain" />
       </SelectTrigger>
       <SelectContent>
-        {chains.slice(0, 7)?.map((c, i) => (
+        {chains?.map((c, i) => (
           <SelectItem key={c.id} value={c.id}>
             <div className="flex items-center space-x-2">
               <img

@@ -3,8 +3,9 @@ import { WsReceived } from '@/api/types'
 export interface DatafeedEmitEvents {
   listen: {
     chain: string
-    token: string
+    address: string
     interval: string
+    price_type: string
   }
   history: {
     start: number
@@ -14,7 +15,7 @@ export interface DatafeedEmitEvents {
 }
 
 export type DatafeedOnEvents = WsReceived<{
-  candles: [DatafeedCandles, { hasmore: boolean }]
+  candles: [DatafeedBar[], { hasmore: boolean }]
   update: [DatafeedOnEvents[keyof Omit<DatafeedOnEvents, 'update'>]]
 }>
 

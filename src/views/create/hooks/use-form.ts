@@ -16,6 +16,8 @@ import { parseMediaUrl } from '@/utils'
 import { CoinApi } from '@/api/coin'
 import { staticUrl } from '@/config/url'
 import { CoinType } from '@/config/coin'
+import { useRouter } from 'next/router'
+import { useEffect } from 'react'
 
 export const formFields = {
   fullname: 'fullname',
@@ -74,9 +76,11 @@ const formSchema = z
   .merge(marketingSchema)
 
 export const useCreateTokenForm = () => {
+  const { query } = useRouter()
+
   const { formInfo } = useAimemeInfoStore()
   const { checkForChain } = useCheckAccount()
-  const { evmChainsMap, loadingChains } = useChainsStore()
+  const { chains, evmChainsMap, loadingChains } = useChainsStore()
   const { url, onChangeUpload } = useUploadImage()
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -88,10 +92,10 @@ export const useCreateTokenForm = () => {
       [formFields.twitter]: '',
       [formFields.telegram]: '',
       [formFields.website]: '',
-      [formFields.chainName]: '',
+      [formFields.chainName]: chains?.[0]?.id || '',
       [formFields.logo]: '',
       [formFields.poster]: [],
-      [formFields.coinType]: `${CoinType.Default}`,
+      [formFields.coinType]: `${query.type || CoinType.Default}`,
       [formFields.marketing]: [],
       buyAmount: '',
     },
@@ -127,6 +131,12 @@ export const useCreateTokenForm = () => {
       // marketing: values.marketing as Marketing[],
     })
   }
+
+  useEffect(() => {
+    if (typeof query.type === 'string') {
+      form.setValue(formFields.coinType, query.type as string)
+    }
+  }, [query])
 
   return {
     url,

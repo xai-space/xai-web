@@ -106,7 +106,7 @@
   "trade.checking": "Trade checking...",
   "trade.is-zero": "Trade amount must greater than zero",
   "create.inspiration.title": "Meme inspiration💡",
-  "create.new": "Launch next 100x Memecoin 🚀",
+  "create.new": "Launch an explosive Memecoin💥",
   "create.upload-image": "Please upload LOGO image",
   "uploading": "Uploading...",
   "upload.success": "Upload sucessful!",
@@ -863,5 +863,8 @@
   "coin.type.agent": "Agent",
   "coin.type.nftagent": "NFT Agent",
   "create.nft-agent.token": "Create NFT agent token",
-  "create.agent.token": "Create Agent token"
+  "create.agent.token": "Create Agent token",
+  "select.chain": "Select Chain",
+  "agent.personality": "Characteristics of the Agent's personality",
+  "ai.identify.image": "Characteristics of personality are being generated based on NFTs"
 }

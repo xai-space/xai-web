@@ -30,18 +30,18 @@ import { useChainInfo } from '@/hooks/use-chain-info'
 export const useDatafeed = () => {
   const router = useRouter()
   const { chainName, tokenAddr } = useTokenQuery()
-  const { native } = useChainInfo(chainName)
+  const { chain } = useChainInfo(chainName)
   const cache = useLruMap<DatafeedCache>()
   const ws = useWebsocket<DatafeedOnEvents, DatafeedEmitEvents>(
-    `${apiUrl.ws}/v2/coin/candles`,
+    `${apiUrl.ws}/api/v2/ws/candles`,
     { shouldReconnect: () => router.pathname === Routes.TokenPage }
   )
   const displayedUnit = useMemo<Record<keyof DatafeedCandles, string>>(
     () => ({
-      master: native?.symbol || '',
+      master: chain?.master_symbol || '',
       usd: 'USD',
     }),
-    [native]
+    [chain]
   )
 
   const { getStorage, setStorage } = useLocalStorage()
@@ -52,10 +52,11 @@ export const useDatafeed = () => {
       onReady: (onReadyCallback) => {
         setTimeout(() => onReadyCallback(datafeedConfig))
       },
-      searchSymbols: (_, __, ___, ____) => {},
+      searchSymbols: (_, __, ___, ____) => { },
       resolveSymbol: async (symbolName, onResolve, onError, extension) => {
         ws.on('candles', ({ data }) => {
-          const bars = data[unit]
+          // const bars = data[unit]
+          const bars = data
           const lastBar = last(bars)
           const symbolInfo: LibrarySymbolInfo = {
             ...symbolInfoConfig,
@@ -69,7 +70,10 @@ export const useDatafeed = () => {
           cache.set('lastBar', lastBar)
           onResolve(symbolInfo)
         })
-        ws.emit('listen', { chain: chainName, token: tokenAddr, interval })
+        ws.emit('listen', {
+          chain: chainName, address: tokenAddr, interval,
+          price_type: unit,
+        })
       },
       getBars: async (symbolInfo, resolution, period, onResult, onError) => {
         const interval = formatInterval(resolution)
@@ -77,7 +81,6 @@ export const useDatafeed = () => {
         if (period.firstDataRequest) {
           const cachedBars = cache.get('bars') || []
           const cachedInterval = getStorage('chart_interval')
-
           // Have cached bars & interval no change, use cache
           if (!isEmpty(cachedBars) && cachedInterval === interval) {
             onResult(cachedBars, { noData: false })
@@ -85,23 +88,26 @@ export const useDatafeed = () => {
           }
 
           ws.on('candles', ({ data }) => {
-            const bars = data[unit]
+            // const bars = data[unit]
+            const bars = data
 
             if (!isEmpty(bars)) cache.set('lastBar', last(bars))
             setStorage('chart_interval', interval)
             onResult(bars, { noData: isEmpty(data) })
           })
-          ws.emit('unlisten', null)
+          // ws.emit('unlisten', null)
           ws.emit('listen', {
             interval,
-            token: tokenAddr,
+            address: tokenAddr,
             chain: chainName,
+            price_type: unit,
           })
           return
         }
 
         ws.on('candles', ({ data, extra }) => {
-          const bars = data[unit]
+          // const bars = data[unit]
+          const bars = data
 
           if (!isEmpty(bars)) cache.set('lastBar', last(bars))
           onResult(bars, { noData: !extra?.hasmore })
@@ -109,8 +115,11 @@ export const useDatafeed = () => {
         ws.emit('history', { start: period.from, end: period.to })
       },
       subscribeBars: (_, resolution, onTick, uid, onRest) => {
-        ws.on('update', ({ data }) => {
-          for (const bar of data.data[unit]) {
+        // ws.on('update', ({ data }) => {
+        ws.on('candles', ({ data }) => {
+          // for (const bar of data.data) {
+          for (const bar of data) {
+            // for (const bar of data.data[unit]) {
             const lastTime = cache.get('lastBar')?.time || 0
             if (bar.time < lastTime) return // We can't update old bar
 
@@ -119,11 +128,11 @@ export const useDatafeed = () => {
           }
         })
       },
-      unsubscribeBars: (uid) => {},
+      unsubscribeBars: (uid) => { },
     } as IBasicDataFeed
   }
 
-  const removeDatafeed = () => {}
+  const removeDatafeed = () => { }
 
   return {
     isConnected: ws.isOpen,

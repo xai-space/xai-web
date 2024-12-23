@@ -23,6 +23,7 @@ export const TokenCardBadge = ({
   }
 
   if (!token.is_active) {
+    return <></>
     return (
       <Badge variant="destructive" className={classes}>
         {t('token.inactive')}
