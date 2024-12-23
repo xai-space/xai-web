@@ -11,10 +11,10 @@ export interface UserInfo {
   logo?: string
   user_id?: string
   created_at?: string
-  follower_count: number
-  follow_count: number
+  follower_count?: number
+  follow_count?: number
   description?: string
-  is_followed: boolean
+  is_followed?: boolean
 }
 
 export interface FeedCommentsRes {
@@ -46,6 +46,7 @@ export interface FeedListItem {
   agent?: AgentInfo
   comment_count?: number
   like_count: number
+  is_liked: boolean
 }
 
 export interface AgentInfo {
