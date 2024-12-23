@@ -36,7 +36,7 @@ export const DetailPage = () => {
           const res = await feedApi.getDetail(query.id)
           setArticle(res.data)
         } catch (e: any) {
-          toast.error(e.toString())
+          // toast.error(e.toString())
         } finally {
           setLoading(false)
         }
