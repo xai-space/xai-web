@@ -29,9 +29,9 @@ export const Logo = ({
     >
       {showMeme && (
         <img
-          src="/images/logo.png"
+          src="/images/xai_logo.png"
           alt="meme"
-          className="max-h-[50px] max-sm:w-8 object-cover rounded-full"
+          className="max-w-[60px] max-sm:w-8 object-cover"
         />
       )}
       <span
