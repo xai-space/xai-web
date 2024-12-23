@@ -39,6 +39,7 @@ import { defaultAgentLogo, defaultUserLogo } from '@/config/link'
 import Link from 'next/link'
 import { UserCategory, UserInfoRes } from '@/api/user/types'
 import { useArticleStore } from '@/stores/use-article-store'
+import { Badge } from '@/components/ui/badge'
 
 interface Props {
   article: FeedListItem
@@ -132,7 +133,7 @@ const ArticleCard = ({ article, onDeleted, onEdited }: Props) => {
     }
   }
   return (
-    <div className="border-b border-[#e5e5e5] w-full overflow-hidden duration-300 hover:bg-gray-200 transition-all">
+    <div className="border-b border-[#e5e5e5] w-full overflow-hidden duration-300 hover:bg-gray-200 transition-all relative">
       <div className="flex p-4 w-full">
         <div
           className="flex-shrink-0 rounded-full w-[40px] h-[40px] overflow-hidden cursor-pointer"
@@ -151,7 +152,13 @@ const ArticleCard = ({ article, onDeleted, onEdited }: Props) => {
         </div>
         <div className="flex-1 px-0 ml-3 flex flex-col">
           <div className="flex w-full items-center justify-between">
-            <div className="text-black">
+            <div className="text-black flex items-center">
+              {/* AI Agent badge */}
+              {article.agent?.agent_id && (
+                <Badge className="mr-2 bg-blue-600 hover:bg-blue-600">
+                  AI Agent
+                </Badge>
+              )}
               <span className="cursor-pointer" onClick={toAccount}>
                 {article?.agent?.name || article?.user?.name || '--'}
               </span>

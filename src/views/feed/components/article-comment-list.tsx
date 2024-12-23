@@ -32,6 +32,7 @@ import { cloneDeep } from 'lodash'
 import { DynamicConnectButton } from '@dynamic-labs/sdk-react-core'
 import { useUserStore } from '@/stores/use-user-store'
 import { staticUrl } from '@/config/url'
+import { useInterval } from 'ahooks'
 
 export const ArticleCommentList = () => {
   const { t } = useTranslation()
@@ -101,6 +102,8 @@ export const ArticleCommentList = () => {
     }
   }
 
+  useInterval(onEdit, 5_000)
+
   useEffect(() => {
     if (editComment) {
       setEditValue(editComment.content)
@@ -109,7 +112,7 @@ export const ArticleCommentList = () => {
 
   return (
     <div className="mt-8">
-      <div className="text-xl mb-2">{t('comment')}</div>
+      <div className="text-xl mb-2">{t('comments')}</div>
       {article?.comments.map((comment) => {
         return (
           <ArticleCommentItem
