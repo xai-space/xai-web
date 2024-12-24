@@ -32,7 +32,7 @@ export const FeedPage = () => {
   return (
     <div className="flex">
       <div className="flex-1 max-sm:mt-2 ">
-        <div className="w-full flex py-2 px-28 justify-around border-b-[1px] border-[#e5e7eb]">
+        <div className="flex py-2 px-2 justify-around border-b-[1px] border-[#e5e7eb]">
           {navList.map((item) => (
             <div
               key={item.id}
@@ -53,10 +53,6 @@ export const FeedPage = () => {
           ))}
         </div>
         <PostFeed follow={follow}></PostFeed>
-      </div>
-      <div className="max-md:hidden px-10 pt-2">
-        <NewLanches></NewLanches>
-        <FeatureFollow></FeatureFollow>
       </div>
     </div>
   )

@@ -34,14 +34,6 @@ export const Logo = ({
           className="max-w-[60px] max-sm:w-8 object-cover"
         />
       )}
-      {/* <span
-        className={cn(
-          'font-normal text-purple-500 mt-1 max-lg:ml-2',
-          betaClass
-        )}
-      >
-        Beta
-      </span> */}
     </Link>
   )
 }

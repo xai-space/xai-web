@@ -8,6 +8,7 @@ import { useUserStore } from '@/stores/use-user-store'
 import { useRequest } from 'ahooks'
 import { get } from 'lodash-es'
 import { useRouter } from 'next/router'
+import AsideFollow from './aside-follow'
 
 const FeatureFollow = () => {
   const { query } = useRouter()
@@ -19,9 +20,11 @@ const FeatureFollow = () => {
       const res = await feedApi.getFeatureFollow()
       let list = []
       for (const item of res.data?.list) {
+        let id = item.user ? item.user.user_id : item.agent.agent_id
         list.push({
           ...item[item.category],
           category: item.category,
+          id: id,
         })
       }
       // TODO: temp
@@ -37,19 +40,16 @@ const FeatureFollow = () => {
   )
 
   let status: 0 | 1 = 1
-  const followFetch = async () => {
-    const category =
-      query.t === 'agent' ? UserCategory.Agent : UserCategory.User
-    if (query.t === 'agent') {
-    }
+  const followFetch = async (category: any, id: string) => {
     if (otherUserInfo?.is_followed) {
       status = 0
     } else {
       status = 1
     }
+
     const res = await userApi.postFollow({
       category: category,
-      target_id: query.uid as string,
+      target_id: id,
       status: status,
     })
     if (status) {
@@ -73,13 +73,14 @@ const FeatureFollow = () => {
               </p>
             </div>
           </div>
-          <div onClick={() => followFetch(id)}>
+          <AsideFollow category={item.category} id={item.id}></AsideFollow>
+          {/* <div onClick={() => followFetch(item.category, item.id)}>
             {otherUserInfo?.is_followed ? (
               <Button className="text-white rounded-full">Follow</Button>
             ) : (
               <Button className="bg-slate-200 rounded-full">Unfollow</Button>
             )}
-          </div>
+          </div> */}
         </div>
       ))}
     </div>

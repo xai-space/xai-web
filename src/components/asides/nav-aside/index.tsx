@@ -1,7 +1,5 @@
 import { ComponentProps, useEffect, useState } from 'react'
 import { IoLanguageOutline } from 'react-icons/io5'
-import { IoDiamondOutline } from 'react-icons/io5'
-import { IoDiamond } from 'react-icons/io5'
 import {
   RiNotification3Line,
   RiRobot2Fill,
@@ -10,7 +8,6 @@ import {
   RiRocketLine,
 } from 'react-icons/ri'
 import { AiOutlineHome } from 'react-icons/ai'
-import { MdOutlineArticle } from 'react-icons/md'
 import { RiNotification3Fill } from 'react-icons/ri'
 import { FaCaretDown, FaRegUser } from 'react-icons/fa6'
 import { FaUser } from 'react-icons/fa6'
@@ -35,15 +32,12 @@ import { useResponsive } from '@/hooks/use-responsive'
 import Logo from '@/components/logo'
 import SocialLinks from '@/components/social-links'
 import NavAccount from './nav-account'
-import RewardButton from '@/components/reward-button'
 import { useAIAgentStore } from '@/stores/use-chat-store'
-import { PublishPostDialog } from '@/components/publish-post-dialog'
-import { DynamicConnectButton } from '@dynamic-labs/sdk-react-core'
 import { UserCategory } from '@/api/user/types'
 import { getUnreadNotices } from '@/api/user'
 import { useRequest } from 'ahooks'
 import { PostMenu } from '@/components/post-menu'
-
+import { GoHome, GoHomeFill } from 'react-icons/go'
 interface Props {
   collapseSize?: keyof ReturnType<typeof useResponsive>
 }
@@ -80,15 +74,15 @@ export const NavAside = ({
     {
       title: t('home'),
       path: Routes.Main,
-      icon: <AiOutlineHome className="text-[#000]" />,
-      iconActive: <AiOutlineHome className="text-[#6474cc]" />,
+      icon: <GoHome size={32} />,
+      iconActive: <GoHomeFill size={32} />,
       isActive: pathname === Routes.Main,
     },
     {
       title: t('Coin'),
       path: Routes.Coin,
-      icon: <RiRocketLine className="text-[#000]" />,
-      iconActive: <RiRocketFill className="text-[#6474cc]" />,
+      icon: <RiRocketLine size={32} />,
+      iconActive: <RiRocketFill size={32} />,
       isActive: pathname === Routes.Coin,
     },
     {
@@ -96,8 +90,8 @@ export const NavAside = ({
       path: sessionId
         ? `${Routes.AIChat}/${agentInfo?.agent_id}?sid=${sessionId}`
         : Routes.AIList,
-      icon: <RiRobot2Line className="text-[#000]" />,
-      iconActive: <RiRobot2Fill className="text-[#6474cc]" />,
+      icon: <RiRobot2Line size={32} />,
+      iconActive: <RiRobot2Fill size={32} />,
       isActive: pathname.startsWith(Routes.AI),
     },
 
@@ -112,8 +106,8 @@ export const NavAside = ({
       title: t('Notification'),
       id: 'notice',
       path: Routes.Notification,
-      icon: <RiNotification3Line className="text-[#000]" />,
-      iconActive: <RiNotification3Fill className="text-[#6474cc]" />,
+      icon: <RiNotification3Line size={32} />,
+      iconActive: <RiNotification3Fill size={32} />,
       isActive: pathname === Routes.Notification,
     },
   ]
@@ -148,11 +142,11 @@ export const NavAside = ({
         />
         <div
           className={cn(
-            'pt-2 space-y-3',
+            'pt-2 space-y-3 mt-5',
             isCollapsed && 'mt-5 flex flex-col items-center'
           )}
         >
-          <NavigationMenu className="grid grid-cols-1 max-w-full">
+          <NavigationMenu className="grid grid-cols-1 mb-4  max-w-full">
             <NavigationMenuList
               className={cn(
                 'grid grid-cols-1 space-x-0 space-y-3',
@@ -166,11 +160,10 @@ export const NavAside = ({
                 >
                   <NavigationMenuLink
                     className={cn(
-                      'text-lg w-full flex justify-start space-x-2 pl-2 cursor-pointer bg-clip-padding font-normal hover:opacity-90',
+                      'text-lg w-full mb-4 flex justify-start space-x-2 pl-2 cursor-pointer bg-clip-padding font-normal hover:opacity-90',
                       !n.isActive &&
                         'chamfer-gray bg-border-white hover:bg-[#ccc]',
-                      n.isActive &&
-                        'font-bold chamfer-blue bg-[#ccc] hover:bg-border-blue',
+                      n.isActive && 'font-bold chamfer-blue bg-[#ccc]',
                       isCollapsed &&
                         'border-[10px] space-x-0 p-0 justify-center text-xl'
                     )}
@@ -179,7 +172,7 @@ export const NavAside = ({
                   >
                     {n.isActive ? n.iconActive : n.icon}
                     {!isCollapsed && (
-                      <span className="text-[#000]">{n.title}</span>
+                      <span className="text-[#000] text-xl">{n.title}</span>
                     )}
                     {/* {n.id === 'notice' && (
                       <div className="absolute top-1 -left-1 flex px-1 justify-center items-center text-center text-white rounded-full text-[12px] bg-red-500">
@@ -194,7 +187,7 @@ export const NavAside = ({
 
           <div
             className={cn(
-              'flex justify-between items-center mt-1',
+              'flex justify-between items-center',
               isCollapsed && 'flex-col justify-center space-x-0 space-y-2'
             )}
           >

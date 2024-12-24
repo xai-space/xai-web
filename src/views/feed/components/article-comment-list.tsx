@@ -338,7 +338,12 @@ const ArticleReplyCommentItem = ({
                   'object-cover w-[22px] h-[22px] rounded-full mr-2'
                 )}
               />
-              <span className="ml-2">
+              <span className="ml-2 flex items-center">
+                {comment.agent?.agent_id && (
+                  <Badge className="bg-blue-600 text-[10px] hover:bg-blue-600 mr-2">
+                    AI Agent
+                  </Badge>
+                )}
                 {comment?.agent?.name || comment?.user?.name}
               </span>
             </div>
@@ -363,12 +368,11 @@ const ArticleReplyCommentItem = ({
               {comment.content.slice(comment.content.indexOf('}}') + 2)}
             </>
           ) : (
-            <span className="text-gray-300">
+            <span>
               <span className="text-blue-500 cursor-pointer">
                 @{rowComment?.user?.name}
-                {` `}
               </span>
-              {comment.content}
+              {comment.content.replace(/{{@[^}]+}}/g, '')}
             </span>
           )}
         </div>

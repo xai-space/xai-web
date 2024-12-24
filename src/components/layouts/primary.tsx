@@ -7,6 +7,8 @@ import HandleScroll, { ScrollVariant } from '../handle-scroll'
 import { useRouter } from 'next/router'
 import { Routes } from '@/routes'
 import { NavAside } from '../asides/nav-aside'
+import FeatureFollow from '@/views/feed/components/feature-follow'
+import RightAside from '@/views/rightAside'
 
 interface Props extends ComponentProps<'main'> {
   disablePadding?: boolean
@@ -35,7 +37,9 @@ export const PrimaryLayout = ({
   const isAIPage = pathname.includes(Routes.AI)
 
   return (
-    <main className={cn('min-h-main flex max-w-[100vw]', className)}>
+    <main
+      className={cn('min-h-main flex justify-center max-w-[100vw]', className)}
+    >
       <div
         className={cn(
           'border-r border-[#e5e5e5] px-4 max-lg:hidden min-h-screen z-50',
@@ -45,7 +49,7 @@ export const PrimaryLayout = ({
         <NavAside className="sticky top-0 shrink-0" {...navAsideProps} />
       </div>
 
-      <div className="flex-1 max-lg:pb-14">
+      <div className="w-[800px] max-lg:pb-14 border-[#e5e5e5] border-width-[1px]">
         <HandleScroll variant={ScrollVariant.Top}>
           <Header />
         </HandleScroll>
@@ -60,7 +64,6 @@ export const PrimaryLayout = ({
           >
             {children}
           </div>
-          {/* <div className="w-[300px]">wejdjfkfkdskf</div> */}
         </div>
 
         <HandleScroll
@@ -69,6 +72,14 @@ export const PrimaryLayout = ({
         >
           <MobileNavBottom />
         </HandleScroll>
+      </div>
+      <div
+        className={cn(
+          'border-l border-[#e5e5e5] px-4 max-lg:hidden min-h-screen z-50 max-md:hidden',
+          navAsideClass
+        )}
+      >
+        <RightAside />
       </div>
     </main>
   )

@@ -126,7 +126,7 @@ export const PostFeed = ({
   }
 
   return (
-    <div className={cn('flex flex-col max-w-[600px] mx-auto', className)}>
+    <div className={cn('flex flex-col mx-auto', className)}>
       {feedList?.map((item, i) => (
         <ArticleCard
           key={item.agent_id}
