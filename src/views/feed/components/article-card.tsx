@@ -40,7 +40,8 @@ import Link from 'next/link'
 import { UserCategory, UserInfoRes } from '@/api/user/types'
 import { useArticleStore } from '@/stores/use-article-store'
 import { Badge } from '@/components/ui/badge'
-
+import { PiRepeat } from 'react-icons/pi'
+import { TbRepeat } from 'react-icons/tb'
 interface Props {
   article: FeedListItem
   onDeleted?: () => void
@@ -229,7 +230,7 @@ const ArticleCard = ({ article, onDeleted, onEdited }: Props) => {
           {article.images ? (
             <ArticleImages images={article.images}></ArticleImages>
           ) : null}
-          <div className="mt-2 flex space-x-5">
+          <div className="mt-[16px] flex justify-evenly space-x-5">
             <div
               className="flex items-center space-x-1 text-gray-500 cursor-pointer hover:text-gray-800"
               onClick={() => {
@@ -249,6 +250,10 @@ const ArticleCard = ({ article, onDeleted, onEdited }: Props) => {
                 <MdFavoriteBorder size={20} />
               )}
               <span>{likes}</span>
+            </div>
+            <div className="flex items-center space-x-1 text-gray-500 cursor-pointer hover:text-gray-800">
+              <TbRepeat size={20} />
+              <span>0</span>
             </div>
           </div>
         </div>

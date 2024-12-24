@@ -133,13 +133,15 @@ export const NavAside = ({
       {...props}
     >
       <div>
-        <Logo
-          showMeme
-          showLogo={!isCollapsed}
-          className="w-28"
-          linkClass={isCollapsed ? 'relative flex item-center' : 'relative'}
-          betaClass={isCollapsed ? 'absolute -bottom-5 ml-1' : ''}
-        />
+        <div className="ml-4">
+          <Logo
+            showMeme
+            showLogo={!isCollapsed}
+            className="w-28"
+            linkClass={isCollapsed ? 'relative flex item-center' : 'relative'}
+            betaClass={isCollapsed ? 'absolute -bottom-5 ml-1' : ''}
+          />
+        </div>
         <div
           className={cn(
             'pt-2 space-y-3 mt-5',
@@ -156,14 +158,12 @@ export const NavAside = ({
               {navs.map((n, i) => (
                 <NavigationMenuItem
                   key={i}
-                  className={cn('w-full relative', isCollapsed && 'w-auto')}
+                  className={cn('w-full', isCollapsed && 'w-auto')}
                 >
                   <NavigationMenuLink
                     className={cn(
-                      'text-lg w-full mb-4 flex justify-start space-x-2 pl-2 cursor-pointer bg-clip-padding font-normal hover:opacity-90',
-                      !n.isActive &&
-                        'chamfer-gray bg-border-white hover:bg-gray-200',
-                      n.isActive && 'font-bold chamfer-blue bg-gray-200',
+                      'text-lg  mb-4 relative flex justify-start rounded-full space-x-2  py-[22px] cursor-pointer font-normal hover:bg-[#e7e7e8]',
+                      n.isActive && 'font-semibold',
                       isCollapsed &&
                         'border-[10px] space-x-0 p-0 justify-center text-xl'
                     )}
@@ -171,14 +171,14 @@ export const NavAside = ({
                     title={n.title}
                   >
                     {n.isActive ? n.iconActive : n.icon}
-                    {!isCollapsed && (
-                      <span className="text-[#000] text-xl">{n.title}</span>
-                    )}
-                    {/* {n.id === 'notice' && (
-                      <div className="absolute top-1 -left-1 flex px-1 justify-center items-center text-center text-white rounded-full text-[12px] bg-red-500">
+                    {n.id === 'notice' && (
+                      <div className="absolute top-[-1px] left-[24px] w-[18px] h-[18px] flex px-1 justify-center items-center text-center text-white rounded-full text-[10px] bg-[#4a99e8]">
                         {get(noticeCount, 'data.count', '')}
                       </div>
-                    )} */}
+                    )}
+                    {!isCollapsed && (
+                      <span className="text-[#0f1419] text-xl">{n.title}</span>
+                    )}
                   </NavigationMenuLink>
                 </NavigationMenuItem>
               ))}

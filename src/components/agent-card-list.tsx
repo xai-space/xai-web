@@ -87,6 +87,8 @@ export const AgentCardList = ({
         {data?.list.map((agent) => {
           return (
             <Card
+              clip={'sm'}
+              conPadding={'sm'}
               key={agent.agent_id}
               onClick={() => {
                 push(`${Routes.AIChat}/${agent.agent_id}`)

@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from 'react'
+import { useEffect, useState, type ReactNode } from 'react'
 
 import { PrimaryLayout } from '@/components/layouts/primary'
 import { PostFeed } from '@/components/post-feed'
@@ -28,38 +28,53 @@ export const FeedPage = () => {
     setFollow(id == 1 ? false : true)
     setIsActive(id)
   }
+  const [isBlurred, setIsBlurred] = useState(false)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY >= 100) {
+        setIsBlurred(true)
+      } else {
+        setIsBlurred(false)
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll)
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [])
   return (
-    <div className="flex">
-      <div className="flex-1 max-sm:mt-2 ">
-        <div
-          className={cn(
-            styles.grass,
-            'fixed top-[0px] bg-white z-20 w-[800px] max-lg:[600px] max-sm:w-[100vw] h-[60px] border-b-[1px] border-[#e5e7eb]'
-          )}
-        >
-          <div className="flex py-2 px-2 justify-around ">
-            {navList.map((item) => (
+    <div className="flex pt-[60px]">
+      <div
+        className={cn(
+          isBlurred ? styles.grass : 'bg-white',
+          'fixed top-[0px] z-20 w-[798px] max-lg:[600px] max-sm:w-[100vw] h-[60px] border-b-[1px] border-[#e5e7eb]'
+        )}
+      >
+        <div className="flex">
+          {navList.map((item) => (
+            <div
+              key={item.id}
+              onClick={() => tap(item.id)}
+              className={cn(
+                'flex-1 flex flex-col items-center pt-[18px] h-[60px] text-gray-500 cursor-pointer hover:bg-[#e6e6e8]',
+                isActive == item.id ? 'text-black' : null
+              )}
+            >
+              {item.title}
               <div
-                key={item.id}
-                onClick={() => tap(item.id)}
                 className={cn(
-                  'flex flex-col items-center text-gray-500 cursor-pointer',
-                  isActive == item.id ? 'text-black' : null
+                  'w-28 h-[5px] mt-[12px] rounded-full',
+                  isActive == item.id ? 'bg-[#3b82f6]' : null
                 )}
-              >
-                {item.title}
-                <div
-                  className={cn(
-                    'w-28 h-1 mt-1',
-                    isActive == item.id ? 'bg-[#3b82f6]' : null
-                  )}
-                ></div>
-              </div>
-            ))}
-          </div>
+              ></div>
+            </div>
+          ))}
         </div>
-        <PostFeed follow={follow}></PostFeed>
       </div>
+      <PostFeed follow={follow}></PostFeed>
     </div>
   )
 }

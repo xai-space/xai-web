@@ -7,7 +7,7 @@ import HandleScroll, { ScrollVariant } from '../handle-scroll'
 import { useRouter } from 'next/router'
 import { Routes } from '@/routes'
 import { NavAside } from '../asides/nav-aside'
-import FeatureFollow from '@/views/feed/components/feature-follow'
+import TopBar from '@/components/topbar'
 import RightAside from '@/views/rightAside'
 
 interface Props extends ComponentProps<'main'> {
@@ -72,7 +72,7 @@ export const PrimaryLayout = ({
       </div>
       <div
         className={cn(
-          'border-r border-[#e5e5e5] px-4 max-lg:hidden min-h-screen z-50 max-md:hidden',
+          'px-10 max-xl:px-4 max-lg:hidden min-h-screen z-50',
           navAsideClass
         )}
       >
