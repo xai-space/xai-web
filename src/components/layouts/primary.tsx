@@ -73,14 +73,19 @@ export const PrimaryLayout = ({
           <MobileNavBottom />
         </HandleScroll>
       </div>
-      <div
-        className={cn(
-          'border-l border-[#e5e5e5] px-4 max-lg:hidden min-h-screen z-50 max-md:hidden',
-          navAsideClass
-        )}
-      >
-        <RightAside />
-      </div>
+
+      {pathname === '/[chain]/[address]' ? (
+        <div className="min-w-[350px]"></div>
+      ) : (
+        <div
+          className={cn(
+            'border-l border-[#e5e5e5] px-4 max-lg:hidden min-h-screen z-50 max-md:hidden',
+            navAsideClass
+          )}
+        >
+          <RightAside />
+        </div>
+      )}
     </main>
   )
 }

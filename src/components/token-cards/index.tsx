@@ -113,7 +113,7 @@ export const TokenCards = ({
       </CustomSuspense>
 
       <CustomSuspense
-        className="grid grid-cols-1 gap-4 lg:grid-cols-2 2xl:grid-cols-3 max-sm:gap-3"
+        className="grid grid-cols-1 gap-4 lg:grid-cols-2 max-sm:gap-"
         isPending={isLoading || isLoadingPools}
         fallback={<CardSkeleton />}
         nullback={
