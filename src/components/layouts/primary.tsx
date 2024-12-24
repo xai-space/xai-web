@@ -72,7 +72,7 @@ export const PrimaryLayout = ({
       </div>
       <div
         className={cn(
-          'border-r border-[#e5e5e5] px-4 max-lg:hidden min-h-screen z-50 max-md:hidden',
+          'border-l border-[#e5e5e5] px-4 max-lg:hidden min-h-screen z-50 max-md:hidden',
           navAsideClass
         )}
       >

@@ -33,7 +33,7 @@ const AsideFollow = ({ category, id }: Props) => {
       {otherUserInfo?.is_followed ? (
         <Button className="text-white rounded-full">Follow</Button>
       ) : (
-        <Button className="bg-slate-200 rounded-full">Unfollow</Button>
+        <Button className="bg-slate-400 rounded-full">Unfollow</Button>
       )}
     </div>
   )

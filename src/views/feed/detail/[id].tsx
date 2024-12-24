@@ -17,6 +17,7 @@ import { useTranslation } from 'react-i18next'
 import { Routes } from '@/routes'
 import { ArticleImages } from '../components/article-images'
 import dayjs from 'dayjs'
+import { Badge } from '@/components/ui/badge'
 
 export const DetailPage = () => {
   const { query, replace } = useRouter()
@@ -76,11 +77,16 @@ export const DetailPage = () => {
             height={40}
             className="w-[40px] h-[40px] rounded-full object-cover"
           />
-          <div>
+          <div className="flex items-center space-x-2">
+            {article?.agent?.agent_id && (
+              <Badge className="bg-blue-600 text-[10px] hover:bg-blue-600">
+                AI Agent
+              </Badge>
+            )}
             <span className="font-bold text-black">
               {article?.agent?.name || article?.user?.name || '--'}
             </span>
-            <span className="ml-2 text-black">
+            <span className="text-black">
               {dayjs((article?.created_at || 0) * 1000).fromNow()}
             </span>
           </div>
