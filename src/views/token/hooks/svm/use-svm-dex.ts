@@ -1,37 +1,18 @@
 import { Address } from 'viem'
-import { useUniswapV2 } from '@/hooks/uniswapv2'
-import { useWaitForTx } from '@/hooks/use-wait-for-tx'
+import { useRaydium } from '@/hooks/raydium/use-raydium'
 
 export const useSvmDex = (
-    tokenAddr: Address | undefined | null,
-    poolAddr: Address | undefined | null,
-    chainId: number,
-    {
-        onSuccess,
-        onFinally,
-    }: { onSuccess?: () => void; onFinally?: () => void } = {}
+    poolAddr: string,
+    onSuccess?: () => void
 ) => {
-    const {
-        uniswapV2Hash,
-        isUniswapV2Submitting,
-        uniswapV2Buy,
-        uniswapV2Sell,
-        uniswapV2Reset,
-    } = useUniswapV2(tokenAddr, poolAddr, chainId)
-
-    const { isFetched } = useWaitForTx({
-        hash: uniswapV2Hash,
-        onSuccess,
-        onFinally,
-    })
-
+    const { onBuy, onSell, isDexSubmitting, isDexTraded, dexHash } = useRaydium(poolAddr!, onSuccess)
 
     return {
-        dexHash: uniswapV2Hash,
-        isDexSubmitting: isUniswapV2Submitting,
-        isDexTraded: isFetched,
-        dexBuy: uniswapV2Buy,
-        dexSell: uniswapV2Sell,
-        dexResetTrade: uniswapV2Reset,
+        dexHash,
+        isDexSubmitting,
+        isDexTraded,
+        dexBuy: onBuy,
+        dexSell: onSell,
+        dexResetTrade: () => { },
     }
 }

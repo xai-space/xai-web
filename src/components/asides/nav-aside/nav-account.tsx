@@ -25,7 +25,6 @@ export const NavAccount = ({
   const { t } = useTranslation()
   const { userInfo } = useUserStore()
   const { primaryWallet } = useDynamicContext()
-  console.log('userInfo$$:', userInfo)
 
   const avatar = '/images/logo.png'
 

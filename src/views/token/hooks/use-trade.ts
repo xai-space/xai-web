@@ -38,12 +38,10 @@ export const useTrade = (onSuccess?: () => void) => {
     onSuccess,
   })
 
-  const svmDex = useSvmDex(tokenAddr as Address, graduatedPool, chainId, {
-    onSuccess,
-  })
+  const svmDex = useSvmDex(graduatedPool!, onSuccess)
 
   const evmTrade = useEvmTrade(onSuccess)
-  const svmTrade = useSvmTrade(tokenAddr, onSuccess)
+  const svmTrade = useSvmTrade(onSuccess)
 
   const { dexHash, isDexSubmitting, isDexTraded, dexBuy, dexSell } = useMemo(() => {
     return {
@@ -51,7 +49,7 @@ export const useTrade = (onSuccess?: () => void) => {
       [Network.Svm]: svmDex,
       [Network.Tvm]: evmDex,
     }[network]
-  }, [network, evmDex])
+  }, [network, evmDex, svmDex])
 
   const {
     hash: tradeHash,

@@ -3,18 +3,19 @@ import { useState } from 'react'
 let audio: HTMLAudioElement
 
 export const useAudioPlayer = () => {
+
   const [isPlaying, setIsPlaying] = useState(false)
 
   if (audio == null) audio = new Audio()
 
   const playAudio = (src: string, volume?: number) => {
-    if (isPlaying) stopAudio()
+    // if (isPlaying) stopAudio()
 
-    // Set new audio source and play
-    audio.src = src
-    audio.play()
-    if (volume) audio.volume = volume
-    setIsPlaying(true)
+    // // Set new audio source and play
+    // audio.src = src
+    // audio.play()
+    // if (volume) audio.volume = volume
+    // setIsPlaying(true)
   }
 
   const stopAudio = () => {

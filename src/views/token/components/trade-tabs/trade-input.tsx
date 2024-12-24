@@ -16,11 +16,60 @@ import { utilLang } from '@/utils/lang'
 import { useTradeAmount } from '../../hooks/use-trade-amount'
 import { staticUrl } from '@/config/url'
 import { formatSol } from '@/packages/react-sol'
+import { useRaydiumPool } from '@/hooks/raydium/use-raydium-pool'
 
 interface Props {
   value: string
   onChange?: (value: string) => void
   disabled?: boolean
+}
+interface TradeCalcParams {
+  amount: string | number // 输入金额
+  isBuy: boolean // 是否为买入操作
+  slippage?: number // 滑点百分比，例如 1 表示 1%
+  feeRate?: number // 手续费率，例如 0.003 表示 0.3%
+  basePrice: number // 基础价格
+}
+export function calculateTradeAmount({
+  amount,
+  isBuy,
+  basePrice,
+  slippage = 1, // 默认滑点 1%
+  feeRate = 0.003, // 默认手续费率 0.3%
+}: TradeCalcParams) {
+  const bn = new BigNumber(amount)
+
+  // 手续费计算
+  const fee = bn.multipliedBy(feeRate)
+
+  // 基础兑换金额计算
+  let outputAmount: BigNumber
+
+  if (isBuy) {
+    // 买入 WIF：输入 SOL，输出 WIF
+    // 1 SOL = 1/0.6147 WIF ≈ 1.627 WIF
+    outputAmount = bn.dividedBy(basePrice)
+  } else {
+    // 卖出 WIF：输入 WIF，输出 SOL
+    // 1 WIF = 0.6147 SOL
+    outputAmount = bn.multipliedBy(basePrice)
+  }
+
+  // 考虑手续费
+  outputAmount = outputAmount.minus(outputAmount.multipliedBy(feeRate))
+
+  // 考虑滑点
+  const minOutputAmount = outputAmount.minus(
+    outputAmount.multipliedBy(slippage).dividedBy(100)
+  )
+
+  return {
+    inputAmount: bn.toString(),
+    outputAmount: outputAmount.toString(),
+    minOutputAmount: minOutputAmount.toString(),
+    fee: fee.toString(),
+    priceImpact: slippage,
+  }
 }
 
 export const TradeInput = ({ value, onChange, disabled }: Props) => {
@@ -35,11 +84,14 @@ export const TradeInput = ({ value, onChange, disabled }: Props) => {
     tokenChain,
     totalSupply,
     tradePrice,
+    graduatedPool,
   } = useTokenContext()
   const { isBuy, isTraded, reserveBalance, tokenBalance } =
     useTradeTabsContext()
   const [rightValue, setRightValue] = useState('0')
   const { getTokenAmount, getReserveAmount, getLastAmount } = useTradeAmount()
+
+  const { poolInfo } = useRaydiumPool(graduatedPool)
 
   const tokenSymbol = tokenInfo?.symbol || tokenMetadata?.symbol
 
@@ -55,9 +107,22 @@ export const TradeInput = ({ value, onChange, disabled }: Props) => {
   })`
   const leftValue = fmt.decimals(value || 0, { fixed: 4 })
   const leftLabel = `${leftValue} ${isBuy ? reserveSymbol : tokenSymbol}`
-  const rightLabel = `${fmt.decimals(rightValue, { fixed: 4 })} ${
-    isBuy ? tokenSymbol : reserveSymbol
-  }`
+
+  const getRightLabel = () => {
+    let amount = rightValue
+    if (isGraduated && poolInfo) {
+      amount = calculateTradeAmount({
+        amount: value || 0,
+        isBuy: isBuy,
+        basePrice: poolInfo.currentPrice,
+      }).outputAmount
+    }
+    const formattedAmount = fmt.decimals(amount, { fixed: 4 })
+    const symbol = isBuy ? tokenSymbol : reserveSymbol
+    return `${formattedAmount} ${symbol}`
+  }
+
+  const rightLabel = getRightLabel()
 
   const checkLastOrder = async () => {
     if (isGraduated) return true

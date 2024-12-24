@@ -55,7 +55,7 @@
     "@sentry/nextjs": "^8.15.0",
     "@solana/spl-token": "0.4.x",
     "@solana/wallet-adapter-base": "0.9.x",
-    "@solana/wallet-adapter-react": "0.15.x",
+    "@solana/wallet-adapter-react": "0.15.35",
     "@solana/wallet-adapter-wallets": "0.19.x",
     "@tanstack/react-query": "^5.37.1",
     "@tanstack/react-table": "^8.17.3",
