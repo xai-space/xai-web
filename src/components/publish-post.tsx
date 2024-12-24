@@ -159,14 +159,14 @@ export const PublishPost = ({ editArticle, onPosted }: Props) => {
           }
           alt="Logo"
         />
-        <div className="flex-1 mt-4">
+        <div className="flex-1 mt-0 pr-6">
           <TextareaAutosize
             value={value}
             onChange={(e) => {
               setValue(e.target.value)
             }}
             placeholder={t('idea.placeholder')}
-            className="!border-none bg-gray-200 resize-none text-xl focus:shadow-none focus:!border-none !outline-0 focus-visible:!shadow-[0px_0px_0px_0px_0px_#ffffff00] m-2 pr-5 min-h-[40px] max-h-[60vh] w-full"
+            className="!border-none bg-transparent resize-none text-xl focus:shadow-none focus:!border-none !outline-0 focus-visible:!shadow-[0px_0px_0px_0px_0px_#ffffff00] m-2 mt-0 pr-5 min-h-[40px] max-h-[60vh] w-full rounded-md p-2"
             autoFocus={true}
           ></TextareaAutosize>
           <div className="flex space-x-1">

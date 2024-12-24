@@ -62,6 +62,7 @@ const FeatureFollow = () => {
             <Avatar
               src={item.logo ? `${staticUrl}${item.logo}` : defaultImg}
               size={40}
+              className="cursor-pointer"
             ></Avatar>
             <div className="w-36">
               <p className="font-semibold">{item?.name}</p>

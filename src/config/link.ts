@@ -4,13 +4,13 @@ export const defaultAgentLogo = '/images/agent-logo.png'
 export const loadingSVG = '/images/loading.svg'
 
 export const officialLinks = {
-  x: 'https://x.com/',
+  x: 'https://x.com/xai_space',
   tg: 'https://t.me/',
   whitepaper: '#',
 }
 
 export const mediaLinks = {
-  x: 'https://x.com/',
+  x: 'https://x.com/xai_space',
   tg: 'https://t.me/',
   website: 'https://',
 }

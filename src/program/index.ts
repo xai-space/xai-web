@@ -12,6 +12,7 @@ const prod = {
   feeReceiverAccount: new web3.PublicKey(
     '6zqCRRZSGdBHQBYESmck5KoFppwMzQ29aSqP3dVzzaW8'
   ),
+  network: 'devnet',
 } as const
 
 const dev = {
@@ -20,6 +21,7 @@ const dev = {
   feeReceiverAccount: new web3.PublicKey(
     '6zqCRRZSGdBHQBYESmck5KoFppwMzQ29aSqP3dVzzaW8'
   ),
+  network: 'devnet',
 } as const
 
 export const programIds = dotenv.isProd ? prod : dev

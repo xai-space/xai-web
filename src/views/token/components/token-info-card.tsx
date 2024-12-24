@@ -94,7 +94,8 @@ export const TokenInfoCard = ({ className }: ComponentProps<'div'>) => {
         tg={tokenInfo?.telegram}
         website={tokenInfo?.website_url}
         buttonProps={{
-          className: 'border-transparent sm:hover:border-black bg-transparent',
+          className:
+            'border-transparent sm:hover:border-black bg-transparent text-black bg-gray-200 mr-2 mt-2',
         }}
       />
 

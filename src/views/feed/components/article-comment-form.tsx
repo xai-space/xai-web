@@ -51,6 +51,10 @@ export const ArticleCommentForm = ({ replayUser, onSended }: ReplyProps) => {
         toast.success(t('comment.posted'))
         // setFeedList([])
         await getComment()
+
+        new Promise((resolve) => setTimeout(resolve, 10000)).then(async () => {
+          await getComment()
+        })
       } catch {
       } finally {
         onSended?.()
