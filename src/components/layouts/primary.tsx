@@ -41,12 +41,20 @@ export const PrimaryLayout = ({
       className={cn('min-h-main flex justify-center max-w-[100vw]', className)}
     >
       <div
-        className={cn('pr-12  max-lg:hidden min-h-screen z-50', navAsideClass)}
+        className={cn(
+          'border-r border-[#e5e5e5] px-4 max-lg:hidden min-h-screen z-50',
+          navAsideClass
+        )}
       >
         <NavAside className="sticky top-0 shrink-0" {...navAsideProps} />
       </div>
 
-      <div className="w-[800px] max-lg:pb-14 border-[#e5e5e5] border-width-[1px]">
+      <div
+        className={cn(
+          'w-[800px] max-lg:pb-14 border-[#e5e5e5] border-width-[1px]',
+          isTokenPage ? 'w-[1000px] max-sm:w-full' : ''
+        )}
+      >
         <HandleScroll variant={ScrollVariant.Top}>
           <Header />
         </HandleScroll>
@@ -54,7 +62,7 @@ export const PrimaryLayout = ({
         <div className={cn('flex', containerClass)}>
           <div
             className={cn(
-              'flex-1 border-r border-l border-[#e5e5e5]',
+              'flex-1',
               !disablePadding && 'p-3 sm:p-4',
               contentClass
             )}
@@ -72,7 +80,7 @@ export const PrimaryLayout = ({
       </div>
 
       {pathname === '/[chain]/[address]' ? (
-        <div className="min-w-[350px]"></div>
+        <div className="w-[300px] max-sm:w-0"></div>
       ) : (
         <div
           className={cn(
