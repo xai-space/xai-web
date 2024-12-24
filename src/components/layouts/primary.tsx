@@ -41,10 +41,7 @@ export const PrimaryLayout = ({
       className={cn('min-h-main flex justify-center max-w-[100vw]', className)}
     >
       <div
-        className={cn(
-          'border-r border-[#e5e5e5] px-4 max-lg:hidden min-h-screen z-50',
-          navAsideClass
-        )}
+        className={cn('pr-12  max-lg:hidden min-h-screen z-50', navAsideClass)}
       >
         <NavAside className="sticky top-0 shrink-0" {...navAsideProps} />
       </div>
@@ -57,7 +54,7 @@ export const PrimaryLayout = ({
         <div className={cn('flex', containerClass)}>
           <div
             className={cn(
-              'flex-1',
+              'flex-1 border-r border-l border-[#e5e5e5]',
               !disablePadding && 'p-3 sm:p-4',
               contentClass
             )}

@@ -33,8 +33,8 @@ export const PostMenu = ({ isCollapsed }: PostMenuProps) => {
     <>
       <DropdownMenu>
         <DropdownMenuTrigger className="w-full" asChild>
-          <Button className="w-full bg-black flex space-x-3">
-            <span>{t('post')}</span>
+          <Button className="w-[220px] max-xl:w-[120px] bg-black h-[54px] flex space-x-3 rounded-full">
+            <span className="text-xl">{t('post')}</span>
             <FaCaretDown />
           </Button>
         </DropdownMenuTrigger>

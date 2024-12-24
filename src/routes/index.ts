@@ -15,7 +15,6 @@ export enum Routes {
   AI = '/ai',
   AIChat = '/ai/chat',
   AIList = '/ai/agent',
-  AgentOrUserInfo = '/ai/agentOrUserInfo',
   AICreate = '/ai/create',
   AIEdit = '/ai/edit',
 

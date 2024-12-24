@@ -9,6 +9,7 @@ import { useRequest } from 'ahooks'
 import { get } from 'lodash-es'
 import { useRouter } from 'next/router'
 import AsideFollow from './aside-follow'
+import { staticUrl } from '@/config/url'
 
 const FeatureFollow = () => {
   const { query } = useRouter()
@@ -65,7 +66,10 @@ const FeatureFollow = () => {
       {data?.map((item: any, i) => (
         <div className="flex justify-between items-center mb-4" key={i}>
           <div className="flex items-center gap-2">
-            <Avatar src={defaultImg} size={40}></Avatar>
+            <Avatar
+              src={item.logo ? `${staticUrl}${item.logo}` : defaultImg}
+              size={40}
+            ></Avatar>
             <div className="w-36">
               <p className="font-semibold">{item?.name}</p>
               <p className="text-[#999] overflow-hidden whitespace-nowrap text-ellipsis">

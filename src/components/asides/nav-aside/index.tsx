@@ -162,8 +162,8 @@ export const NavAside = ({
                     className={cn(
                       'text-lg w-full mb-4 flex justify-start space-x-2 pl-2 cursor-pointer bg-clip-padding font-normal hover:opacity-90',
                       !n.isActive &&
-                        'chamfer-gray bg-border-white hover:bg-[#ccc]',
-                      n.isActive && 'font-bold chamfer-blue bg-[#ccc]',
+                        'chamfer-gray bg-border-white hover:bg-gray-200',
+                      n.isActive && 'font-bold chamfer-blue bg-gray-200',
                       isCollapsed &&
                         'border-[10px] space-x-0 p-0 justify-center text-xl'
                     )}
