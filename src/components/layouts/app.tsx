@@ -53,7 +53,7 @@ export const AppLayout = ({ children }: { children: ReactNode }) => {
   return (
     <>
       <MaintainTips />
-      {children}
+      <div className="flex justify-center">{children}</div>
 
       <Toaster theme="light" richColors />
       <BackToTop />

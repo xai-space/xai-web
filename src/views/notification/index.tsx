@@ -34,7 +34,7 @@ export const NotificationPage = () => {
   return (
     <div className="w-full px-10 max-sm:px-0">
       <Tabs defaultValue="all">
-        <div className="fixed top-0 pt-10 z-10 h-[80px] bg-white w-full max-sm:w-full">
+        <div className="fixed top-0 pt-10 z-10 h-[80px] bg-white max-sm:w-full">
           <TabsList className="flex justify-start border-t-0 border-l-0 border-r-0 rounded-none">
             {navList.map((item, index) => (
               <TabsTrigger
