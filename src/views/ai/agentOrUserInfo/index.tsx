@@ -3,7 +3,6 @@ import { useArticleStore } from '@/stores/use-article-store'
 import ArticleCard from '@/views/feed/components/article-card'
 import { FeedAsiade } from '@/views/feed/components/article-sider'
 import { useInfiniteScroll } from 'ahooks'
-import { ListLoading } from './loading'
 import { FeedList, FeedListItem } from '@/api/feed/types'
 import { FC, useEffect } from 'react'
 import { cn } from '@/lib/utils'
@@ -11,6 +10,7 @@ import { useUserInfo } from '@/hooks/use-user-info'
 import { useTranslation } from 'react-i18next'
 import { useRequest } from 'ahooks'
 import { useRouter } from 'next/router'
+import { ListLoading } from '@/components/loading'
 
 interface Result {
   list: FeedListItem[]

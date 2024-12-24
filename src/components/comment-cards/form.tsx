@@ -109,8 +109,8 @@ export const CommentForm = (props: Props) => {
         {showCancel && (
           <Button
             type="button"
-            variant={'gray'}
-            className="px-10 ml-2 max-sm:px-5"
+            variant={'outline'}
+            className="px-10 ml-2 max-sm:px-5 border-zinc-500"
             disabled={disabled}
             onClick={onCancel}
           >

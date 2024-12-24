@@ -104,7 +104,7 @@ export const DataTable = <T extends RowData>({
                 return (
                   <TableHead
                     key={header.id}
-                    className="text-white px-3 bg-secondary"
+                    className="text-foreground px-3 bg-secondary"
                   >
                     {header.isPlaceholder
                       ? null
@@ -118,7 +118,11 @@ export const DataTable = <T extends RowData>({
             </TableRow>
           ))}
         </TableHeader>
-        <TableBody className="bg-border-gray/85">{renderBody()}</TableBody>
+        <TableBody
+        //  className="bg-border-gray/85"
+        >
+          {renderBody()}
+        </TableBody>
         {(rows.length < total || hasMore) && (
           <TableFooter className="bg-transparent text-center">
             <TableRow

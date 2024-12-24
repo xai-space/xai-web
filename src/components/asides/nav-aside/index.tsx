@@ -72,7 +72,7 @@ export const NavAside = ({
 
   const navs = [
     {
-      title: 'Home',
+      title: t('home'),
       path: Routes.Main,
       icon: <GoHome size={32} />,
       iconActive: <GoHomeFill size={32} />,

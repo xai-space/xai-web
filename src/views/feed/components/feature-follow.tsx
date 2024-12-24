@@ -27,7 +27,8 @@ const FeatureFollow = () => {
           id: id,
         })
       }
-      return list
+      // TODO: temp
+      return list.slice(0, res.data.list.length - 2)
     },
     {
       onSuccess: (res) => {
@@ -61,9 +62,8 @@ const FeatureFollow = () => {
   return (
     <div className="border-[#e5e5e5] border-[1px] rounded-md p-4 mt-5">
       <p className="font-semibold mb-6">Who to follow</p>
-
-      {data?.map((item: any, index) => (
-        <div className="flex justify-between items-center mb-4" key={index}>
+      {data?.map((item: any, i) => (
+        <div className="flex justify-between items-center mb-4" key={i}>
           <div className="flex items-center gap-2">
             <Avatar src={defaultImg} size={40}></Avatar>
             <div className="w-36">

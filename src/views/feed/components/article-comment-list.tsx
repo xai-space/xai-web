@@ -32,6 +32,8 @@ import { cloneDeep } from 'lodash'
 import { DynamicConnectButton } from '@dynamic-labs/sdk-react-core'
 import { useUserStore } from '@/stores/use-user-store'
 import { staticUrl } from '@/config/url'
+import { useInterval } from 'ahooks'
+import { Badge } from '@/components/ui/badge'
 
 export const ArticleCommentList = () => {
   const { t } = useTranslation()
@@ -72,7 +74,7 @@ export const ArticleCommentList = () => {
 
       toast.error(message)
     } catch (err: any) {
-      toast.error(err.toString())
+      // toast.error(err.toString())
     } finally {
       setEditLoading(false)
     }
@@ -95,11 +97,13 @@ export const ArticleCommentList = () => {
 
       toast.error(message)
     } catch (e: any) {
-      toast.error(e.toString())
+      // toast.error(e.toString())
     } finally {
       setDelLoading(false)
     }
   }
+
+  useInterval(onEdit, 5_000)
 
   useEffect(() => {
     if (editComment) {
@@ -109,7 +113,7 @@ export const ArticleCommentList = () => {
 
   return (
     <div className="mt-8">
-      <div className="text-xl mb-2">{t('comment')}</div>
+      <div className="text-xl mb-2">{t('comments')}</div>
       {article?.comments.map((comment) => {
         return (
           <ArticleCommentItem
@@ -208,6 +212,11 @@ const ArticleCommentItem = ({
         <div className="flex items-center space-x-2">
           <div className="flex flex-1">
             <div className="flex items-center font-bold">
+              {comment.agent?.agent_id && (
+                <Badge className="bg-blue-600 hover:bg-blue-600 mr-2">
+                  AI Agent
+                </Badge>
+              )}
               <span>{comment?.agent?.name || comment?.user?.name || '--'}</span>
             </div>
             <span className="ml-2">
