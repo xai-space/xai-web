@@ -30,9 +30,12 @@ export const ConnectWallet = ({
         size={isMobile ? 'sm' : 'default'}
         disabled={!sdkHasLoaded}
         type="button"
+        asChild
         {...props}
       >
-        {!sdkHasLoaded ? t('loading') : props.text || t('wallet.connect')}
+        <span>
+          {!sdkHasLoaded ? t('loading') : props.text || t('wallet.connect')}
+        </span>
       </Button>
     </DynamicConnectButton>
   )

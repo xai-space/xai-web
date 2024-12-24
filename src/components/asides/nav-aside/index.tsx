@@ -78,7 +78,7 @@ export const NavAside = ({
 
   const navs = [
     {
-      title: 'Home',
+      title: t('home'),
       path: Routes.Main,
       icon: <AiOutlineHome className="text-[#000]" />,
       iconActive: <AiOutlineHome className="text-[#6474cc]" />,

@@ -9,6 +9,7 @@ import { formatSol, useProgram } from '@/packages/react-sol'
 import { programIds } from '@/program'
 import { getCurveAccount, getFeeAccount } from '@/program/token/account'
 import { IDL } from '@/program/token/idl'
+
 export const useSolTokenDetails = (tokenAddr: string) => {
   const { connection } = useConnection()
   const { program, error } = useProgram({
@@ -56,7 +57,7 @@ export const useSolTokenDetails = (tokenAddr: string) => {
 
       const feeConfigPDA = getFeeAccount()
 
-      const feeConfig = await program.account["feeConfig"].fetch(feeConfigPDA);
+      const feeConfig = await program.account['feeConfig'].fetch(feeConfigPDA)
 
       return feeConfig
     },
@@ -71,10 +72,14 @@ export const useSolTokenDetails = (tokenAddr: string) => {
     tokenMaxSupply,
   } = pools || {}
 
-  const fee = BigNumber(feeConfig?.tradeFeeNumerator).div(feeConfig?.tradeFeeDenominator).plus(1)
+  const fee = BigNumber(feeConfig?.tradeFeeNumerator)
+    .div(feeConfig?.tradeFeeDenominator)
+    .plus(1)
 
   const totalSupply = formatSol(tokenMaxSupply)
-  const reserveTotalAmount = formatSol(BigNumber(solAim).multipliedBy(fee).toString())
+  const reserveTotalAmount = formatSol(
+    BigNumber(solAim).multipliedBy(fee).toString()
+  )
   const tokenLeftAmount = formatSol(tokenReserve)
 
   const progress = useMemo(() => {

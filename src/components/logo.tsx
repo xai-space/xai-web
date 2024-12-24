@@ -29,19 +29,19 @@ export const Logo = ({
     >
       {showMeme && (
         <img
-          src="/images/logo.png"
+          src="/images/xai_logo.png"
           alt="meme"
-          className="max-h-[50px] max-sm:w-8 object-cover rounded-full"
+          className="max-w-[60px] max-sm:w-8 object-cover"
         />
       )}
-      <span
+      {/* <span
         className={cn(
           'font-normal text-purple-500 mt-1 max-lg:ml-2',
           betaClass
         )}
       >
         Beta
-      </span>
+      </span> */}
     </Link>
   )
 }

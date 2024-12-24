@@ -41,7 +41,7 @@ export const NftAgentDialog = ({
   setNftInfo,
 }: Props) => {
   const { t } = useTranslation()
-  const [network, setNetwork] = useState(Network.EVM)
+  const [network, setNetwork] = useState(Network.SOL)
   const [collection, setCollection] = useState<NFTInfo>()
 
   const nftListRef = useRef<HTMLDivElement>(null)
@@ -49,6 +49,8 @@ export const NftAgentDialog = ({
   const { solList, loading: solLoading } = useSolNFTList(nftListRef)
 
   const { evmNftList, loading: evmLoading } = useEvmNftList()
+
+  const isLoading = solLoading || evmLoading
 
   const getUrlByMetadataJson = (nftData: Asset) => {
     const data = JSON.parse(nftData.metadata_json) as { image: string }
@@ -144,35 +146,41 @@ export const NftAgentDialog = ({
 
   const renderCollectionList = () => {
     return (network === Network.EVM ? evmNftList : solList).map((item, i) => {
-      return item.collection_assets.map((_collection, i) => {
+      return item.collection_assets.map((c, i) => {
         return (
           <div
-            key={_collection.contract_address}
+            key={c.contract_address}
             className={cn(
               'cursor-pointer text-center px-3 pt-2 pb-1 rounded-md hover:bg-slate-700 transition-all'
               // item.chain === selectNftID ? 'bg-slate-700' : ''
             )}
             onClick={() => {
-              setCollection(_collection)
+              setCollection(c)
             }}
           >
             <div className="relative">
               <img
                 referrerPolicy="no-referrer"
-                src={handleImgUrl(_collection?.logo_url)}
+                src={handleImgUrl(c?.logo_url)}
+                // With default image if error
+                ref={(el) =>
+                  el?.addEventListener('error', () => {
+                    el.src = '/images/logo.png'
+                  })
+                }
                 alt="Logo"
                 width={90}
                 height={90}
                 className="w-[90px] h-[90px] object-cover rounded-md"
               />
-              {_collection === collection ? (
+              {c === collection ? (
                 <div className="absolute right-1 top-1 rounded-full p-1 bg-purple-500">
                   <FaCheck size={16} color=""></FaCheck>
                 </div>
               ) : null}
             </div>
             <div className="text-sm mt-1 truncate max-w-[90px]">
-              {_collection.contract_name || _collection.collection}
+              {c.contract_name || c.collection}
             </div>
           </div>
         )
@@ -215,9 +223,13 @@ export const NftAgentDialog = ({
         ) : null}
 
         <div ref={nftListRef} className="mt-4 max-h-[70vh] overflow-y-scroll">
-          <div className="grid grid-cols-4 gap-y-2 max-sm:grid-cols-2 justify-between">
-            {!collection ? renderCollectionList() : renderNftList()}
-          </div>
+          {isLoading ? (
+            <div className="text-center text-muted-foreground">Loading...</div>
+          ) : (
+            <div className="grid grid-cols-4 gap-y-2 max-sm:grid-cols-2 justify-between">
+              {!collection ? renderCollectionList() : renderNftList()}
+            </div>
+          )}
 
           {network === Network.SOL ? (
             solLoading
@@ -234,14 +246,18 @@ export const NftAgentDialog = ({
           network === Network.SOL &&
           !solLoading &&
           solList.length === 0 ? (
-            <div className="text-center w-full mt-4">{t('no.nft')}</div>
+            <div className="text-center w-full mt-4 text-muted-foreground">
+              {t('no.nft')}
+            </div>
           ) : null}
 
           {!collection &&
           network === Network.EVM &&
           !evmLoading &&
           evmNftList.length === 0 ? (
-            <div className="text-center w-full mt-4">{t('no.nft')}</div>
+            <div className="text-center w-full mt-4 text-muted-foreground">
+              {t('no.nft')}
+            </div>
           ) : null}
 
           {/* {data?.noMore !== true && list.length === 20 ? (
