@@ -182,6 +182,9 @@ importers:
       dayjs:
         specifier: ^1.11.11
         version: 1.11.11
+      decimal.js:
+        specifier: ^10.4.3
+        version: 10.4.3
       drawer:
         specifier: ^0.0.2
         version: 0.0.2

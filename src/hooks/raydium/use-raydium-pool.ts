@@ -1,28 +1,61 @@
-import { PublicKey } from "@metaplex-foundation/js"
+import { BN } from '@coral-xyz/anchor';
 import { useInitRaydium } from "./use-init-raydium"
-import { useQuery } from "@tanstack/react-query"
-import { formatSol } from "@/packages/react-sol"
+import { ComputeClmmPoolInfo, ClmmKeys, ApiV3PoolInfoConcentratedItem, ReturnTypeFetchMultiplePoolTickArrays, PoolUtils } from "@raydium-io/raydium-sdk-v2"
+import { isValidClmm } from "./utils"
 
-export const useRaydiumPool = (poolAddr?: string) => {
+let poolInfo: ApiV3PoolInfoConcentratedItem
+let clmmPoolInfo: ComputeClmmPoolInfo
+let tickCache: ReturnTypeFetchMultiplePoolTickArrays
+let poolKeys: ClmmKeys | undefined
+
+export const useRaydiumPool = (poolId?: string) => {
     const { raydium } = useInitRaydium()
 
-    const { data: poolInfo } = useQuery({
-        queryKey: ['raydium-pool', poolAddr],
-        queryFn: async () => {
-            if (!raydium || !poolAddr) return
-            const poolInfos = await raydium.clmm.getRpcClmmPoolInfos({
-                poolIds: [new PublicKey(poolAddr)],
-            })
-            return poolInfos[poolAddr]
-        },
-        enabled: !!raydium && !!poolAddr,
-        refetchInterval: 10000
-    })
+    const getPoolInfo = async () => {
+        if (!raydium || !poolId) return
 
-    console.log('poolInfo-----', poolInfo?.swapInAmountTokenB.toString())
+        if (raydium.cluster === 'mainnet') {
+            const data = await raydium.api.fetchPoolById({ ids: poolId })
+
+            poolInfo = data[0] as ApiV3PoolInfoConcentratedItem
+            if (!isValidClmm(poolInfo.programId)) throw new Error('target pool is not CLMM pool')
+
+            clmmPoolInfo = await PoolUtils.fetchComputeClmmInfo({
+                connection: raydium.connection,
+                poolInfo,
+            })
+            tickCache = await PoolUtils.fetchMultiplePoolTickArrays({
+                connection: raydium.connection,
+                poolKeys: [clmmPoolInfo],
+            })
+        } else {
+            const data = await raydium.clmm.getPoolInfoFromRpc(poolId)
+            poolInfo = data.poolInfo
+            poolKeys = data.poolKeys
+            clmmPoolInfo = data.computePoolInfo
+            tickCache = data.tickData
+        }
+
+    }
+
+    const computeAmountOutFormat = async (amountIn: BN, isBuy: boolean, slippage: number) => {
+        return await PoolUtils.computeAmountOutFormat({
+            poolInfo: clmmPoolInfo,
+            tickArrayCache: tickCache[poolId!],
+            amountIn,
+            tokenOut: poolInfo[isBuy ? 'mintB' : 'mintA'],
+            slippage,
+            epochInfo: await raydium!.fetchEpochInfo(),
+        })
+    }
 
     return {
         poolInfo,
-        raydium
+        raydium,
+        poolKeys,
+        clmmPoolInfo,
+        tickCache,
+        getPoolInfo,
+        computeAmountOutFormat,
     }
 }

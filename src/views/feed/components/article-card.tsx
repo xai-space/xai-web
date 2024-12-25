@@ -104,8 +104,6 @@ const ArticleCard = ({ article, onDeleted, onEdited }: Props) => {
 
   useEffect(() => {
     status = article.is_liked ? 0 : 1
-    console.log('status-likes:', status)
-
     setIsLiked(article.is_liked)
   }, [article.is_liked])
   const postLike = async () => {

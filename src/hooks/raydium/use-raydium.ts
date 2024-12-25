@@ -6,7 +6,7 @@ import { useConnection } from "@solana/wallet-adapter-react"
 import { BN } from "@coral-xyz/anchor"
 import { PublicKey } from "@metaplex-foundation/js"
 import { isValidClmm } from "./utils"
-import { parseSol } from "@/packages/react-sol"
+import { formatSol, parseSol } from "@/packages/react-sol"
 import { useDynamicContext } from '@dynamic-labs/sdk-react-core'
 import { toast } from "sonner"
 import { useTranslation } from "react-i18next"
@@ -14,50 +14,19 @@ import { isSolanaWallet } from "@dynamic-labs/solana"
 import { CONTRACT_ERR } from "@/errors/contract"
 import { useInitRaydium } from "./use-init-raydium"
 import BigNumber from "bignumber.js"
+import Decimal from 'decimal.js'
+import { NATIVE_MINT } from "@solana/spl-token"
+import { useRaydiumPool } from "./use-raydium-pool"
 
 const inputMint = new PublicKey("So11111111111111111111111111111111111111112").toBase58()
-
-let poolInfo: ApiV3PoolInfoConcentratedItem
-let clmmPoolInfo: ComputeClmmPoolInfo
-let tickCache: ReturnTypeFetchMultiplePoolTickArrays
-let poolKeys: ClmmKeys | undefined
 
 export const useRaydium = (poolId: string, onSuccess?: () => void) => {
     const { t } = useTranslation()
     const { raydium } = useInitRaydium()
+    const { poolInfo, poolKeys, clmmPoolInfo, getPoolInfo, computeAmountOutFormat } = useRaydiumPool(poolId)
 
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [txId, setTxId] = useState<string>()
-
-
-    const getPoolInfo = async () => {
-        if (!raydium) return
-
-
-        if (raydium.cluster === 'mainnet') {
-            const data = await raydium.api.fetchPoolById({ ids: poolId })
-
-            poolInfo = data[0] as ApiV3PoolInfoConcentratedItem
-            if (!isValidClmm(poolInfo.programId)) throw new Error('target pool is not CLMM pool')
-
-            clmmPoolInfo = await PoolUtils.fetchComputeClmmInfo({
-                connection: raydium.connection,
-                poolInfo,
-            })
-            tickCache = await PoolUtils.fetchMultiplePoolTickArrays({
-                connection: raydium.connection,
-                poolKeys: [clmmPoolInfo],
-            })
-        } else {
-            const data = await raydium.clmm.getPoolInfoFromRpc(poolId)
-            console.log('--------data++++++', data);
-            poolInfo = data.poolInfo
-            poolKeys = data.poolKeys
-            clmmPoolInfo = data.computePoolInfo
-            tickCache = data.tickData
-        }
-
-    }
 
     const swap = async (amount: string, slippage: number, baseIn: boolean) => {
         if (!raydium) return
@@ -68,15 +37,9 @@ export const useRaydium = (poolId: string, onSuccess?: () => void) => {
         slippage = BigNumber(slippage).div(100).toNumber()
 
         const amountIn = new BN(parseSol(amount))
-        console.log('amountIn', amountIn);
-        const { minAmountOut, remainingAccounts } = await PoolUtils.computeAmountOutFormat({
-            poolInfo: clmmPoolInfo,
-            tickArrayCache: tickCache[poolId],
-            amountIn,
-            tokenOut: poolInfo[baseIn ? 'mintB' : 'mintA'],
-            slippage,
-            epochInfo: await raydium.fetchEpochInfo(),
-        })
+
+        const { minAmountOut, remainingAccounts } = await computeAmountOutFormat(amountIn, baseIn, slippage) || {}
+
 
         const { execute } = await raydium.clmm.swap({
             poolInfo,
@@ -101,6 +64,7 @@ export const useRaydium = (poolId: string, onSuccess?: () => void) => {
         try {
             if (!raydium) return
             await getPoolInfo()
+            // await swapBaseOut(amount, slippage)
             const baseIn = inputMint === poolInfo.mintA.address
             await swap(amount, Number(slippage), baseIn)
             onSuccess?.()
@@ -130,6 +94,7 @@ export const useRaydium = (poolId: string, onSuccess?: () => void) => {
         raydium,
         onBuy,
         onSell,
+        computeAmountOutFormat,
         dexHash: txId,
         isDexSubmitting: isSubmitting,
         isDexTraded: isSubmitting,
