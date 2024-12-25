@@ -81,7 +81,7 @@ export const PrimaryLayout = ({
           navAsideClass
         )}
       >
-        <RightAside />
+        {pathname === '/[chain]/[address]' ? '' : <RightAside />}
       </div>
     </main>
   )

@@ -173,17 +173,19 @@ export const NavAside = ({
                     <div className="mr-[14px]">
                       {n.isActive ? n.iconActive : n.icon}
                     </div>
-                    {n.id === 'notice' && (
-                      <div
-                        className={cn(
-                          'absolute top-[-1px] left-[24px] min-w-[18px] h-[18px] flex px-1 justify-center items-center text-center text-white rounded-full text-[10px] bg-[#4a99e8]'
-                        )}
-                      >
-                        {noticeCount && noticeCount.data.count > 99
-                          ? '99+'
-                          : get(noticeCount, 'data.count', '')}
-                      </div>
-                    )}
+                    {n.id === 'notice' &&
+                      noticeCount &&
+                      noticeCount.data.count > 0 && (
+                        <div
+                          className={cn(
+                            'absolute top-[-1px] left-[24px] min-w-[18px] h-[18px] flex px-1 justify-center items-center text-center text-white rounded-full text-[10px] bg-[#4a99e8]'
+                          )}
+                        >
+                          {noticeCount.data.count > 99
+                            ? '99+'
+                            : get(noticeCount, 'data.count', '')}
+                        </div>
+                      )}
                     {!isCollapsed && (
                       <span className="text-[#0f1419] block ml-[10px] text-xl">
                         {n.title}
