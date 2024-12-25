@@ -2,6 +2,7 @@ import { BN } from '@coral-xyz/anchor';
 import { useInitRaydium } from "./use-init-raydium"
 import { ComputeClmmPoolInfo, ClmmKeys, ApiV3PoolInfoConcentratedItem, ReturnTypeFetchMultiplePoolTickArrays, PoolUtils } from "@raydium-io/raydium-sdk-v2"
 import { isValidClmm } from "./utils"
+import { useState } from 'react';
 
 let poolInfo: ApiV3PoolInfoConcentratedItem
 let clmmPoolInfo: ComputeClmmPoolInfo
@@ -10,6 +11,7 @@ let poolKeys: ClmmKeys | undefined
 
 export const useRaydiumPool = (poolId?: string) => {
     const { raydium } = useInitRaydium()
+    const [isLoading, setIsLoading] = useState(false)
 
     const getPoolInfo = async () => {
         if (!raydium || !poolId) return
@@ -39,14 +41,19 @@ export const useRaydiumPool = (poolId?: string) => {
     }
 
     const computeAmountOutFormat = async (amountIn: BN, isBuy: boolean, slippage: number) => {
-        return await PoolUtils.computeAmountOutFormat({
-            poolInfo: clmmPoolInfo,
-            tickArrayCache: tickCache[poolId!],
-            amountIn,
-            tokenOut: poolInfo[isBuy ? 'mintB' : 'mintA'],
-            slippage,
-            epochInfo: await raydium!.fetchEpochInfo(),
-        })
+        try {
+            setIsLoading(true)
+            return await PoolUtils.computeAmountOutFormat({
+                poolInfo: clmmPoolInfo,
+                tickArrayCache: tickCache[poolId!],
+                amountIn,
+                tokenOut: poolInfo[isBuy ? 'mintB' : 'mintA'],
+                slippage,
+                epochInfo: await raydium!.fetchEpochInfo(),
+            })
+        } finally {
+            setIsLoading(false)
+        }
     }
 
     return {
@@ -57,5 +64,6 @@ export const useRaydiumPool = (poolId?: string) => {
         tickCache,
         getPoolInfo,
         computeAmountOutFormat,
+        isLoading,
     }
 }

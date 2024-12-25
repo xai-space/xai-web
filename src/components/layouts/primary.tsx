@@ -34,7 +34,6 @@ export const PrimaryLayout = ({
   const { pathname } = useRouter()
 
   const isTokenPage = pathname.includes(Routes.TokenPage)
-  const isAIPage = pathname.includes(Routes.AI)
 
   return (
     <main
@@ -77,11 +76,11 @@ export const PrimaryLayout = ({
       </div>
       <div
         className={cn(
-          'px-10 max-xl:px-4 max-lg:hidden min-h-screen z-50',
+          'px-10 max-xl:px-4 max-lg:hidden min-h-screen z-50 pointer-events-none',
           navAsideClass
         )}
       >
-        {pathname === '/[chain]/[address]' ? '' : <RightAside />}
+        {isTokenPage ? '' : <RightAside />}
       </div>
     </main>
   )

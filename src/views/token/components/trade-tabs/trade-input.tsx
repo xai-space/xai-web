@@ -25,54 +25,6 @@ interface Props {
   onChange?: (value: string) => void
   disabled?: boolean
 }
-interface TradeCalcParams {
-  amount: string | number // 输入金额
-  isBuy: boolean // 是否为买入操作
-  slippage?: number // 滑点百分比，例如 1 表示 1%
-  feeRate?: number // 手续费率，例如 0.003 表示 0.3%
-  basePrice: number // 基础价格
-}
-export function calculateTradeAmount({
-  amount,
-  isBuy,
-  basePrice,
-  slippage = 1, // 默认滑点 1%
-  feeRate = 0.003, // 默认手续费率 0.3%
-}: TradeCalcParams) {
-  const bn = new BigNumber(amount)
-
-  // 手续费计算
-  const fee = bn.multipliedBy(feeRate)
-
-  // 基础兑换金额计算
-  let outputAmount: BigNumber
-
-  if (isBuy) {
-    // 买入 WIF：输入 SOL，输出 WIF
-    // 1 SOL = 1/0.6147 WIF ≈ 1.627 WIF
-    outputAmount = bn.dividedBy(basePrice)
-  } else {
-    // 卖出 WIF：输入 WIF，输出 SOL
-    // 1 WIF = 0.6147 SOL
-    outputAmount = bn.multipliedBy(basePrice)
-  }
-
-  // 考虑手续费
-  outputAmount = outputAmount.minus(outputAmount.multipliedBy(feeRate))
-
-  // 考虑滑点
-  const minOutputAmount = outputAmount.minus(
-    outputAmount.multipliedBy(slippage).dividedBy(100)
-  )
-
-  return {
-    inputAmount: bn.toString(),
-    outputAmount: outputAmount.toString(),
-    minOutputAmount: minOutputAmount.toString(),
-    fee: fee.toString(),
-    priceImpact: slippage,
-  }
-}
 
 export const TradeInput = ({ value, onChange, disabled }: Props) => {
   const { t } = useTranslation()
@@ -92,7 +44,8 @@ export const TradeInput = ({ value, onChange, disabled }: Props) => {
     useTradeTabsContext()
   const [rightValue, setRightValue] = useState('0')
   const { getTokenAmount, getReserveAmount, getLastAmount } = useTradeAmount()
-  const { getPoolInfo, computeAmountOutFormat } = useRaydiumPool(graduatedPool)
+  const { getPoolInfo, computeAmountOutFormat, isLoading } =
+    useRaydiumPool(graduatedPool)
 
   const tokenSymbol = tokenInfo?.symbol || tokenMetadata?.symbol
 
@@ -105,6 +58,7 @@ export const TradeInput = ({ value, onChange, disabled }: Props) => {
   const usdtPrice = BigNumber(isBuy ? value : rightValue).multipliedBy(
     tradePrice?.price || 0
   )
+
   const usdtLabel = `($${
     usdtPrice.isNaN() || usdtPrice.lte(0) ? 0 : fmt.decimals(usdtPrice)
   })`
@@ -113,25 +67,22 @@ export const TradeInput = ({ value, onChange, disabled }: Props) => {
 
   const getRightLabel = async () => {
     let amount = value
-    console.log(amount, parseSol(amount), 'amount---')
-    if (isGraduated) {
-      if (Number(amount)) {
-        if (tokenInfo?.network === Network.Svm) {
-          await getPoolInfo()
-          const { amountOut } = await computeAmountOutFormat(
-            new BN(parseSol(amount)),
-            isBuy,
-            0.01
-          )
-          amount = formatSol(amountOut.amount.raw.toString())
-        }
-      } else {
-        amount = '0'
+
+    if (isGraduated && Number(amount)) {
+      if (tokenInfo?.network === Network.Svm) {
+        await getPoolInfo()
+        const { amountOut } = await computeAmountOutFormat(
+          new BN(parseSol(amount)),
+          isBuy,
+          0.01
+        )
+        amount = formatSol(amountOut.amount.raw.toString())
       }
     }
+
     const formattedAmount = fmt.decimals(amount, { fixed: 4 })
     const symbol = isBuy ? tokenSymbol : reserveSymbol
-    console.log('symbol', symbol)
+    setRightValue(formattedAmount)
     setRightLabel(`${formattedAmount} ${symbol}`)
   }
 
@@ -224,7 +175,7 @@ export const TradeInput = ({ value, onChange, disabled }: Props) => {
         }
       />
       <CustomSuspense
-        isPending={isLoadingTokenInfo}
+        isPending={isLoadingTokenInfo || isLoading}
         fallback={
           <>
             <Skeleton className="w-20 h-4" />
