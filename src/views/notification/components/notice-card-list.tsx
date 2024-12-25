@@ -57,8 +57,8 @@ const NoticeCardList = ({ action }: NoticeCardListProps) => {
       isNoMore: (d) => d?.noMore === true,
       onSuccess: (data) => {
         console.log('success-data$$:', data)
-        if (data.list[1].id && isReadNotice) {
-          runAsync({ notification_id: data.list[1].id })
+        if (data.list[0].id && isReadNotice) {
+          runAsync({ notification_id: data.list[0].id })
           isReadNotice = false
         }
       },
