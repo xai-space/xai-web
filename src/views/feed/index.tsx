@@ -46,11 +46,11 @@ export const FeedPage = () => {
     }
   }, [])
   return (
-    <div className="flex pt-[60px]">
+    <div className="relative flex flex-col">
       <div
         className={cn(
           isBlurred ? styles.grass : 'bg-white',
-          'fixed top-[0px] z-20 w-[798px] max-lg:[600px] max-sm:w-[100vw] h-[60px] border-b-[1px] border-[#e5e7eb]'
+          'sticky top-0 z-20 border-b-[1px] border-[#e5e7eb]'
         )}
       >
         <div className="flex">

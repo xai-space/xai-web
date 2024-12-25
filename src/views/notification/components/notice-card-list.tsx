@@ -90,7 +90,7 @@ const NoticeCardList = ({ action }: NoticeCardListProps) => {
   // }, [data])
 
   return (
-    <div className="pt-20">
+    <div>
       {data?.list.map((item, index) => (
         <div className="mb-4" key={index}>
           <div className="px-4 py-2 border-b border-[#e5e5e5]">
