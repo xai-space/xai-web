@@ -18,10 +18,15 @@ export const useProgram = <IDL extends Idl = Idl>({
 
   const { data: program, ...results } = useQuery({
     queryKey: ['useProgram', programId],
-    queryFn: async () =>
-      new Program<IDL>(idl, programId, {
-        connection,
-      }),
+    queryFn: async () => {
+      try {
+        return await new Program<IDL>(idl, programId, {
+          connection,
+        })
+      } catch (error) {
+        console.error('Failed to create program:', error)
+      }
+    },
     enabled: !!connection,
   })
 

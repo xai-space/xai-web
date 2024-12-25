@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { BigNumber } from 'bignumber.js'
 import { useDebounceEffect } from 'ahooks'
@@ -15,8 +15,10 @@ import { Img } from '@/components/img'
 import { utilLang } from '@/utils/lang'
 import { useTradeAmount } from '../../hooks/use-trade-amount'
 import { staticUrl } from '@/config/url'
-import { formatSol } from '@/packages/react-sol'
+import { formatSol, parseSol } from '@/packages/react-sol'
 import { useRaydiumPool } from '@/hooks/raydium/use-raydium-pool'
+import { BN } from '@coral-xyz/anchor'
+import { Network } from '@/enums/contract'
 
 interface Props {
   value: string
@@ -90,14 +92,15 @@ export const TradeInput = ({ value, onChange, disabled }: Props) => {
     useTradeTabsContext()
   const [rightValue, setRightValue] = useState('0')
   const { getTokenAmount, getReserveAmount, getLastAmount } = useTradeAmount()
-
-  const { poolInfo } = useRaydiumPool(graduatedPool)
+  const { getPoolInfo, computeAmountOutFormat } = useRaydiumPool(graduatedPool)
 
   const tokenSymbol = tokenInfo?.symbol || tokenMetadata?.symbol
 
   const balance = isBuy ? reserveBalance : formatSol(tokenBalance)
   const balanceSymbol = isBuy ? reserveSymbol : tokenSymbol
   const balanceLabel = `${fmt.decimals(balance)} ${balanceSymbol}`
+
+  const [rightLabel, setRightLabel] = useState('0')
 
   const usdtPrice = BigNumber(isBuy ? value : rightValue).multipliedBy(
     tradePrice?.price || 0
@@ -108,21 +111,29 @@ export const TradeInput = ({ value, onChange, disabled }: Props) => {
   const leftValue = fmt.decimals(value || 0, { fixed: 4 })
   const leftLabel = `${leftValue} ${isBuy ? reserveSymbol : tokenSymbol}`
 
-  const getRightLabel = () => {
-    let amount = rightValue
-    if (isGraduated && poolInfo) {
-      amount = calculateTradeAmount({
-        amount: value || 0,
-        isBuy: isBuy,
-        basePrice: poolInfo.currentPrice,
-      }).outputAmount
+  const getRightLabel = async () => {
+    let amount = value
+    console.log(amount, parseSol(amount), 'amount---')
+    if (isGraduated) {
+      if (Number(amount)) {
+        if (tokenInfo?.network === Network.Svm) {
+          await getPoolInfo()
+          const { amountOut } = await computeAmountOutFormat(
+            new BN(parseSol(amount)),
+            isBuy,
+            0.01
+          )
+          amount = formatSol(amountOut.amount.raw.toString())
+        }
+      } else {
+        amount = '0'
+      }
     }
     const formattedAmount = fmt.decimals(amount, { fixed: 4 })
     const symbol = isBuy ? tokenSymbol : reserveSymbol
-    return `${formattedAmount} ${symbol}`
+    console.log('symbol', symbol)
+    setRightLabel(`${formattedAmount} ${symbol}`)
   }
-
-  const rightLabel = getRightLabel()
 
   const checkLastOrder = async () => {
     if (isGraduated) return true
@@ -165,6 +176,10 @@ export const TradeInput = ({ value, onChange, disabled }: Props) => {
     [value, isBuy, isTraded],
     { wait: 500 }
   )
+
+  useEffect(() => {
+    getRightLabel()
+  }, [value, isBuy, tokenSymbol, reserveSymbol])
 
   return (
     <>
