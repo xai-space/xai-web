@@ -76,8 +76,9 @@ export const PrimaryLayout = ({
       </div>
       <div
         className={cn(
-          'px-10 max-xl:px-4 max-lg:hidden min-h-screen z-50 pointer-events-none',
-          navAsideClass
+          'px-10 max-xl:px-4 max-lg:hidden min-h-screen z-50',
+          navAsideClass,
+          isTokenPage ? 'pointer-events-none' : ''
         )}
       >
         {isTokenPage ? '' : <RightAside />}
