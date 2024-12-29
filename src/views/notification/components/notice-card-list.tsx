@@ -42,11 +42,12 @@ const NoticeCardList = ({ action }: NoticeCardListProps) => {
       }
     }
 
-    const { data } = await aiApi.getNotifications(params)
+    const result = await aiApi.getNotifications(params)
+    console.log('result-notices:', result)
 
     return {
-      list: data.list,
-      noMore: data.list.length !== 20,
+      list: result.data.list,
+      noMore: result.data.list.length !== 20,
     }
   }
 
@@ -92,7 +93,7 @@ const NoticeCardList = ({ action }: NoticeCardListProps) => {
   return (
     <div>
       {data?.list.map((item, index) => (
-        <div className="mb-4" key={index}>
+        <div className="mb-4" key={index} >
           <div className="px-4 py-2 border-b border-[#e5e5e5]">
             <div className="flex flex-row items-center">
               <div className="mr-2">

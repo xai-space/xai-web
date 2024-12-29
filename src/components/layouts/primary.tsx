@@ -47,8 +47,7 @@ export const PrimaryLayout = ({
 
       <div
         className={cn(
-          'w-[800px] max-lg:pb-14 border-[#e5e5e5] border-width-[1px]',
-          isTokenPage ? 'w-[1000px] max-sm:w-full' : ''
+          'border-[#e5e5e5] border-width-[1px] w-[600px]'
         )}
       >
         <HandleScroll variant={ScrollVariant.Top}>
@@ -76,11 +75,12 @@ export const PrimaryLayout = ({
       </div>
       <div
         className={cn(
-          'px-10 max-xl:px-4 max-lg:hidden min-h-screen z-50 pointer-events-none',
-          navAsideClass
+          'px-10 max-xl:px-4 max-lg:hidden min-h-screen z-50',
+         
         )}
       >
-        {isTokenPage ? '' : <RightAside />}
+        <RightAside />
+        {/* {isTokenPage ? '' : <RightAside />} */}
       </div>
     </main>
   )
