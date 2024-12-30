@@ -18,6 +18,7 @@ import { useEffect, useState } from 'react'
 import { cn } from '@/lib/utils'
 import { ListLoading } from '@/components/loading'
 import EmptyData from '@/components/empty-data'
+import { useChartStore } from '@/stores/use-chart-store'
 interface Result {
   list: UserNotificationList[]
   noMore?: boolean
@@ -29,8 +30,9 @@ let start = 0
 let isReadNotice = true
 const NoticeCardList = ({ action }: NoticeCardListProps) => {
   const [resultData, setResultData] = useState<boolean | undefined>()
-  // const [isReadNotice, setIsReadNotice] = useState(false)
+  const { clearNoticeCount } = useChartStore()
   const getLoadMoreList = async (): Promise<Result> => {
+
     start += 1
     let params: any = { page: start, limit: 20 }
     if (action === 'all') {
@@ -71,6 +73,7 @@ const NoticeCardList = ({ action }: NoticeCardListProps) => {
         // console.log('success-data$$:', data)
         if (data.list[0].id && isReadNotice) {
           runAsync({ notification_id: data.list[0].id })
+          clearNoticeCount()
           isReadNotice = false
         }
         setResultData(true);

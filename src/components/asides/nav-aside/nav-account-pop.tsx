@@ -20,12 +20,12 @@ export const NavAccountPopover = ({
   const popoverContent = [
     {
       label: t('wallet.inform'),
-      icon: <IoWalletOutline />,
+      icon: <IoWalletOutline size={24} />,
       onClick: () => setShowDynamicUserProfile(true),
     },
     {
       label: t('disconnect'),
-      icon: <MdLogout />,
+      icon: <MdLogout size={24} />,
       onClick: handleLogOut,
     },
   ]
@@ -34,7 +34,7 @@ export const NavAccountPopover = ({
     <Popover>
       <PopoverTrigger>{children}</PopoverTrigger>
       <PopoverContent
-        className="border border-secondary rounded-sm w-40"
+        className="border mb-[27px] border-secondary p-0 rounded-2xl overflow-hidden w-50"
         side="top"
         align="end"
         alignOffset={-2}
@@ -42,11 +42,11 @@ export const NavAccountPopover = ({
         {popoverContent.map((item, index) => (
           <div
             key={index}
-            className="flex space-x-2 items-center hover:bg-secondary cursor-pointer p-2"
+            className="flex space-x-2 px-[16px] py-[12px] items-center hover:bg-secondary cursor-pointer"
             onClick={item.onClick}
           >
             {item.icon}
-            <p>{item.label}</p>
+            <p className='flex-auto text-[15px] text-[#0f1419] font-semibold'>{item.label}</p>
           </div>
         ))}
       </PopoverContent>

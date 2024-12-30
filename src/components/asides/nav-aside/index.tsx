@@ -48,6 +48,7 @@ import { BiUser } from "react-icons/bi";
 import { TbSettings } from "react-icons/tb";
 import { TbSettingsFilled } from "react-icons/tb";
 import { MoreMenus } from './components/more-menus'
+import { useChartStore } from '@/stores/use-chart-store'
 interface Props {
   collapseSize?: keyof ReturnType<typeof useResponsive>
 }
@@ -62,6 +63,7 @@ export const NavAside = ({
   const { pathname, ...router } = useRouter()
   const { userInfo } = useUserStore()
   const responsive = useResponsive()
+  const { setNoticeCount, noticeCount } = useChartStore()
   const [isCollapsed, setIsCollapsed] = useState(responsive[collapseSize])
 
   const { agentInfo, sessionId } = useAIAgentStore()
@@ -154,12 +156,13 @@ export const NavAside = ({
   }, [responsive, collapseSize])
 
 
-
-  const { data: noticeCount } = useRequest(getUnreadNotices, {
-    onSuccess: (data) => {
-      // console.log('noticeCount:', data)
-    },
-  })
+  // useChartStore().setNoticeCount()
+  // setNoticeCount()
+  // const { data: noticeCount } = useRequest(getUnreadNotices, {
+  //   onSuccess: (data) => {
+  //     // console.log('noticeCount:', data)
+  //   },
+  // })
   return (
     <aside
       className={cn(
@@ -214,16 +217,16 @@ export const NavAside = ({
                       {n.isActive ? n.iconActive : n.icon}
                     </div>
                     {n.id === 'notice' &&
-                      noticeCount &&
-                      noticeCount.data.count > 0 && (
+
+                      noticeCount > 0 && (
                         <div
                           className={cn(
-                            'absolute top-[-1px] left-[24px] min-w-[18px] h-[18px] flex px-1 justify-center items-center text-center text-white rounded-full text-[10px] bg-[#4a99e8]'
+                            'absolute top-[3px] left-[29px] min-w-[18px] h-[18px] flex px-1 justify-center items-center text-center text-white rounded-full text-[10px] bg-[#4a99e8]'
                           )}
                         >
-                          {noticeCount.data.count > 99
+                          {noticeCount > 99
                             ? '99+'
-                            : get(noticeCount, 'data.count', '')}
+                            : noticeCount}
                         </div>
                       )}
                     {!isCollapsed && (
@@ -286,14 +289,7 @@ export const NavAside = ({
       >
         <NavAccount userInfo={userInfo} isCollapsed={isCollapsed} />
 
-        {/* <RewardButton
-          shadow="none"
-          showReferral={isCollapsed ? false : true}
-          className={cn(
-            'border-none w-full justify-between mt-3',
-            isCollapsed && 'w-fit p-2'
-          )}
-        /> */}
+
       </div>
     </aside>
   )

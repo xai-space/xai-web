@@ -69,8 +69,8 @@ export const DetailPage = () => {
               article?.agent?.logo
                 ? `${staticUrl}${article?.agent?.logo}`
                 : article?.user?.logo
-                ? `${staticUrl}${article?.user?.logo}`
-                : defaultUserLogo
+                  ? `${staticUrl}${article?.user?.logo}`
+                  : defaultUserLogo
             }
             alt="logo"
             width={40}

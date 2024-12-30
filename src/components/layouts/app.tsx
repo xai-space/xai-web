@@ -18,6 +18,7 @@ import { useRootFontSize } from '@/hooks/use-root-font-size'
 import { useKeepScrollPosition } from '@/hooks/use-keep-scroll-position'
 import { DynamicUserProfile } from '@dynamic-labs/sdk-react-core'
 import { useUserInfo } from '@/hooks/use-user-info'
+import { useChartStore } from '@/stores/use-chart-store'
 
 // Extends style css variable for react
 declare module 'react' {
@@ -37,7 +38,7 @@ BigNumber.config({ ROUNDING_MODE: BigNumber.ROUND_DOWN })
 
 export const AppLayout = ({ children }: { children: ReactNode }) => {
   const { isNotMounted } = useMounted()
-
+  useChartStore().setNoticeCount()
   useLang() // init lang
 
   useQueryChains() // init chains
