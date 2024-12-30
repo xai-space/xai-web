@@ -3,6 +3,7 @@ import { ApiCode, ApiResponse } from '@/api/types'
 import { dynamicToken } from '@/config/localstorage'
 import { REQUEST_ERR } from '@/errors/request'
 
+
 export enum CommonHeaders {
   ContentType = 'Content-Type',
   Authorization = 'Authorization',
@@ -73,7 +74,7 @@ export const useFetch = (baseURL: string) => {
 
       if (response.status === ApiCode.AuthError) removeStorage('token')
 
-      // Response error.
+      // Response error
       if (!response.ok) throw response
 
       // Extract json.

@@ -23,7 +23,7 @@ export const Logo = ({
     <Link
       href={Routes.Main}
       className={cn(
-        'font-bold inline-flex items-center gap-2 shrink-0',
+        'font-bold inline-flex items-center py-2 px-4 rounded-full  shrink-0 hover:bg-[#e7e7e8]',
         linkClass
       )}
     >

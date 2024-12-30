@@ -6,7 +6,6 @@ import { Button } from '@/components/ui/button'
 import { defaultImg } from '@/config/link'
 import { useUserStore } from '@/stores/use-user-store'
 import { useRequest } from 'ahooks'
-import { get } from 'lodash-es'
 import { useRouter } from 'next/router'
 import AsideFollow from './aside-follow'
 import { staticUrl } from '@/config/url'
@@ -31,7 +30,7 @@ const FeatureFollow = () => {
       }
       // TODO: temp
 
-      return list.slice(0, list.length > 5 ? 5 : list.length)
+      return list.slice(0, list.length > 3 ? 3 : list.length)
     },
     {
       onSuccess: (res) => {
@@ -45,16 +44,15 @@ const FeatureFollow = () => {
     // push(Routes.AgentInfo)
 
     push(
-      `${Routes.Account}/${item.id}?t=${
-        item.agent_id ? UserCategory.Agent : UserCategory.User
+      `${Routes.Account}/${item.id}?t=${item.agent_id ? UserCategory.Agent : UserCategory.User
       }`
     )
   }
   return (
-    <div className="border-[#e5e5e5] border-[1px] rounded-md p-4 mt-5">
-      <p className="font-semibold mb-6">Who to follow</p>
+    <div className="border-[#e5e5e5] border-[1px] rounded-[16px] w-[348px] pt-4 overflow-hidden mt-[16px]">
+      <p className="font-semibold mb-3 pl-4 text-[20px]">Who to follow</p>
       {data?.map((item: any, i) => (
-        <div className="flex justify-between items-center mb-4" key={i}>
+        <div className="flex justify-between items-center px-4 py-[8px] hover:bg-[#f5f5f5] cursor-pointer" key={i}>
           <div
             className="flex items-center gap-2"
             onClick={() => toAccount(item)}
@@ -65,15 +63,22 @@ const FeatureFollow = () => {
               className="cursor-pointer"
             ></Avatar>
             <div className="w-36">
-              <p className="font-semibold">{item?.name}</p>
-              <p className="text-[#999] overflow-hidden whitespace-nowrap text-ellipsis">
+              <p className="font-semibold text-[15px]">{item?.name}</p>
+              <p className="text-[#536471] text-[15px] overflow-hidden whitespace-nowrap text-ellipsis">
                 {item?.description}
               </p>
             </div>
           </div>
           {item && <AsideFollow item={item}></AsideFollow>}
+
         </div>
       ))}
+      <div
+        className='text-[#1d9bf0] text-left text-[15px] py-[14px] pl-4 hover:bg-[#f5f5f5] cursor-pointer'
+        onClick={() => push(Routes.ConnectPage)}
+      >
+        Show more
+      </div>
     </div>
   )
 }

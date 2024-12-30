@@ -83,7 +83,7 @@ export const NavAccount = ({
   return (
     <ConnectWallet
       // shadow={'none'}
-      className={cn(
+      className={cn('bg-black rounded-full',
         !isCollapsed && 'w-52',
         isCollapsed && 'absolute -left-4 bottom-4 p-0 !border-8'
       )}

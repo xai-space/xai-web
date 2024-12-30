@@ -9,7 +9,7 @@ import { Routes } from '@/routes'
 import { NavAside } from '../asides/nav-aside'
 import TopBar from '@/components/topbar'
 import RightAside from '@/views/rightAside'
-
+import styles from './com.module.css'
 interface Props extends ComponentProps<'main'> {
   disablePadding?: boolean
   containerClass?: string
@@ -45,12 +45,7 @@ export const PrimaryLayout = ({
         <NavAside className="sticky top-0 shrink-0" {...navAsideProps} />
       </div>
 
-      <div
-        className={cn(
-          'w-[800px] max-lg:pb-14 border-[#e5e5e5] border-width-[1px]',
-          isTokenPage ? 'w-[1000px] max-sm:w-full' : ''
-        )}
-      >
+      <div className={cn('border-[#e5e5e5] border-width-[1px] w-[600px]')}>
         <HandleScroll variant={ScrollVariant.Top}>
           <Header />
         </HandleScroll>
@@ -58,7 +53,8 @@ export const PrimaryLayout = ({
         <div className={cn('flex', containerClass)}>
           <div
             className={cn(
-              'flex-1 border-l border-r boder-[#e5e5e5]',
+              styles.scrollbar,
+              'flex-1 border-l border-r boder-[#e5e5e5] h-screen overflow-y-auto scroll-container',
               !disablePadding && 'p-3 sm:p-4',
               contentClass
             )}
@@ -74,14 +70,9 @@ export const PrimaryLayout = ({
           <MobileNavBottom />
         </HandleScroll>
       </div>
-      <div
-        className={cn(
-          'px-10 max-xl:px-4 max-lg:hidden min-h-screen z-50',
-          navAsideClass,
-          isTokenPage ? 'pointer-events-none' : ''
-        )}
-      >
-        {isTokenPage ? '' : <RightAside />}
+      <div className={cn('px-10 max-xl:px-4 max-lg:hidden min-h-screen z-50')}>
+        <RightAside />
+        {/* {isTokenPage ? '' : <RightAside />} */}
       </div>
     </main>
   )
