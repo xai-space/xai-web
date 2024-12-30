@@ -80,10 +80,10 @@ export const AccountAvatar = ({
         htmlFor="avatar-edit"
         className={cn(
           !isPad &&
-            "relative group after:content-[''] after:absolute after:inset-0 cursor-pointer",
+          "relative group after:content-[''] after:absolute after:inset-0 cursor-pointer",
           !isOtherUser &&
-            !isPad &&
-            'after:rounded-full hover:after:bg-black/50 after:transition-all after:bottom-10 after:-top-10'
+          !isPad &&
+          'after:rounded-full hover:after:bg-black/50 after:transition-all after:bottom-10 after:-top-10'
         )}
         onClick={() => {
           clearFile()
@@ -96,7 +96,7 @@ export const AccountAvatar = ({
           src={avatar ? `${staticUrl}${avatar}` : defaultUserLogo}
           // fallback={userInfo?.wallet_address.slice(-4)}
           size={128}
-          className="border-4 border-zinc-100 bg-gray-50 bottom-10"
+          className="border-4 border-zinc-100 bg-gray-50 -mt-[70px]"
         />
         {!isOtherUser && (
           <>

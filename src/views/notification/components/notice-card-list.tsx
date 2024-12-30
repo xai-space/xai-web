@@ -31,6 +31,7 @@ let isReadNotice = true
 const NoticeCardList = ({ action }: NoticeCardListProps) => {
   const [resultData, setResultData] = useState<boolean | undefined>()
   const { clearNoticeCount } = useChartStore()
+  const container = document.querySelector('.scroll-container')
   const getLoadMoreList = async (): Promise<Result> => {
 
     start += 1
@@ -60,7 +61,7 @@ const NoticeCardList = ({ action }: NoticeCardListProps) => {
   const { data, loading, loadMore, loadingMore, noMore, mutate, reload } =
     useInfiniteScroll(getLoadMoreList, {
       manual: true,
-      target: document,
+      target: container,
       isNoMore: (d) => d?.noMore === true,
       onError: (err) => {
         // console.log('onError:', err)

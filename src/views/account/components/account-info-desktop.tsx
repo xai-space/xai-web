@@ -33,11 +33,15 @@ import { use, useEffect, useState } from 'react'
 
 import { useUserStore } from '@/stores/use-user-store'
 import { UserCategory, UserInfoRes } from '@/api/user/types'
+import { CiCircleMore } from "react-icons/ci";
+
+
 
 export const AccountInfoDesktop = (props: AccountInfoProps) => {
   const { query } = useRouter()
   const {
     isOtherUser,
+    userInfo,
     isFollowing,
     isUnfollowing,
     tokenAddr,
@@ -82,106 +86,49 @@ export const AccountInfoDesktop = (props: AccountInfoProps) => {
   }
 
   return (
-    <div className="w-full flex justify-between items-start">
-      <div className="flex space-x-4">
-        <AccountAvatar
-          isOtherUser={isOtherUser}
-          update={update}
-          refetchUserInfo={refetchUserInfo}
-        />
-        <div>
-          <div className="flex space-x-2 items-center">
-            <p className="font-bold text-2xl">
-              {isAgent ? agentInfo?.name : otherUserInfo?.name}
-            </p>
-          </div>
-          <FollowDesktop />
+    <div className="w-full">
+      <div className='flex justify-between'>
+        <div className="flex space-x-4">
+          <AccountAvatar
+            isOtherUser={isOtherUser}
+            update={update}
+            refetchUserInfo={refetchUserInfo}
+          />
+        </div>
 
-          <div className="flex space-x-4 items-center">
-            <HoverCardPop content={t('account.total-likes')}>
-              <span className="inline-flex items-center text-red-500">
-                <HeartFilledIcon className="mr-1 w-4 h-4" />
-                {/* {userInfo?.like_count || 0} */}0
-              </span>
-            </HoverCardPop>
-
-            <HoverCardPop content={t('account.total-mentions')}>
-              <span className="inline-flex items-center ml-1 text-white">
-                <EnvelopeClosedIcon className="mr-1 w-4 h-4" />
-                {/* {userInfo?.mention_count || 0} */}0
-              </span>
-            </HoverCardPop>
-
-            <HoverCardPop
-              content={t('reward.desc3')}
-              variant="start"
-              className="w-40"
+        <div className="flex items-center h-10">
+          <CiCircleMore size={42} className='mr-[5px]'></CiCircleMore>
+          {isOtherUser ? (
+            <Button
+              shadow={'none'}
+              className="flex items-center bg-[#0f1419] rounded-full"
+              disabled={isFollowing || isUnfollowing}
+              onClick={() => followFetch()}
             >
-              <span
-                onClick={() => {
-                  if (isOtherUser) return
-                  router.push(Routes.Reward)
-                }}
-                className={cn(
-                  'flex items-center space-x-2',
-                  !isOtherUser &&
-                    'hover:underline-offset-1 hover:underline outline-black cursor-pointer'
-                )}
-              >
-                <DiamondIcon size={17} />
-                <span className="font-bold">
-                  0{/* {fmt.decimals(userInfo?.reward_amount) || 0} */}
-                </span>
-                <span
-                  className="max-sm:hidden text-sm text-blue-600 cursor-pointer hover:underline ml-2"
-                  onClick={() => router.push(Routes.Reward)}
-                >
-                  ({t('reward.rule')})
-                </span>
+              <span className="text-[15px] font-semibold px-[5px]">
+                {otherUserInfo?.is_followed ? t('unfollow') : t('follow')}
               </span>
-            </HoverCardPop>
-          </div>
+            </Button>
+          ) : (
+            <ProfileForm>
+              <Button variant={'purple'} className="flex items-center space-x-2">
+                <IoSettingsOutline size={18} />
+                <span className="text-sm">{t('edit')}</span>
+              </Button>
+            </ProfileForm>
+          )}
         </div>
       </div>
-      <div className="flex space-x-6 items-center">
-        {isOtherUser ? (
-          <Button
-            variant={'purple'}
-            shadow={'none'}
-            className="flex items-center space-x-2"
-            disabled={isFollowing || isUnfollowing}
-            onClick={() => followFetch()}
-          >
-            {otherUserInfo?.is_followed ? <MinusIcon /> : <PlusIcon />}
-            <span className="text-sm">
-              {otherUserInfo?.is_followed ? t('unfollow') : t('follow')}
-            </span>
-          </Button>
-        ) : (
-          <ProfileForm>
-            <Button variant={'purple'} className="flex items-center space-x-2">
-              <IoSettingsOutline size={18} />
-              <span className="text-sm">{t('edit')}</span>
-            </Button>
-          </ProfileForm>
-        )}
 
-        <Popover>
-          <PopoverTrigger>
-            <IoMdMore size={25} className="cursor-pointer" />
-          </PopoverTrigger>
-          <PopoverContent
-            side="left"
-            sideOffset={10}
-            align="start"
-            className="flex items-center gap-2 mt-10 w-52 rounded-md shadow-md shadow-border-blue/40 bg-secondary text-white p-2 cursor-pointer hover:opacity-75 text-sm border border-secondary"
-            onClick={() => copy(primaryWallet?.address ?? '')}
-          >
-            <IoCopyOutline size={17} />
-            <p>{t('copy.wallet.address')}</p>
-          </PopoverContent>
-        </Popover>
+      <div>
+        <p className="font-bold text-[20px] text-[0f1419]">
+          {isAgent ? agentInfo?.name : otherUserInfo?.name}
+        </p>
       </div>
+      <p className="text-[#0f1419] text-[15px] mt-[4px]">
+        {userInfo?.description ? userInfo?.description : t('there.noting')}
+      </p>
+      <FollowDesktop />
     </div>
   )
 }

@@ -99,6 +99,7 @@ export interface AgentListReq {
   user_id?: string
   page: number
   limit: number
+  filter?: string
 }
 export interface AgentListResItem {
   name: string

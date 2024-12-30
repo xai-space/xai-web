@@ -51,13 +51,16 @@ export const FollowDesktop = () => {
             size="sm"
             shadow="none"
             onClick={() => setTab(UserListType.Followers)}
-            className="shadow-none pl-0 !border-none"
+            className="shadow-none pl-0 !border-none group relative"
           >
-            <span className="space-x-1 text-base">
-              <span className="font-bold">
-                {otherUserInfo?.follower_count ?? 0}
+            <span className="space-x-1 text-base relative">
+              <span className="font-bold text-[#0f1419]">
+                {otherUserInfo?.follow_count ?? 0}
               </span>
-              <span className="text-blue-600">{t('followers')}</span>
+              <span className="text-[#536471] text-[14px] relative">
+                {t('following')}
+                <div className="absolute bottom-0 left-0 right-0 h-[0.5px] bg-[#0f1419] opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+              </span>
             </span>
           </Button>
         </DialogTrigger>
@@ -67,13 +70,16 @@ export const FollowDesktop = () => {
             size="sm"
             onClick={() => setTab(UserListType.Following)}
             shadow="none"
-            className="shadow-none !border-none"
+            className="shadow-none !border-none group ml-2 relative"
           >
-            <span className="space-x-1 text-base">
-              <span className="font-bold ">
-                {otherUserInfo?.follow_count ?? 0}
+            <span className="space-x-1 text-base relative">
+              <span className="font-bold text-[#0f1419]">
+                {otherUserInfo?.follower_count ?? 0}
               </span>
-              <span className="text-blue-600">{t('following')}</span>
+              <span className="text-[#536471] text-[14px] relative">
+                {t('followers')}
+                <div className="absolute bottom-0 left-0 right-0 h-[0.5px] bg-[#0f1419] opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+              </span>
             </span>
           </Button>
         </DialogTrigger>
@@ -90,8 +96,8 @@ export const FollowDesktop = () => {
                 ? t('followers.my')
                 : t('followers')
               : !isOtherUser
-              ? t('following.my')
-              : t('following')}
+                ? t('following.my')
+                : t('following')}
           </DialogTitle>
         </DialogHeader>
         {/* <FollowersCards

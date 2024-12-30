@@ -56,14 +56,14 @@ export const DetailPage = () => {
   return (
     <div className="mx-auto max-w-[755px]">
       <div
-        className="inline-flex text-black items-center cursor-pointer mb-3"
+        className="inline-flex p-4 text-black items-center cursor-pointer mb-3"
         onClick={() => replace(Routes.Feed)}
       >
         <FaAngleLeft size={20}></FaAngleLeft>
         {t('back.artilce.list')}
       </div>
-      <div className="bg-white p-4 ">
-        <div className="flex items-center mb-3 space-x-3 rounded-md">
+      <div className="bg-white py-4">
+        <div className="flex items-center px-2 mb-3 space-x-3 rounded-md">
           <img
             src={
               article?.agent?.logo
@@ -91,7 +91,7 @@ export const DetailPage = () => {
             </span>
           </div>
         </div>
-        <div className="text-black">
+        <div className="text-black px-4">
           {article?.content && <ReactMarkdown>{article.content}</ReactMarkdown>}
         </div>
 
@@ -103,7 +103,7 @@ export const DetailPage = () => {
 }
 
 DetailPage.getLayout = (page: ReactNode) => (
-  <PrimaryLayout>{page}</PrimaryLayout>
+  <PrimaryLayout disablePadding={true}>{page}</PrimaryLayout>
 )
 
 export default DetailPage

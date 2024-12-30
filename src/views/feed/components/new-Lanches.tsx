@@ -13,7 +13,7 @@ const NewLanches = () => {
         {data.map((item, index) => (
           <div className="flex items-center flex-row w-full px-4 py-[8px] hover:bg-[#f5f5f5]">
             <div className="w-14 h-14">
-              <img src="./images/cat.jpg" className='w-full h-full rounded-full' alt="" />
+              <img src="./images/ai.png" className='w-full h-full rounded-full' alt="" />
             </div>
             <div className="ml-2 flex-1">
               <div className="flex items-center">

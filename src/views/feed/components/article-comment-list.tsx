@@ -16,6 +16,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+
 } from '@/components/ui/dropdown-menu'
 import { FiMoreHorizontal } from 'react-icons/fi'
 import { MdDelete, MdEdit } from 'react-icons/md'
@@ -113,12 +114,14 @@ export const ArticleCommentList = () => {
 
   return (
     <div className="mt-8">
-      <div className="text-xl mb-2">{t('comments')}</div>
+      <div className="text-xl mb-2 px-4">{t('comments')}
+        <span className='text-gray-500 text-[18px] ml-2'>{article?.comment_count}</span>
+      </div>
       {article?.comments.map((comment) => {
         return (
           <ArticleCommentItem
             key={comment.comment_id}
-            className="border-t border-gray-400 text-black"
+            className="border-t border-[#e5e5e5] px-4 text-black hover:bg-[#f7f7f7]"
             comment={comment}
             onDelComment={onDelComment}
             onEditComment={onEditComment}
@@ -140,18 +143,25 @@ export const ArticleCommentList = () => {
           onChange={(e) => {
             setEditValue(e.target.value)
           }}
-          className="min-h-[100px] max-h-[200px] p-2 rounded-md resize-none"
+          className="min-h-[100px] text-white max-h-[200px] p-2 rounded-md resize-none"
         ></TextareaAutosize>
 
         <DialogFooter>
           <DialogClose>
-            <Button className="px-8">{t('cancel')}</Button>
+            <Button 
+              className={cn(
+                "px-8 bg-white text-blue-500  rounded-md",
+                "border-blue-500 bg-blue-50"
+              )}
+            >
+              {t('cancel')}
+            </Button>
           </DialogClose>
           <Button
             onClick={onEdit}
             disabled={editLoading}
-            className="px-8"
-            variant={'purple'}
+            className="px-8 bg-[#0f1419]"
+
           >
             {editLoading ? t('updating') : t('update')}
           </Button>
@@ -191,24 +201,24 @@ const ArticleCommentItem = ({
   const [viewAll, setViewAll] = useState(false)
 
   return (
-    <div className={cn('relative pl-12 py-4', className)}>
+    <div className={cn('flex pl-12 py-4', className)}>
       <img
         src={
           comment?.agent?.logo
             ? `${staticUrl}${comment.agent.logo}`
             : comment?.user?.logo
-            ? `${staticUrl}${comment.user.logo}`
-            : defaultUserLogo
+              ? `${staticUrl}${comment.user.logo}`
+              : defaultUserLogo
         }
         alt="Logo"
         width={40}
         height={40}
         className={cn(
           'object-cover w-[40px] h-[40px] rounded-full',
-          'absolute top-4 left-0'
+
         )}
       />
-      <div>
+      <div className='ml-[6px]'>
         <div className="flex items-center space-x-2">
           <div className="flex flex-1">
             <div className="flex items-center font-bold">
@@ -328,8 +338,8 @@ const ArticleReplyCommentItem = ({
                   comment?.agent?.logo
                     ? `${staticUrl}${comment.agent.logo}`
                     : comment?.user?.logo
-                    ? `${staticUrl}${comment.user.logo}`
-                    : defaultUserLogo
+                      ? `${staticUrl}${comment.user.logo}`
+                      : defaultUserLogo
                 }
                 alt="Logo"
                 width={22}
@@ -439,8 +449,27 @@ const MoreHandler = ({ comment, onDelComment, onEditComment }: CommentItem) => {
           <FiMoreHorizontal size={18} />
         </div>
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
+      <DropdownMenuContent side='top' align="end" className='border-w-1 p-0 border-[#f0f0f0] -mb-1'>
         <DynamicConnectButton buttonClassName="w-full">
+          <DynamicConnectButton buttonClassName="w-full">
+            <DropdownMenuItem
+              className="cursor-pointer"
+              onClick={(e) => {
+                if (!userInfo?.user_id) {
+                  toast.error(t('no.login'))
+                  return
+                }
+
+                e.stopPropagation()
+                onDelComment?.(comment.comment_id)
+              }}
+            >
+              <div className="flex items-center px-2 pt-[4px] pb-2 text-red-500 space-x-1">
+                <MdDelete size={18} />
+                <span>{t('delete')}</span>
+              </div>
+            </DropdownMenuItem>
+          </DynamicConnectButton>
           <DropdownMenuItem
             className="cursor-pointer"
             onClick={(e) => {
@@ -453,31 +482,13 @@ const MoreHandler = ({ comment, onDelComment, onEditComment }: CommentItem) => {
               onEditComment?.(comment)
             }}
           >
-            <div className="flex items-center space-x-1">
+            <div className="flex items-center space-x-1 px-2 pb-[4px]">
               <MdEdit size={18} />
               <span>{t('edit')}</span>
             </div>
           </DropdownMenuItem>
         </DynamicConnectButton>
-        <DynamicConnectButton buttonClassName="w-full">
-          <DropdownMenuItem
-            className="cursor-pointer"
-            onClick={(e) => {
-              if (!userInfo?.user_id) {
-                toast.error(t('no.login'))
-                return
-              }
 
-              e.stopPropagation()
-              onDelComment?.(comment.comment_id)
-            }}
-          >
-            <div className="flex items-center text-red-500 space-x-1">
-              <MdDelete size={18} />
-              <span>{t('delete')}</span>
-            </div>
-          </DropdownMenuItem>
-        </DynamicConnectButton>
       </DropdownMenuContent>
     </DropdownMenu>
   )

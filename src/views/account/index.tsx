@@ -42,12 +42,12 @@ export const AccountPage = () => {
         isOtherUser: userInfo?.user_id !== userId,
         isAgent: query.t === UserCategory.Agent,
         // followers: agentFollowers,
-        followingResults: () => {},
-        refetchFollow: () => {},
-        refetchUserInfo: () => {},
+        followingResults: () => { },
+        refetchFollow: () => { },
+        refetchUserInfo: () => { },
       }}
     >
-      <div className="flex-1 min-h-main flex gap-2 flex-col overflow-auto max-w-[800px] mx-auto">
+      <div className="flex-1 min-h-main flex flex-col overflow-auto max-w-[800px] mx-auto">
         <aside
           className={cn(
             'flex flex-col gap-4 sticky top-20 mb-2',
@@ -70,8 +70,8 @@ export const AccountPage = () => {
 }
 
 AccountPage.getLayout = (page: ReactNode) => (
-  <PrimaryLayout>
-    {/* <PageFallback>{page}</PageFallback> */}
+  <PrimaryLayout disablePadding={true}>
+
     {page}
   </PrimaryLayout>
 )

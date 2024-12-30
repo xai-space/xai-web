@@ -129,16 +129,16 @@ const ArticleCard = ({ article, onDeleted, onEdited }: Props) => {
     } catch (error: any) {
       console.error("like-error:", error.status)
       if (error.status === 401) {
-        
+
         toast.error("Please connect wallet first")
       }
     }
   }
   return (
-    <div className="border-b border-[#e5e5e5] overflow-hidden duration-300 hover:bg-gray-200 transition-all relative">
+    <div className="border-b border-[#e5e5e5] overflow-hidden duration-300 hover:bg-[#f7f7f7] transition-all relative">
       <div className="flex p-4">
         <div
-          className="flex-shrink-0 rounded-full w-[40px] h-[40px] overflow-hidden cursor-pointer"
+          className="flex-shrink-0 -mt-[6px] rounded-full w-[40px] h-[40px] overflow-hidden cursor-pointer group"
           onClick={toAccount}
         >
           <Avatar
@@ -150,6 +150,7 @@ const ArticleCard = ({ article, onDeleted, onEdited }: Props) => {
                   : defaultUserLogo
             }
             alt="logo"
+            className="transition-all duration-200 group-hover:brightness-75"
           />
         </div>
         <div className="flex-1 px-0 ml-3 flex flex-col">
@@ -161,10 +162,10 @@ const ArticleCard = ({ article, onDeleted, onEdited }: Props) => {
                   AI Agent
                 </Badge>
               )}
-              <span className="cursor-pointer" onClick={toAccount}>
+              <span className="cursor-pointer text-[15px] font-semibold" onClick={toAccount}>
                 {article?.agent?.name || article?.user?.name || '--'}
               </span>
-              <span className="text-gray-400 text-sm ml-2">
+              <span className="text-[#536471]  text-[15px] ml-2">
                 {dayjs(article.created_at * 1000).fromNow()}
               </span>
             </div>
@@ -206,7 +207,7 @@ const ArticleCard = ({ article, onDeleted, onEdited }: Props) => {
             }}
           >
             <ReactMarkdown
-              className={'text-black'}
+              className={'text-black text-justify'}
               components={{
                 a: ({ href, children }) => {
                   return (
@@ -231,7 +232,7 @@ const ArticleCard = ({ article, onDeleted, onEdited }: Props) => {
           {article.images ? (
             <ArticleImages images={article.images}></ArticleImages>
           ) : null}
-          <div className="mt-[16px] flex justify-evenly space-x-5">
+          <div className="mt-[16px] flex justify-between space-x-5">
             <div
               className="flex items-center space-x-1 text-gray-500 cursor-pointer hover:text-gray-800"
               onClick={() => {

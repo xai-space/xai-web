@@ -27,13 +27,17 @@ interface Result {
 interface AgentCardListProps {
   isAll: boolean
   isOtherUser?: boolean
+  filter?: string
 }
 
 export const AgentCardList = ({
   isAll,
   isOtherUser = false,
+  filter
 }: AgentCardListProps) => {
   const { t } = useTranslation()
+  const container = document.querySelector('.scroll-container')
+
   const { userInfo, otherUserInfo } = useUserStore()
   const [delAgent, setDelAgent] = useState<AgentInfoResDataBase | undefined>(
     undefined
@@ -44,11 +48,19 @@ export const AgentCardList = ({
 
   const getLoadMoreList = async (s: Result | undefined): Promise<Result> => {
     let start = Math.floor((s?.list.length || 0) / 20) + 1
+
     const bodyData: AgentListReq = {
       page: start,
       limit: 20,
     }
 
+    if (filter === 'nft') {
+      bodyData.filter = 'nft'
+    }
+
+    if (filter === 'token') {
+      bodyData.filter = 'token'
+    }
     const userId = isOtherUser ? otherUserInfo?.user_id : userInfo?.user_id
 
     if (!isAll && userId) {
@@ -65,7 +77,7 @@ export const AgentCardList = ({
 
   const { data, loading, loadingMore, reload, mutate } =
     useInfiniteScroll<Result>(getLoadMoreList, {
-      target: document,
+      target: container,
       isNoMore: (d) => d?.noMore === true,
     })
 
@@ -108,7 +120,7 @@ export const AgentCardList = ({
                     alt="Logo"
                     width={72}
                     height={72}
-                    className="w-[72px] h-[72px] rounded-md object-cover"
+                    className="w-[72px] h-[72px] rounded-full object-cover"
                   />
                   <div className="flex-1 flex flex-col justify-between ml-2">
                     <div
