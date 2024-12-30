@@ -27,6 +27,7 @@ export interface AccountInfoProps {
   isUnfollowing: boolean
   tokenAddr: string
   isAgent: boolean
+  userInfo?: any
   update: UseMutateAsyncFunction<
     ApiResponse<UserInfoRes>,
     Error,
@@ -91,10 +92,11 @@ export const Profile = () => {
         className="bg-cover bg-center h-72"
         style={{ backgroundImage: `url(/images/profile-bg.jpg)` }}
       />
-      <div className="bg-background px-2 pt-2 relative after:absolute after:w-full after:h-px after:bg-border after:bottom-5 after:left-0">
+      <div className="bg-background border-b boder-[#e5e5e5] px-4 pt-2 relative after:absolute after:w-full after:h-px after:bottom-5 after:left-0">
         {!isPad ? (
           <AccountInfoDesktop
             isAgent={isAgent}
+            userInfo={userInfo}
             isOtherUser={isOtherUser}
             isFollowing={isFollowing}
             isUnfollowing={isUnfollowing}
@@ -118,12 +120,7 @@ export const Profile = () => {
           />
         )}
       </div>
-      <div className="align-top p-2 relative bottom-[0.65rem]">
-        <p className="text-zinc-600">
-          {t('bio')}:{' '}
-          {userInfo?.description ? userInfo?.description : t('there.noting')}
-        </p>
-      </div>
+
     </div>
   )
 }

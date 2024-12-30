@@ -107,7 +107,7 @@ export const AccountTab = () => {
               'data-[state=active]:hover:bg-transparent hover:bg-transparent relative',
               'after:absolute hover:after:w-full after:h-[2px] after:bg-purple-500 after:bottom-0 after:left-0 after:hover:animate-left-to-right',
               isShowBorder &&
-                'data-[state=active]:after:absolute data-[state=active]:after:animate-left-to-right data-[state=active]:after:w-full'
+              'data-[state=active]:after:absolute data-[state=active]:after:animate-left-to-right data-[state=active]:after:w-full'
             )}
             key={t.value}
             value={t.value.toString()}

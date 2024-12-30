@@ -114,7 +114,7 @@ export const TokenCard = ({
       conBackground={'none'}
       conAnimate={'none'}
       className={cn(
-        ' flex items-stretch overflow-hidden cursor-pointer gap-2 relative max-sm:gap-0',
+        ' flex items-stretch overflow-hidden cursor-pointer h-[180px] gap-2 relative max-sm:gap-0',
         className
       )}
       onClick={(e) => {
@@ -131,9 +131,9 @@ export const TokenCard = ({
         src={handleImage()}
         alt="logo"
         title={card.name}
-        className="shrink-0 w-32 h-32 xl:w-40 xl:h-40 rounded-r-none max-sm:mr-2"
+        className="shrink-0 mt-[20px] w-[80px] h-[80px] p-[6px] rounded-full max-sm:mr-2"
       />
-      <div className="py-1.5 xl:py-2 pr-2 w-full flex flex-col justify-between">
+      <div className="py-2.5 xl:py-5 pr-2 w-full flex flex-col justify-between">
         <div className="h-full">
           <CardTitle className="pt-0 text-lg flex items-start justify-between gap-2 ">
             <span className={cn('break-all line-clamp-2')}>
@@ -150,7 +150,7 @@ export const TokenCard = ({
           <p
             className={cn(
               'text-zinc-500 text-sm break-all line-clamp-2 xl:line-clamp-3',
-              isGraduated && 'line-clamp-4 xl:line-clamp-5',
+              isGraduated && 'line-clamp-4 xl:line-clamp-4',
               descClass
             )}
           >

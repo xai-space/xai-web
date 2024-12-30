@@ -75,8 +75,8 @@ export function Chat({ scrollBarToBottom }: ChatProps) {
               }
               className="w-8 h-8 mr-2"
             ></Avatar>
-            <div className="bg-gray-800 text-primary rounded-lg p-3 max-w-[80%]">
-              <div>{agentInfo?.greeting}</div>
+            <div className="bg-gray-800 text-white rounded-lg p-3 max-w-[80%]">
+              <div className='text-[#fff]'>{agentInfo?.greeting}</div>
             </div>
           </div>
         ) : null}
@@ -86,7 +86,7 @@ export function Chat({ scrollBarToBottom }: ChatProps) {
             <div className="mb-4">
               {/* USER */}
               <div className="flex items-start justify-end">
-                <div className="bg-primary text-primary-foreground rounded-lg p-3 max-w-[80%]">
+                <div className="bg-[#0f1419] text-white rounded-lg p-3 max-w-[80%]">
                   {item.message.content}
                 </div>
                 <Avatar className="w-8 h-8 ml-2"></Avatar>
@@ -102,7 +102,7 @@ export function Chat({ scrollBarToBottom }: ChatProps) {
                   }
                   className="w-8 h-8 mr-2"
                 ></Avatar>
-                <div className="bg-gray-800 text-primary rounded-lg p-3 max-w-[80%]">
+                <div className="bg-[#0f1419] text-white rounded-lg p-3 max-w-[80%]">
                   <ReactMarkdown>{item.response.content}</ReactMarkdown>
                   {loading && index === sessions.length - 1 ? (
                     <img src={loadingSVG} width={20} height={20}></img>
@@ -140,7 +140,7 @@ export function Chat({ scrollBarToBottom }: ChatProps) {
         <DynamicConnectButton>
           <Button
             disabled={isReplying || !form.getValues('message').trim()}
-            className="!flex !h-[100%] px-10"
+            className="!flex !h-[100%] px-10 bg-black"
             onClick={onSubmit}
           >
             {isReplying ? t('ai.sending') : t('ai.send')}

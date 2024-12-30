@@ -26,7 +26,8 @@ const AgentList = () => {
   return (
     <div className="max-w-[800px] mx-auto pt-0 ">
       <div className="flex justify-between items-center text-xl">
-        {t('agent.list')}
+        {/* {t('agent.list')} */}
+        AI Agents
         {/* <div className="flex space-x-4">
           <DropdownMenu>
             <DropdownMenuTrigger>
@@ -84,7 +85,7 @@ const AgentList = () => {
         </div>
       )}
 
-      <AgentCardList isAll={isAll} />
+      <AgentCardList isAll={isAll} filter={'token'} />
     </div>
   )
 }

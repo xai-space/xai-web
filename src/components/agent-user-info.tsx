@@ -126,7 +126,7 @@ export const AgentUserInfo = ({
   }
 
   return (
-    <div className={cn('flex flex-col max-w-[600px] mx-auto', className)}>
+    <div className={cn('flex flex-col max-w-[600px] mx-auto p-0 mt-0', className)}>
       {postsList?.map((item, i) => (
         <ArticleCard
           key={item.agent_id}

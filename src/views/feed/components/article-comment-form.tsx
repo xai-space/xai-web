@@ -71,7 +71,7 @@ export const ArticleCommentForm = ({ replayUser, onSended }: ReplyProps) => {
   }
 
   return (
-    <div className="mt-5">
+    <div className="mt-5 px-4">
       <TextareaAutosize
         className="w-full bg-gray-200 text-black resize-none p-2 rounded-md min-h-[100px] max-h-[200px]"
         value={comment}

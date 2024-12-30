@@ -34,10 +34,12 @@ export const PostFeed = ({
   const { otherUserInfo } = useUserInfo()
   const { query } = useRouter()
   // console.log('queryFeed:', query)
+  const container = document.querySelector('.scroll-container')
+
 
   const getLoadMoreList = async (): Promise<Result> => {
     let start = Math.floor(feedList.length / 10) + 1
-
+   
     const bodyData: FeedList = {
       page: start,
       limit: 10,
@@ -79,7 +81,7 @@ export const PostFeed = ({
   const { loading, loadingMore, mutate, reload } = useInfiniteScroll(
     () => getLoadMoreList(),
     {
-      target: document,
+      target: container,
       isNoMore: (d) => d?.noMore === true,
     }
   )

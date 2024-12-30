@@ -3,9 +3,7 @@ import { ReactNode } from "react"
 
 const SettingPage = () => {
     return (
-        <div>
-            Setting
-        </div>
+        <div className="w-full h-full text-[#0f1419] font-semibold flex justify-center items-center">Coming soom</div>
     )
 }
 SettingPage.getLayout = (page: ReactNode) => {

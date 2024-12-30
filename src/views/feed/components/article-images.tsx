@@ -17,7 +17,7 @@ export const ArticleImages = ({ images }: Props) => {
     <>
       <div
         className={cn(
-          'grid mt-2 p-0 justify-between items-center gap-1 rounded-md overflow-hidden cursor-pointer',
+          'grid mt-2  justify-between items-center gap-1 rounded-md overflow-hidden cursor-pointer',
           `grid-cols-${images.length}`
         )}
       >
@@ -28,7 +28,7 @@ export const ArticleImages = ({ images }: Props) => {
               src={`${staticUrl}${url}`}
               alt="image"
               className={cn(
-                'w-full h-full object-cover max-w-max max-h-max',
+                'w-full h-full rounded-xl object-cover max-w-max max-h-max',
                 images.length === 1 ? 'rounded-md' : ''
               )}
               onClick={() => {
