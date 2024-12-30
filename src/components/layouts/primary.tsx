@@ -45,18 +45,15 @@ export const PrimaryLayout = ({
         <NavAside className="sticky top-0 shrink-0" {...navAsideProps} />
       </div>
 
-      <div
-        className={cn(
-          'border-[#e5e5e5] border-width-[1px] w-[600px]'
-        )}
-      >
+      <div className={cn('border-[#e5e5e5] border-width-[1px] w-[600px]')}>
         <HandleScroll variant={ScrollVariant.Top}>
           <Header />
         </HandleScroll>
 
         <div className={cn('flex', containerClass)}>
           <div
-            className={cn(styles.scrollbar,
+            className={cn(
+              styles.scrollbar,
               'flex-1 border-l border-r boder-[#e5e5e5] h-screen overflow-y-auto scroll-container',
               !disablePadding && 'p-3 sm:p-4',
               contentClass
@@ -73,12 +70,7 @@ export const PrimaryLayout = ({
           <MobileNavBottom />
         </HandleScroll>
       </div>
-      <div
-        className={cn(
-          'px-10 max-xl:px-4 max-lg:hidden min-h-screen z-50',
-
-        )}
-      >
+      <div className={cn('px-10 max-xl:px-4 max-lg:hidden min-h-screen z-50')}>
         <RightAside />
         {/* {isTokenPage ? '' : <RightAside />} */}
       </div>
