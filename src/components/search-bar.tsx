@@ -1,18 +1,29 @@
 import { Input } from '@/components/ui/input'
+import { cn } from '@/lib/utils'
 import { CgSearch } from 'react-icons/cg'
 import { FiSearch } from 'react-icons/fi'
+import { useState } from 'react'
+
 const SearchBar = () => {
+  const [isFocused, setIsFocused] = useState(false)
+
   return (
-    <div className="mb-10">
-      <Input
+    <div className={cn("relative mb-[16px] h-[40px] flex items-center w-full")}>
+
+      <FiSearch className={cn("text-gray-500 mr-2 absolute left-4", isFocused ? 'text-blue-400' : '')} />
+      <input
+        type="text"
         placeholder="Search"
-        startIcon={
-          <FiSearch size={24} className="ml-5" color={'#536471'}></FiSearch>
-        }
-        className="rounded-full h-[50px] text-[18px]"
+        className={cn(
+          'bg-[#eff3f4] rounded-full w-full pl-12 py-2',
+          ' focus:border border-blue-400 focus:bg-white'
+        )}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
       />
     </div>
   )
 }
 
 export default SearchBar
+

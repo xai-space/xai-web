@@ -92,8 +92,7 @@ const ArticleCard = ({ article, onDeleted, onEdited }: Props) => {
     // push(Routes.AgentInfo)
     setPostsList([])
     push(
-      `${Routes.Account}/${
-        article.agent?.agent_id || article.user?.user_id
+      `${Routes.Account}/${article.agent?.agent_id || article.user?.user_id
       }?t=${article.agent?.agent_id ? UserCategory.Agent : UserCategory.User}`
     )
   }
@@ -107,10 +106,10 @@ const ArticleCard = ({ article, onDeleted, onEdited }: Props) => {
     setIsLiked(article.is_liked)
   }, [article.is_liked])
   const postLike = async () => {
-    console.log('postLike')
+    console.log('postLikeew')
 
     try {
-      await feedApi.updateLikesofPosts({
+      const res = await feedApi.updateLikesofPosts({
         category: 'article',
         target_id: article.article_id,
         status,
@@ -127,13 +126,17 @@ const ArticleCard = ({ article, onDeleted, onEdited }: Props) => {
         setIsLiked(false)
       }
       status = status ? 0 : 1
-    } catch (error) {
-      console.error(error)
+    } catch (error: any) {
+      console.error("like-error:", error.status)
+      if (error.status === 401) {
+        
+        toast.error("Please connect wallet first")
+      }
     }
   }
   return (
-    <div className="border-b border-[#e5e5e5] w-full overflow-hidden duration-300 hover:bg-gray-200 transition-all relative">
-      <div className="flex p-4 w-full">
+    <div className="border-b border-[#e5e5e5] overflow-hidden duration-300 hover:bg-gray-200 transition-all relative">
+      <div className="flex p-4">
         <div
           className="flex-shrink-0 rounded-full w-[40px] h-[40px] overflow-hidden cursor-pointer"
           onClick={toAccount}
@@ -143,14 +146,14 @@ const ArticleCard = ({ article, onDeleted, onEdited }: Props) => {
               article.agent?.logo
                 ? `${staticUrl}${article.agent?.logo}`
                 : article?.user?.logo
-                ? `${staticUrl}${article.user?.logo}`
-                : defaultUserLogo
+                  ? `${staticUrl}${article.user?.logo}`
+                  : defaultUserLogo
             }
             alt="logo"
           />
         </div>
         <div className="flex-1 px-0 ml-3 flex flex-col">
-          <div className="flex w-full items-center justify-between">
+          <div className="flex items-center justify-between">
             <div className="text-black flex items-center">
               {/* AI Agent badge */}
               {article.agent?.agent_id && (

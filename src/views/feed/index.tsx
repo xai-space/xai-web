@@ -31,18 +31,21 @@ export const FeedPage = () => {
   const [isBlurred, setIsBlurred] = useState(false)
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY >= 100) {
+    const container = document.querySelector('.scroll-container')
+    
+    const handleScroll = (e: Event) => {
+      const target = e.target as HTMLElement
+      if (target.scrollTop >= 100) {
         setIsBlurred(true)
       } else {
         setIsBlurred(false)
       }
     }
 
-    window.addEventListener('scroll', handleScroll)
+    container?.addEventListener('scroll', handleScroll)
 
     return () => {
-      window.removeEventListener('scroll', handleScroll)
+      container?.removeEventListener('scroll', handleScroll)
     }
   }, [])
   return (
@@ -59,17 +62,26 @@ export const FeedPage = () => {
               key={item.id}
               onClick={() => tap(item.id)}
               className={cn(
-                'flex-1 flex flex-col items-center pt-[18px] h-[60px] text-gray-500 cursor-pointer hover:bg-[#e6e6e8]',
-                isActive == item.id ? 'text-black' : null
+                'flex-1 h-[53px] cursor-pointer hover:bg-[#e6e6e8]',
+                'flex flex-col justify-between'
               )}
             >
-              {item.title}
-              <div
-                className={cn(
-                  'w-28 h-[5px] mt-[12px] rounded-full',
-                  isActive == item.id ? 'bg-[#3b82f6]' : null
-                )}
-              ></div>
+              <div className="flex-1 flex items-center justify-center">
+                <span className={cn(
+                  'text-[15px]',
+                  isActive == item.id ? 'text-black' : 'text-gray-500'
+                )}>
+                  {item.title}
+                </span>
+              </div>
+              <div className="flex justify-center">
+                <div
+                  className={cn(
+                    ' h-[4px] min-w-[68px] rounded-full',
+                    isActive == item.id ? 'bg-[#3b82f6]' : null
+                  )}
+                ></div>
+              </div>
             </div>
           ))}
         </div>

@@ -88,9 +88,9 @@ const cardContainerVariants = cva(
 
 interface Props
   extends React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof cardVariants>,
-    VariantProps<typeof cardContainerVariants>,
-    ShadowBorderVariantsProps {}
+  VariantProps<typeof cardVariants>,
+  VariantProps<typeof cardContainerVariants>,
+  ShadowBorderVariantsProps { }
 
 const colors = [
   '#f5cbb0',
@@ -121,7 +121,7 @@ const Card = React.forwardRef<HTMLDivElement, Props>((props, ref) => {
   return (
     <div
       className={cn(
-        cardContainerVariants({ clip, conPadding, conBackground, conAnimate })
+        cardContainerVariants({ clip, conPadding, conBackground, conAnimate }), "border border-[#cdcccc]"
       )}
     >
       <div
