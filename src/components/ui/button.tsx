@@ -13,13 +13,14 @@ const buttonVariants = cva(
   cn(
     'inline-flex items-center justify-center whitespace-nowrap select-none',
     'rounded-md text-sm font-medium transition-colors',
-    'focus-visible:outline-none focus-visible:ring-1 hover:opacity-90',
+    // 'focus-visible:outline-none focus-visible:ring-1 hover:opacity-90',
     'focus-visible:ring-ring disabled:pointer-events-none overflow-hidden',
     'disabled:opacity-50 transition-all duration-100'
   ),
   {
     variants: {
       variant: {
+        none: '',
         default:
           'text-primary-foreground !shadow-offset-border hover:!shadow-none bg-border-bg',
         destructive:
@@ -44,7 +45,7 @@ const buttonVariants = cva(
       },
       glitch: {
         none: '',
-        default: 'hover:animate-glitch',
+        default: '',
       },
       size: {
         default: 'h-9 px-4 py-2 p-[12px]',
@@ -70,8 +71,8 @@ const buttonVariants = cva(
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants>,
-    ShadowVariantsProps {
+  VariantProps<typeof buttonVariants>,
+  ShadowVariantsProps {
   asChild?: boolean
   isLoading?: boolean
   loadingChild?: React.ReactNode

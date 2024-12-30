@@ -3,7 +3,11 @@ export enum Routes {
 
   NotFound = '/404',
   NotFoundEmpty = '/404?t=empty',
+  NftAgent = '/nft-agent',
   Coin = '/coin',
+  Community = '/community',
+  Profile = '/profile',
+  Setting = '/setting-page',
   TokenPage = '/[chain]/[address]',
 
   Create = '/create',

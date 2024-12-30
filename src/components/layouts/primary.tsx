@@ -9,7 +9,7 @@ import { Routes } from '@/routes'
 import { NavAside } from '../asides/nav-aside'
 import TopBar from '@/components/topbar'
 import RightAside from '@/views/rightAside'
-
+import styles from './com.module.css'
 interface Props extends ComponentProps<'main'> {
   disablePadding?: boolean
   containerClass?: string
@@ -56,8 +56,8 @@ export const PrimaryLayout = ({
 
         <div className={cn('flex', containerClass)}>
           <div
-            className={cn(
-              'flex-1 border-l border-r boder-[#e5e5e5]',
+            className={cn(styles.scrollbar,
+              'flex-1 border-l border-r boder-[#e5e5e5] h-screen overflow-y-auto scroll-container',
               !disablePadding && 'p-3 sm:p-4',
               contentClass
             )}
@@ -76,7 +76,7 @@ export const PrimaryLayout = ({
       <div
         className={cn(
           'px-10 max-xl:px-4 max-lg:hidden min-h-screen z-50',
-         
+
         )}
       >
         <RightAside />

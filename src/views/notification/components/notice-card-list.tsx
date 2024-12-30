@@ -15,6 +15,9 @@ import { isEmpty, get } from 'lodash-es'
 import { NoticeAtion } from '@/api/user/types'
 import { putReadNotices } from '@/api/user'
 import { useEffect, useState } from 'react'
+import { cn } from '@/lib/utils'
+import { ListLoading } from '@/components/loading'
+import EmptyData from '@/components/empty-data'
 interface Result {
   list: UserNotificationList[]
   noMore?: boolean
@@ -25,6 +28,7 @@ interface NoticeCardListProps {
 let start = 0
 let isReadNotice = true
 const NoticeCardList = ({ action }: NoticeCardListProps) => {
+  const [resultData, setResultData] = useState<boolean | undefined>()
   // const [isReadNotice, setIsReadNotice] = useState(false)
   const getLoadMoreList = async (): Promise<Result> => {
     start += 1
@@ -56,12 +60,21 @@ const NoticeCardList = ({ action }: NoticeCardListProps) => {
       manual: true,
       target: document,
       isNoMore: (d) => d?.noMore === true,
+      onError: (err) => {
+        // console.log('onError:', err)
+        setResultData(false);
+      },
+      onFinally: (data, e) => {
+        console.log('onFinally:', data, e)
+      },
       onSuccess: (data) => {
-        console.log('success-data$$:', data)
+        // console.log('success-data$$:', data)
         if (data.list[0].id && isReadNotice) {
           runAsync({ notification_id: data.list[0].id })
           isReadNotice = false
         }
+        setResultData(true);
+
       },
     })
   const reloadList = () => {
@@ -92,7 +105,7 @@ const NoticeCardList = ({ action }: NoticeCardListProps) => {
 
   return (
     <div>
-      {data?.list.map((item, index) => (
+      {resultData === true ? data?.list.map((item, index) => (
         <div className="mb-4" key={index} >
           <div className="px-4 py-2 border-b border-[#e5e5e5]">
             <div className="flex flex-row items-center">
@@ -120,7 +133,8 @@ const NoticeCardList = ({ action }: NoticeCardListProps) => {
             </div>
           </div>
         </div>
-      ))}
+      )) : resultData === false ? <EmptyData /> : (loading || loadingMore) && <ListLoading />
+      }
     </div>
   )
 }

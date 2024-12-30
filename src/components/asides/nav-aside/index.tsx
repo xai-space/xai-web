@@ -11,7 +11,7 @@ import { AiOutlineHome } from 'react-icons/ai'
 import { RiNotification3Fill } from 'react-icons/ri'
 import { FaCaretDown, FaRegUser } from 'react-icons/fa6'
 import { FaUser } from 'react-icons/fa6'
-
+import { BsPeople } from "react-icons/bs";
 import { useRouter } from 'next/router'
 import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
@@ -38,6 +38,16 @@ import { getUnreadNotices } from '@/api/user'
 import { useRequest } from 'ahooks'
 import { PostMenu } from '@/components/post-menu'
 import { GoHome, GoHomeFill } from 'react-icons/go'
+import { AiOutlinePicture } from "react-icons/ai";
+import { RiHome4Fill } from "react-icons/ri";
+import { RiHome4Line } from "react-icons/ri";
+import { BsFillPeopleFill } from "react-icons/bs";
+import { AiFillPicture } from "react-icons/ai";
+import { BiSolidUser } from "react-icons/bi";
+import { BiUser } from "react-icons/bi";
+import { TbSettings } from "react-icons/tb";
+import { TbSettingsFilled } from "react-icons/tb";
+import { MoreMenus } from './components/more-menus'
 interface Props {
   collapseSize?: keyof ReturnType<typeof useResponsive>
 }
@@ -74,41 +84,68 @@ export const NavAside = ({
     {
       title: t('home'),
       path: Routes.Main,
-      icon: <GoHome size={32} />,
-      iconActive: <GoHomeFill size={32} />,
+      icon: <RiHome4Line size={28} />,
+      iconActive: <RiHome4Fill size={28} />,
       isActive: pathname === Routes.Main,
     },
     {
-      title: t('Coin'),
-      path: Routes.Coin,
-      icon: <RiRocketLine size={32} />,
-      iconActive: <RiRocketFill size={32} />,
-      isActive: pathname === Routes.Coin,
+      title: t('nft-agent'),
+      path: Routes.NftAgent,
+      icon: <AiOutlinePicture size={28} />,
+      iconActive: <AiFillPicture size={28} />,
+      isActive: pathname === Routes.NftAgent,
     },
     {
-      title: 'AI Agent',
+      title: t('ai-agent'),
       path: sessionId
         ? `${Routes.AIChat}/${agentInfo?.agent_id}?sid=${sessionId}`
         : Routes.AIList,
-      icon: <RiRobot2Line size={32} />,
-      iconActive: <RiRobot2Fill size={32} />,
+      icon: <RiRobot2Line size={28} />,
+      iconActive: <RiRobot2Fill size={28} />,
       isActive: pathname.startsWith(Routes.AI),
     },
-
-    // {
-    //   title: t('award'),
-    //   path: Routes.Reward,
-    //   icon: <IoDiamondOutline />,
-    //   iconActive: <IoDiamond />,
-    //   isActive: pathname === Routes.Reward,
-    // },
+    {
+      title: t('coin'),
+      path: Routes.Coin,
+      icon: <RiRocketLine size={28} />,
+      iconActive: <RiRocketFill size={28} />,
+      isActive: pathname === Routes.Coin,
+    },
+    {
+      title: t('nav.community'),
+      path: Routes.Community,
+      icon: <BsPeople size={28} />,
+      iconActive: <BsFillPeopleFill size={28} />,
+      isActive: pathname === Routes.Community,
+    },
     {
       title: t('Notification'),
       id: 'notice',
       path: Routes.Notification,
-      icon: <RiNotification3Line size={32} />,
-      iconActive: <RiNotification3Fill size={32} />,
+      icon: <RiNotification3Line size={28} />,
+      iconActive: <RiNotification3Fill size={28} />,
       isActive: pathname === Routes.Notification,
+    },
+    {
+      title: t('profile'),
+      path: Routes.Profile,
+      icon: <BiUser size={28} />,
+      iconActive: <BiSolidUser size={28} />,
+      isActive: pathname === Routes.Profile,
+    },
+    {
+      title: t('setting'),
+      path: Routes.Setting,
+      icon: <TbSettings size={28} />,
+      iconActive: <TbSettingsFilled size={28} />,
+      isActive: pathname === Routes.Setting,
+    },
+    {
+      title: 'More',
+      path: '',
+      icon: <MoreMenus isCollapsed={true} />,
+      iconActive: <MoreMenus isCollapsed={true} />,
+      isActive: pathname === Routes.Setting,
     },
   ]
 
@@ -116,7 +153,7 @@ export const NavAside = ({
     setIsCollapsed(responsive[collapseSize])
   }, [responsive, collapseSize])
 
-  // console.log('xixoioox..')
+
 
   const { data: noticeCount } = useRequest(getUnreadNotices, {
     onSuccess: (data) => {
@@ -126,14 +163,14 @@ export const NavAside = ({
   return (
     <aside
       className={cn(
-        'flex flex-col space-y-4 w-52 pt-4 select-none relative h-screen justify-between',
+        'flex flex-col space-y-4 w-52 pt-2 select-none relative h-screen justify-between',
         isCollapsed && 'w-10 items-center',
         className
       )}
       {...props}
     >
       <div>
-        <div className="ml-4">
+        <div className="flex justent-end rounded-full">
           <Logo
             showMeme
             showLogo={!isCollapsed}
@@ -144,14 +181,14 @@ export const NavAside = ({
         </div>
         <div
           className={cn(
-            'pt-2 space-y-3 mt-5',
+            'pt-2 space-y-3',
             isCollapsed && 'mt-5 flex flex-col items-center'
           )}
         >
           <NavigationMenu className="grid grid-cols-1 mb-4  max-w-full">
             <NavigationMenuList
               className={cn(
-                'grid grid-cols-1 space-x-0 space-y-3',
+                'grid grid-cols-1 space-x-0',
                 isCollapsed && 'space-y-2'
               )}
             >
@@ -162,12 +199,15 @@ export const NavAside = ({
                 >
                   <NavigationMenuLink
                     className={cn(
-                      'text-lg  mb-4 relative flex justify-start rounded-full space-x-2  py-[22px] cursor-pointer font-normal hover:bg-[#e7e7e8]',
+                      'relative flex justify-start rounded-full py-[25px] cursor-pointer font-normal hover:bg-[#e7e7e8]',
                       n.isActive && 'font-semibold',
                       isCollapsed &&
-                        'border-[10px] space-x-0 p-0 justify-center text-xl'
+                      'border-[10px] space-x-0 p-0 justify-center text-xl'
                     )}
-                    onClick={() => router.push(n.path)}
+                    onClick={() => {
+                      if (n.path === '') return
+                      router.push(n.path)
+                    }}
                     title={n.title}
                   >
                     <div className="mr-[14px]">
@@ -187,7 +227,7 @@ export const NavAside = ({
                         </div>
                       )}
                     {!isCollapsed && (
-                      <span className="text-[#0f1419] block ml-[10px] text-xl">
+                      <span className="text-[#0f1419] block ml-[10px] text-[20px]">
                         {n.title}
                       </span>
                     )}
@@ -196,8 +236,8 @@ export const NavAside = ({
               ))}
             </NavigationMenuList>
           </NavigationMenu>
-
-          <div
+          {/* ---0-p-p */}
+          {/* <div
             className={cn(
               'flex justify-between items-center ml-[17px]',
               isCollapsed && 'flex-col justify-center space-x-0 space-y-2'
@@ -235,7 +275,7 @@ export const NavAside = ({
                   : 'bg-black text-white',
               }}
             />
-          </div>
+          </div> */}
 
           <PostMenu isCollapsed={isCollapsed} />
         </div>

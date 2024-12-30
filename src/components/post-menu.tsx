@@ -14,11 +14,12 @@ import { PublishPost } from './publish-post'
 import { toast } from 'sonner'
 import { useRouter } from 'next/router'
 import { Routes } from '@/routes'
+import { cn } from '@/lib/utils'
 
 interface PostMenuProps {
   isCollapsed: boolean
 }
-
+const fontStyle = 'cursor-pointer text-[15px] text-[#0f1419] font-semibold'
 export const PostMenu = ({ isCollapsed }: PostMenuProps) => {
   const { t } = useTranslation()
   const isLoggedIn = useIsLoggedIn()
@@ -33,14 +34,14 @@ export const PostMenu = ({ isCollapsed }: PostMenuProps) => {
     <>
       <DropdownMenu>
         <DropdownMenuTrigger className="w-full" asChild>
-          <Button className="ml-[1px]  w-[220px] max-xl:w-[120px] bg-black h-[54px] flex space-x-3 rounded-full">
-            <span className="text-xl">{t('post')}</span>
+          <Button className="w-[220px] max-xl:w-[120px] bg-black h-[52px] flex space-x-3 rounded-full">
+            <span className="text-[17px] font-semibold">{t('post')}</span>
             <FaCaretDown />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="border-[#e5e5e5]">
           <DropdownMenuItem
-            className="cursor-pointer"
+            className={cn(fontStyle)}
             onClick={() => {
               if (isLoggedIn) {
                 setShow(true)
@@ -52,19 +53,19 @@ export const PostMenu = ({ isCollapsed }: PostMenuProps) => {
             {t('publish.post')}
           </DropdownMenuItem>
           <DropdownMenuItem
-            className="cursor-pointer"
+            className={cn(fontStyle)}
             onClick={() => toCreatePage('0')}
           >
             {t('create.token')}
           </DropdownMenuItem>
           <DropdownMenuItem
-            className="cursor-pointer"
+            className={cn(fontStyle)}
             onClick={() => toCreatePage('1')}
           >
             {t('create.agent.token')}
           </DropdownMenuItem>
           <DropdownMenuItem
-            className="cursor-pointer"
+            className={cn(fontStyle)}
             onClick={() => toCreatePage('2')}
           >
             {t('create.nft-agent.token')}

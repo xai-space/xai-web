@@ -46,6 +46,8 @@ export const NotificationPage = () => {
     setCurrentValue(value)
   }
   useEffect(() => {
+    const container = document.querySelector('.scroll-container')
+
     const handleScroll = () => {
       if (window.scrollY >= 100) {
         setIsBlurred(true)
@@ -54,10 +56,10 @@ export const NotificationPage = () => {
       }
     }
 
-    window.addEventListener('scroll', handleScroll)
+    container?.addEventListener('scroll', handleScroll)
 
     return () => {
-      window.removeEventListener('scroll', handleScroll)
+      container?.removeEventListener('scroll', handleScroll)
     }
   }, [])
 

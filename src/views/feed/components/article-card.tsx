@@ -127,7 +127,9 @@ const ArticleCard = ({ article, onDeleted, onEdited }: Props) => {
       }
       status = status ? 0 : 1
     } catch (error: any) {
+      console.error("like-error:", error.status)
       if (error.status === 401) {
+        
         toast.error("Please connect wallet first")
       }
     }

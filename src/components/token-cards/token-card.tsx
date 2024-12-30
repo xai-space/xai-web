@@ -109,8 +109,12 @@ export const TokenCard = ({
 
   return (
     <Card
+      clip={'none'}
+      conPadding={'none'}
+      conBackground={'none'}
+      conAnimate={'none'}
       className={cn(
-        'flex items-stretch overflow-hidden gap-2 relative max-sm:gap-0',
+        ' flex items-stretch overflow-hidden cursor-pointer gap-2 relative max-sm:gap-0',
         className
       )}
       onClick={(e) => {
@@ -118,8 +122,7 @@ export const TokenCard = ({
         onClick?.(e)
       }}
       // shadow={card.is_active ? 'default' : 'none'}
-      clip={'sm'}
-      conPadding={'sm'}
+
       {...props}
     >
       <TokenCardBadge token={card} isGraduated={isGraduated!} />
