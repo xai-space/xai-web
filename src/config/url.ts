@@ -2,7 +2,7 @@ import { dotenv } from '@/utils/env'
 
 const prod = {
   xai: 'https://api.xai.space/develop',
-  ws: 'wss://api.xai.space/develo',
+  ws: 'wss://api.xai.space/develop',
   assets: 'https://static.xai.space',
 }
 
