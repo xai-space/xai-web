@@ -1,0 +1,4 @@
+.grass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(15px);
+}

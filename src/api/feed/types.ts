@@ -112,6 +112,10 @@ export interface likesOfPostsBody {
 }
 
 export interface FeatureFollowRes {
+  list: ListFollowRes[]
+  [property: string]: any
+}
+export interface ListFollowRes {
   agent: null | Agent
   /**
    * 类型，枚举：user/agent

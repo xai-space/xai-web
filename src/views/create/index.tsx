@@ -8,6 +8,7 @@ import { AICreateMemecoinDialogLoading } from '@/components/ai-create-memecoin-d
 import { PrimaryLayout } from '@/components/layouts/primary'
 import { CreateTokenProvider } from '@/contexts/create-token'
 import { cn } from '@/lib/utils'
+
 import { CreateTokenTitle } from './components/title'
 // import { NewsAsideMobile } from '@/components/asides/news-aside'
 import { useGenAIIdea } from '@/hooks/use-gen-ai-idea'
@@ -37,6 +38,7 @@ export const CreatePage = () => {
         ...newsListData,
       }}
     >
+    <div>
       <div
         className={cn(
           'flex-1 pb-5 max-md:order-1 max-md:border-l-0 max-md:ml-0 max-md:pl-0',
@@ -71,6 +73,8 @@ export const CreatePage = () => {
       <CreateTokenStatusDialog />
 
       <AICreateMemecoinDialogLoading />
+    </div>
+     
     </CreateTokenProvider>
   )
 }

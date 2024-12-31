@@ -65,7 +65,7 @@ export const NavAside = ({
   const responsive = useResponsive()
   const { setNoticeCount, noticeCount } = useChartStore()
   const [isCollapsed, setIsCollapsed] = useState(responsive[collapseSize])
-
+  const [isOpenMoreMenus, setIsOpenMoreMenus] = useState(false)
   const { agentInfo, sessionId } = useAIAgentStore()
 
   const userNavs = [
@@ -145,7 +145,7 @@ export const NavAside = ({
     {
       title: 'More',
       path: '',
-      icon: <MoreMenus isCollapsed={true} />,
+      icon: <MoreMenus isCollapsed={true} isOpen={isOpenMoreMenus} setIsOpen={setIsOpenMoreMenus} />,
       iconActive: <MoreMenus isCollapsed={true} />,
       isActive: pathname === Routes.Setting,
     },
@@ -156,13 +156,6 @@ export const NavAside = ({
   }, [responsive, collapseSize])
 
 
-  // useChartStore().setNoticeCount()
-  // setNoticeCount()
-  // const { data: noticeCount } = useRequest(getUnreadNotices, {
-  //   onSuccess: (data) => {
-  //     // console.log('noticeCount:', data)
-  //   },
-  // })
   return (
     <aside
       className={cn(
@@ -194,6 +187,7 @@ export const NavAside = ({
                 'grid grid-cols-1 space-x-0',
                 isCollapsed && 'space-y-2'
               )}
+
             >
               {navs.map((n, i) => (
                 <NavigationMenuItem
@@ -208,7 +202,11 @@ export const NavAside = ({
                       'border-[10px] space-x-0 p-0 justify-center text-xl'
                     )}
                     onClick={() => {
-                      if (n.path === '') return
+                      if (n.path === '') {
+                        // openMoreMenus()
+                        setIsOpenMoreMenus(true)
+                        return 
+                      }
                       router.push(n.path)
                     }}
                     title={n.title}
