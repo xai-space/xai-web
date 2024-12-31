@@ -21,7 +21,7 @@ const FeatureFollow = () => {
       const res = await feedApi.getFeatureFollow()
       let list = []
       for (const item of res.data?.list) {
-        let id = item.user ? item.user.user_id : item.agent.agent_id
+        let id = item.user ? item.user.user_id : item.agent?.agent_id
         list.push({
           ...item[item.category],
           category: item.category,

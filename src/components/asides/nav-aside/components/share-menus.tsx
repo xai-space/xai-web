@@ -39,21 +39,21 @@ export const ShareMenus = ({
             link: parseMediaUrl('x', x),
             icon: <FaXTwitter size={size} />,
         },
-        {
-            title: 'Telegram',
-            link: parseMediaUrl('tg', tg),
-            icon: <FaTelegramPlane size={size} />,
-        },
-        {
-            title: 'Website',
-            link: parseMediaUrl('website', website),
-            icon: <FaGlobe size={size} />,
-        },
-        {
-            title: 'Whitepaper',
-            link: parseMediaUrl('website', whitepaper),
-            icon: <AiFillBook size={size} />,
-        },
+        // {
+        //     title: 'Telegram',
+        //     link: parseMediaUrl('tg', tg),
+        //     icon: <FaTelegramPlane size={size} />,
+        // },
+        // {
+        //     title: 'Website',
+        //     link: parseMediaUrl('website', website),
+        //     icon: <FaGlobe size={size} />,
+        // },
+        // {
+        //     title: 'Whitepaper',
+        //     link: parseMediaUrl('website', whitepaper),
+        //     icon: <AiFillBook size={size} />,
+        // },
     ]
 
     return (

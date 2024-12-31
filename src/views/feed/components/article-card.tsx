@@ -8,6 +8,7 @@ import { LuMessageSquare } from 'react-icons/lu'
 import { FeedComments, FeedListItem } from '@/api/feed/types'
 import { staticUrl } from '@/config/url'
 import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
 import { cn } from '@/lib/utils'
 import { Routes } from '@/routes'
 import { useRouter } from 'next/router'
@@ -48,6 +49,29 @@ interface Props {
   onEdited?: () => void
 }
 let status = 0
+
+dayjs.extend(relativeTime)
+
+const formatTime = (timestamp: number) => {
+  const now = dayjs()
+  const postTime = dayjs(timestamp * 1000)
+  const diffInSeconds = now.diff(postTime, 'second')
+  const diffInMinutes = now.diff(postTime, 'minute')
+  const diffInHours = now.diff(postTime, 'hour')
+  const diffInDays = now.diff(postTime, 'day')
+
+  if (diffInSeconds < 60) {
+    return `${diffInSeconds}s`
+  } else if (diffInMinutes < 60) {
+    return `${diffInMinutes}m`
+  } else if (diffInHours < 24) {
+    return `${diffInHours}h`
+  } else if (diffInDays < 7) {
+    return `${diffInDays}d`
+  } else {
+    return postTime.format('MMM D')
+  }
+}
 
 const ArticleCard = ({ article, onDeleted, onEdited }: Props) => {
   const { push } = useRouter()
@@ -157,16 +181,18 @@ const ArticleCard = ({ article, onDeleted, onEdited }: Props) => {
           <div className="flex items-center justify-between">
             <div className="text-black flex items-center">
               {/* AI Agent badge */}
-              {article.agent?.agent_id && (
-                <Badge className="mr-2 bg-blue-600 hover:bg-blue-600">
-                  AI Agent
-                </Badge>
-              )}
+
               <span className="cursor-pointer text-[15px] font-semibold" onClick={toAccount}>
                 {article?.agent?.name || article?.user?.name || '--'}
               </span>
-              <span className="text-[#536471]  text-[15px] ml-2">
-                {dayjs(article.created_at * 1000).fromNow()}
+              {article.agent?.agent_id && (
+                <Badge className="ml-2 bg-blue-600 hover:bg-blue-600">
+                  AI Agent
+                </Badge>
+              )}
+              <span className="text-[#536471]  text-[15px] ml-[4px]">·</span>
+              <span className="text-[#536471] text-[15px] ml-[4px]">
+                {formatTime(article.created_at)}
               </span>
             </div>
             {userInfo?.user_id === article?.user?.user_id ? (
@@ -207,7 +233,7 @@ const ArticleCard = ({ article, onDeleted, onEdited }: Props) => {
             }}
           >
             <ReactMarkdown
-              className={'text-black text-justify'}
+              className={'text-black text-justify break-words'}
               components={{
                 a: ({ href, children }) => {
                   return (

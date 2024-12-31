@@ -4,12 +4,8 @@ import { FaHillAvalanche } from 'react-icons/fa6'
 import { tokenApi } from '@/api/token'
 import { useRequest } from 'ahooks'
 import { getTokenProgress } from '@/utils/contract'
-import { useRouter } from 'next/router'
-import { Routes } from '@/routes'
 
-
-const NewLanches = () => {
-  const { push } = useRouter();
+const LanchesCardList = () => {
   const { data, loading, error } = useRequest(async () => {
     const res = await tokenApi.getList({ page: 1, page_size: 4 })
 
@@ -41,8 +37,7 @@ const NewLanches = () => {
   }
 
   return (
-    <div className="border-[#e5e5e5] border-[1px] w-[348px] rounded-[16px] pt-4 overflow-hidden">
-      <p className="font-semibold text-[20px] px-4 mb-3">New Lanches</p>
+    <div className=" rounded-[16px] pt-4 overflow-hidden">
       {data?.results && data.results.length > 0 ? (
         data.results.map((item, index) => (
           <div key={item.id} className="flex items-center flex-row w-full px-4 py-[8px] hover:bg-[#f5f5f5]">
@@ -74,9 +69,9 @@ const NewLanches = () => {
       ) : (
         <div>No data available</div>
       )}
-      <div onClick={() => push(Routes.FeatureLanches)} className='text-[#1d9bf0] text-left text-[15px] py-[14px] pl-4 hover:bg-[#f5f5f5] cursor-pointer'>Show more</div>
+
     </div>
   )
 }
 
-export default NewLanches
+export default LanchesCardList

@@ -32,7 +32,7 @@ export const tokenApi = {
       body: req,
     })
   },
-  getList: (req: TokenListReq & { search?: string }) => {
+  getList: (req: TokenListReq & { search?: string } & any) => {
     return api.GET<ApiResponse<PaginationRes<TokenListItem>>>(
       '/api/v2/coins/list' + qs.stringify(req)
     )

@@ -20,6 +20,7 @@ export interface TokenListItem {
   description: string
   factory_address: string
   graduated_eth: null
+  graduated: boolean
   graduated_master: null
   graduated_pool: null
   graduated_token: null
@@ -57,6 +58,7 @@ export interface TokenListItem {
   telegram: string;
   total_supply: string;
   twitter: string;
+  [property: string]: any;
 }
 
 
