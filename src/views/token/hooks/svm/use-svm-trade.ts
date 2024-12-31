@@ -22,10 +22,8 @@ import { zeroAddress } from 'viem'
 import { WALLET_ERR } from '@/errors/wallet'
 import { useDynamicWallet } from '@/hooks/dynamic/use-dynamic-wallet'
 import { useSvmTradeAmount } from './use-trade-amount'
-import { useTokenContext } from '@/contexts/token'
 
-export const useSvmTrade = (onSuccess?: VoidFunction) => {
-  const { tokenAddr } = useTokenContext()
+export const useSvmTrade = (onSuccess?: VoidFunction, tokenAddr?: string) => {
   const { primaryWallet } = useDynamicContext()
   const { currentNetwork: network } = useDynamicWallet()
   const { getTokenAmount, getReserveAmount } = useSvmTradeAmount(tokenAddr)
