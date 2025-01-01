@@ -152,36 +152,10 @@ export const masterAbi = [{
 },
 {
     "inputs": [],
-    "name": "amount",
-    "outputs": [
-        {
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-        }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-},
-{
-    "inputs": [],
     "name": "bond",
     "outputs": [
         {
             "internalType": "address",
-            "name": "",
-            "type": "address"
-        }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-},
-{
-    "inputs": [],
-    "name": "crocSwapDex",
-    "outputs": [
-        {
-            "internalType": "contract ICrocSwapDex",
             "name": "",
             "type": "address"
         }
@@ -221,19 +195,6 @@ export const masterAbi = [{
         }
     ],
     "stateMutability": "payable",
-    "type": "function"
-},
-{
-    "inputs": [],
-    "name": "factory",
-    "outputs": [
-        {
-            "internalType": "address",
-            "name": "",
-            "type": "address"
-        }
-    ],
-    "stateMutability": "view",
     "type": "function"
 },
 {
@@ -289,43 +250,6 @@ export const masterAbi = [{
             "internalType": "address",
             "name": "",
             "type": "address"
-        }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-},
-{
-    "inputs": [
-        {
-            "internalType": "address",
-            "name": "tokenA",
-            "type": "address"
-        },
-        {
-            "internalType": "address",
-            "name": "tokenB",
-            "type": "address"
-        }
-    ],
-    "name": "pairFor",
-    "outputs": [
-        {
-            "internalType": "address",
-            "name": "pair",
-            "type": "address"
-        }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-},
-{
-    "inputs": [],
-    "name": "price",
-    "outputs": [
-        {
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
         }
     ],
     "stateMutability": "view",
@@ -414,13 +338,6 @@ export const masterAbi = [{
     "type": "function"
 },
 {
-    "inputs": [],
-    "name": "swapBERA",
-    "outputs": [],
-    "stateMutability": "payable",
-    "type": "function"
-},
-{
     "inputs": [
         {
             "internalType": "address",
@@ -461,19 +378,6 @@ export const masterAbi = [{
 },
 {
     "inputs": [],
-    "name": "wbera",
-    "outputs": [
-        {
-            "internalType": "address",
-            "name": "",
-            "type": "address"
-        }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-},
-{
-    "inputs": [],
     "name": "withdraw",
     "outputs": [],
     "stateMutability": "payable",
@@ -488,7 +392,7 @@ export const masterAbi = [{
         },
         {
             "internalType": "uint256",
-            "name": "amount",
+            "name": "amounts",
             "type": "uint256"
         }
     ],

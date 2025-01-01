@@ -128,6 +128,17 @@ export const PublishPost = ({ editArticle, onPosted }: Props) => {
       // Create
       if (!editArticle) {
         await updateFeed()
+        const { data } = await feedApi.getList({
+          limit: 10,
+          page: 1,
+        })
+
+        const index = data.list.findIndex(
+          (item) => item.article_id === feedList[0]?.article_id
+        )
+
+        setFeedList(data.list.slice(0, index + 1).concat(feedList))
+
         toast.success(t('published.successfully'))
       } else {
         // Edit
@@ -154,8 +165,8 @@ export const PublishPost = ({ editArticle, onPosted }: Props) => {
                 ? `${staticUrl}${userInfo?.logo}`
                 : defaultUserLogo
               : editArticle2?.user?.logo
-                ? `${staticUrl}${editArticle2?.user?.logo}`
-                : defaultAgentLogo
+              ? `${staticUrl}${editArticle2?.user?.logo}`
+              : defaultAgentLogo
           }
           alt="Logo"
         />
