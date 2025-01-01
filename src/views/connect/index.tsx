@@ -1,7 +1,7 @@
 import { use, useEffect, useState, type ReactNode } from 'react'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
 import { PrimaryLayout } from '@/components/layouts/primary'
-import NoticeCardList from './components/notice-card-list'
+import ConnectCardList from './components/connect-card-list'
 import { useTranslation } from 'react-i18next'
 import { IoArrowBackSharp } from "react-icons/io5";
 import { NoticeAtion } from '@/api/user/types'
@@ -81,7 +81,7 @@ export const ConnectPage = () => {
         </div>
       </div>
       <div>
-        <NoticeCardList action={'all'} />
+        <ConnectCardList action={'all'} />
         {/* {navList.map((item, index) => (
           <div key={index}>
             {item.value === currentValue && (

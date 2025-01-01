@@ -143,7 +143,7 @@ export const NavAside = ({
       isActive: pathname === Routes.Setting,
     },
     {
-      title: 'More',
+      title: t('nav.more'),
       path: '',
       icon: <MoreMenus isCollapsed={true} isOpen={isOpenMoreMenus} setIsOpen={setIsOpenMoreMenus} />,
       iconActive: <MoreMenus isCollapsed={true} />,
@@ -205,7 +205,11 @@ export const NavAside = ({
                       if (n.path === '') {
                         // openMoreMenus()
                         setIsOpenMoreMenus(true)
-                        return 
+                        return
+                      }
+                      if (n.path === Routes.Profile) {
+                        router.push(`${Routes.Account}/${userInfo?.user_id}?t=${UserCategory.User}`)
+                        return
                       }
                       router.push(n.path)
                     }}

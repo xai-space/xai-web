@@ -25,7 +25,7 @@ export interface UserUpdateReq {
   wallet_address?: string
 }
 
-export interface UserInfoRes extends UserInfo {}
+export interface UserInfoRes extends UserInfo { }
 export interface UserMyInfoFollow {
   id: number
   name: string
@@ -73,7 +73,10 @@ export interface UserListRes {
   [UserListType.Followers]: UserFollow
   [UserListType.Following]: UserFollow
 }
+export interface list {
+  list: FollowItem[]
 
+}
 export interface FollowItem {
   user_id?: string
   agent_id?: string
@@ -81,6 +84,8 @@ export interface FollowItem {
   logo?: string
   description?: string
   is_followed?: boolean
+  is_be_followed?: boolean
+  token_id?: string
 }
 export interface FollowerItem {
   user_id?: string
@@ -98,6 +103,12 @@ export enum UserCategory {
 
 export interface UserFollowsReq {
   category: UserCategory
+  user_id?: string
+  limit?: number
+  page?: number
+}
+
+export interface UserFollowersReq {
   user_id?: string
   limit?: number
   page?: number

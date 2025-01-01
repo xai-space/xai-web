@@ -33,7 +33,7 @@ interface NoticeCardListProps {
 }
 let start = 0
 let isReadNotice = true
-const NoticeCardList = ({ action }: NoticeCardListProps) => {
+const ConnectCardList = ({ action }: NoticeCardListProps) => {
   const { query, push } = useRouter()
   const [resultData, setResultData] = useState<boolean | undefined>()
   const { clearNoticeCount } = useChartStore()
@@ -101,4 +101,4 @@ const NoticeCardList = ({ action }: NoticeCardListProps) => {
   )
 }
 
-export default NoticeCardList
+export default ConnectCardList

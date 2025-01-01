@@ -32,4 +32,5 @@ export enum Routes {
   ConnectPage = '/connect',
   FeatureLanches = '/feature-lanches',
   Notification = '/notification',
+  FollowList = '/follow-list',
 }
