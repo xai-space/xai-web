@@ -1,4 +1,4 @@
-export const tokenAbi = [{
+export const tokenAbi0_1_0 = [{
     "inputs": [
         {
             "internalType": "string",

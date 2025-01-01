@@ -1,4 +1,4 @@
-export const bondingCurveAbi = [{
+export const bcAbi0_1_0 = [{
     "inputs": [],
     "stateMutability": "nonpayable",
     "type": "constructor"

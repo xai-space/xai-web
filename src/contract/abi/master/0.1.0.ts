@@ -1,4 +1,4 @@
-export const masterAbi = [{
+export const masterAbi0_1_0 = [{
     "inputs": [
         {
             "internalType": "address",

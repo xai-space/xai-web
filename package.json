@@ -2,10 +2,9 @@
   "name": "front-xai",
   "version": "0.1.0",
   "private": true,
-  "type": "module",
   "scripts": {
-    "dev": "next dev --turbo",
-    "dev-https": "next dev --experimental-https --turbo",
+    "dev": "next dev",
+    "dev-https": "next dev --experimental-https",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -58,6 +57,7 @@
     "@solana/wallet-adapter-base": "0.9.x",
     "@solana/wallet-adapter-react": "0.15.35",
     "@solana/wallet-adapter-wallets": "0.19.x",
+    "@solana/web3.js": "^1.98.0",
     "@tanstack/react-query": "^5.37.1",
     "@tanstack/react-table": "^8.17.3",
     "@types/nprogress": "^0.2.3",
@@ -107,7 +107,11 @@
     "viem": "^2.11.1",
     "wagmi": "^2.9.2",
     "zod": "^3.23.8",
-    "zustand": "^4.5.2"
+    "zustand": "^4.5.2",
+    "crypto-browserify": "^3.12.0",
+    "stream-browserify": "^3.0.0",
+    "process": "^0.11.10",
+    "webpack": "^5.0.0"
   },
   "devDependencies": {
     "@inquirer/prompts": "^5.4.0",
@@ -119,6 +123,10 @@
     "@types/uuid": "^10.0.0",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "typescript": "^5",
+    "@babel/core": "^7.24.0",
+    "@babel/plugin-transform-modules-commonjs": "^7.24.0",
+    "@babel/preset-env": "^7.24.0",
+    "babel-loader": "^9.1.3"
   }
 }
