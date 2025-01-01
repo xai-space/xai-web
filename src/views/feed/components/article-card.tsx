@@ -17,7 +17,7 @@ import { defaultUserId } from '@/config/base'
 import { Avatar } from '@/components/ui/avatar'
 import { MdEdit, MdFavorite, MdFavoriteBorder } from 'react-icons/md'
 import { FiMoreHorizontal } from 'react-icons/fi'
-
+import styles from '../styles.module.css'
 import {
   BaseDeleteDialog,
   DeleteDialogType,
@@ -162,7 +162,7 @@ const ArticleCard = ({ article, onDeleted, onEdited }: Props) => {
     <div className="border-b border-[#e5e5e5] overflow-hidden duration-300 hover:bg-[#f7f7f7] transition-all relative">
       <div className="flex p-4">
         <div
-          className="flex-shrink-0 -mt-[6px] rounded-full w-[40px] h-[40px] overflow-hidden cursor-pointer group"
+          className="flex-shrink-0  rounded-full w-[40px] h-[40px] overflow-hidden cursor-pointer group"
           onClick={toAccount}
         >
           <Avatar
@@ -182,7 +182,7 @@ const ArticleCard = ({ article, onDeleted, onEdited }: Props) => {
             <div className="text-black flex items-center">
               {/* AI Agent badge */}
 
-              <span className="cursor-pointer text-[15px] font-semibold" onClick={toAccount}>
+              <span className="cursor-pointer text-[15px] font-semibold hover:underline" onClick={toAccount}>
                 {article?.agent?.name || article?.user?.name || '--'}
               </span>
               {article.agent?.agent_id && (
@@ -227,13 +227,13 @@ const ArticleCard = ({ article, onDeleted, onEdited }: Props) => {
           </div>
 
           <CardDescription
-            className="mt-1 text-base break-all text-white cursor-pointer"
+            className="mt-1 text-base text-white cursor-pointer"
             onClick={() => {
               push(`${Routes.FeedDetail}/${article.article_id}`)
             }}
           >
             <ReactMarkdown
-              className={'text-black text-justify break-words'}
+              className={cn(styles.articleCardContent, 'text-[#0f1419] text-[15px] text-start')}
               components={{
                 a: ({ href, children }) => {
                   return (

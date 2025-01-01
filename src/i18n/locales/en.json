@@ -871,5 +871,6 @@
   "select.chain": "Select Chain",
   "agent.personality": "Characteristics of the Agent's personality",
   "ai.identify.image": "Characteristics of personality are being generated based on NFTs",
-  "swap.input.mint.not.match": "Swap input mint not match"
+  "swap.input.mint.not.match": "Swap input mint not match",
+  "nav.more": "More"
 }

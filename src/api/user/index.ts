@@ -17,6 +17,9 @@ import type {
   NoticeAtion,
   Count,
   ReadNoticesBody,
+  FollowList,
+  list,
+  UserFollowersReq,
 } from './types'
 
 export const userApi = {
@@ -53,13 +56,13 @@ export const userApi = {
   },
 
   getFollows: (req: UserFollowsReq) => {
-    return api.GET<ApiResponse<FollowItem[]>>(
+    return api.GET<ApiResponse<list>>(
       `/agent/v1/playground/user/follow${qs.stringify(req)}`
     )
   },
 
-  getFollowers: (req: UserFollowsReq) => {
-    return api.GET<ApiResponse<FollowItem[]>>(
+  getFollowers: (req: UserFollowersReq) => {
+    return api.GET<ApiResponse<list>>(
       `/agent/v1/playground/user/follower${qs.stringify(req)}`
     )
   },

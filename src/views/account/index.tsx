@@ -41,7 +41,6 @@ export const AccountPage = () => {
         isPending: false,
         isOtherUser: userInfo?.user_id !== userId,
         isAgent: query.t === UserCategory.Agent,
-        // followers: agentFollowers,
         followingResults: () => { },
         refetchFollow: () => { },
         refetchUserInfo: () => { },
