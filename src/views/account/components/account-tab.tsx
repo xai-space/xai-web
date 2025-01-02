@@ -78,107 +78,52 @@ export const AccountTab = () => {
   // } = useUserList(Number(tab), isOtherUser)
 
   return (
-    <Tabs
-      className="w-full mt-0 max-sm:mt-0 max-lg:px-3"
-      value={tab}
-      onValueChange={(value) => {
-        if (!query.uid) return
-        router.push(
-          {
-            pathname: joinPaths(Routes.Account, query.uid as string),
-            query: { tab: value, t: query.t },
-          },
-          undefined,
-          { shallow: true }
-        )
-      }}
-    >
-      <TabsList
-        className={cn(
-          'h-12 mb-2 max-sm:w-full max-sm:h-10 max-sm:mb-0',
-          'border-none rounded-none text-base select-none'
-        )}
-      >
-        {tabs.map((t) => (
-          <TabsTrigger
-            className={cn(
-              'h-full w-full text-gray-400 max-sm:px-2 max-sm:text-xs',
-              ' data-[state=active]:text-black data-[state=active]:bg-background',
-              'data-[state=active]:hover:bg-transparent hover:bg-transparent relative',
-              'after:absolute hover:after:w-full after:h-[2px] after:bg-purple-500 after:bottom-0 after:left-0 after:hover:animate-left-to-right',
-              isShowBorder &&
-              'data-[state=active]:after:absolute data-[state=active]:after:animate-left-to-right data-[state=active]:after:w-full'
-            )}
-            key={t.value}
-            value={t.value.toString()}
-            onMouseEnter={() => setIsShowBorder(false)}
-            onMouseLeave={() => setIsShowBorder(true)}
-            onClick={() => {
-              setPostsList([])
-            }}
-          >
-            {t.label}
-          </TabsTrigger>
-        ))}
-      </TabsList>
-
-      {/* Token created */}
-      {/* <TabsContent value={UserListType.CoinsCreated.toString()}>
-        <TokenCards
-          className="md:grid-cols-2 xl:grid-cols-3"
-          cards={myTokens}
-          total={myTokenTotal}
-          isLoading={isLoadingMyTokens}
-          isPending={isFetchingMyTokens}
-          onFetchNext={fetchNextMyTokens}
-          showSearch={false}
-        />
-      </TabsContent> */}
-      {/* Token held */}
-      {/* <TabsContent value={UserListType.CoinsHeld.toString()}>
-        <TokenHeldCards
-          cards={tokenHeld.list}
-          total={tokenHeld.total}
-          isLoading={isLoading}
-          isPending={isFetching}
-          onFetchNext={fetchNextPage}
-        />
-      </TabsContent> */}
+    <div className="w-full mt-0 max-sm:mt-0 max-lg:px-3">
+      <div className='border-b border-[#e5e5e5]'>
+        <div className={cn(
+          'h-12 max-sm:w-full max-sm:h-10 max-sm:mb-0',
+          'border-none rounded-none text-base select-none flex justify-start'
+        )}>
+          {tabs.map((t) => (
+            <button
+              key={t.value}
+              className={cn(
+                'h-full px-8 text-[#536471] max-sm:px-2 max-sm:text-xs',
+                'hover:bg-[#e7e7e7] relative transition-colors duration-200',
+                tab === t.value.toString() && 'text-[#0f1419] bg-background',
+                'after:absolute after:h-[4px] after:rounded-full after:bg-[#1d9bf0] after:bottom-0 after:left-0 after:w-0',
+                tab === t.value.toString() && 'after:w-[60%] after:left-[20%]'
+              )}
+              onClick={() => {
+                setPostsList([])
+                if (!query.uid) return
+                router.push(
+                  {
+                    pathname: joinPaths(Routes.Account, query.uid as string),
+                    query: { tab: t.value, t: query.t },
+                  },
+                  undefined,
+                  { shallow: true }
+                )
+              }}
+            >
+              {t.label}
+            </button>
+          ))}
+        </div>
+      </div>
 
       {/* My Agent */}
-      <TabsContent value={UserListType.Agent.toString()}>
+      {tab === UserListType.Agent.toString() && (
         <AgentCardList isAll={false} />
-      </TabsContent>
+      )}
+
       {/* Published Posts */}
-      <TabsContent value={UserListType.PublishedPosts.toString()}>
+      {tab === UserListType.PublishedPosts.toString() && (
         <AgentUserInfo className="mx-0 !w-full max-w-full" isMy={true} />
-      </TabsContent>
-      {/* Only self can see. */}
-      {/* {!isOtherUser && (
-        <>
-          <TabsContent value={UserListType.Comments.toString()}>
-            <CommentCards
-              disableToProfile
-              readonly
-              cards={comments.list}
-              total={comments.total}
-              isLoading={isLoading}
-              isPending={isFetching}
-              onFetchNext={fetchNextPage}
-            />
-          </TabsContent>
-          <TabsContent value={UserListType.Mentions.toString()}>
-            <MentionCards
-              cards={mentions.list}
-              total={mentions.total}
-              isLoading={isLoading}
-              isPending={isFetching}
-              onFetchNext={fetchNextPage}
-            />
-          </TabsContent>
-        </>
-      )} */}
-    </Tabs>
+      )}
+
+    </div>
   )
 }
 

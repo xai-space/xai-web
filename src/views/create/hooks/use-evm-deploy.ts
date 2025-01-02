@@ -4,7 +4,7 @@ import { Address, formatEther, parseEther, parseEventLogs } from 'viem'
 import { useBalance, useReadContract, useWriteContract } from 'wagmi'
 
 import { BI_ZERO } from '@/constants/number'
-// import { bcAbiMap } from '@/contract/abi/bonding-curve'
+import { bcAbiMap } from '@/contract/abi/bonding-curve'
 import { CONTRACT_ERR } from '@/errors/contract'
 import { useWaitForTx } from '@/hooks/use-wait-for-tx'
 import { parseHash } from '@/utils/contract'
@@ -14,7 +14,7 @@ import { useInvite } from '@/hooks/use-invite'
 import { useDynamicContext } from '@dynamic-labs/sdk-react-core'
 import { deployEvmAirdropParams } from '@/config/deploy'
 
-interface EvmDeployParams {
+export interface EvmDeployParams {
   tokenId: string
 }
 
@@ -25,8 +25,7 @@ export const useEvmDeploy = (chainName: string, onFinally?: () => void) => {
   })
   const { configValue, bcAddress, bcVersion } = useTokenConfig(chainName)
   const bcConfig = {
-    // abi: bcAbiMap[bcVersion!],
-    abi: [],
+    abi: bcAbiMap[bcVersion],
     address: bcAddress!,
     chainId: Number(network),
   } as const
@@ -42,6 +41,7 @@ export const useEvmDeploy = (chainName: string, onFinally?: () => void) => {
     functionName: 'maxBuy_',
     query: { enabled: !!bcAddress },
   })
+
   const buyAmoutMax = formatEther(maxBuy_)
 
   const {
@@ -99,12 +99,19 @@ export const useEvmDeploy = (chainName: string, onFinally?: () => void) => {
     tokenId,
     buyAmount,
   }: DeployFormParams & EvmDeployParams) => {
+
     if (!checkForDeploy()) return
     const totalDeployFee = BigNumber(deployFee.toString())
       .plus(parseEther(buyAmount).toString())
       .toFixed()
 
+
     const [parent, gparent] = await getReferrals()
+
+    console.log('parent', parent)
+    console.log('gparent', gparent)
+
+    console.log('bcConfig', bcConfig)
 
     writeContract({
       ...bcConfig,
@@ -114,7 +121,7 @@ export const useEvmDeploy = (chainName: string, onFinally?: () => void) => {
         [parent as Address, gparent as Address],
         [name, symbol],
         [parseHash(tokenId)],
-        deployEvmAirdropParams,
+        // deployEvmAirdropParams,
       ],
       value: BigInt(totalDeployFee),
     })

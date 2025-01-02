@@ -109,6 +109,7 @@ export const formatHash = (value: bigint, with0x = true) => {
  * ```
  */
 export const parseHash = (value: string) => {
+  console.log('parseHash', value)
   value = value.startsWith('0x') ? value.slice(2) : value
   const [hex] = addPrefix0x(value.padStart(64, '0'))
   return BigInt(hex)

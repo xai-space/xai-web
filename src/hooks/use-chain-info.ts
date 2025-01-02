@@ -13,6 +13,7 @@ export const useChainInfo = (chainName_: string | null | undefined) => {
 
   const chianInfo = useMemo(() => {
     const chain = chainsMap[chainName_ || '']
+
     const chainName = chain?.id || ''
     const chainId = Number(chain?.id || 0)
     const configChainId = chainId as ConfigChainId
@@ -30,6 +31,7 @@ export const useChainInfo = (chainName_: string | null | undefined) => {
 
   return {
     ...chianInfo,
+    chainId: 97,
     getChainId,
   }
 }

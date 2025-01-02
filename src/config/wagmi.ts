@@ -38,7 +38,7 @@ const dev = {
     [sepolia.id]: fallback([http(), unstable_connector(injected)]),
     [bscTestnet.id]: fallback([
       http(
-        'https://polished-old-valley.bsc-testnet.quiknode.pro/af2b2e4daee6f862aaff645c537377f3d4605d79/'
+        'https://bsc-testnet-rpc.publicnode.com'
       ),
       http(),
       unstable_connector(injected),

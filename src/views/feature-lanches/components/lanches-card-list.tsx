@@ -7,7 +7,7 @@ import { getTokenProgress } from '@/utils/contract'
 
 const LanchesCardList = () => {
   const { data, loading, error } = useRequest(async () => {
-    const res = await tokenApi.getList({ page: 1, page_size: 4 })
+    const res = await tokenApi.getList({ page: 1, page_size: 17 })
 
     // 确保 res?.data?.results 存在且是一个数组
     const results = res?.data?.results || []

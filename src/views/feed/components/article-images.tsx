@@ -29,7 +29,7 @@ export const ArticleImages = ({ images }: Props) => {
               alt="image"
               className={cn(
                 'w-full h-full rounded-xl object-cover max-w-max max-h-max',
-                images.length === 1 ? 'rounded-md' : ''
+                images.length === 1 ? 'rounded-[16px]' : ''
               )}
               onClick={() => {
                 setShow(true)

@@ -22,7 +22,8 @@ const NewLanches = () => {
       const tokenMaxSupply = item.max_supply
       const isGraduated = item.graduated
 
-      item.progress = getTokenProgress(tokenReserve, tokenMaxSupply, isGraduated)
+      // item.progress = getTokenProgress(tokenReserve, tokenMaxSupply, isGraduated)
+      item.progress = getTokenProgress(tokenMaxSupply, tokenReserve, isGraduated)
     }
 
     return res.data
@@ -45,15 +46,15 @@ const NewLanches = () => {
       <p className="font-semibold text-[20px] px-4 mb-3">New Lanches</p>
       {data?.results && data.results.length > 0 ? (
         data.results.map((item, index) => (
-          <div key={item.id} className="flex items-center flex-row w-full px-4 py-[8px] hover:bg-[#f5f5f5]">
+          <div key={item.id} className="flex cursor-pointer items-center flex-row w-full px-4 py-[8px] hover:bg-[#f5f5f5]">
             <div className="w-14 h-14">
               <img src={item.image} className='w-full h-full rounded-full' alt="" />
             </div>
             <div className="ml-2 flex-1">
               <div className="flex items-center">
-                <p className="font-semibold text-sm">Unicat</p>
+                <p className="font-semibold text-sm">{item.name}</p>
                 <p className="ml-2 px-2 rounded-full leading-[17px] h-[16px] text-[10px] text-white bg-blue-500">
-                  {item.name}
+                  {item.coin_type === 1 ? "NFTAgent Token" : item.coin_type === 2 ? "Agent Token" : "Ordinary Token"}
                 </p>
               </div>
               <div className="flex items-center">

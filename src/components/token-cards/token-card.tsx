@@ -108,21 +108,15 @@ export const TokenCard = ({
   if (onlyGraduated && !isGraduated) return
 
   return (
-    <Card
-      clip={'none'}
-      conPadding={'none'}
-      conBackground={'none'}
-      conAnimate={'none'}
+    <div
       className={cn(
-        ' flex items-stretch overflow-hidden cursor-pointer h-[180px] gap-2 relative max-sm:gap-0',
+        ' flex items-stretch overflow-hidden cursor-pointer bg-[#f7f7f7] hover:border-[#1d40f0] transition-colors duration-200 rounded-lg border border-gray-200  h-[180px] gap-2 relative max-sm:gap-0',
         className
       )}
       onClick={(e) => {
         handleClick()
         onClick?.(e)
       }}
-      // shadow={card.is_active ? 'default' : 'none'}
-
       {...props}
     >
       <TokenCardBadge token={card} isGraduated={isGraduated!} />
@@ -135,7 +129,7 @@ export const TokenCard = ({
       />
       <div className="py-2.5 xl:py-5 pr-2 w-full flex flex-col justify-between">
         <div className="h-full">
-          <CardTitle className="pt-0 text-lg flex items-start justify-between gap-2 ">
+          <div className="pt-0 text-lg flex items-start justify-between gap-2 ">
             <span className={cn('break-all line-clamp-2')}>
               {card?.symbol}({card?.name})
             </span>
@@ -146,7 +140,7 @@ export const TokenCard = ({
               className="mt-1"
               title={chain?.id}
             />
-          </CardTitle>
+          </div>
           <p
             className={cn(
               'text-zinc-500 text-sm break-all line-clamp-2 xl:line-clamp-3',
@@ -175,7 +169,7 @@ export const TokenCard = ({
            </Button>
          )}*/}
       </div>
-    </Card>
+    </div>
   )
 }
 

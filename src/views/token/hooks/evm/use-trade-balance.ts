@@ -4,6 +4,7 @@ import { useAccount, useBalance, useReadContract } from 'wagmi'
 import { BI_ZERO } from '@/constants/number'
 // import { tokenAbiMap } from '@/contract/abi/token'
 import { useTokenContext } from '@/contexts/token'
+import { tokenAbiMap } from '@/contract/abi/token'
 
 export const useEvmTradeBalance = () => {
   const { address } = useAccount()
@@ -30,8 +31,8 @@ export const useEvmTradeBalance = () => {
     isFetching: isFetchingToken,
     refetch: refetchTokenBalance,
   } = useReadContract({
-    // abi: tokenAbiMap[coin_version!],
-    abi: [],
+    abi: tokenAbiMap['0.1.0'],
+    // abi: [],
     address: tokenAddr as Address,
     functionName: 'balanceOf',
     chainId,
