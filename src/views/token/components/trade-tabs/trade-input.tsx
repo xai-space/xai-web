@@ -80,7 +80,7 @@ export const TradeInput = ({ value, onChange, disabled }: Props) => {
       }
     }
 
-    const formattedAmount = fmt.decimals(amount, { fixed: 4 })
+    const formattedAmount = fmt.decimals(isBuy ? value : amount, { fixed: 4 })
     const symbol = isBuy ? tokenSymbol : reserveSymbol
     setRightValue(formattedAmount)
     setRightLabel(`${formattedAmount} ${symbol}`)
