@@ -15,9 +15,9 @@ export const useTokens = () => {
       return tokenApi.getList([
         ['page', pageParam.toString()],
         ['page_size', '25'],
-        ['orderby', 'type'],
-        ['orderby', '-marketcap'],
-        ['orderby', '-time'],
+        // ['orderby', 'type'],
+        // ['orderby', '-marketcap'],
+        // ['orderby', '-time'],
       ])
     },
     initialPageParam: 1,

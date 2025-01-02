@@ -31,7 +31,7 @@ export const HandleScroll = ({
     const handleScroll = () => {
       let moving = window.scrollY
 
-      //   console.log('moving: ', moving, position)
+      //
 
       setVisible(position > moving)
       setPosition(moving)

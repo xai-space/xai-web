@@ -15,7 +15,8 @@ export const useEvmTradeAmount = (chainId: number, tokenAddr: Address) => {
     // abi: [],
     address: '0x0082D35FC544C056F00C5141Aecbf830e7b60db4' as Address,
     // address: bond_address as Address,
-    chainId: chainId as ConfigChainId,
+    // chainId: chainId as ConfigChainId,
+    chainId: 97 as ConfigChainId,
   }
 
   const checkConfig = () => {
@@ -39,7 +40,7 @@ export const useEvmTradeAmount = (chainId: number, tokenAddr: Address) => {
 
   /** 1 ETH => 100,000,000 Token */
   const getTokenAmount = async (reserveAmount: string) => {
-    if (!checkConfig()) return BI_ZERO
+    if (!checkConfig() || !Number(reserveAmount)) return BI_ZERO
 
     return readContract(wagmiConfig, {
       ...config,

@@ -64,7 +64,6 @@ export const useUserInfo = () => {
   }
 
   useEffect(() => {
-    console.log('isLoggedIn refetchUserInfo')
     if (isLoggedIn && !isFetchingUserInfo && !userInfo?.user_id && user?.userId) {
       refetchUserInfo({ userId: user.userId, isOther: false })
       return

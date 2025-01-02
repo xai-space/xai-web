@@ -71,7 +71,7 @@ export const useEvmTrade = (onSuccess?: () => void) => {
 
     const reserveValue = parseEther(reserveAmount)
     const [parent, gParent] = await getReferrals()
-    debugger
+
     writeContract({
       ...bcConfig,
       functionName: 'mint',

@@ -215,7 +215,6 @@ export const AIAgentForm = ({ isCreate }: Props) => {
 
   useEffect(() => {
     const agentId = router.query.id
-    console.log(agentInfo, typeof agentId === 'string', !isCreate)
 
     if (!agentInfo && typeof agentId === 'string' && !isCreate) {
       aiApi.getAgentInfo(agentId).then(({ data }) => {
@@ -231,8 +230,6 @@ export const AIAgentForm = ({ isCreate }: Props) => {
 
   useEffect(() => {
     if (blobUrl.length) {
-      console.log('blobUrl List', blobUrl)
-
       form.setValue('logo', blobUrl?.[0])
     }
   }, [blobUrl])

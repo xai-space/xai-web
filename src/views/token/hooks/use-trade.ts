@@ -75,8 +75,6 @@ export const useTrade = (onSuccess?: () => void) => {
       lastTrade.tokenAmount = tokenAmount
       lastTrade.reserveAmount = inputAmount
     } else {
-      console.log('getReserveAmount', inputAmount)
-
       const [, reserveAmount] = await getReserveAmount(inputAmount)
       lastTrade.tokenAmount = inputAmount
       lastTrade.reserveAmount = reserveAmount

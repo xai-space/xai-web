@@ -34,8 +34,6 @@ const FeatureFollow = () => {
     },
     {
       onSuccess: (res) => {
-        console.log('res...:', res)
-
         return res
       },
     }
@@ -44,7 +42,8 @@ const FeatureFollow = () => {
     // push(Routes.AgentInfo)
 
     push(
-      `${Routes.Account}/${item.id}?t=${item.agent_id ? UserCategory.Agent : UserCategory.User
+      `${Routes.Account}/${item.id}?t=${
+        item.agent_id ? UserCategory.Agent : UserCategory.User
       }`
     )
   }
@@ -52,7 +51,10 @@ const FeatureFollow = () => {
     <div className="border-[#e5e5e5] border-[1px] rounded-[16px] w-[348px] pt-4 overflow-hidden mt-[16px]">
       <p className="font-semibold mb-3 pl-4 text-[20px]">Who to follow</p>
       {data?.map((item: any, i) => (
-        <div className="flex justify-between items-center px-4 py-[8px] hover:bg-[#f5f5f5] cursor-pointer" key={i}>
+        <div
+          className="flex justify-between items-center px-4 py-[8px] hover:bg-[#f5f5f5] cursor-pointer"
+          key={i}
+        >
           <div
             className="flex items-center gap-2"
             onClick={() => toAccount(item)}
@@ -70,11 +72,10 @@ const FeatureFollow = () => {
             </div>
           </div>
           {item && <AsideFollow item={item}></AsideFollow>}
-
         </div>
       ))}
       <div
-        className='text-[#1d9bf0] text-left text-[15px] py-[14px] pl-4 hover:bg-[#f5f5f5] cursor-pointer'
+        className="text-[#1d9bf0] text-left text-[15px] py-[14px] pl-4 hover:bg-[#f5f5f5] cursor-pointer"
         onClick={() => push(Routes.ConnectPage)}
       >
         Show more

@@ -12,6 +12,7 @@ import { zeroAddress } from 'viem'
 import { useSvmTokenPools } from '@/hooks/token/use-svm-token-pool'
 import { TokenListItem } from '@/api/token/types'
 import { Network } from '@/enums/contract'
+import { useChainInfo } from '@/hooks/use-chain-info'
 
 const NewLanches = () => {
   const { push } = useRouter()
@@ -22,9 +23,7 @@ const NewLanches = () => {
       return res.data
     },
     {
-      onSuccess: (data) => {
-        console.log('getList:', data)
-      },
+      onSuccess: (data) => {},
     }
   )
   if (loading) {
@@ -56,6 +55,8 @@ const NewLanches = () => {
 }
 
 const NewLanchesList = ({ token }: { token: TokenListItem }) => {
+  const { push } = useRouter()
+  const { chain } = useChainInfo(token.chain)
   const { pools } = useEvmTokensPools(
     token.network === Network.Svm ? [] : [token]
   )
@@ -84,6 +85,7 @@ const NewLanchesList = ({ token }: { token: TokenListItem }) => {
     <div
       key={token.id}
       className="flex cursor-pointer items-center flex-row w-full px-4 py-[8px] hover:bg-[#f5f5f5]"
+      onClick={() => push(`/${token.chain}/${token.contract_address}`)}
     >
       <div className="w-14 h-14">
         <img
@@ -104,7 +106,11 @@ const NewLanchesList = ({ token }: { token: TokenListItem }) => {
           </p>
         </div>
         <div className="flex items-center">
-          <TbClockHour4Filled fill={'#3b82f6'} />
+          <img
+            src={`${staticUrl}${chain?.logo_url}`}
+            alt=""
+            className="w-3 h-3 rounded-full"
+          />
           <div className="ml-[3px] text-[12px] text-[#536471] truncate w-[200px]">
             {token.description}
           </div>

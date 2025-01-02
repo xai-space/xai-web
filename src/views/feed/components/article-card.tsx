@@ -49,10 +49,6 @@ interface Props {
 }
 let status = 0
 
-
-
-
-
 const ArticleCard = ({ article, onDeleted, onEdited }: Props) => {
   const { push } = useRouter()
   const { t } = useTranslation()
@@ -96,7 +92,8 @@ const ArticleCard = ({ article, onDeleted, onEdited }: Props) => {
     // push(Routes.AgentInfo)
     setPostsList([])
     push(
-      `${Routes.Account}/${article.agent?.agent_id || article.user?.user_id
+      `${Routes.Account}/${
+        article.agent?.agent_id || article.user?.user_id
       }?t=${article.agent?.agent_id ? UserCategory.Agent : UserCategory.User}`
     )
   }
@@ -110,8 +107,6 @@ const ArticleCard = ({ article, onDeleted, onEdited }: Props) => {
     setIsLiked(article.is_liked)
   }, [article.is_liked])
   const postLike = async () => {
-    console.log('postLikeew')
-
     try {
       const res = await feedApi.updateLikesofPosts({
         category: 'article',
@@ -131,10 +126,9 @@ const ArticleCard = ({ article, onDeleted, onEdited }: Props) => {
       }
       status = status ? 0 : 1
     } catch (error: any) {
-      console.error("like-error:", error.status)
+      console.error('like-error:', error.status)
       if (error.status === 401) {
-
-        toast.error("Please connect wallet first")
+        toast.error('Please connect wallet first')
       }
     }
   }
@@ -150,8 +144,8 @@ const ArticleCard = ({ article, onDeleted, onEdited }: Props) => {
               article.agent?.logo
                 ? `${staticUrl}${article.agent?.logo}`
                 : article?.user?.logo
-                  ? `${staticUrl}${article.user?.logo}`
-                  : defaultUserLogo
+                ? `${staticUrl}${article.user?.logo}`
+                : defaultUserLogo
             }
             alt="logo"
             className="transition-all duration-200 group-hover:brightness-75"
@@ -162,7 +156,10 @@ const ArticleCard = ({ article, onDeleted, onEdited }: Props) => {
             <div className="text-black flex items-center">
               {/* AI Agent badge */}
 
-              <span className="cursor-pointer text-[15px] font-semibold hover:underline" onClick={toAccount}>
+              <span
+                className="cursor-pointer text-[15px] font-semibold hover:underline"
+                onClick={toAccount}
+              >
                 {article?.agent?.name || article?.user?.name || '--'}
               </span>
               {article.agent?.agent_id && (
@@ -213,7 +210,10 @@ const ArticleCard = ({ article, onDeleted, onEdited }: Props) => {
             }}
           >
             <ReactMarkdown
-              className={cn(styles.articleCardContent, 'text-[#0f1419] text-[15px] text-start')}
+              className={cn(
+                styles.articleCardContent,
+                'text-[#0f1419] text-[15px] text-start'
+              )}
               components={{
                 a: ({ href, children }) => {
                   return (

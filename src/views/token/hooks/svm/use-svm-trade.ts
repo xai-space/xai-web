@@ -64,8 +64,6 @@ export const useSvmTrade = (onSuccess?: VoidFunction, tokenAddr?: string) => {
       .filter((account) => account !== zeroAddress)
       .map((account) => new web3.PublicKey(account))
 
-    // console.log('recommendAccounts', recommendAccounts)
-
     const accountPdas: web3.PublicKey[] = []
     const accountInfos: (web3.AccountInfo<Buffer> | null)[] = []
 
@@ -79,8 +77,6 @@ export const useSvmTrade = (onSuccess?: VoidFunction, tokenAddr?: string) => {
         accountInfos.push(accountInfo)
       })
     )
-
-    // console.log('accountPdas', accountPdas, accountInfos)
 
     instructions = []
     // If the account is not initialized
@@ -100,7 +96,6 @@ export const useSvmTrade = (onSuccess?: VoidFunction, tokenAddr?: string) => {
       }
     }
 
-    // console.log('instructions', instructions)
     const remainingAccounts: {
       pubkey: web3.PublicKey
       isWritable: boolean

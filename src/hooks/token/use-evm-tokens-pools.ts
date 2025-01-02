@@ -43,8 +43,6 @@ export const useEvmTokensPools = (tokens: TokenListItem[]) => {
             // TODO/top: fix `@ts-ignore`, write `"strictNullChecks": true` to `tsconfig.ts`,
             // But in vain, it may not take effect.
             select: (data) => {
-                console.log('data', data)
-
                 // @ts-ignore
                 return data.flatMap(({ result }) => result) as (PoolItem | undefined)[];
             },

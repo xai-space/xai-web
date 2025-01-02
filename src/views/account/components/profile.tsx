@@ -71,7 +71,6 @@ export const Profile = () => {
   const { isPad } = useResponsive()
   const tokenAddr = (query.address || '') as string
 
-  console.log('queryProfile:', query)
   useEffect(() => {
     getAgentProfile()
   }, [query.uid])
@@ -80,7 +79,6 @@ export const Profile = () => {
     {
       manual: true,
       onSuccess: (res) => {
-        console.log('getAgentProfile:', res)
         return res.data
       },
     }
@@ -120,7 +118,6 @@ export const Profile = () => {
           />
         )}
       </div>
-
     </div>
   )
 }

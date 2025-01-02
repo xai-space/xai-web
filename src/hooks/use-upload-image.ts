@@ -71,7 +71,6 @@ export const useUploadImage = (options?: Options) => {
     for (let i = 0; i < newFiles.length; i++) {
       const reader = new FileReader()
       const file = newFiles[i]
-      console.log(file);
 
       reader.onload = (event) => {
         const result = event.target?.result
@@ -116,8 +115,6 @@ export const useUploadImage = (options?: Options) => {
 
     try {
       const { data } = await mutateAsync(formData)
-
-      console.log("Image Data: ", data);
 
       return isArray(data) ? data : [data]
 

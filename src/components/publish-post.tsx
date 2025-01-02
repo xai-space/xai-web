@@ -60,7 +60,6 @@ export const PublishPost = ({ editArticle, onPosted }: Props) => {
 
     for (let i = 0; i < data.length; i++) {
       const item = data[i]
-      console.log(item.article_id, firstArticleId)
 
       if (item.article_id !== firstArticleId) {
         newList.push(item)
@@ -92,8 +91,6 @@ export const PublishPost = ({ editArticle, onPosted }: Props) => {
   }
 
   const submitDisable = () => {
-    console.log(editArticle?.images, editArticle2?.images)
-
     if (
       !isCreate &&
       // oldContent === newContent
@@ -115,7 +112,6 @@ export const PublishPost = ({ editArticle, onPosted }: Props) => {
       const url = await onSubmitImg()
       let images = url?.map(({ url }) => url)
       images = isCreate ? images : editArticle2?.images.concat(images || [])
-      console.log(images, editArticle2?.images)
 
       const sendPost = isCreate ? feedApi.createFeed : feedApi.updatePost
 

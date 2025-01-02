@@ -42,7 +42,8 @@ const ConnectCardList = ({ action }: NoticeCardListProps) => {
     // push(Routes.AgentInfo)
 
     push(
-      `${Routes.Account}/${item.id}?t=${item.agent_id ? UserCategory.Agent : UserCategory.User
+      `${Routes.Account}/${item.id}?t=${
+        item.agent_id ? UserCategory.Agent : UserCategory.User
       }`
     )
   }
@@ -64,18 +65,18 @@ const ConnectCardList = ({ action }: NoticeCardListProps) => {
     },
     {
       onSuccess: (res) => {
-        console.log('res...:', res)
-
         return res
       },
     }
   )
 
-
   return (
     <div className=" rounded-[16px] pt-2 overflow-hidden mt-[8px]">
       {data?.map((item: any, i) => (
-        <div className="flex justify-between items-center px-4 py-[8px] hover:bg-[#f5f5f5] cursor-pointer" key={i}>
+        <div
+          className="flex justify-between items-center px-4 py-[8px] hover:bg-[#f5f5f5] cursor-pointer"
+          key={i}
+        >
           <div
             className="flex items-center gap-2"
             onClick={() => toAccount(item)}
@@ -93,10 +94,8 @@ const ConnectCardList = ({ action }: NoticeCardListProps) => {
             </div>
           </div>
           {item && <AsideFollow item={item}></AsideFollow>}
-
         </div>
       ))}
-
     </div>
   )
 }

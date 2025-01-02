@@ -13,7 +13,7 @@ export const useFeeds = () => {
     getNextPageParam: (_, __, page) => page + 1,
   })
 
-  console.log(data);
+
 
 
   return {

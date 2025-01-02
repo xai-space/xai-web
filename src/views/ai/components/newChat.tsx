@@ -50,13 +50,9 @@ export function NewChatForm() {
 
       const content = await chatMutation.mutateAsync(input)
       if (content?.data?.content) {
-        console.log(content)
-
-        console.log(`/ai/chat/${content.data.session_id}`)
         router.push(`/ai/chat/${content.data.session_id}`)
       }
     } catch (err) {
-      console.log(err)
     } finally {
       setIsSubmitting(false)
     }

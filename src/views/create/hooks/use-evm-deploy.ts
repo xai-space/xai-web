@@ -25,7 +25,7 @@ export const useEvmDeploy = (chainName: string, onFinally?: () => void) => {
   })
   const { configValue, bcAddress, bcVersion } = useTokenConfig(chainName)
   const bcConfig = {
-    abi: bcAbiMap[bcVersion],
+    abi: bcAbiMap['0.1.0'],
     address: bcAddress!,
     chainId: Number(network),
   } as const
@@ -107,11 +107,6 @@ export const useEvmDeploy = (chainName: string, onFinally?: () => void) => {
 
 
     const [parent, gparent] = await getReferrals()
-
-    console.log('parent', parent)
-    console.log('gparent', gparent)
-
-    console.log('bcConfig', bcConfig)
 
     writeContract({
       ...bcConfig,

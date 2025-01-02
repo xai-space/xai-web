@@ -34,14 +34,9 @@ export const AccountAvatar = ({
   const [open, setOpen] = useState(false)
   const { otherUserInfo, agentInfo, userInfo } = useUserStore()
   const { query } = useRouter()
-  console.log('query-avator:', query)
   const [avatar, setAvatar] = useState('')
-  // console.log('otherUserInfo&&:', otherUserInfo)
-  console.log('userInfo&&:', userInfo)
-
   const avatarUrl = useMemo(() => {
     if (query.t === 'agent') {
-      console.log('setAvatar....')
       setAvatar(agentInfo?.logo as string)
     }
     if (query.t === 'user') {
@@ -80,10 +75,10 @@ export const AccountAvatar = ({
         htmlFor="avatar-edit"
         className={cn(
           !isPad &&
-          "relative group after:content-[''] after:absolute after:inset-0 cursor-pointer",
+            "relative group after:content-[''] after:absolute after:inset-0 cursor-pointer",
           !isOtherUser &&
-          !isPad &&
-          'after:rounded-full hover:after:bg-black/50 after:transition-all after:bottom-10 after:-top-10'
+            !isPad &&
+            'after:rounded-full hover:after:bg-black/50 after:transition-all after:bottom-10 after:-top-10'
         )}
         onClick={() => {
           clearFile()

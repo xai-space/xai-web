@@ -168,10 +168,8 @@ export const LogoField = () => {
                   onChange={async (e) => {
                     try {
                       const url = await onChangeUpload(e, true)
-                      console.log('url', url)
                       if (isArray(url)) form.setValue('logo', url[0].url)
                     } catch (error) {
-                      console.log(error)
                     } finally {
                       if (inputRef.current) inputRef.current.value = ''
                     }
@@ -208,7 +206,6 @@ export const LogoField = () => {
               'Dogwifhat (WIF) is a well-known meme coin based on the Solana blockchain that has quickly gained attention in the crypto community. Its defining feature is a Shiba Inu wearing a quirky pink knitted hat, distinguished by its playful and lighthearted style.'
             )
           } catch (error) {
-            console.log(error)
           } finally {
             toast.dismiss(loading)
           }

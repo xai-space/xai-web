@@ -63,7 +63,7 @@ export const useSolDeploy = (onFinally?: VoidFunction) => {
       if (!checkForDeploy()) return
       if (!program) throw error
 
-      console.log('tokenId', tokenId)
+
 
       let identifierAccount = new web3.PublicKey(tokenId)
 
@@ -80,7 +80,7 @@ export const useSolDeploy = (onFinally?: VoidFunction) => {
         identifierAccount
       )
 
-      console.log('createTokenCtx', createTokenCtx)
+
 
       setDeployedAddr(createTokenCtx.mint.toBase58())
 
@@ -94,7 +94,7 @@ export const useSolDeploy = (onFinally?: VoidFunction) => {
           )
           : []
 
-      console.log(buyIxs);
+
 
 
       const ixs = await Promise.all([

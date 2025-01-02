@@ -33,9 +33,7 @@ import { use, useEffect, useState } from 'react'
 
 import { useUserStore } from '@/stores/use-user-store'
 import { UserCategory, UserInfoRes } from '@/api/user/types'
-import { CiCircleMore } from "react-icons/ci";
-
-
+import { CiCircleMore } from 'react-icons/ci'
 
 export const AccountInfoDesktop = (props: AccountInfoProps) => {
   const { query } = useRouter()
@@ -55,12 +53,9 @@ export const AccountInfoDesktop = (props: AccountInfoProps) => {
   const { copy } = useClipboard()
 
   const { otherUserInfo, setOtherUserInfo, agentInfo } = useUserStore()
-  console.log('otherUserInfo$$;', otherUserInfo)
 
   const { user, primaryWallet } = useDynamicContext()
   const userWallets = useWalletOptions()
-
-  // console.log('agentInfo', agentInfo, isAgent)
 
   let status: 0 | 1 = 1
   const followFetch = async () => {
@@ -87,7 +82,7 @@ export const AccountInfoDesktop = (props: AccountInfoProps) => {
 
   return (
     <div className="w-full">
-      <div className='flex justify-between'>
+      <div className="flex justify-between">
         <div className="flex space-x-4">
           <AccountAvatar
             isOtherUser={isOtherUser}
@@ -97,7 +92,7 @@ export const AccountInfoDesktop = (props: AccountInfoProps) => {
         </div>
 
         <div className="flex items-center h-10">
-          <CiCircleMore size={42} className='mr-[5px]'></CiCircleMore>
+          <CiCircleMore size={42} className="mr-[5px]"></CiCircleMore>
           {isOtherUser ? (
             <div onClick={followFetch}>
               {otherUserInfo?.is_followed ? (
@@ -110,7 +105,6 @@ export const AccountInfoDesktop = (props: AccountInfoProps) => {
                   <span className="group-hover:hidden">Following</span>
                   <span className="hidden group-hover:inline">Unfollow</span>
                 </div>
-
               ) : (
                 <div className="rounded-full text-center px-4 py-1 text-[14px] bg-black text-white font-medium border-[#000] border-[1px] hover:bg-gray-800">
                   Follow
@@ -119,7 +113,10 @@ export const AccountInfoDesktop = (props: AccountInfoProps) => {
             </div>
           ) : (
             <ProfileForm>
-              <Button variant={'purple'} className="flex items-center space-x-2">
+              <Button
+                variant={'purple'}
+                className="flex items-center space-x-2"
+              >
                 <IoSettingsOutline size={18} />
                 <span className="text-sm">{t('edit')}</span>
               </Button>
@@ -134,10 +131,9 @@ export const AccountInfoDesktop = (props: AccountInfoProps) => {
         </p>
       </div>
       <p className="text-[#0f1419] text-[15px] mt-[4px]">
-        {userInfo?.description ? userInfo?.description : ""}
+        {userInfo?.description ? userInfo?.description : ''}
       </p>
       <FollowDesktop info={isAgent ? agentInfo : otherUserInfo} />
-
     </div>
   )
 }

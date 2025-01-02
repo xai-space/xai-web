@@ -40,8 +40,6 @@ export const useSolSign = (onSuccess?: VoidFunction) => {
 
       const msg = Buffer.from(message).toString('hex')
 
-      // console.log('getChainId', getChainId('solana_devnet'))
-
       const { data } = await mutateAsync({
         wallet_address: String(publicKey),
         chain_id: String(getChainId('solana_devnet')),

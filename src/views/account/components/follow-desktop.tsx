@@ -27,8 +27,6 @@ export const FollowDesktop = (info: any) => {
   const { isOtherUser, isAgent, followers, followingResults, refetchFollow } =
     useAccountContext()
   const { userInfo, otherUserInfo } = useUserStore()
-  console.log('query-follow-desktop:', query);
-
   // const {
   //   agent,
   //   user,
@@ -56,7 +54,11 @@ export const FollowDesktop = (info: any) => {
             variant="ghost"
             size="sm"
             shadow="none"
-            onClick={() => push(`${Routes.FollowList}?isAgent=${isAgent}&user_id=${query.uid}`)}
+            onClick={() =>
+              push(
+                `${Routes.FollowList}?isAgent=${isAgent}&user_id=${query.uid}`
+              )
+            }
             className="shadow-none pl-0 !border-none group relative"
           >
             <span className="space-x-1 text-base relative">
@@ -73,7 +75,11 @@ export const FollowDesktop = (info: any) => {
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => push(`${Routes.FollowList}?isAgent=${isAgent}&user_id=${query.uid}`)}
+            onClick={() =>
+              push(
+                `${Routes.FollowList}?isAgent=${isAgent}&user_id=${query.uid}`
+              )
+            }
             shadow="none"
             className="shadow-none !border-none group ml-2 relative"
           >
@@ -88,8 +94,6 @@ export const FollowDesktop = (info: any) => {
           </Button>
         </DialogTrigger>
       </div>
-
-
     </Dialog>
   )
 }

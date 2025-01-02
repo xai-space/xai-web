@@ -66,7 +66,7 @@ export const TokenInfoHeader = ({ className }: ComponentProps<'div'>) => {
           </div>
           <div className="sm:hidden flex items-center">
             <img
-              src={tokenChain?.logo_url}
+              src={`${staticUrl}${tokenChain?.logo_url}`}
               alt={tokenChain?.id}
               className="w-5 h-5 rounded"
             />
@@ -79,7 +79,6 @@ export const TokenInfoHeader = ({ className }: ComponentProps<'div'>) => {
           <span className="font-bold">{t('market-cap')}: </span>$
           {fmt.decimals(marketCap)}
         </span>
-
         {isMobile && (
           <div
             className="text-sm flex items-center space-x-2 cursor-pointer"

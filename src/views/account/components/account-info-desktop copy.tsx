@@ -51,12 +51,8 @@ export const AccountInfoDesktop = (props: AccountInfoProps) => {
   const { copy } = useClipboard()
 
   const { otherUserInfo, setOtherUserInfo, agentInfo } = useUserStore()
-  console.log('otherUserInfo$$;', otherUserInfo)
-
   const { user, primaryWallet } = useDynamicContext()
   const userWallets = useWalletOptions()
-
-  // console.log('agentInfo', agentInfo, isAgent)
 
   let status: 0 | 1 = 1
   const followFetch = async () => {
@@ -125,7 +121,7 @@ export const AccountInfoDesktop = (props: AccountInfoProps) => {
                 className={cn(
                   'flex items-center space-x-2',
                   !isOtherUser &&
-                  'hover:underline-offset-1 hover:underline outline-black cursor-pointer'
+                    'hover:underline-offset-1 hover:underline outline-black cursor-pointer'
                 )}
               >
                 <DiamondIcon size={17} />

@@ -19,7 +19,7 @@ export const HeaderMobile = () => {
   const { userInfo } = useUserStore()
   const [sheetOpen, setSheetOpen] = useState(false)
 
-  // console.log('userinfo:', userInfo)
+  //
 
   return (
     <>

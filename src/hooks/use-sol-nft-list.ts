@@ -22,7 +22,7 @@ export const useSolNFTList = (nftListRef: React.RefObject<HTMLDivElement>) => {
 
     const getSolanaNFTAsset = async () => {
         // const owner = publicKey('2Whhi93Ckub7Sc9DViCLTpKS4bdDy9zv3ctxEJAa7J6D')
-        // console.log('owner');
+        // 
 
         // // if (list.length % limit != 0) {
         // //     return {
@@ -77,8 +77,6 @@ export const useSolNFTList = (nftListRef: React.RefObject<HTMLDivElement>) => {
             }
         })).json() as NFTListRes<NFTInfo>
 
-        console.log('Solana NFT DATA', data);
-
         const checkAssets = (item: Asset) => {
             return item.mint_price
         }
@@ -103,7 +101,6 @@ export const useSolNFTList = (nftListRef: React.RefObject<HTMLDivElement>) => {
                 getNFTList()
             }
         } catch (error) {
-            console.log('error', error);
         }
     }, [primaryWallet])
 

@@ -22,7 +22,6 @@ export const useChartStore = create<ChartStore>((set, get) => ({
   setNoticeCount: () => {
     const { data: noticeCount } = useRequest(getUnreadNotices, {
       onSuccess: (res) => {
-        console.log('noticeCount:', res)
         set({ noticeCount: Number(res?.data.count) })
       },
     })

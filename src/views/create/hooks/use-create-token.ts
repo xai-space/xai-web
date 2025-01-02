@@ -32,7 +32,6 @@ export const useCreateToken = (chainName: string) => {
 
     params.image = `http:/${data.url}`
 
-    console.log('createToken', params)
     try {
       const { data } = await create({
         ...params,

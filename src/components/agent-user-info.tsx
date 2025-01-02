@@ -33,7 +33,6 @@ export const AgentUserInfo = ({
   const { postsList, setPostsList } = useArticleStore()
   const { otherUserInfo } = useUserInfo()
   const { query } = useRouter()
-  console.log('queryFeed:', query)
 
   const getLoadMoreList = async (): Promise<Result> => {
     let start = Math.floor(postsList.length / 10) + 1
@@ -60,7 +59,6 @@ export const AgentUserInfo = ({
     }
 
     const { data } = await feedApi.getList(bodyData)
-    console.log('data$$:', data)
 
     if (data?.list) {
       setPostsList(postsList.concat(data?.list))
@@ -126,7 +124,12 @@ export const AgentUserInfo = ({
   }
 
   return (
-    <div className={cn('flex flex-col border-t border-[#e5e5e5] max-w-[600px] mx-auto p-0 mt-0', className)}>
+    <div
+      className={cn(
+        'flex flex-col border-t border-[#e5e5e5] max-w-[600px] mx-auto p-0 mt-0',
+        className
+      )}
+    >
       {postsList?.map((item, i) => (
         <ArticleCard
           key={item.agent_id}

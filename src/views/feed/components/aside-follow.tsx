@@ -12,8 +12,6 @@ interface Props {
 const AsideFollow = ({ item }: { item: Props }) => {
   const [isFollowing, setIsFollowing] = useState<boolean>()
   const { otherUserInfo, setOtherUserInfo } = useUserStore()
-  console.log("aside follow render");
-
 
   let status: 0 | 1 = 1
   const followFetch = async () => {
@@ -44,10 +42,9 @@ const AsideFollow = ({ item }: { item: Props }) => {
       }
     } catch (error: any) {
       if (error.status === 401) {
-        toast.error("Please connect wallet first")
+        toast.error('Please connect wallet first')
       }
     }
-
   }
 
   return (
@@ -62,7 +59,6 @@ const AsideFollow = ({ item }: { item: Props }) => {
           <span className="group-hover:hidden">Following</span>
           <span className="hidden group-hover:inline">Unfollow</span>
         </div>
-
       ) : (
         <div className="rounded-full text-center px-4 py-1 text-[14px] bg-black text-white font-medium border-[#000] border-[1px] hover:bg-gray-800">
           Follow

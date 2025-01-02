@@ -135,7 +135,6 @@ export const CreateTokenForm = () => {
                       defaultValue={field.value}
                       value={field.value}
                       onValueChange={(value) => {
-                        console.log(value)
                         router.replace(Routes.Create + '?type=' + value)
                         form.setValue(formFields?.coinType!, value)
                       }}

@@ -64,8 +64,6 @@ export const useTradeAmount = () => {
 
     const lastAmount = await evm.getLastAmount(tokenLeft)
 
-    console.log(lastAmount, 'lastAmount')
-
     return [lastAmount, formatEther(lastAmount)] as const
   }
 

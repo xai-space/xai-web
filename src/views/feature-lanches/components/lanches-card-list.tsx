@@ -6,27 +6,32 @@ import { useRequest } from 'ahooks'
 import { getTokenProgress } from '@/utils/contract'
 
 const LanchesCardList = () => {
-  const { data, loading, error } = useRequest(async () => {
-    const res = await tokenApi.getList({ page: 1, page_size: 17 })
+  const { data, loading, error } = useRequest(
+    async () => {
+      const res = await tokenApi.getList({ page: 1, page_size: 17 })
 
-    // 确保 res?.data?.results 存在且是一个数组
-    const results = res?.data?.results || []
+      // 确保 res?.data?.results 存在且是一个数组
+      const results = res?.data?.results || []
 
-    for (const item of results) {
-      // 获取进度
-      const tokenReserve = item.total_supply
-      const tokenMaxSupply = item.max_supply
-      const isGraduated = item.graduated
+      for (const item of results) {
+        // 获取进度
+        const tokenReserve = item.total_supply
+        const tokenMaxSupply = item.max_supply
+        const isGraduated = item.graduated
 
-      item.progress = getTokenProgress(tokenReserve, tokenMaxSupply, isGraduated)
-    }
+        item.progress = getTokenProgress(
+          tokenReserve,
+          tokenMaxSupply,
+          isGraduated
+        )
+      }
 
-    return res.data
-  }, {
-    onSuccess: (data) => {
-      console.log("getList:", data);
+      return res.data
     },
-  })
+    {
+      onSuccess: (data) => {},
+    }
+  )
 
   if (loading) {
     return <div>Loading...</div>
@@ -40,9 +45,16 @@ const LanchesCardList = () => {
     <div className=" rounded-[16px] pt-4 overflow-hidden">
       {data?.results && data.results.length > 0 ? (
         data.results.map((item, index) => (
-          <div key={item.id} className="flex items-center flex-row w-full px-4 py-[8px] hover:bg-[#f5f5f5]">
+          <div
+            key={item.id}
+            className="flex items-center flex-row w-full px-4 py-[8px] hover:bg-[#f5f5f5]"
+          >
             <div className="w-14 h-14">
-              <img src={item.image} className='w-full h-full rounded-full' alt="" />
+              <img
+                src={item.image}
+                className="w-full h-full rounded-full"
+                alt=""
+              />
             </div>
             <div className="ml-2 flex-1">
               <div className="flex items-center">
@@ -69,7 +81,6 @@ const LanchesCardList = () => {
       ) : (
         <div>No data available</div>
       )}
-
     </div>
   )
 }

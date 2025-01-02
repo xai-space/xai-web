@@ -19,8 +19,6 @@ import { AgentUserInfo } from '../../components/agent-user-info'
 
 export const AccountPage = () => {
   const { query } = useRouter()
-  console.log('query:', query)
-
   const userId = (query.uid || '') as string
   const { userInfo, otherUserInfo } = useUserStore()
 
@@ -41,9 +39,9 @@ export const AccountPage = () => {
         isPending: false,
         isOtherUser: userInfo?.user_id !== userId,
         isAgent: query.t === UserCategory.Agent,
-        followingResults: () => { },
-        refetchFollow: () => { },
-        refetchUserInfo: () => { },
+        followingResults: () => {},
+        refetchFollow: () => {},
+        refetchUserInfo: () => {},
       }}
     >
       <div className="flex-1 min-h-main flex flex-col overflow-auto max-w-[800px] mx-auto">
@@ -69,10 +67,7 @@ export const AccountPage = () => {
 }
 
 AccountPage.getLayout = (page: ReactNode) => (
-  <PrimaryLayout disablePadding={true}>
-
-    {page}
-  </PrimaryLayout>
+  <PrimaryLayout disablePadding={true}>{page}</PrimaryLayout>
 )
 
 export default AccountPage

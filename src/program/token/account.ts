@@ -59,8 +59,6 @@ export const getCreateTokenAccount = (
     programIds.programId
   )
 
-  console.log('mintPDA', mintPDA)
-
   const cm = commentAccounts(mintPDA)
 
   const [metadataAddress] = web3.PublicKey.findProgramAddressSync(

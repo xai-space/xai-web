@@ -9,7 +9,6 @@ import { Ellipsis } from 'lucide-react'
 export function Rename() {
   const handleClick = (event: React.MouseEvent) => {
     event.stopPropagation()
-    console.log(1)
   }
 
   return (

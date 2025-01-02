@@ -59,8 +59,6 @@ export const useTokenInfo = (tokenAddr: string, chainName: string) => {
   const isGraduated = tokenDetails.isGraduated
   const graduatedPool = tokenInfo?.graduated_pool || fallbackGraduated
 
-  // console.log('totalSupply in token-info', totalSupply)
-
   const refetchTokenInfo = () => {
     refetchInfo()
     refetchDetails()

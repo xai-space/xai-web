@@ -13,8 +13,6 @@ export const useNftAgentToken = () => {
 
 
     useEffect(() => {
-        console.log(form.getValues('coinType'));
-
         if (+(form.getValues('coinType')) === CoinType.NFTAgent) {
             setShowNftAgentDialog(true)
         }

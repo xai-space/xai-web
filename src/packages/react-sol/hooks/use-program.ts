@@ -20,8 +20,6 @@ export const useProgram = <IDL extends Idl = Idl>({
     queryKey: ['useProgram', programId],
     queryFn: async () => {
       try {
-        console.log('useProgram', idl, programId);
-
         return await new Program<IDL>(idl, programId, {
           connection,
         })

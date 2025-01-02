@@ -53,9 +53,7 @@ export const ArticleCreate = () => {
       if (res.data.article_id) {
         router.push(`/feed/detail/${res.data.article_id}`)
       }
-    } catch (err) {
-      console.log(err)
-    }
+    } catch (err) {}
   }
 
   const onUploadImg = async (

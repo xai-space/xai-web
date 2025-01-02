@@ -55,7 +55,7 @@ export const useDeploy = (chainName: string) => {
     }[network]
   }, [network, evmDeploy, solDeploy]) // TODO: add more deps...
 
-  // console.log('deployedAddr:', deployedAddr) // 4oiw1ZtZkrg3Bbh7tzsi9xfwJpVeQPqAzMj4TVs6NYW1
+  //  // 4oiw1ZtZkrg3Bbh7tzsi9xfwJpVeQPqAzMj4TVs6NYW1
   const deploy = async (params: DeployFormParams) => {
     // TODO: create token api
     const tokenId = await createToken(params)
