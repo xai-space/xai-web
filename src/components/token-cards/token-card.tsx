@@ -15,7 +15,7 @@ import { useChainInfo } from '@/hooks/use-chain-info'
 import { TokenCardBadge } from './token-card-badge'
 import { Button } from '../ui/button'
 import { joinPaths } from '@/utils'
-import { PoolItem } from '@/hooks/token/use-tokens-pools'
+import { PoolItem } from '@/hooks/token/use-evm-tokens-pools'
 import { BI_ZERO } from '@/constants/number'
 import { getTokenProgress } from '@/utils/contract'
 import { staticUrl } from '@/config/url'
@@ -25,6 +25,7 @@ import { programIds } from '@/program'
 import { IDL } from '@/program/token/idl'
 import { useProgram } from '@/packages/react-sol'
 import { getCurveAccount } from '@/program/token/account'
+import { useSvmTokenPools } from '@/hooks/token/use-svm-token-pool'
 
 interface Props extends ComponentProps<typeof Card> {
   card: TokenListItem
@@ -32,37 +33,6 @@ interface Props extends ComponentProps<typeof Card> {
 
   pool: PoolItem | undefined
   onlyGraduated?: boolean
-}
-
-export const useTokenPools = (token: TokenListItem) => {
-  const { program, error } = useProgram({
-    idl: IDL,
-    programId: programIds.programId,
-  })
-
-  const { data: pools, refetch: refetchPools } = useQuery({
-    queryKey: ['getPools', token.contract_address],
-    queryFn: async () => {
-      if (!program) throw error
-
-      const { curveConfig } = getCurveAccount(token.contract_address)
-
-      const curve = await program.account['curveConfig'].fetch(curveConfig)
-
-      return curve
-    },
-    enabled: !!token.contract_address,
-    refetchInterval: 10_000,
-  })
-
-  const {
-    graduated: isGraduated,
-    solAim,
-    tokenReserve,
-    tokenMaxSupply,
-  } = pools || {}
-
-  return { isGraduated, solAim, tokenReserve, maxSupply: tokenMaxSupply }
 }
 
 export const TokenCard = ({
@@ -79,7 +49,7 @@ export const TokenCard = ({
   const { chain, chainName } = useChainInfo(card.chain)
   const isGraduated = false
   const { tokenReserve, maxSupply } =
-    card.network === Network.Svm ? useTokenPools(card) : pool || {}
+    card.network === Network.Svm ? useSvmTokenPools(card) : pool || {}
 
   const progress = getTokenProgress(tokenReserve, maxSupply, isGraduated)
 

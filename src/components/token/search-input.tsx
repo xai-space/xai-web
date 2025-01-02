@@ -9,7 +9,7 @@ import { Input } from '../ui/input'
 import { cn } from '@/lib/utils'
 import { tokenApi } from '@/api/token'
 import { TokenListItem } from '@/api/token/types'
-import { useTokensPools } from '@/hooks/token/use-tokens-pools'
+import { useEvmTokensPools } from '@/hooks/token/use-evm-tokens-pools'
 import { Popover, PopoverAnchor, PopoverContent } from '../ui/popover'
 import { TokenCard } from '../token-cards/token-card'
 
@@ -35,7 +35,7 @@ export const TokenSearchInput = ({
     mutationFn: tokenApi.getList,
   })
   const tokens = data?.data?.results || []
-  const { pools } = useTokensPools(tokens)
+  const { pools } = useEvmTokensPools(tokens)
 
   const open = showPopover && (!isEmpty(tokens) || isPending)
 

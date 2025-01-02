@@ -13,7 +13,7 @@ import { useIsPlayAudio } from '@/stores/use-is-play-audio'
 import { useAudioPlayer } from '@/hooks/use-audio-player'
 import { TokenListItem } from '@/api/token/types'
 import { LoadMore } from '../load-more'
-import { useTokensPools } from '@/hooks/token/use-tokens-pools'
+import { useEvmTokensPools } from '@/hooks/token/use-evm-tokens-pools'
 import { Switch } from '../ui/switch'
 import { Label } from '../ui/label'
 import { useLocalStorage } from '@/hooks/use-storage'
@@ -47,7 +47,7 @@ export const TokenCards = ({
 
   const { isPlayHomeAudio, setIsPlayHomeAudio } = useIsPlayAudio()
   const { playHome } = useAudioPlayer()
-  const { pools, isLoadingPools } = useTokensPools(cards)
+  const { pools, isLoadingPools } = useEvmTokensPools(cards)
   const filterTokens = cards.filter((c) => c.chain !== 'bera_bartio')
 
   const onChange = (chain: string) => {
@@ -114,7 +114,7 @@ export const TokenCards = ({
 
       <CustomSuspense
         className="grid grid-cols-1 gap-4 lg:grid-cols-2 max-sm:gap-3"
-        isPending={isLoading || isLoadingPools}
+        isPending={isLoading}
         fallback={<CardSkeleton />}
         nullback={
           <div className="text-zinc-500">

@@ -21,12 +21,8 @@ export interface PoolItem {
     maxSupply: bigint
 }
 
-export const useTokensPools = (tokens: TokenListItem[]) => {
-    const { getChainId } = useChainsStore()
-
+export const useEvmTokensPools = (tokens: TokenListItem[]) => {
     const filterTokens = tokens.filter((token) => token.chain !== 'bera_bartio' && token.network !== Network.Svm)
-
-    console.log('filterTokens', filterTokens)
 
     const {
         data: pools = [],
@@ -55,8 +51,6 @@ export const useTokensPools = (tokens: TokenListItem[]) => {
             refetchInterval: 10_000,
         },
     })
-
-    console.log('pools', filterTokens, pools)
 
     return {
         pools,
