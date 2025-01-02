@@ -62,7 +62,7 @@ export const useTokenPools = (token: TokenListItem) => {
     tokenMaxSupply,
   } = pools || {}
 
-  return { isGraduated, solAim, tokenReserve, tokenMaxSupply }
+  return { isGraduated, solAim, tokenReserve, maxSupply: tokenMaxSupply }
 }
 
 export const TokenCard = ({
@@ -70,7 +70,6 @@ export const TokenCard = ({
   className,
   descClass,
   onClick,
-
   pool,
   onlyGraduated,
   ...props
@@ -78,10 +77,11 @@ export const TokenCard = ({
   const router = useRouter()
   const { t } = useTranslation()
   const { chain, chainName } = useChainInfo(card.chain)
+  const isGraduated = false
+  const { tokenReserve, maxSupply } =
+    card.network === Network.Svm ? useTokenPools(card) : pool || {}
 
-  const { isGraduated, tokenReserve, tokenMaxSupply } = useTokenPools(card)
-
-  const progress = getTokenProgress(tokenReserve, tokenMaxSupply, isGraduated)
+  const progress = getTokenProgress(tokenReserve, maxSupply, isGraduated)
 
   const handleClick = () => {
     // if (!card.is_active) {
@@ -96,13 +96,7 @@ export const TokenCard = ({
   }
 
   const handleImage = () => {
-    if (/\/\//.test(card.image)) {
-      return card.image
-    }
-
-    if (card.image.startsWith('http:/')) {
-      return `${staticUrl}${card.image.slice(6)}`
-    }
+    return `${staticUrl}${card.image}`
   }
 
   if (onlyGraduated && !isGraduated) return

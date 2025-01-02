@@ -6,32 +6,40 @@ import { useRequest } from 'ahooks'
 import { getTokenProgress } from '@/utils/contract'
 import { useRouter } from 'next/router'
 import { Routes } from '@/routes'
-
+import { staticUrl } from '@/config/url'
 
 const NewLanches = () => {
-  const { push } = useRouter();
-  const { data, loading, error } = useRequest(async () => {
-    const res = await tokenApi.getList({ page: 1, page_size: 4 })
+  const { push } = useRouter()
 
-    // 确保 res?.data?.results 存在且是一个数组
-    const results = res?.data?.results || []
+  const { data, loading, error } = useRequest(
+    async () => {
+      const res = await tokenApi.getList({ page: 1, page_size: 4 })
 
-    for (const item of results) {
-      // 获取进度
-      const tokenReserve = item.total_supply
-      const tokenMaxSupply = item.max_supply
-      const isGraduated = item.graduated
+      // 确保 res?.data?.results 存在且是一个数组
+      const results = res?.data?.results || []
 
-      // item.progress = getTokenProgress(tokenReserve, tokenMaxSupply, isGraduated)
-      item.progress = getTokenProgress(tokenMaxSupply, tokenReserve, isGraduated)
-    }
+      for (const item of results) {
+        // 获取进度
+        const tokenReserve = item.total_supply
+        const tokenMaxSupply = item.max_supply
+        const isGraduated = item.graduated
 
-    return res.data
-  }, {
-    onSuccess: (data) => {
-      console.log("getList:", data);
+        // item.progress = getTokenProgress(tokenReserve, tokenMaxSupply, isGraduated)
+        item.progress = getTokenProgress(
+          tokenMaxSupply,
+          tokenReserve,
+          isGraduated
+        )
+      }
+
+      return res.data
     },
-  })
+    {
+      onSuccess: (data) => {
+        console.log('getList:', data)
+      },
+    }
+  )
 
   if (loading) {
     return <div>Loading...</div>
@@ -46,15 +54,26 @@ const NewLanches = () => {
       <p className="font-semibold text-[20px] px-4 mb-3">New Lanches</p>
       {data?.results && data.results.length > 0 ? (
         data.results.map((item, index) => (
-          <div key={item.id} className="flex cursor-pointer items-center flex-row w-full px-4 py-[8px] hover:bg-[#f5f5f5]">
+          <div
+            key={item.id}
+            className="flex cursor-pointer items-center flex-row w-full px-4 py-[8px] hover:bg-[#f5f5f5]"
+          >
             <div className="w-14 h-14">
-              <img src={item.image} className='w-full h-full rounded-full' alt="" />
+              <img
+                src={`${staticUrl}${item.image}`}
+                className="w-full h-full rounded-full"
+                alt=""
+              />
             </div>
             <div className="ml-2 flex-1">
               <div className="flex items-center">
                 <p className="font-semibold text-sm">{item.name}</p>
                 <p className="ml-2 px-2 rounded-full leading-[17px] h-[16px] text-[10px] text-white bg-blue-500">
-                  {item.coin_type === 1 ? "NFTAgent Token" : item.coin_type === 2 ? "Agent Token" : "Ordinary Token"}
+                  {item.coin_type === 1
+                    ? 'NFTAgent Token'
+                    : item.coin_type === 2
+                    ? 'Agent Token'
+                    : 'Ordinary Token'}
                 </p>
               </div>
               <div className="flex items-center">
@@ -75,7 +94,12 @@ const NewLanches = () => {
       ) : (
         <div>No data available</div>
       )}
-      <div onClick={() => push(Routes.FeatureLanches)} className='text-[#1d9bf0] text-left text-[15px] py-[14px] pl-4 hover:bg-[#f5f5f5] cursor-pointer'>Show more</div>
+      <div
+        onClick={() => push(Routes.FeatureLanches)}
+        className="text-[#1d9bf0] text-left text-[15px] py-[14px] pl-4 hover:bg-[#f5f5f5] cursor-pointer"
+      >
+        Show more
+      </div>
     </div>
   )
 }

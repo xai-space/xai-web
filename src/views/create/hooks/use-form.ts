@@ -13,7 +13,6 @@ import { TokenType } from '@/enums/token'
 import { marketingSchema } from '@/components/marketing-field'
 import { useChainInfo } from '@/hooks/use-chain-info'
 import { parseMediaUrl } from '@/utils'
-import { CoinApi } from '@/api/coin'
 import { staticUrl } from '@/config/url'
 import { CoinType } from '@/config/coin'
 import { useRouter } from 'next/router'
@@ -119,7 +118,7 @@ export const useCreateTokenForm = () => {
       name: values.fullname! as string,
       symbol: values.symbol! as string,
       description: values.description! as string,
-      image: `${staticUrl}${values.logo}`,
+      image: `${values.logo}`,
       chain: values.chainName as string,
       twitter: parseMediaUrl('x', values.twitter),
       telegram: parseMediaUrl('tg', values.telegram),

@@ -80,8 +80,6 @@ export const AIAgentForm = ({ isCreate }: Props) => {
   const { agentInfo, setAgentInfo } = useAIAgentStore()
   const [nftInfo, setNftInfo] = useState<NftInfo>()
 
-  const { userInfo } = useUserStore()
-
   const router = useRouter()
 
   const inputRef = useRef<HTMLInputElement>(null)

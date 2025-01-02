@@ -1,9 +1,11 @@
 import { useReadContracts } from 'wagmi'
-import { Address } from 'viem'
+import { Abi, Address } from 'viem'
 
 import { TokenListItem } from '@/api/token/types'
 import { useChainsStore } from '@/stores/use-chains-store'
 import { getContractsEnabled } from '@/utils/contract'
+import { bcAbiMap } from '@/contract/abi/bonding-curve'
+import { Network } from '@/enums/contract'
 
 export interface PoolItem {
     k: bigint
@@ -22,7 +24,9 @@ export interface PoolItem {
 export const useTokensPools = (tokens: TokenListItem[]) => {
     const { getChainId } = useChainsStore()
 
-    const filterTokens = tokens.filter((token) => token.chain !== 'bera_bartio')
+    const filterTokens = tokens.filter((token) => token.chain !== 'bera_bartio' && token.network !== Network.Svm)
+
+    console.log('filterTokens', filterTokens)
 
     const {
         data: pools = [],
@@ -30,24 +34,29 @@ export const useTokensPools = (tokens: TokenListItem[]) => {
         refetch: refetchPools,
     } = useReadContracts({
         contracts: filterTokens.map((token) => ({
-            abi: [],
-            address: token.bond_address as Address,
-            chainId: getChainId(token.chain),
+            abi: bcAbiMap['0.1.0'] as Abi,
+            // address: token.bond_address as Address,
+            address: token.bonding_curve as Address,
+            // chainId: getChainId(token.chain),
+            chainId: 97,
             functionName: 'getPool',
             args: [[token.contract_address as Address]],
         })),
         query: {
-            enabled: getContractsEnabled(tokens, 'bond_version', 'bond_address'),
+            // enabled: getContractsEnabled(tokens, 'bond_version', 'bond_address'),
             // TODO/top: fix `@ts-ignore`, write `"strictNullChecks": true` to `tsconfig.ts`,
             // But in vain, it may not take effect.
-            select: (data) =>
+            select: (data) => {
+                console.log('data', data)
+
                 // @ts-ignore
-                data.flatMap(({ result }) => result) as (PoolItem | undefined)[],
+                return data.flatMap(({ result }) => result) as (PoolItem | undefined)[];
+            },
             refetchInterval: 10_000,
         },
     })
 
-    // console.log('pools', pools)
+    console.log('pools', filterTokens, pools)
 
     return {
         pools,

@@ -49,7 +49,16 @@ export const TradeInput = ({ value, onChange, disabled }: Props) => {
 
   const tokenSymbol = tokenInfo?.symbol || tokenMetadata?.symbol
 
-  const balance = isBuy ? reserveBalance : formatSol(tokenBalance)
+  const getBalance = () => {
+    if (isBuy) {
+      return reserveBalance
+    }
+    return tokenChain?.network_type === Network.Svm
+      ? formatSol(tokenBalance)
+      : tokenBalance
+  }
+
+  const balance = getBalance()
   const balanceSymbol = isBuy ? reserveSymbol : tokenSymbol
   const balanceLabel = `${fmt.decimals(balance)} ${balanceSymbol}`
 
@@ -78,8 +87,14 @@ export const TradeInput = ({ value, onChange, disabled }: Props) => {
         )
         amount = formatSol(amountOut.amount.raw.toString())
       }
+    } else if (isBuy) {
+      if (!(await checkLastOrder())) return
+      const [_, tokenAmount] = await getTokenAmount(value)
+      amount = tokenAmount
+    } else {
+      const [, reserveAmount] = await getReserveAmount(value)
+      amount = reserveAmount
     }
-
     const formattedAmount = fmt.decimals(amount, { fixed: 4 })
     const symbol = isBuy ? tokenSymbol : reserveSymbol
     setRightValue(formattedAmount)
@@ -130,6 +145,7 @@ export const TradeInput = ({ value, onChange, disabled }: Props) => {
 
   useEffect(() => {
     getRightLabel()
+    calcInputAmount()
   }, [value, isBuy, tokenSymbol, reserveSymbol])
 
   return (
@@ -165,7 +181,9 @@ export const TradeInput = ({ value, onChange, disabled }: Props) => {
             </span>
             <Img
               src={
-                isBuy ? `${staticUrl}${tokenChain?.logo_url}` : tokenInfo?.image
+                isBuy
+                  ? `${staticUrl}${tokenChain?.logo_url}`
+                  : `${staticUrl}${tokenInfo?.image}`
               }
               width={20}
               height={20}

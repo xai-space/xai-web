@@ -12,7 +12,6 @@ import { cn } from '@/lib/utils'
 import { CreateTokenTitle } from './components/title'
 // import { NewsAsideMobile } from '@/components/asides/news-aside'
 import { useGenAIIdea } from '@/hooks/use-gen-ai-idea'
-import { AIIdeaBar } from '@/components/ai-idea-bar'
 import { AICreateMemecoinDialog } from '@/components/ai-create-memecoin-dialog'
 import { CreateTokenForm } from './components/form/form'
 
@@ -21,15 +20,7 @@ export const CreatePage = () => {
   const [tab, setTab] = useState(0)
   const deployResults = useCreateTokenForm()
   const newsListData = useNewsList({ isOpportunity: tab === 1 })
-  const {
-    show,
-    isRandom,
-    value,
-    onInputGen,
-    onRandomGen,
-    onCancel,
-    onConfirm,
-  } = useGenAIIdea()
+  const { show, isRandom, value, onCancel, onConfirm } = useGenAIIdea()
 
   return (
     <CreateTokenProvider
@@ -38,43 +29,42 @@ export const CreatePage = () => {
         ...newsListData,
       }}
     >
-    <div>
-      <div
-        className={cn(
-          'flex-1 pb-5 max-md:order-1 max-md:border-l-0 max-md:ml-0 max-md:pl-0',
-          'pr-6 max-sm:w-full max-sm:px-0'
-        )}
-      >
-        <CreateTokenTitle className="w-fit max-sm:mt-3">
-          {t('create.new')}
-        </CreateTokenTitle>
+      <div>
+        <div
+          className={cn(
+            'flex-1 pb-5 max-md:order-1 max-md:border-l-0 max-md:ml-0 max-md:pl-0',
+            'pr-6 max-sm:w-full max-sm:px-0'
+          )}
+        >
+          <CreateTokenTitle className="w-fit max-sm:mt-3">
+            {t('create.new')}
+          </CreateTokenTitle>
 
-        {/* <div className="sm:hidden">
+          {/* <div className="sm:hidden">
           <NewsAsideMobile defalutTab={1} />
         </div> */}
 
-        {/* <AIIdeaBar
+          {/* <AIIdeaBar
           className="my-5 w-fit "
           onInputGen={onInputGen}
           onRandomGen={onRandomGen}
         /> */}
 
-        <AICreateMemecoinDialog
-          show={show}
-          data={{ name: value }}
-          isRandom={isRandom}
-          onConfirm={onConfirm}
-          onCancel={onCancel}
-        />
+          <AICreateMemecoinDialog
+            show={show}
+            data={{ name: value }}
+            isRandom={isRandom}
+            onConfirm={onConfirm}
+            onCancel={onCancel}
+          />
 
-        <CreateTokenForm />
+          <CreateTokenForm />
+        </div>
+
+        <CreateTokenStatusDialog />
+
+        <AICreateMemecoinDialogLoading />
       </div>
-
-      <CreateTokenStatusDialog />
-
-      <AICreateMemecoinDialogLoading />
-    </div>
-     
     </CreateTokenProvider>
   )
 }
