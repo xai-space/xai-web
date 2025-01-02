@@ -61,7 +61,7 @@ export const TokenInfoCard = ({ className }: ComponentProps<'div'>) => {
   return (
     <AvatarCard
       src={tokenInfo?.image}
-      className="mt-20"
+      className="mt-20 !border-none"
       avatarChildren={
         isGraduated && (
           <Badge

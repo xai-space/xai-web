@@ -17,6 +17,7 @@ import { TradeTabs } from './trade-tabs'
 import { useInvite } from '@/hooks/use-invite'
 import { useTradeBalance } from '../../hooks/use-trade-balance'
 import { formatSol } from '@/packages/react-sol'
+import { Network } from '@/enums/contract'
 
 export const TradeTab = ({ className }: ComponentProps<'div'>) => {
   const [tab, setTab] = useState(TradeType.Buy.toString())
@@ -84,7 +85,7 @@ export const TradeTab = ({ className }: ComponentProps<'div'>) => {
             <TradeItems
               disabled={disabled}
               onItemClick={(v) => {
-                setValue(isBuy ? v : formatSol(v))
+                setValue(isBuy ? v : network === Network.Svm ? formatSol(v) : v)
               }}
             />
           </div>
