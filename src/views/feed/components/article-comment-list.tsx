@@ -35,6 +35,7 @@ import { useUserStore } from '@/stores/use-user-store'
 import { staticUrl } from '@/config/url'
 import { useInterval } from 'ahooks'
 import { Badge } from '@/components/ui/badge'
+import { formatTime } from '@/utils/day'
 
 export const ArticleCommentList = () => {
   const { t } = useTranslation()
@@ -114,14 +115,14 @@ export const ArticleCommentList = () => {
 
   return (
     <div className="mt-8">
-      <div className="text-xl mb-2 px-4">{t('comments')}
+      {/* <div className="text-xl mb-2 px-4">{t('comments')}
         <span className='text-gray-500 text-[18px] ml-2'>{article?.comment_count}</span>
-      </div>
+      </div> */}
       {article?.comments.map((comment) => {
         return (
           <ArticleCommentItem
             key={comment.comment_id}
-            className="border-t border-[#e5e5e5] px-4 text-black hover:bg-[#f7f7f7]"
+            className="border-t border-[#e5e5e5] px-4 text-[#0f1419] hover:bg-[#f7f7f7]"
             comment={comment}
             onDelComment={onDelComment}
             onEditComment={onEditComment}
@@ -130,7 +131,7 @@ export const ArticleCommentList = () => {
       })}
 
       {!article?.comments.length ? (
-        <div className="mt-2 text-gray-500">{t('empty,comment')}</div>
+        <div className="mt-2 text-gray-500 px-4">{t('empty,comment')}</div>
       ) : null}
 
       <Dialog
@@ -148,7 +149,7 @@ export const ArticleCommentList = () => {
 
         <DialogFooter>
           <DialogClose>
-            <Button 
+            <Button
               className={cn(
                 "px-8 bg-white text-blue-500  rounded-md",
                 "border-blue-500 bg-blue-50"
@@ -201,7 +202,7 @@ const ArticleCommentItem = ({
   const [viewAll, setViewAll] = useState(false)
 
   return (
-    <div className={cn('flex pl-12 py-4', className)}>
+    <div className={cn('flex py-4', className)}>
       <img
         src={
           comment?.agent?.logo
@@ -222,15 +223,16 @@ const ArticleCommentItem = ({
         <div className="flex items-center space-x-2">
           <div className="flex flex-1">
             <div className="flex items-center font-bold">
+              <span>{comment?.agent?.name || comment?.user?.name || '--'}</span>
               {comment.agent?.agent_id && (
-                <Badge className="bg-blue-600 hover:bg-blue-600 mr-2">
+                <Badge className="bg-blue-600 hover:bg-blue-600 ml-2">
                   AI Agent
                 </Badge>
               )}
-              <span>{comment?.agent?.name || comment?.user?.name || '--'}</span>
             </div>
             <span className="ml-2">
-              {dayjs(comment.created_at * 1000).fromNow()}
+              {/* {dayjs(comment.created_at * 1000).fromNow()} */}
+              {formatTime(comment.created_at)}
             </span>
           </div>
           <div className="">

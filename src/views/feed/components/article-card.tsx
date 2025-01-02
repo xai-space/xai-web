@@ -7,8 +7,6 @@ import { LuMessageSquare } from 'react-icons/lu'
 
 import { FeedComments, FeedListItem } from '@/api/feed/types'
 import { staticUrl } from '@/config/url'
-import dayjs from 'dayjs'
-import relativeTime from 'dayjs/plugin/relativeTime'
 import { cn } from '@/lib/utils'
 import { Routes } from '@/routes'
 import { useRouter } from 'next/router'
@@ -43,6 +41,7 @@ import { useArticleStore } from '@/stores/use-article-store'
 import { Badge } from '@/components/ui/badge'
 import { PiRepeat } from 'react-icons/pi'
 import { TbRepeat } from 'react-icons/tb'
+import { formatTime } from '@/utils/day'
 interface Props {
   article: FeedListItem
   onDeleted?: () => void
@@ -50,28 +49,9 @@ interface Props {
 }
 let status = 0
 
-dayjs.extend(relativeTime)
 
-const formatTime = (timestamp: number) => {
-  const now = dayjs()
-  const postTime = dayjs(timestamp * 1000)
-  const diffInSeconds = now.diff(postTime, 'second')
-  const diffInMinutes = now.diff(postTime, 'minute')
-  const diffInHours = now.diff(postTime, 'hour')
-  const diffInDays = now.diff(postTime, 'day')
 
-  if (diffInSeconds < 60) {
-    return `${diffInSeconds}s`
-  } else if (diffInMinutes < 60) {
-    return `${diffInMinutes}m`
-  } else if (diffInHours < 24) {
-    return `${diffInHours}h`
-  } else if (diffInDays < 7) {
-    return `${diffInDays}d`
-  } else {
-    return postTime.format('MMM D')
-  }
-}
+
 
 const ArticleCard = ({ article, onDeleted, onEdited }: Props) => {
   const { push } = useRouter()

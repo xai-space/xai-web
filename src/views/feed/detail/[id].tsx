@@ -18,6 +18,8 @@ import { Routes } from '@/routes'
 import { ArticleImages } from '../components/article-images'
 import dayjs from 'dayjs'
 import { Badge } from '@/components/ui/badge'
+import { IoArrowBackSharp } from 'react-icons/io5'
+import { FiMoreHorizontal } from 'react-icons/fi'
 
 export const DetailPage = () => {
   const { query, replace } = useRouter()
@@ -55,50 +57,62 @@ export const DetailPage = () => {
 
   return (
     <div className="mx-auto max-w-[755px]">
-      <div
-        className="inline-flex p-4 text-black items-center cursor-pointer mb-3"
-        onClick={() => replace(Routes.Feed)}
-      >
-        <FaAngleLeft size={20}></FaAngleLeft>
-        {t('back.artilce.list')}
-      </div>
-      <div className="bg-white py-4">
-        <div className="flex items-center px-2 mb-3 space-x-3 rounded-md">
-          <img
-            src={
-              article?.agent?.logo
-                ? `${staticUrl}${article?.agent?.logo}`
-                : article?.user?.logo
-                  ? `${staticUrl}${article?.user?.logo}`
-                  : defaultUserLogo
-            }
-            alt="logo"
-            width={40}
-            height={40}
-            className="w-[40px] h-[40px] rounded-full object-cover"
-          />
-          <div className="flex items-center space-x-2">
-            {article?.agent?.agent_id && (
-              <Badge className="bg-blue-600 text-[10px] hover:bg-blue-600">
-                AI Agent
-              </Badge>
-            )}
-            <span className="font-bold text-black">
-              {article?.agent?.name || article?.user?.name || '--'}
-            </span>
-            <span className="text-black">
-              {dayjs((article?.created_at || 0) * 1000).fromNow()}
-            </span>
-          </div>
+      <div className="px-4 pt-4">
+        <div
+          className="inline-flex text-black items-center cursor-pointer mb-3"
+          onClick={() => replace(Routes.Feed)}
+        >
+          <IoArrowBackSharp size={20}></IoArrowBackSharp>
+          <span className="ml-8 text-[20px] font-bold text-[#0f1419]"> Post</span>
         </div>
-        <div className="text-black px-4">
-          {article?.content && <ReactMarkdown>{article.content}</ReactMarkdown>}
-        </div>
+        <div className="bg-white pt-[14px]">
+          <div className="flex mb-3 space-x-3 rounded-md">
+            <img
+              src={
+                article?.agent?.logo
+                  ? `${staticUrl}${article?.agent?.logo}`
+                  : article?.user?.logo
+                    ? `${staticUrl}${article?.user?.logo}`
+                    : defaultUserLogo
+              }
+              alt="logo"
+              width={40}
+              height={40}
+              className="w-[40px] h-[40px] rounded-full object-cover hover:brightness-75"
+            />
+            <div className="flex">
+              <div>
+                <div className="font-bold text-[#0f1419] hover:underline">
+                  {article?.agent?.name || article?.user?.name || '--'}
+                </div>
+                <div className="text-[15px] text-[#536471] -mt-1">@{(article?.agent?.name || article?.user?.name)?.toLowerCase().replace(/\s+/g, '')}</div>
+              </div>
 
+              <div className="ml-2">
+                {article?.agent?.agent_id && (
+                  <Badge className="bg-blue-600 text-[10px] hover:bg-blue-600">
+                    AI Agent
+                  </Badge>
+                )}
+              </div>
+            </div>
+            {/* <div className="flex-auto flex justify-end">
+              <div className="p-1 transition-all rounded-full cursor-pointer hover:bg-blue-100">
+                <FiMoreHorizontal size={18} color="#1DA1F2" />
+              </div>
+            </div> */}
+          </div>
+          <div className="text-black">
+            {article?.content && <ReactMarkdown>{article.content}</ReactMarkdown>}
+          </div>
+
+        </div>
         <ArticleImages images={article?.images}></ArticleImages>
-        <ArticleComment />
       </div>
+
+      <ArticleComment />
     </div>
+
   )
 }
 

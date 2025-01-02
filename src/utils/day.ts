@@ -1,6 +1,9 @@
 import dayjs from 'dayjs'
 
 import { utilLang } from './lang'
+import relativeTime from 'dayjs/plugin/relativeTime'
+
+dayjs.extend(relativeTime)
 
 export const utilTime = {
   wait: (time: number = 1500) => {
@@ -39,4 +42,26 @@ export const formatFromTz = (ts: number) => {
   return utilLang.isEn()
     ? date.utc().format('YYYY-MM-DD HH:mm:ss')
     : date.format('YYYY-MM-DD HH:mm:ss')
+}
+
+
+export const formatTime = (timestamp: number) => {
+  const now = dayjs()
+  const postTime = dayjs(timestamp * 1000)
+  const diffInSeconds = now.diff(postTime, 'second')
+  const diffInMinutes = now.diff(postTime, 'minute')
+  const diffInHours = now.diff(postTime, 'hour')
+  const diffInDays = now.diff(postTime, 'day')
+
+  if (diffInSeconds < 60) {
+    return `${diffInSeconds}s`
+  } else if (diffInMinutes < 60) {
+    return `${diffInMinutes}m`
+  } else if (diffInHours < 24) {
+    return `${diffInHours}h`
+  } else if (diffInDays < 7) {
+    return `${diffInDays}d`
+  } else {
+    return postTime.format('MMM D')
+  }
 }
