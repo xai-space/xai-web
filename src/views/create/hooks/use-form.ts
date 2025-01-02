@@ -118,7 +118,7 @@ export const useCreateTokenForm = () => {
       name: values.fullname! as string,
       symbol: values.symbol! as string,
       description: values.description! as string,
-      image: `${staticUrl}${values.logo}`,
+      image: `${values.logo}`,
       chain: values.chainName as string,
       twitter: parseMediaUrl('x', values.twitter),
       telegram: parseMediaUrl('tg', values.telegram),

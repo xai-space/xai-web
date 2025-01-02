@@ -5,6 +5,7 @@ import { DeployFormParams } from './use-deploy'
 import { reportException } from '@/errors'
 import { useTokenConfig } from '@/hooks/use-token-config'
 import { Network } from '@/enums/contract'
+import { aiApi } from '@/api/ai'
 
 export const useCreateToken = (chainName: string) => {
   const { bcAddress } = useTokenConfig(chainName)
@@ -24,6 +25,12 @@ export const useCreateToken = (chainName: string) => {
     // if (!bcAddress) return
 
     params.network = Network.Evm
+
+    const formData = new FormData()
+    formData.append('url', params.image)
+    const { data } = await aiApi.uploadImage(formData)
+
+    params.image = `http:/${data.url}`
 
     console.log('createToken', params)
     try {

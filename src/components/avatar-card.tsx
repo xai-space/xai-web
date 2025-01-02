@@ -4,6 +4,7 @@ import { Card } from './ui/card'
 import { cn } from '@/lib/utils'
 import { Dialog } from './ui/dialog'
 import { Avatar } from './ui/avatar'
+import { staticUrl } from '@/config/url'
 
 interface Props extends ComponentProps<typeof Card> {
   src?: string
@@ -46,7 +47,7 @@ export const AvatarCard = ({
       </Dialog>
       <div className="relative pt-14">
         <Avatar
-          src={src}
+          src={`${staticUrl}${src ?? ''}`}
           variant={avatarVaiant}
           alt="logo"
           className={cn(

@@ -181,7 +181,9 @@ export const TradeInput = ({ value, onChange, disabled }: Props) => {
             </span>
             <Img
               src={
-                isBuy ? `${staticUrl}${tokenChain?.logo_url}` : tokenInfo?.image
+                isBuy
+                  ? `${staticUrl}${tokenChain?.logo_url}`
+                  : `${staticUrl}${tokenInfo?.image}`
               }
               width={20}
               height={20}

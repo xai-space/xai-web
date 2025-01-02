@@ -12,6 +12,7 @@ import { Avatar } from '@/components/ui/avatar'
 import { useClipboard } from '@/hooks/use-clipboard'
 import { useResponsive } from '@/hooks/use-responsive'
 import { useMarketCap } from '@/hooks/use-market-cap'
+import { staticUrl } from '@/config/url'
 
 export const TokenInfoHeader = ({ className }: ComponentProps<'div'>) => {
   const { t } = useTranslation()
@@ -50,11 +51,10 @@ export const TokenInfoHeader = ({ className }: ComponentProps<'div'>) => {
         <div className="max-sm:flex max-sm:w-full max-sm:justify-between max-sm:space-x-2">
           <div className="flex items-center max-w-64 break-all line-clamp-1 max-sm:flex-1">
             <Avatar
-              src={tokenInfo?.image ?? ''}
+              src={`${staticUrl}${tokenInfo?.image ?? ''}`}
               size={26}
               className="border-2 border-black"
             />
-
             <span
               className="ml-1 font-bold text-blue-600 truncate"
               title={tokenLabelName}
