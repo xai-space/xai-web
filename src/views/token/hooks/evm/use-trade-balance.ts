@@ -32,7 +32,6 @@ export const useEvmTradeBalance = () => {
     refetch: refetchTokenBalance,
   } = useReadContract({
     abi: tokenAbiMap['0.1.0'],
-    // abi: [],
     address: tokenAddr as Address,
     functionName: 'balanceOf',
     chainId,
@@ -45,6 +44,7 @@ export const useEvmTradeBalance = () => {
 
   const nativeBalance = formatEther(value)
   const tokenBalance = formatEther(tokenData)
+
   const isFetchingBalance = isFetchingReserve || isFetchingToken
 
   const refetchBalance = () => {

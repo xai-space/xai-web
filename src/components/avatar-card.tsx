@@ -26,11 +26,14 @@ export const AvatarCard = ({
     <Card
       shadow="none"
       padding="md"
-      className={cn('mt-12 cursor-default max-sm:mt-14 relative', className)}
+      className={cn(
+        'mt-12 cursor-default max-sm:mt-14 relative !border-none',
+        className
+      )}
       conBackground={'none'}
       conAnimate={'none'}
       conPadding={'none'}
-      border={'default'}
+      border={'none'}
       clip={'none'}
       {...props}
     >
