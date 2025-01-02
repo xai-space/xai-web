@@ -20,8 +20,8 @@ const avatarVariants = cva('', {
 
 interface Props
   extends React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Root>,
-    ShadowVariantsProps,
-    VariantProps<typeof avatarVariants> {
+  ShadowVariantsProps,
+  VariantProps<typeof avatarVariants> {
   src?: string
   alt?: string
   size?: number

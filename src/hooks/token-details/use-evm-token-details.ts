@@ -4,6 +4,8 @@ import { Address, formatEther, zeroAddress } from 'viem'
 import { useReadContract } from 'wagmi'
 
 import { BI_ZERO } from '@/constants/number'
+import { tokenAbiMap } from '@/contract/abi/token'
+import { bcAbiMap } from '@/contract/abi/bonding-curve'
 
 export const useEvmTokenDetails = (
   chainId: number,
@@ -13,7 +15,7 @@ export const useEvmTokenDetails = (
   bcAddr: string | undefined
 ) => {
   const tokenConfig = {
-    abi: [],
+    abi: tokenAbiMap['0.1.0'],
     address: tokenAddr as Address,
     chainId,
   } as const
@@ -29,10 +31,13 @@ export const useEvmTokenDetails = (
     query: { enabled },
   })
 
+
   const { data: pools = [], refetch: refetchPools } = useReadContract({
-    abi: [],
-    address: bcAddr as Address,
-    chainId,
+    abi: bcAbiMap['0.1.0'],
+    // address: bcAddr as Address,
+    address: '0x0082D35FC544C056F00C5141Aecbf830e7b60db4' as Address,
+    // chainId,
+    chainId: 97,
     functionName: 'pools_',
     args: [tokenAddr as Address],
     query: {

@@ -10,6 +10,7 @@ import { useInvite } from '@/hooks/use-invite'
 import { useTokenContext } from '@/contexts/token'
 import { useWaitForTx } from '@/hooks/use-wait-for-tx'
 import { useTradeAmount } from '../use-trade-amount'
+import { bcAbiMap } from '@/contract/abi/bonding-curve'
 // import { masterAbiLatest } from '@/contract/abi/master'
 
 export const useEvmTrade = (onSuccess?: () => void) => {
@@ -23,9 +24,9 @@ export const useEvmTrade = (onSuccess?: () => void) => {
   const { getReferrals } = useInvite()
   const { getTokenAmount, getReserveAmount } = useTradeAmount()
   const bcConfig = {
-    // abi: bcAbiMap[bond_version!],
-    abi: [],
-    address: bond_address as Address,
+    abi: bcAbiMap['0.1.0'],
+    // address: bond_address as Address,
+    address: '0x0082D35FC544C056F00C5141Aecbf830e7b60db4' as Address,
     chainId,
   }
 
@@ -70,7 +71,7 @@ export const useEvmTrade = (onSuccess?: () => void) => {
 
     const reserveValue = parseEther(reserveAmount)
     const [parent, gParent] = await getReferrals()
-
+    debugger
     writeContract({
       ...bcConfig,
       functionName: 'mint',

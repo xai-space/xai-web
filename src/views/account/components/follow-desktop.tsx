@@ -16,13 +16,19 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { useUserStore } from '@/stores/use-user-store'
+import { useRouter } from 'next/router'
+import { Routes } from '@/routes'
+import { UserInfo } from '@/api/feed/types'
 
-export const FollowDesktop = () => {
+export const FollowDesktop = (info: any) => {
+  const { push, query } = useRouter()
   const { t } = useTranslation()
   const [tab, setTab] = useState(UserListType.Following)
   const { isOtherUser, isAgent, followers, followingResults, refetchFollow } =
     useAccountContext()
   const { userInfo, otherUserInfo } = useUserStore()
+  console.log('query-follow-desktop:', query);
+
   // const {
   //   agent,
   //   user,
@@ -50,16 +56,15 @@ export const FollowDesktop = () => {
             variant="ghost"
             size="sm"
             shadow="none"
-            onClick={() => setTab(UserListType.Followers)}
+            onClick={() => push(`${Routes.FollowList}?isAgent=${isAgent}&user_id=${query.uid}`)}
             className="shadow-none pl-0 !border-none group relative"
           >
             <span className="space-x-1 text-base relative">
               <span className="font-bold text-[#0f1419]">
                 {otherUserInfo?.follow_count ?? 0}
               </span>
-              <span className="text-[#536471] text-[14px] relative">
+              <span className="text-[#536471] text-[14px] hover:underline">
                 {t('following')}
-                <div className="absolute bottom-0 left-0 right-0 h-[0.5px] bg-[#0f1419] opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
               </span>
             </span>
           </Button>
@@ -68,7 +73,7 @@ export const FollowDesktop = () => {
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => setTab(UserListType.Following)}
+            onClick={() => push(`${Routes.FollowList}?isAgent=${isAgent}&user_id=${query.uid}`)}
             shadow="none"
             className="shadow-none !border-none group ml-2 relative"
           >
@@ -76,42 +81,15 @@ export const FollowDesktop = () => {
               <span className="font-bold text-[#0f1419]">
                 {otherUserInfo?.follower_count ?? 0}
               </span>
-              <span className="text-[#536471] text-[14px] relative">
+              <span className="text-[#536471] text-[14px] hover:underline">
                 {t('followers')}
-                <div className="absolute bottom-0 left-0 right-0 h-[0.5px] bg-[#0f1419] opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
               </span>
             </span>
           </Button>
         </DialogTrigger>
       </div>
 
-      <DialogContent className="p-4">
-        <VisuallyHidden>
-          <DialogClose ref={closeRef} />
-        </VisuallyHidden>
-        <DialogHeader>
-          <DialogTitle>
-            {isFollowers
-              ? !isOtherUser
-                ? t('followers.my')
-                : t('followers')
-              : !isOtherUser
-                ? t('following.my')
-                : t('following')}
-          </DialogTitle>
-        </DialogHeader>
-        {/* <FollowersCards
-          // total={following.total}
-          // isLoading={isLoadingFollowers}
-          // isPending={isFetchingFollowers}
-          onCardClick={() => closeRef.current?.click()}
-        /> */}
-        {isFollowers ? (
-          <FollowersCards onCardClick={() => closeRef.current?.click()} />
-        ) : (
-          <FollowingCards onCardClick={() => closeRef.current?.click()} />
-        )}
-      </DialogContent>
+
     </Dialog>
   )
 }

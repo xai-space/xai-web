@@ -6,18 +6,20 @@ import { BI_ZERO } from '@/constants/number'
 import { reportException } from '@/errors'
 // import { bcAbiMap } from '@/contract/abi/bonding-curve'
 import { useTokenContext } from '@/contexts/token'
+import { bcAbiMap } from '@/contract/abi/bonding-curve'
 
 export const useEvmTradeAmount = (chainId: number, tokenAddr: Address) => {
   const { tokenInfo: { bond_version, bond_address } = {} } = useTokenContext()
   const config = {
-    // abi: bcAbiMap[bond_version!],
-    abi: [],
-    address: bond_address as Address,
+    abi: bcAbiMap['0.1.0'],
+    // abi: [],
+    address: '0x0082D35FC544C056F00C5141Aecbf830e7b60db4' as Address,
+    // address: bond_address as Address,
     chainId: chainId as ConfigChainId,
   }
 
   const checkConfig = () => {
-    if (!config.abi || !config.address || !chainId) return false
+    // if (!config.abi || !config.address || !chainId) return false
     return true
   }
 

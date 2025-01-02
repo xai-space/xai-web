@@ -41,7 +41,7 @@ export const NftAgentDialog = ({
   setNftInfo,
 }: Props) => {
   const { t } = useTranslation()
-  const [network, setNetwork] = useState(Network.SOL)
+  const [network, setNetwork] = useState(Network.EVM)
   const [collection, setCollection] = useState<NFTInfo>()
 
   const nftListRef = useRef<HTMLDivElement>(null)

@@ -89,10 +89,10 @@ export const Profile = () => {
   return (
     <div className="flex-1 rounded-md">
       <div
-        className="bg-cover bg-center h-72"
+        className="bg-cover bg-center h-[200px]"
         style={{ backgroundImage: `url(/images/profile-bg.jpg)` }}
       />
-      <div className="bg-background border-b boder-[#e5e5e5] px-4 pt-2 relative after:absolute after:w-full after:h-px after:bottom-5 after:left-0">
+      <div className="bg-background px-4 pt-2 relative after:absolute after:w-full after:h-px after:bottom-5 after:left-0">
         {!isPad ? (
           <AccountInfoDesktop
             isAgent={isAgent}

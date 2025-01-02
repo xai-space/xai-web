@@ -45,7 +45,7 @@ export const PrimaryLayout = ({
         <NavAside className="sticky top-0 shrink-0" {...navAsideProps} />
       </div>
 
-      <div className={cn('border-[#e5e5e5] border-width-[1px] w-[600px]')}>
+      <div className={cn('border-[#e5e5e5] border-width-[1px]', isTokenPage ? 'min-w-[600px]' : 'w-[600px]')}>
         <HandleScroll variant={ScrollVariant.Top}>
           <Header />
         </HandleScroll>
@@ -71,8 +71,8 @@ export const PrimaryLayout = ({
         </HandleScroll>
       </div>
       <div className={cn('px-10 max-xl:px-4 max-lg:hidden min-h-screen z-50')}>
-        <RightAside />
-        {/* {isTokenPage ? '' : <RightAside />} */}
+        {/* <RightAside /> */}
+        {isTokenPage ? '' : <RightAside />}
       </div>
     </main>
   )

@@ -8,6 +8,7 @@ import { LuMessageSquare } from 'react-icons/lu'
 import { FeedComments, FeedListItem } from '@/api/feed/types'
 import { staticUrl } from '@/config/url'
 import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
 import { cn } from '@/lib/utils'
 import { Routes } from '@/routes'
 import { useRouter } from 'next/router'
@@ -16,7 +17,7 @@ import { defaultUserId } from '@/config/base'
 import { Avatar } from '@/components/ui/avatar'
 import { MdEdit, MdFavorite, MdFavoriteBorder } from 'react-icons/md'
 import { FiMoreHorizontal } from 'react-icons/fi'
-
+import styles from '../styles.module.css'
 import {
   BaseDeleteDialog,
   DeleteDialogType,
@@ -48,6 +49,29 @@ interface Props {
   onEdited?: () => void
 }
 let status = 0
+
+dayjs.extend(relativeTime)
+
+const formatTime = (timestamp: number) => {
+  const now = dayjs()
+  const postTime = dayjs(timestamp * 1000)
+  const diffInSeconds = now.diff(postTime, 'second')
+  const diffInMinutes = now.diff(postTime, 'minute')
+  const diffInHours = now.diff(postTime, 'hour')
+  const diffInDays = now.diff(postTime, 'day')
+
+  if (diffInSeconds < 60) {
+    return `${diffInSeconds}s`
+  } else if (diffInMinutes < 60) {
+    return `${diffInMinutes}m`
+  } else if (diffInHours < 24) {
+    return `${diffInHours}h`
+  } else if (diffInDays < 7) {
+    return `${diffInDays}d`
+  } else {
+    return postTime.format('MMM D')
+  }
+}
 
 const ArticleCard = ({ article, onDeleted, onEdited }: Props) => {
   const { push } = useRouter()
@@ -138,7 +162,7 @@ const ArticleCard = ({ article, onDeleted, onEdited }: Props) => {
     <div className="border-b border-[#e5e5e5] overflow-hidden duration-300 hover:bg-[#f7f7f7] transition-all relative">
       <div className="flex p-4">
         <div
-          className="flex-shrink-0 -mt-[6px] rounded-full w-[40px] h-[40px] overflow-hidden cursor-pointer group"
+          className="flex-shrink-0  rounded-full w-[40px] h-[40px] overflow-hidden cursor-pointer group"
           onClick={toAccount}
         >
           <Avatar
@@ -157,16 +181,18 @@ const ArticleCard = ({ article, onDeleted, onEdited }: Props) => {
           <div className="flex items-center justify-between">
             <div className="text-black flex items-center">
               {/* AI Agent badge */}
+
+              <span className="cursor-pointer text-[15px] font-semibold hover:underline" onClick={toAccount}>
+                {article?.agent?.name || article?.user?.name || '--'}
+              </span>
               {article.agent?.agent_id && (
-                <Badge className="mr-2 bg-blue-600 hover:bg-blue-600">
+                <Badge className="ml-2 bg-blue-600 hover:bg-blue-600">
                   AI Agent
                 </Badge>
               )}
-              <span className="cursor-pointer text-[15px] font-semibold" onClick={toAccount}>
-                {article?.agent?.name || article?.user?.name || '--'}
-              </span>
-              <span className="text-[#536471]  text-[15px] ml-2">
-                {dayjs(article.created_at * 1000).fromNow()}
+              <span className="text-[#536471]  text-[15px] ml-[4px]">·</span>
+              <span className="text-[#536471] text-[15px] ml-[4px]">
+                {formatTime(article.created_at)}
               </span>
             </div>
             {userInfo?.user_id === article?.user?.user_id ? (
@@ -201,13 +227,13 @@ const ArticleCard = ({ article, onDeleted, onEdited }: Props) => {
           </div>
 
           <CardDescription
-            className="mt-1 text-base break-all text-white cursor-pointer"
+            className="mt-1 text-base text-white cursor-pointer"
             onClick={() => {
               push(`${Routes.FeedDetail}/${article.article_id}`)
             }}
           >
             <ReactMarkdown
-              className={'text-black text-justify'}
+              className={cn(styles.articleCardContent, 'text-[#0f1419] text-[15px] text-start')}
               components={{
                 a: ({ href, children }) => {
                   return (

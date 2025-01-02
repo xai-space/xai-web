@@ -99,16 +99,24 @@ export const AccountInfoDesktop = (props: AccountInfoProps) => {
         <div className="flex items-center h-10">
           <CiCircleMore size={42} className='mr-[5px]'></CiCircleMore>
           {isOtherUser ? (
-            <Button
-              shadow={'none'}
-              className="flex items-center bg-[#0f1419] rounded-full"
-              disabled={isFollowing || isUnfollowing}
-              onClick={() => followFetch()}
-            >
-              <span className="text-[15px] font-semibold px-[5px]">
-                {otherUserInfo?.is_followed ? t('unfollow') : t('follow')}
-              </span>
-            </Button>
+            <div onClick={followFetch}>
+              {otherUserInfo?.is_followed ? (
+                <div
+                  className="rounded-full px-4 py-1 text-[14px] text-center font-medium border-[1px] 
+                 border-[#CFD9DE] bg-white text-black
+                hover:bg-red-50 hover:text-red-600 hover:border-red-200
+                group"
+                >
+                  <span className="group-hover:hidden">Following</span>
+                  <span className="hidden group-hover:inline">Unfollow</span>
+                </div>
+
+              ) : (
+                <div className="rounded-full text-center px-4 py-1 text-[14px] bg-black text-white font-medium border-[#000] border-[1px] hover:bg-gray-800">
+                  Follow
+                </div>
+              )}
+            </div>
           ) : (
             <ProfileForm>
               <Button variant={'purple'} className="flex items-center space-x-2">
@@ -121,14 +129,15 @@ export const AccountInfoDesktop = (props: AccountInfoProps) => {
       </div>
 
       <div>
-        <p className="font-bold text-[20px] text-[0f1419]">
+        <p className="font-bold text-[20px] mt-4 text-[0f1419]">
           {isAgent ? agentInfo?.name : otherUserInfo?.name}
         </p>
       </div>
       <p className="text-[#0f1419] text-[15px] mt-[4px]">
-        {userInfo?.description ? userInfo?.description : t('there.noting')}
+        {userInfo?.description ? userInfo?.description : ""}
       </p>
-      <FollowDesktop />
+      <FollowDesktop info={isAgent ? agentInfo : otherUserInfo} />
+
     </div>
   )
 }

@@ -30,6 +30,7 @@ export enum Routes {
   NewsMoonshot = '/news/tab/1',
   NewsClassicMeme = '/news/tab/2',
   ConnectPage = '/connect',
-
+  FeatureLanches = '/feature-lanches',
   Notification = '/notification',
+  FollowList = '/follow-list',
 }

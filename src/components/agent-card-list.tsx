@@ -98,18 +98,14 @@ export const AgentCardList = ({
       <div className="grid grid-cols-2 gap-3 mt-4 w-full max-sm:grid-cols-1">
         {data?.list.map((agent) => {
           return (
-            <Card
-              clip={'none'}
-              conPadding={'none'}
-              conBackground={'none'}
-              conAnimate={'none'}
-              className='cursor-pointer'
+            <div
+              className='cursor-pointer bg-[#f7f7f7] hover:border-[#1d40f0] transition-colors duration-200 rounded-lg border border-gray-200'
               key={agent.agent_id}
               onClick={() => {
                 push(`${Routes.AIChat}/${agent.agent_id}`)
               }}
             >
-              <CardContent className="p-3">
+              <div className="p-3">
                 <div className="flex">
                   <img
                     src={
@@ -180,8 +176,8 @@ export const AgentCardList = ({
                     </div>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           )
         })}
       </div>
@@ -189,7 +185,7 @@ export const AgentCardList = ({
       {loading || loadingMore ? (
         <ListLoading />
       ) : data?.noMore && !data.list.length ? (
-        <span>{!isOtherUser ? t('no.have.agent') : t('other.no.agent')}</span>
+        <span className='pl-4'>{!isOtherUser ? t('no.have.agent') : t('other.no.agent')}</span>
       ) : null}
 
       <AgentDeleteDialog

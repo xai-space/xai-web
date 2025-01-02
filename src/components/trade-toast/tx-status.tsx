@@ -7,7 +7,7 @@ import { useWaitForTx } from '@/hooks/use-wait-for-tx'
 import { SlippageError } from './slippage-error'
 import { TxLoading } from './tx-loading'
 import { TxSuccess } from './tx-success'
-import { useTokenContext } from '@/contexts/token'
+
 import { Network } from '@/enums/contract'
 import { useWaitTransactionConfirm } from '@/packages/react-sol'
 
