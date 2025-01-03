@@ -6,7 +6,7 @@ export enum Routes {
   NftAgent = '/nft-agent',
   Coin = '/coin',
   Community = '/community',
-  Profile = '/profile',
+  Profile = '/account',
   Setting = '/setting-page',
   TokenPage = '/[chain]/[address]',
 
