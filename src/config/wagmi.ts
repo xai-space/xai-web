@@ -25,17 +25,17 @@ import { getDefaultConfig, getDefaultWallets } from '@rainbow-me/rainbowkit'
 
 const dev = {
   chains: [
-    sepolia,
+    // sepolia,
     bscTestnet,
-    opBNBTestnet,
-    scrollSepolia,
-    baseSepolia,
-    blastSepolia,
-    fantomTestnet,
-    zkSyncSepoliaTestnet,
+    // opBNBTestnet,
+    // scrollSepolia,
+    // baseSepolia,
+    // blastSepolia,
+    // fantomTestnet,
+    // zkSyncSepoliaTestnet,
   ],
   transports: {
-    [sepolia.id]: fallback([http(), unstable_connector(injected)]),
+    // [sepolia.id]: fallback([http(), unstable_connector(injected)]),
     [bscTestnet.id]: fallback([
       http(
         'https://bsc-testnet-rpc.publicnode.com'
@@ -43,12 +43,12 @@ const dev = {
       http(),
       unstable_connector(injected),
     ]),
-    [opBNBTestnet.id]: fallback([http(), unstable_connector(injected)]),
-    [scrollSepolia.id]: fallback([http(), unstable_connector(injected)]),
-    [baseSepolia.id]: fallback([http(), unstable_connector(injected)]),
-    [blastSepolia.id]: fallback([http(), unstable_connector(injected)]),
-    [fantomTestnet.id]: fallback([http(), unstable_connector(injected)]),
-    [zkSyncSepoliaTestnet.id]: fallback([http(), unstable_connector(injected)]),
+    // [opBNBTestnet.id]: fallback([http(), unstable_connector(injected)]),
+    // [scrollSepolia.id]: fallback([http(), unstable_connector(injected)]),
+    // [baseSepolia.id]: fallback([http(), unstable_connector(injected)]),
+    // [blastSepolia.id]: fallback([http(), unstable_connector(injected)]),
+    // [fantomTestnet.id]: fallback([http(), unstable_connector(injected)]),
+    // [zkSyncSepoliaTestnet.id]: fallback([http(), unstable_connector(injected)]),
   },
 }
 
@@ -70,7 +70,8 @@ export const wagmiConfig = getDefaultConfig({
     zkSync,
 
     // testnet
-    ...(dotenv.isDev ? dev.chains : []),
+    // ...(dotenv.isDev ? dev.chains : []),
+    ...dev.chains,
   ],
   transports: {
     [mainnet.id]: fallback([http(), unstable_connector(injected)]),
@@ -101,7 +102,8 @@ export const wagmiConfig = getDefaultConfig({
     [zkSync.id]: fallback([http(), unstable_connector(injected)]),
 
     // testnet
-    ...(dotenv.isDev ? dev.transports : []),
+    // ...(dotenv.isDev ? dev.transports : []),
+    ...dev.transports
   },
 })
 

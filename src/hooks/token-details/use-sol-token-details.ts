@@ -4,7 +4,6 @@ import { useMemo } from 'react'
 import BigNumber from 'bignumber.js'
 import { Metaplex } from '@metaplex-foundation/js'
 import { useQuery } from '@tanstack/react-query'
-
 import { formatSol, useProgram } from '@/packages/react-sol'
 import { programIds } from '@/program'
 import { getCurveAccount, getFeeAccount } from '@/program/token/account'
@@ -24,7 +23,7 @@ export const useSolTokenDetails = (tokenAddr: string) => {
   } = useQuery({
     queryKey: ['getTokenDetails', tokenAddr],
     queryFn: async () => {
-      const metaplex = Metaplex.make(connection)
+      const metaplex = new Metaplex(connection)
 
       const token = await metaplex
         .nfts()

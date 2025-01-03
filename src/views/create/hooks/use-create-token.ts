@@ -6,6 +6,7 @@ import { reportException } from '@/errors'
 import { useTokenConfig } from '@/hooks/use-token-config'
 import { Network } from '@/enums/contract'
 import { aiApi } from '@/api/ai'
+import { CoinType } from '@/config/coin'
 
 export const useCreateToken = (chainName: string) => {
   const { bcAddress } = useTokenConfig(chainName)
@@ -24,13 +25,12 @@ export const useCreateToken = (chainName: string) => {
   const createToken = async (params: DeployFormParams) => {
     // if (!bcAddress) return
 
-    params.network = Network.Evm
-
-    const formData = new FormData()
-    formData.append('url', params.image)
-    const { data } = await aiApi.uploadImage(formData)
-
-    params.image = `http:/${data.url}`
+    if (params.coin_type === CoinType.NFTAgent) {
+      const formData = new FormData()
+      formData.append('url', params.image)
+      const { data } = await aiApi.uploadImage(formData)
+      params.image = `http:/${data.url}`
+    }
 
     try {
       const { data } = await create({

@@ -4,7 +4,7 @@ import { createUmi } from '@metaplex-foundation/umi-bundle-defaults'
 import { dasApi } from "@metaplex-foundation/digital-asset-standard-api";
 import { Asset, NFTInfo, NFTListRes, NetworkNFTList } from "@/api/nft";
 import { useDynamicContext } from "@dynamic-labs/sdk-react-core";
-import { PublicKey } from "@metaplex-foundation/js";
+import { PublicKey } from "@solana/web3.js";
 
 
 export const useSolNFTList = (nftListRef: React.RefObject<HTMLDivElement>) => {
