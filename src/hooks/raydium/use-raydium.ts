@@ -4,7 +4,6 @@ import { ApiV3PoolInfoConcentratedItem, ClmmKeys, ComputeClmmPoolInfo, PoolUtils
 import { clusterApiUrl } from '@solana/web3.js'
 import { useConnection } from "@solana/wallet-adapter-react"
 import { BN } from "@coral-xyz/anchor"
-import { PublicKey } from "@metaplex-foundation/js"
 import { isValidClmm } from "./utils"
 import { formatSol, parseSol } from "@/packages/react-sol"
 import { useDynamicContext } from '@dynamic-labs/sdk-react-core'
@@ -17,6 +16,7 @@ import BigNumber from "bignumber.js"
 import Decimal from 'decimal.js'
 import { NATIVE_MINT } from "@solana/spl-token"
 import { useRaydiumPool } from "./use-raydium-pool"
+import { PublicKey } from "@solana/web3.js"
 
 const inputMint = new PublicKey("So11111111111111111111111111111111111111112").toBase58()
 
