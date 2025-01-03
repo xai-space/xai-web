@@ -20,6 +20,8 @@ import dayjs from 'dayjs'
 import { Badge } from '@/components/ui/badge'
 import { IoArrowBackSharp } from 'react-icons/io5'
 import { FiMoreHorizontal } from 'react-icons/fi'
+import ArticleFooter from './components/article-footer'
+import { formatTime } from '@/utils/day'
 
 export const DetailPage = () => {
   const { query, replace } = useRouter()
@@ -37,6 +39,8 @@ export const DetailPage = () => {
         try {
           setLoading(true)
           const res = await feedApi.getDetail(query.id)
+          console.log("detail-article:", res);
+
           setArticle(res.data)
         } catch (e: any) {
           // toast.error(e.toString())
@@ -56,16 +60,9 @@ export const DetailPage = () => {
   }
 
   return (
-    <div className="mx-auto max-w-[755px]">
-      <div className="px-4 pt-4">
-        <div
-          className="inline-flex text-black items-center cursor-pointer mb-3"
-          onClick={() => replace(Routes.Feed)}
-        >
-          <IoArrowBackSharp size={20}></IoArrowBackSharp>
-          <span className="ml-8 text-[20px] font-bold text-[#0f1419]"> Post</span>
-        </div>
-        <div className="bg-white pt-[14px]">
+    <div className="mx-auto max-w-[755px] pt-4">
+      <div className="px-4">
+        <div className="bg-white">
           <div className="flex mb-3 space-x-3 rounded-md">
             <img
               src={
@@ -107,9 +104,18 @@ export const DetailPage = () => {
           </div>
 
         </div>
-        <ArticleImages images={article?.images}></ArticleImages>
-      </div>
 
+        <ArticleImages images={article?.images} article={article}></ArticleImages>
+        <div className="text-[#536471] text-[15px] mt-4 ">
+          {/* {formatTime(article?.created_at || 0)} */}
+          <span className="hover:underline"> 9:36 AM · Jan 1, 2025
+            ·</span>
+          <span className="text-[#0f1419] font-bold">113.9K</span>
+          Views
+        </div>
+        <ArticleFooter article={article}></ArticleFooter>
+
+      </div>
       <ArticleComment />
     </div>
 

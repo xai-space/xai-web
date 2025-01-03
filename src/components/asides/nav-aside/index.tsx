@@ -67,6 +67,7 @@ export const NavAside = ({
   const [isCollapsed, setIsCollapsed] = useState(responsive[collapseSize])
   const [isOpenMoreMenus, setIsOpenMoreMenus] = useState(false)
   const { agentInfo, sessionId } = useAIAgentStore()
+  console.log("pathname&&:", pathname);
 
   const userNavs = [
     {
@@ -133,7 +134,7 @@ export const NavAside = ({
       path: Routes.Profile,
       icon: <BiUser size={28} />,
       iconActive: <BiSolidUser size={28} />,
-      isActive: pathname === Routes.Profile,
+      isActive: pathname === '/account/[uid]',
     },
     {
       title: t('setting'),
@@ -147,7 +148,7 @@ export const NavAside = ({
       path: '',
       icon: <MoreMenus isCollapsed={true} isOpen={isOpenMoreMenus} setIsOpen={setIsOpenMoreMenus} />,
       iconActive: <MoreMenus isCollapsed={true} />,
-      isActive: pathname === Routes.Setting,
+      isActive: false,
     },
   ]
 
