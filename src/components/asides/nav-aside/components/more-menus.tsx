@@ -55,7 +55,7 @@ export const MoreMenus = ({
         <DropdownMenuContent
           side="top"
           align="start"
-          className="border-[#e5e5e5]  p-0"
+          className="border-[#e5e5e5]"
         >
           <DropdownMenuItem>
             <div
