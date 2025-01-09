@@ -1,10 +1,8 @@
-import { use, useEffect, useState, type ReactNode } from 'react'
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
+import { useEffect, useState, type ReactNode } from 'react'
 import { PrimaryLayout } from '@/components/layouts/primary'
 import ConnectCardList from './components/connect-card-list'
 import { useTranslation } from 'react-i18next'
-import { IoArrowBackSharp } from "react-icons/io5";
-import { NoticeAtion } from '@/api/user/types'
+import { IoArrowBackSharp } from 'react-icons/io5'
 import styles from './styles.module.css'
 import { useRouter } from 'next/router'
 
@@ -25,7 +23,6 @@ export const ConnectPage = () => {
       value: 'all',
       id: 1,
     },
-
   ]
   const [isBlurred, setIsBlurred] = useState(false)
   const [isActive, setIsActive] = useState(1)
@@ -54,9 +51,9 @@ export const ConnectPage = () => {
 
   return (
     <div className="relative flex flex-col">
-      <div className='flex items-center pl-4 pt-4'>
+      <div className="flex items-center pl-4 pt-4">
         <IoArrowBackSharp size={20} onClick={() => router.back()} />
-        <div className='ml-10 text-[#0f1419] text-[20px]'>Connect</div>
+        <div className="ml-10 text-[#0f1419] text-[20px]">Connect</div>
       </div>
       <div
         className={cn(
@@ -75,7 +72,6 @@ export const ConnectPage = () => {
               key={index}
             >
               {item.title}
-
             </div>
           ))}
         </div>

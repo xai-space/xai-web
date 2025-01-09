@@ -7,7 +7,6 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
-import { fmt } from '@/utils/fmt'
 import { ChainSelect } from '@/components/chain-select'
 import { useCreateTokenContext } from '@/contexts/create-token'
 import { useChainInfo } from '@/hooks/use-chain-info'

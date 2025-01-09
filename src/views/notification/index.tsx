@@ -1,9 +1,7 @@
-import { use, useEffect, useState, type ReactNode } from 'react'
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
+import { useEffect, useState, type ReactNode } from 'react'
 import { PrimaryLayout } from '@/components/layouts/primary'
 import NoticeCardList from './components/notice-card-list'
 import { useTranslation } from 'react-i18next'
-import { NoticeAtion } from '@/api/user/types'
 import styles from './styles.module.css'
 
 import { cn } from '@/lib/utils'

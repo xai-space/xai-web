@@ -1,4 +1,4 @@
-import React, { use, useMemo } from 'react'
+import React from 'react'
 import { IoIosMore } from 'react-icons/io'
 
 import { Avatar } from '../../ui/avatar'
@@ -11,7 +11,7 @@ import { Routes } from '@/routes'
 import { ConnectWallet } from '../../connect-wallet'
 import { NavAccountPopover } from './nav-account-pop'
 import { useDynamicContext } from '@dynamic-labs/sdk-react-core'
-import { defaultAgentLogo, defaultUserLogo } from '@/config/link'
+import { defaultUserLogo } from '@/config/link'
 import { useUserStore } from '@/stores/use-user-store'
 import { staticUrl } from '@/config/url'
 

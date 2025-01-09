@@ -13,7 +13,7 @@ import {
 import { toast } from 'sonner'
 
 import { useTranslation } from 'react-i18next'
-import { useChainId, useSwitchChain } from 'wagmi'
+import { useChainId } from 'wagmi'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { cn } from '@/lib/utils'
 import {

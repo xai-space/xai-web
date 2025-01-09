@@ -19,7 +19,7 @@ import { Button } from '@/components/ui/button'
 import { useUser } from '@/hooks/use-user'
 import { useAccountContext } from '@/contexts/account'
 
-interface Props extends RequirePick<ComponentProps<'div'>, 'children'> {}
+type Props = RequirePick<ComponentProps<'div'>, 'children'>
 
 export const ProfileForm = ({ children }: Props) => {
   const { t } = useTranslation()

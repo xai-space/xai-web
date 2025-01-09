@@ -1,7 +1,6 @@
 import { userApi } from '@/api/user'
 import { FollowItem, UserCategory } from '@/api/user/types'
 import PrimaryLayout from '@/components/layouts/primary'
-import { Avatar } from '@/components/ui/avatar'
 import { defaultUserLogo } from '@/config/link'
 import { staticUrl } from '@/config/url'
 

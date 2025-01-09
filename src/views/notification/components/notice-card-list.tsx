@@ -1,21 +1,14 @@
 import { aiApi } from '@/api/ai'
 import { UserNotificationList } from '@/api/user/types'
 import { staticUrl } from '@/config/url'
-import {
-  Card,
-  CardContent,
-  CardTitle,
-  CardHeader,
-  CardDescription,
-} from '@/components/ui/card'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+
+
+import { Avatar } from '@/components/ui/avatar'
 import { defaultAgentLogo } from '@/config/link'
 import { useInfiniteScroll, useRequest } from 'ahooks'
-import { isEmpty, get } from 'lodash-es'
-import { NoticeAtion } from '@/api/user/types'
+import { get } from 'lodash-es'
 import { putReadNotices } from '@/api/user'
 import { useEffect, useState } from 'react'
-import { cn } from '@/lib/utils'
 import { ListLoading } from '@/components/loading'
 import EmptyData from '@/components/empty-data'
 import { useChartStore } from '@/stores/use-chart-store'

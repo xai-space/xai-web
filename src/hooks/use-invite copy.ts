@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query'
-import { Address, zeroAddress } from 'viem'
+import { zeroAddress } from 'viem'
 
 import { inviteApi } from '@/api/invite'
 import { useTokenQuery } from '../views/token/hooks/use-token-query'

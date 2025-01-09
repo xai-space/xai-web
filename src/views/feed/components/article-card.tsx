@@ -1,6 +1,6 @@
 'use client'
 
-import { memo, use, useEffect, useMemo, useState } from 'react'
+import { memo, useEffect, useState } from 'react'
 import { CardDescription } from '@/components/ui/card'
 import ReactMarkdown from 'react-markdown'
 import { LuMessageSquare } from 'react-icons/lu'
@@ -10,8 +10,6 @@ import { staticUrl } from '@/config/url'
 import { cn } from '@/lib/utils'
 import { Routes } from '@/routes'
 import { useRouter } from 'next/router'
-import { ImagePreview } from '@/components/image-preview'
-import { defaultUserId } from '@/config/base'
 import { Avatar } from '@/components/ui/avatar'
 import { MdEdit, MdFavorite, MdFavoriteBorder } from 'react-icons/md'
 import { FiMoreHorizontal } from 'react-icons/fi'
@@ -34,12 +32,11 @@ import { Dialog } from '@/components/ui/dialog'
 import { PublishPost } from '@/components/publish-post'
 import { ArticleImages } from './article-images'
 import { useUserStore } from '@/stores/use-user-store'
-import { defaultAgentLogo, defaultUserLogo } from '@/config/link'
+import { defaultUserLogo } from '@/config/link'
 import Link from 'next/link'
-import { UserCategory, UserInfoRes } from '@/api/user/types'
+import { UserCategory } from '@/api/user/types'
 import { useArticleStore } from '@/stores/use-article-store'
 import { Badge } from '@/components/ui/badge'
-import { PiRepeat } from 'react-icons/pi'
 import { TbRepeat } from 'react-icons/tb'
 import { formatTime } from '@/utils/day'
 interface Props {
@@ -108,12 +105,6 @@ const ArticleCard = ({ article, onDeleted, onEdited }: Props) => {
   }, [article.is_liked])
   const postLike = async () => {
     try {
-      const res = await feedApi.updateLikesofPosts({
-        category: 'article',
-        target_id: article.article_id,
-        status,
-      })
-
       if (status) {
         setLikes((pre) => pre + 1)
         setIsLiked(true)
@@ -259,7 +250,12 @@ const ArticleCard = ({ article, onDeleted, onEdited }: Props) => {
               )}
               <span>{likes}</span>
             </div>
-            <div className="flex items-center space-x-1 text-gray-500 cursor-pointer hover:text-gray-800">
+            <div
+              className="flex items-center space-x-1 text-gray-500 cursor-pointer hover:text-gray-800"
+              onClick={() => {
+                toast.info(t('coming-soon'))
+              }}
+            >
               <TbRepeat size={20} />
               <span>0</span>
             </div>

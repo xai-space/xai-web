@@ -9,7 +9,6 @@ import { useEffect } from 'react'
 import { cn } from '@/lib/utils'
 import { useUserInfo } from '@/hooks/use-user-info'
 import { useTranslation } from 'react-i18next'
-import { useRequest } from 'ahooks'
 import { useRouter } from 'next/router'
 
 interface Result {
@@ -35,7 +34,7 @@ export const AgentUserInfo = ({
   const { query } = useRouter()
 
   const getLoadMoreList = async (): Promise<Result> => {
-    let start = Math.floor(postsList.length / 10) + 1
+    const start = Math.floor(postsList.length / 10) + 1
 
     const bodyData: FeedList = {
       page: start,

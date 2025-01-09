@@ -1,46 +1,18 @@
-import { aiApi } from '@/api/ai'
-import { UserCategory, UserNotificationList } from '@/api/user/types'
+import { UserCategory } from '@/api/user/types'
 import { staticUrl } from '@/config/url'
-import {
-  Card,
-  CardContent,
-  CardTitle,
-  CardHeader,
-  CardDescription,
-} from '@/components/ui/card'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { defaultAgentLogo, defaultImg } from '@/config/link'
-import { useInfiniteScroll, useRequest } from 'ahooks'
-import { isEmpty, get } from 'lodash-es'
-import { NoticeAtion } from '@/api/user/types'
-import { putReadNotices } from '@/api/user'
+
+import { Avatar } from '@/components/ui/avatar'
+import { defaultImg } from '@/config/link'
+import { useRequest } from 'ahooks'
 import { feedApi } from '@/api/feed'
-import { useEffect, useState } from 'react'
-import { cn } from '@/lib/utils'
-import { ListLoading } from '@/components/loading'
-import EmptyData from '@/components/empty-data'
-import { useChartStore } from '@/stores/use-chart-store'
 import AsideFollow from '@/views/feed/components/aside-follow'
 import { useRouter } from 'next/router'
 import { Routes } from '@/routes'
 
-interface Result {
-  list: UserNotificationList[]
-  noMore?: boolean
-}
-interface NoticeCardListProps {
-  action: string
-}
-let start = 0
-let isReadNotice = true
-const ConnectCardList = ({ action }: NoticeCardListProps) => {
-  const { query, push } = useRouter()
-  const [resultData, setResultData] = useState<boolean | undefined>()
-  const { clearNoticeCount } = useChartStore()
-  const container = document.querySelector('.scroll-container')
+const ConnectCardList = () => {
+  const { push } = useRouter()
   const toAccount = (item: any) => {
     // push(Routes.AgentInfo)
-
     push(
       `${Routes.Account}/${item.id}?t=${
         item.agent_id ? UserCategory.Agent : UserCategory.User
@@ -50,9 +22,9 @@ const ConnectCardList = ({ action }: NoticeCardListProps) => {
   const { data } = useRequest(
     async () => {
       const res = await feedApi.getFeatureFollow()
-      let list = []
+      const list = []
       for (const item of res.data?.list) {
-        let id = item.user ? item.user.user_id : item.agent?.agent_id
+        const id = item.user ? item.user.user_id : item.agent?.agent_id
         list.push({
           ...item[item.category],
           category: item.category,

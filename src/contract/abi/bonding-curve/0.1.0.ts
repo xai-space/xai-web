@@ -1241,4 +1241,4 @@ export const bcAbi0_1_0 = [{
     "stateMutability": "payable",
     "type": "receive"
 }
-]
+] as const

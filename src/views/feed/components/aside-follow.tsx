@@ -1,5 +1,4 @@
 import { userApi } from '@/api/user'
-import { Button } from '@/components/ui/button'
 import { useUserStore } from '@/stores/use-user-store'
 import { useState } from 'react'
 import { toast } from 'sonner'

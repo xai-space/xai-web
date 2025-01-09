@@ -5,7 +5,6 @@ import { type Address } from 'viem'
 
 import { tokenApi } from '@/api/token'
 import type { TokenConfigContract } from '@/api/token/types'
-import type { DistributorVersion } from '@/contract/abi/distributor'
 import type { RecommendVersion } from '@/contract/abi/recommend'
 import type { TokenVersion } from '@/contract/abi/token'
 import { BcVersion } from '@/contract/abi/bonding-curve'

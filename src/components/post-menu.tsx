@@ -16,11 +16,9 @@ import { useRouter } from 'next/router'
 import { Routes } from '@/routes'
 import { cn } from '@/lib/utils'
 
-interface PostMenuProps {
-  isCollapsed: boolean
-}
+interface PostMenuProps {}
 const fontStyle = 'cursor-pointer text-[15px] text-[#0f1419] font-semibold'
-export const PostMenu = ({ isCollapsed }: PostMenuProps) => {
+export const PostMenu = ({}: PostMenuProps) => {
   const { t } = useTranslation()
   const isLoggedIn = useIsLoggedIn()
   const router = useRouter()

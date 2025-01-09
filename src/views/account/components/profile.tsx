@@ -4,10 +4,8 @@ import {
   HoverCardTrigger,
 } from '@/components/ui/hover-card'
 import { useAccountContext } from '@/contexts/account'
-import { useClipboard } from '@/hooks/use-clipboard'
 import { useUser } from '@/hooks/use-user'
 import { useRouter } from 'next/router'
-import { useTranslation } from 'react-i18next'
 import { cn } from '@/lib/utils'
 import { UserInfoRes, UserUpdateReq } from '@/api/user/types'
 import { UseMutateAsyncFunction } from '@tanstack/react-query'
@@ -17,9 +15,7 @@ import { useResponsive } from '@/hooks/use-responsive'
 import AccountInfoMoblie from './account-info-mobile'
 import { useRequest } from 'ahooks'
 import { aiApi } from '@/api/ai'
-import { AgentInfoResDataBase } from '@/api/ai/type'
 import { useEffect } from 'react'
-import { useUserStore } from '@/stores/use-user-store'
 
 export interface AccountInfoProps {
   isOtherUser: boolean
@@ -50,23 +46,15 @@ export interface AccountInfoProps {
 }
 
 export const Profile = () => {
-  const {
-    userInfo,
-    useUserInfo,
-    isAgent,
-    isOtherUser,
-    refetchUserInfo,
-    refetchFollow,
-  } = useAccountContext()
+  const { userInfo, isAgent, isOtherUser, refetchUserInfo, refetchFollow } =
+    useAccountContext()
   const { isFollowing, isUnfollowing, follow, unfollow, update } = useUser({
     onFollowFinlly: () => {
       refetchUserInfo()
       refetchFollow()
     },
   })
-  const { setUserInfo } = useUserStore()
 
-  const { t } = useTranslation()
   const { query } = useRouter()
   const { isPad } = useResponsive()
   const tokenAddr = (query.address || '') as string
@@ -74,7 +62,7 @@ export const Profile = () => {
   useEffect(() => {
     getAgentProfile()
   }, [query.uid])
-  const { data: profileData, runAsync: getAgentProfile } = useRequest(
+  const { runAsync: getAgentProfile } = useRequest(
     () => aiApi.getAgentInfo(query.uid as string),
     {
       manual: true,

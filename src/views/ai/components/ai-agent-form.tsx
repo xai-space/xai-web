@@ -1,6 +1,3 @@
-import { FormTextareaField } from '@/components/form-field'
-import { FormInputField } from '@/components/form-input-field'
-import { FormSelectField } from '@/components/form-select-field'
 import ImageUpload from '@/components/image-upload'
 import { Button } from '@/components/ui/button'
 import {
@@ -8,17 +5,11 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
   DropdownMenuItem,
-  DropdownMenuPortal,
 } from '@/components/ui/dropdown-menu'
-import { Label } from '@/components/ui/label'
-import { createField, useFields } from '@/hooks/use-fields'
 import { useUploadImage } from '@/hooks/use-upload-image'
 import { isEmpty } from 'lodash'
 import { nanoid } from 'nanoid'
 import {
-  DOMAttributes,
-  FormEvent,
-  useCallback,
   useEffect,
   useMemo,
   useRef,
@@ -29,15 +20,13 @@ import { IoAdd } from 'react-icons/io5'
 import { toast } from 'sonner'
 import { MdOutlinePhotoSizeSelectActual } from 'react-icons/md'
 import { RiNftFill } from 'react-icons/ri'
-import { apiUrl, staticUrl } from '@/config/url'
+import { staticUrl } from '@/config/url'
 import { aiApi } from '@/api/ai'
 import { useRouter } from 'next/router'
 import { Routes } from '@/routes'
 import { defaultAgentLogo, loadingSVG } from '@/config/link'
-import { defaultUserId } from '@/config/base'
 import { useAIAgentStore } from '@/stores/use-chat-store'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { TokenType } from '@/enums/token'
 import { z } from 'zod'
 import {
   Form,
@@ -66,9 +55,7 @@ const formFields = {
   logoIdentify: 'logoIdentify',
 } as const
 import { NftAgentDialog, NftInfo } from './nft-agent-dialog'
-import { UploadImageRes, otherApi } from '@/api/other'
-import { DynamicConnectButton } from '@dynamic-labs/sdk-react-core'
-import { useUserStore } from '@/stores/use-user-store'
+import { UploadImageRes } from '@/api/other'
 
 interface Props {
   isCreate: boolean
@@ -115,7 +102,7 @@ export const AIAgentForm = ({ isCreate }: Props) => {
     },
   })
 
-  let {
+  const {
     isUploading,
     blobUrl,
     onChangeUpload,

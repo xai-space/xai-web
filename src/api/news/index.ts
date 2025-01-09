@@ -4,7 +4,6 @@ import type { ApiResponse, PaginationRes } from '../types'
 import type {
   CountryData,
   MemeInfoDialogData,
-  NewsData,
   NewsQuery,
   OpportunityData,
 } from './types'

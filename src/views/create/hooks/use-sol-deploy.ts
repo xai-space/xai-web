@@ -1,6 +1,5 @@
 import { web3 } from '@coral-xyz/anchor'
 import BigNumber from 'bignumber.js'
-import { v4 as uuidV4 } from 'uuid'
 import { useMutation } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useDynamicContext } from '@dynamic-labs/sdk-react-core'
@@ -65,7 +64,7 @@ export const useSolDeploy = (onFinally?: VoidFunction) => {
 
 
 
-      let identifierAccount = new web3.PublicKey(tokenId)
+      const identifierAccount = new web3.PublicKey(tokenId)
 
       const metadata = {
         name,

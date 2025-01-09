@@ -5,7 +5,7 @@ import {
   MinusIcon,
   PlusIcon,
 } from '@radix-ui/react-icons'
-import { IoClose, IoCopyOutline, IoSettingsOutline } from 'react-icons/io5'
+import { IoCopyOutline, IoSettingsOutline } from 'react-icons/io5'
 import AccountAvatar from './account-avatar'
 import FollowDesktop from '@/views/account/components/follow-desktop'
 import { AccountInfoProps, HoverCardPop } from './profile'
@@ -25,14 +25,11 @@ import { useClipboard } from '@/hooks/use-clipboard'
 import { userApi } from '@/api/user'
 import {
   useDynamicContext,
-  useUserWallets,
-  useWalletItemActions,
   useWalletOptions,
 } from '@dynamic-labs/sdk-react-core'
-import { use, useEffect, useState } from 'react'
 
 import { useUserStore } from '@/stores/use-user-store'
-import { UserCategory, UserInfoRes } from '@/api/user/types'
+import { UserCategory } from '@/api/user/types'
 
 export const AccountInfoDesktop = (props: AccountInfoProps) => {
   const { query } = useRouter()

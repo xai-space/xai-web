@@ -1,4 +1,3 @@
-import { Address } from 'viem'
 import { useRaydium } from '@/hooks/raydium/use-raydium'
 
 export const useSvmDex = (

@@ -1,7 +1,6 @@
 import { createContext, useContext } from 'react'
 
 import type {
-  UserFollow,
   UserFollowersRes,
   UserInfoRes,
 } from '@/api/user/types'

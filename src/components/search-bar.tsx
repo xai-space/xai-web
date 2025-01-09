@@ -1,6 +1,4 @@
-import { Input } from '@/components/ui/input'
 import { cn } from '@/lib/utils'
-import { CgSearch } from 'react-icons/cg'
 import { FiSearch } from 'react-icons/fi'
 import { useState } from 'react'
 

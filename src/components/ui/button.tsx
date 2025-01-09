@@ -4,7 +4,6 @@ import { cva, type VariantProps } from 'class-variance-authority'
 
 import { cn } from '@/lib/utils'
 import {
-  shadowVariants,
   ShadowVariantsProps,
 } from '@/styles/variants/offset-shadow'
 import { useAudioPlayer } from '@/hooks/use-audio-player'

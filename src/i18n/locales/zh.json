@@ -867,5 +867,6 @@
   "agent.personality": "Agent 性格特征",
   "ai.identify.image": "正在基于NFT生成性格特征...",
   "swap.input.mint.not.match": "没有找到正确的交易对",
-  "nav.more": "更多"
+  "nav.more": "更多",
+  "reply": "回复"
 }

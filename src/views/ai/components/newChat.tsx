@@ -18,7 +18,6 @@ import { ArrowRight } from 'lucide-react'
 import { useChat } from '@/hooks/use-chat'
 import { useRouter } from 'next/navigation'
 import { useTranslation } from 'react-i18next'
-import { defaultUserId } from '@/config/base'
 
 const formSchema = z.object({
   message: z.string().min(1, {

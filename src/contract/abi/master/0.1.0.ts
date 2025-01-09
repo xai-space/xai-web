@@ -405,4 +405,4 @@ export const masterAbi0_1_0 = [{
     "stateMutability": "payable",
     "type": "receive"
 }
-]
+] as const

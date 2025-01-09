@@ -103,7 +103,7 @@ export const useSvmTrade = (onSuccess?: VoidFunction, tokenAddr?: string) => {
     }[] = []
 
     // Unchangeable order
-    recommendAccounts.forEach((account, index) => {
+    recommendAccounts.forEach((account) => {
       if (account) {
         // Add invited accounts
         remainingAccounts.push({
@@ -230,7 +230,7 @@ export const useSvmTrade = (onSuccess?: VoidFunction, tokenAddr?: string) => {
     resetSell()
   }
 
-  const { data: result, isFetched: isTraded } = useWaitTransactionConfirm({
+  const { isFetched: isTraded } = useWaitTransactionConfirm({
     signature: buyHash || sellHash,
     onSuccess: () => {
       onSuccess?.()

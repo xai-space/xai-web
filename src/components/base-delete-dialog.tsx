@@ -1,6 +1,3 @@
-import { aiApi } from '@/api/ai'
-import { AgentInfoResDataBase, AgentListResItem } from '@/api/ai/type'
-import { Input } from '@/components/input'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -8,11 +5,7 @@ import {
   DialogFooter,
   DialogHeader,
 } from '@/components/ui/dialog'
-import { defaultUserId } from '@/config/base'
-import { useAIAgentStore } from '@/stores/use-chat-store'
-import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { toast } from 'sonner'
 
 export enum DeleteDialogType {
   Session = 1,

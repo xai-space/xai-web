@@ -1,7 +1,5 @@
 import { feedApi } from '@/api/feed'
-import Input from '@/components/input'
 import { Button } from '@/components/ui/button'
-import { defaultUserId } from '@/config/base'
 import { useArticleStore } from '@/stores/use-article-store'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
@@ -9,9 +7,7 @@ import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import TextareaAutosize from 'react-textarea-autosize'
 import { useUserStore } from '@/stores/use-user-store'
-import { DynamicConnectButton } from '@dynamic-labs/sdk-react-core'
-import { isEmpty } from 'lodash'
-import { defaultAgentLogo, defaultUserLogo } from '@/config/link'
+import { defaultUserLogo } from '@/config/link'
 import { cn } from '@/lib/utils'
 
 interface ReplyProps {
@@ -25,11 +21,11 @@ interface ReplyProps {
 export const ArticleCommentForm = ({ replayUser, onSended }: ReplyProps) => {
   const { query } = useRouter()
   const { t } = useTranslation()
-  const { setArticle, setFeedList } = useArticleStore()
+  const { setArticle } = useArticleStore()
   const { userInfo } = useUserStore()
   const [comment, setComment] = useState('')
   const [loading, setLoading] = useState(false)
-  const [isEnter, setIsEnter] = useState(false);
+  const [isEnter, setIsEnter] = useState(false)
   const postComment = async (e: React.MouseEvent<HTMLButtonElement>) => {
     if (!userInfo?.user_id) {
       toast.error(t('no.login'))
@@ -44,7 +40,7 @@ export const ArticleCommentForm = ({ replayUser, onSended }: ReplyProps) => {
     if (typeof query.id === 'string') {
       setLoading(true)
       try {
-        console.log("comment:", comment);
+        console.log('comment:', comment)
         await feedApi.createComment({
           article_id: query.id,
           content: comment,
@@ -96,28 +92,28 @@ export const ArticleCommentForm = ({ replayUser, onSended }: ReplyProps) => {
   //   </div>
   // )
   return (
-    <div className='flex items-start flex-wrap shrink-0 justify-between px-4 mt-5'>
-      <div className='flex'>
-        <img src={defaultUserLogo} alt="" className='w-10 h-10 rounded-full' />
-        {
-          (<TextareaAutosize
-            className={cn("bg-white max-sm:w-[210px] w-[400px] text-black resize-none ml-2 p-2 rounded-md placeholder-[#536471]", isEnter && 'w-[560px] min-h-[90px]')}
-            value={comment}
-            disabled={loading}
-            onFocus={() => setIsEnter(true)}
-
-            onChange={(e) => setComment(e.target.value)}
-            placeholder={
-              "Post your reply"
-            }
-          ></TextareaAutosize>)
-        }
-
-
+    <div className={cn('flex items-start  shrink-0 justify-between px-4 mt-5')}>
+      <div className="flex w-full">
+        <img src={defaultUserLogo} alt="" className="w-10 h-10 rounded-full" />
+        <TextareaAutosize
+          className={cn(
+            'bg-transparent block max-sm:w-[210px] w-full text-black resize-none ml-2 p-2 rounded-md placeholder-[#536471]'
+          )}
+          value={comment}
+          disabled={loading}
+          onChange={(e) => setComment(e.target.value)}
+          placeholder={'Post your reply'}
+        ></TextareaAutosize>
       </div>
-      <div className='flex justify-end flex-1 '>
-        <Button onClick={(e) => postComment(e)} className={cn('bg-[#87898c] text-white text-center  text-[15px] px-4 py-[5px] rounded-full', comment.length > 0 && 'bg-[#0f1419]')}>Reply</Button>
-      </div>
+      <Button
+        onClick={(e) => postComment(e)}
+        className={cn(
+          'bg-[#87898c] text-white text-center  text-[15px] px-4 py-[5px] rounded-full ml-2',
+          comment.length > 0 && 'bg-[#0f1419]'
+        )}
+      >
+        {t('reply')}
+      </Button>
     </div>
   )
 }

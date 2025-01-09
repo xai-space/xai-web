@@ -538,4 +538,4 @@ export const tokenAbi0_1_0 = [{
     "stateMutability": "view",
     "type": "function"
 }
-]
+] as const

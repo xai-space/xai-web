@@ -15,7 +15,7 @@ import { bcAbiMap } from '@/contract/abi/bonding-curve'
 
 export const useEvmTrade = (onSuccess?: () => void) => {
   const {
-    tokenInfo: { bond_version, bond_address } = {},
+    tokenInfo: { } = {},
     tokenAddr,
     chainId,
     setFallbackGraduated,

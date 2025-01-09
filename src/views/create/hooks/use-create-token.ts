@@ -4,7 +4,6 @@ import { tokenApi } from '@/api/token'
 import { DeployFormParams } from './use-deploy'
 import { reportException } from '@/errors'
 import { useTokenConfig } from '@/hooks/use-token-config'
-import { Network } from '@/enums/contract'
 import { aiApi } from '@/api/ai'
 import { CoinType } from '@/config/coin'
 

@@ -8,7 +8,6 @@ import { Button } from '@/components/ui/button'
 import { useArticleStore } from '@/stores/use-article-store'
 import { useEffect, useState } from 'react'
 import { ArticleCommentForm } from './article-comment-form'
-import { defaultUserId } from '@/config/base'
 import { cn } from '@/lib/utils'
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa6'
 import {

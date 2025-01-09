@@ -1,5 +1,4 @@
 import { Network } from '@/enums/contract'
-import { TokenType } from '@/enums/token'
 // import type { TokenVersion } from '@/contract/abi/token'
 // import type { RecommendVersion } from '@/contract/abi/recommend'
 // import type { BcVersion } from '@/contract/abi/bonding-curve'

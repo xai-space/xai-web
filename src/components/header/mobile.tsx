@@ -1,6 +1,5 @@
 import { type ComponentProps, useRef, useState } from 'react'
 
-import { useRouter } from 'next/router'
 import type { Nav } from '.'
 import { Sheet, SheetContent, SheetTrigger } from '../ui/sheet'
 import { AccountDropdown } from '../account-dropdown'

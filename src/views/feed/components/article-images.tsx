@@ -1,9 +1,7 @@
-import { ImagePreview } from '@/components/image-preview'
 import { staticUrl } from '@/config/url'
 import { cn } from '@/lib/utils'
 import { useState } from 'react'
 import { PhotoProvider, PhotoView } from 'react-photo-view'
-import ArticleFooter from '../detail/components/article-footer'
 
 interface Props {
   images?: string[]
@@ -40,14 +38,10 @@ export const ArticleImages = ({ images, article }: Props) => {
                     setShow(true)
                     setImageUrl(url)
                   }}
-
                 />
-
               </PhotoView>
-
             )
           })}
-
         </PhotoProvider>
       </div>
       {/* <ImagePreview

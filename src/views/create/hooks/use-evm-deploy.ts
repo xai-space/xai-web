@@ -12,7 +12,6 @@ import { DeployFormParams } from './use-deploy'
 import { useTokenConfig } from '@/hooks/use-token-config'
 import { useInvite } from '@/hooks/use-invite'
 import { useDynamicContext } from '@dynamic-labs/sdk-react-core'
-import { deployEvmAirdropParams } from '@/config/deploy'
 
 export interface EvmDeployParams {
   tokenId: string

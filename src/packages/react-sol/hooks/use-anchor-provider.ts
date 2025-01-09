@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   type Provider,
   AnchorProvider,
@@ -7,7 +7,6 @@ import {
   web3,
 } from '@coral-xyz/anchor'
 import {
-  AnchorWallet,
   useAnchorWallet,
   useConnection,
 } from '@solana/wallet-adapter-react'

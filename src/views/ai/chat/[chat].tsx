@@ -1,4 +1,4 @@
-import { type ReactNode, useEffect, useState, useRef } from 'react'
+import { type ReactNode, useEffect, useRef } from 'react'
 import { useRouter } from 'next/router'
 
 import { PrimaryLayout } from '@/components/layouts/primary'

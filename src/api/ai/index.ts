@@ -14,11 +14,8 @@ import {
 
 import {
   AgentChat,
-  AgentChatRes,
   AgentCreate,
-  AgentCreateRes,
   AgentListReq,
-  AgentListResItem,
   AgentSessionsAll,
   AgentSessionsAllRes,
   AgentSessionsDelete,
@@ -27,13 +24,9 @@ import {
   AgentSessionsHistoryRes,
   AgentSessionsRename,
   AgentSessionsRenameRes,
-  AgentUpadeRes,
-  AgentUpdate,
 } from './type'
 import { userApi } from '../user/index'
 import { CommonHeaders, ContentType } from '@/hooks/use-fetch'
-import { fetchEventSource } from '@microsoft/fetch-event-source'
-import { defaultUserId } from '@/config/base'
 
 export const aiApi = {
   getMemeInfo: async (data?: AIMemeInfoQuery, signal?: AbortSignal) => {

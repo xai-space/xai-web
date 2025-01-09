@@ -1,7 +1,6 @@
 import SearchBar from '@/components/search-bar'
 import FeatureFollow from '../feed/components/feature-follow'
 import NewLanches from '../feed/components/new-Lanches'
-import { useState } from 'react'
 
 const RightAside = () => {
   return (

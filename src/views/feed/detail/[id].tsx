@@ -11,17 +11,10 @@ import { loadingSVG, defaultUserLogo } from '@/config/link'
 import { staticUrl } from '@/config/url'
 import { ArticleComment } from '../components/article-comment'
 import { useArticleStore } from '@/stores/use-article-store'
-import { toast } from 'sonner'
-import { FaAngleLeft } from 'react-icons/fa6'
 import { useTranslation } from 'react-i18next'
-import { Routes } from '@/routes'
 import { ArticleImages } from '../components/article-images'
-import dayjs from 'dayjs'
 import { Badge } from '@/components/ui/badge'
-import { IoArrowBackSharp } from 'react-icons/io5'
-import { FiMoreHorizontal } from 'react-icons/fi'
 import ArticleFooter from './components/article-footer'
-import { formatTime } from '@/utils/day'
 
 export const DetailPage = () => {
   const { query, replace } = useRouter()

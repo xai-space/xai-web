@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { first, isArray } from 'lodash'
+import { isArray } from 'lodash'
 import { useMutation } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { useTranslation } from 'react-i18next'

@@ -1,5 +1,4 @@
-import React, { ComponentProps, RefAttributes, useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import React, { ComponentProps, useState } from 'react'
 
 import { Input as Inp } from '@/components/ui/input'
 import { cn } from '@/lib/utils'

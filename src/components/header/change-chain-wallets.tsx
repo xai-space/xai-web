@@ -3,11 +3,8 @@ import { useConnectModal } from '@rainbow-me/rainbowkit'
 import { useAccount } from 'wagmi'
 import { useResponsive } from '@/hooks/use-responsive'
 import { ComponentProps, useState } from 'react'
-import { useAccountEffect } from 'wagmi'
 
-import { Dialog, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Button } from '../ui/button'
-import { DialogDescription } from '@radix-ui/react-dialog'
 
 export const ChangeChainWallets = ({
   ...props

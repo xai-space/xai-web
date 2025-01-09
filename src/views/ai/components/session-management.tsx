@@ -18,7 +18,6 @@ import { RiDeleteBin5Line } from 'react-icons/ri'
 import { SessionRenameDialog } from './session-rename-dialog'
 import { cn } from '@/lib/utils'
 import { SessionDeleteDialog } from './session-delete-dialog'
-import { defaultUserId } from '@/config/base'
 import { useInfiniteScroll } from 'ahooks'
 import { aiApi } from '@/api/ai'
 
@@ -45,7 +44,7 @@ export const SessionManagement = () => {
   }
 
   const getLoadMoreList = async (): Promise<Result> => {
-    let start = Math.floor(sessionList.length / 10) + 1
+    const start = Math.floor(sessionList.length / 10) + 1
 
     const { data } = await aiApi.getSessionList(agentInfo!.agent_id, start)
 

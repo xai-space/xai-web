@@ -11,13 +11,11 @@ import type {
   UserListType,
   UserUpdateFollowReq,
   UserFollowsReq,
-  FollowItem,
   UserNotificationRes,
   NoticeParams,
   NoticeAtion,
   Count,
   ReadNoticesBody,
-  FollowList,
   list,
   UserFollowersReq,
 } from './types'

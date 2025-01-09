@@ -1,8 +1,7 @@
 import { Idl } from '@coral-xyz/anchor'
 import { useProgram, type UseProgramOptions } from './use-program'
 
-interface UseProgramMethodOptions<IDL extends Idl>
-  extends UseProgramOptions<IDL> {}
+type UseProgramMethodOptions<IDL extends Idl> = UseProgramOptions<IDL>
 
 // TODO: Waiting for implementation
 export const useProgramMethod = <IDL extends Idl>({

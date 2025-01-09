@@ -1,0 +1,3 @@
+public/js/charting_library/**/*
+tailwind.config.ts
+*.d.ts 

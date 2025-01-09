@@ -2,7 +2,6 @@ import PrimaryLayout from '@/components/layouts/primary'
 import { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FaChevronLeft } from 'react-icons/fa6'
-import { AIAgentCreateForm } from '../components/ai-agent-create-form'
 import { useRouter } from 'next/router'
 import { AIAgentForm } from '../components/ai-agent-form'
 

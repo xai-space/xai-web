@@ -1,18 +1,18 @@
-import { useMemo } from 'react'
 import { BigNumber } from 'bignumber.js'
+import { useMemo } from 'react'
 import { Address, formatEther, zeroAddress } from 'viem'
 import { useReadContract } from 'wagmi'
 
 import { BI_ZERO } from '@/constants/number'
-import { tokenAbiMap } from '@/contract/abi/token'
 import { bcAbiMap } from '@/contract/abi/bonding-curve'
+import { tokenAbiMap } from '@/contract/abi/token'
 
 export const useEvmTokenDetails = (
   chainId: number,
-  tokenVersion: any | undefined,
+  _tokenVersion: any | undefined,
   tokenAddr: string | undefined,
-  bcVersion: any | undefined,
-  bcAddr: string | undefined
+  _bcVersion: any | undefined,
+  _bcAddr: string | undefined
 ) => {
   const tokenConfig = {
     abi: tokenAbiMap['0.1.0'],

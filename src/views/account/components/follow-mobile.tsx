@@ -1,4 +1,4 @@
-import { ReactElement, ReactNode, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Root as VisuallyHidden } from '@radix-ui/react-visually-hidden'
 
@@ -13,24 +13,17 @@ import {
 } from '@/components/ui/sheet'
 import { useAccountContext } from '@/contexts/account'
 import { UserListType } from '@/api/user/types'
-import { FollowersCards } from './followers-cards'
-import { FollowingCards } from './following-cards'
 
 export const FollowMoblie = () => {
   const { t } = useTranslation()
   const [tab, setTab] = useState(UserListType.Following)
-  const { isOtherUser, followers, followingResults, refetchFollow } =
-    useAccountContext()
+  const { isOtherUser, followingResults } = useAccountContext()
   // const {
   //   followers,
   //   isLoading: isLoadingFollowers,
   //   isFetching: isFetchingFollowers,
   // } = followersResults
-  const {
-    following,
-    isLoading: isLoadingFollowing,
-    isFetching: isFetchingFollowing,
-  } = followingResults
+  const { following } = followingResults
   const closeRef = useRef<HTMLButtonElement>(null)
   const isFollowers = tab === UserListType.Followers
 

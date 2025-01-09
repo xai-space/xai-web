@@ -1,20 +1,12 @@
-import { useEffect, useState } from "react"
-import { programIds } from '@/program'
-import { ApiV3PoolInfoConcentratedItem, ClmmKeys, ComputeClmmPoolInfo, PoolUtils, Raydium, ReturnTypeFetchMultiplePoolTickArrays, TxVersion } from '@raydium-io/raydium-sdk-v2'
-import { clusterApiUrl } from '@solana/web3.js'
-import { useConnection } from "@solana/wallet-adapter-react"
+import { useState } from "react"
+import { TxVersion } from '@raydium-io/raydium-sdk-v2'
 import { BN } from "@coral-xyz/anchor"
-import { isValidClmm } from "./utils"
-import { formatSol, parseSol } from "@/packages/react-sol"
-import { useDynamicContext } from '@dynamic-labs/sdk-react-core'
+import { parseSol } from "@/packages/react-sol"
 import { toast } from "sonner"
 import { useTranslation } from "react-i18next"
-import { isSolanaWallet } from "@dynamic-labs/solana"
 import { CONTRACT_ERR } from "@/errors/contract"
 import { useInitRaydium } from "./use-init-raydium"
 import BigNumber from "bignumber.js"
-import Decimal from 'decimal.js'
-import { NATIVE_MINT } from "@solana/spl-token"
 import { useRaydiumPool } from "./use-raydium-pool"
 import { PublicKey } from "@solana/web3.js"
 

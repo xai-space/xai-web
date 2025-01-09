@@ -6,7 +6,6 @@ import { useDynamicContext } from '@dynamic-labs/sdk-react-core'
 import { isSolanaWallet } from '@dynamic-labs/solana'
 
 import { useTokenContext } from '@/contexts/token'
-import { formatSol } from '@/packages/react-sol'
 
 export const useSvmTradeBalance = () => {
   // const { publicKey } = useWallet()

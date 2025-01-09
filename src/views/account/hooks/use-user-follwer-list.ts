@@ -1,9 +1,8 @@
 import { userApi } from '@/api/user'
 import { FollowItem, UserCategory } from '@/api/user/types'
 import { useUserStore } from '@/stores/use-user-store'
-import { useMutation } from '@tanstack/react-query'
 import { useInfiniteScroll } from 'ahooks'
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 
 interface Result {
     list: FollowItem[]

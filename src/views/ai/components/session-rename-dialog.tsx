@@ -4,18 +4,15 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
-  DialogContent,
   DialogFooter,
   DialogHeader,
   DialogClose,
 } from '@/components/ui/dialog'
-import { defaultUserId } from '@/config/base'
 import { useAIAgentStore } from '@/stores/use-chat-store'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { isEmpty } from 'lodash'
-import { loadingSVG } from '@/config/link'
 
 interface Props {
   session?: AgentSessionsList

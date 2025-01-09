@@ -8,12 +8,8 @@ import { useTranslation } from 'react-i18next'
 import { useUserStore } from '@/stores/use-user-store'
 import { toast } from 'sonner'
 import { AgentCardList } from '@/components/agent-card-list'
-import { DropdownMenu } from '@radix-ui/react-dropdown-menu'
-import {
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
+
+
 
 const NftAgent = () => {
     const { t } = useTranslation()

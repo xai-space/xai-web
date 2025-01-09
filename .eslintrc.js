@@ -1,0 +1,38 @@
+module.exports = {
+  parser: '@typescript-eslint/parser',
+  plugins: ['@typescript-eslint', 'unused-imports'],
+  extends: ['plugin:@typescript-eslint/recommended', 'next'],
+  rules: {
+    '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-non-null-asserted-optional-chain': 'off',
+    'react-hooks/rules-of-hooks': 'off',
+    'react-hooks/exhaustive-deps': 'off',
+    '@next/next/no-img-element': 'off',
+    '@typescript-eslint/no-unused-vars': 'off',
+    'no-unused-vars': 'off',
+    'no-console': ['error', { allow: ['warn', 'error'] }],
+    'unused-imports/no-unused-imports': 'error',
+    'unused-imports/no-unused-vars': [
+      'error',
+      {
+        vars: 'all',
+        varsIgnorePattern: '^_',
+        args: 'after-used',
+        argsIgnorePattern: '^_',
+      },
+    ],
+    'react/jsx-key': 'error',
+    'react/display-name': 'off',
+    'react/no-children-prop': 'error',
+    'jsx-a11y/alt-text': 'error',
+    '@typescript-eslint/ban-ts-comment': 'error',
+    '@typescript-eslint/ban-types': 'error',
+    '@typescript-eslint/no-duplicate-enum-values': 'error',
+  },
+  ignorePatterns: [
+    'public/js/charting_library/**/*',
+    'tailwind.config.ts',
+    'node_modules/**/*',
+    '.next/**/*',
+  ],
+}

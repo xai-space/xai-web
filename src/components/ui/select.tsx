@@ -10,7 +10,6 @@ import * as SelectPrimitive from '@radix-ui/react-select'
 import { cn } from '@/lib/utils'
 import {
   ShadowVariantsProps,
-  shadowVariants,
 } from '@/styles/variants/offset-shadow'
 
 const Select = SelectPrimitive.Root

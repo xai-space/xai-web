@@ -1,6 +1,5 @@
 import { CoinType } from "@/config/coin"
 import { useCreateTokenContext } from "@/contexts/create-token"
-import { useChainInfo } from "@/hooks/use-chain-info"
 import { NftInfo } from "@/views/ai/components/nft-agent-dialog"
 import { useEffect, useState } from "react"
 

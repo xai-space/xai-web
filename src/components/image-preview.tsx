@@ -1,11 +1,6 @@
 import { staticUrl } from '@/config/url'
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from './ui/dialog'
+
+
 import { PhotoProvider, PhotoView } from 'react-photo-view';
 interface Props {
   open: boolean

@@ -1,6 +1,5 @@
 import { memo, useEffect, useState } from 'react'
 
-import { TokenSearchInput } from '@/components/token/search-input'
 import { useAllTrades } from '@/hooks/use-all-traces'
 import TradeShake from './trade-shake'
 import CreateCoinShake from './create-coin-shake'

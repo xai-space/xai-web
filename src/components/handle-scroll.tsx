@@ -29,7 +29,7 @@ export const HandleScroll = ({
 
   useEffect(() => {
     const handleScroll = () => {
-      let moving = window.scrollY
+      const moving = window.scrollY
 
       //
 

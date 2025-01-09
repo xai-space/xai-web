@@ -5,11 +5,10 @@ import { FeedAsiade } from '@/views/feed/components/article-sider'
 import { useInfiniteScroll } from 'ahooks'
 import { ListLoading } from './loading'
 import { FeedList, FeedListItem } from '@/api/feed/types'
-import { FC, useEffect } from 'react'
+import { useEffect } from 'react'
 import { cn } from '@/lib/utils'
 import { useUserInfo } from '@/hooks/use-user-info'
 import { useTranslation } from 'react-i18next'
-import { useRequest } from 'ahooks'
 import { useRouter } from 'next/router'
 
 interface Result {
@@ -37,7 +36,7 @@ export const PostFeed = ({
   const container = document.querySelector('.scroll-container')
 
   const getLoadMoreList = async (): Promise<Result> => {
-    let start = Math.floor(feedList.length / 10) + 1
+    const start = Math.floor(feedList.length / 10) + 1
 
     const bodyData: FeedList = {
       page: start,

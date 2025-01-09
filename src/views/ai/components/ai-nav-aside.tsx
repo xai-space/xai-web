@@ -15,7 +15,6 @@ import { Rename } from './rename'
 import { useTranslation } from 'react-i18next'
 import { useRouter } from 'next/router'
 import { Routes } from '@/routes'
-import { defaultUserId } from '@/config/base'
 
 export const AINavAsiade = () => {
   const { t } = useTranslation()

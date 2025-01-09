@@ -21,7 +21,7 @@ export interface AIMemeInfoQuery {
   background?: string
 }
 
-export interface AIMemeImageQuery extends AIMemeInfo { }
+export type AIMemeImageQuery = AIMemeInfo
 
 export interface AIMemePosterQuery extends AIMemeInfo {
   name?: string

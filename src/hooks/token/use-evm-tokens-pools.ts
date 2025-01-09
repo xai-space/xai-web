@@ -2,8 +2,6 @@ import { useReadContracts } from 'wagmi'
 import { Abi, Address } from 'viem'
 
 import { TokenListItem } from '@/api/token/types'
-import { useChainsStore } from '@/stores/use-chains-store'
-import { getContractsEnabled } from '@/utils/contract'
 import { bcAbiMap } from '@/contract/abi/bonding-curve'
 import { Network } from '@/enums/contract'
 

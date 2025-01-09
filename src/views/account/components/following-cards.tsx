@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 
 import { CardType, FollowCard, FollowCardSkeleton } from './follow-card'
 import { CustomSuspense } from '@/components/custom-suspense'
-import { UserFollow, UserCategory } from '@/api/user/types'
+import { UserCategory } from '@/api/user/types'
 import { useUserFollowingList } from '../hooks/use-user-follwing-list'
 import { Button } from '@/components/ui/button'
 import { useAccountContext } from '@/contexts/account'

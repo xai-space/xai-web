@@ -1,16 +1,12 @@
 import { useEffect, useState } from 'react'
-import { useQuery } from '@tanstack/react-query'
-import { useDisconnect } from 'wagmi'
 
 import { userApi } from '@/api/user'
 import { useUserStore } from '@/stores/use-user-store'
-import { dynamicToken } from '@/config/localstorage'
 import { useDynamicContext, useIsLoggedIn } from '@dynamic-labs/sdk-react-core'
 import { useRouter } from 'next/router'
 import { Routes } from '@/routes'
 import { UserCategory } from '@/api/user/types'
 import { aiApi } from '@/api/ai'
-import { toast } from 'sonner'
 import { useTranslation } from 'react-i18next'
 // import { useSignLogin } from './use-sign-login'
 

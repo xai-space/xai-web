@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import { Routes } from '@/routes'
-import { UserCategory, UserInfoRes } from '@/api/user/types'
+import { UserCategory } from '@/api/user/types'
 
 const toAccount = () => {
   const { push } = useRouter()

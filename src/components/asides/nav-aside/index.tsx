@@ -1,5 +1,4 @@
 import { ComponentProps, useEffect, useState } from 'react'
-import { IoLanguageOutline } from 'react-icons/io5'
 import {
   RiNotification3Line,
   RiRobot2Fill,
@@ -7,46 +6,34 @@ import {
   RiRocketFill,
   RiRocketLine,
 } from 'react-icons/ri'
-import { AiOutlineHome } from 'react-icons/ai'
 import { RiNotification3Fill } from 'react-icons/ri'
-import { FaCaretDown, FaRegUser } from 'react-icons/fa6'
-import { FaUser } from 'react-icons/fa6'
-import { BsPeople } from "react-icons/bs";
+import { BsPeople } from 'react-icons/bs'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'react-i18next'
-import { Button } from '@/components/ui/button'
 import { useUserStore } from '@/stores/use-user-store'
-import { useLang } from '@/hooks/use-lang'
 import { cn } from '@/lib/utils'
 import { Routes } from '@/routes'
-import { officialLinks } from '@/config/link'
 import {
   NavigationMenu,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
 } from '@/components/ui/navigation-menu'
-import { joinPaths } from '@/utils'
-import { get } from 'lodash-es'
 import { useResponsive } from '@/hooks/use-responsive'
 import Logo from '@/components/logo'
-import SocialLinks from '@/components/social-links'
 import NavAccount from './nav-account'
 import { useAIAgentStore } from '@/stores/use-chat-store'
 import { UserCategory } from '@/api/user/types'
-import { getUnreadNotices } from '@/api/user'
-import { useRequest } from 'ahooks'
 import { PostMenu } from '@/components/post-menu'
-import { GoHome, GoHomeFill } from 'react-icons/go'
-import { AiOutlinePicture } from "react-icons/ai";
-import { RiHome4Fill } from "react-icons/ri";
-import { RiHome4Line } from "react-icons/ri";
-import { BsFillPeopleFill } from "react-icons/bs";
-import { AiFillPicture } from "react-icons/ai";
-import { BiSolidUser } from "react-icons/bi";
-import { BiUser } from "react-icons/bi";
-import { TbSettings } from "react-icons/tb";
-import { TbSettingsFilled } from "react-icons/tb";
+import { AiOutlinePicture } from 'react-icons/ai'
+import { RiHome4Fill } from 'react-icons/ri'
+import { RiHome4Line } from 'react-icons/ri'
+import { BsFillPeopleFill } from 'react-icons/bs'
+import { AiFillPicture } from 'react-icons/ai'
+import { BiSolidUser } from 'react-icons/bi'
+import { BiUser } from 'react-icons/bi'
+import { TbSettings } from 'react-icons/tb'
+import { TbSettingsFilled } from 'react-icons/tb'
 import { MoreMenus } from './components/more-menus'
 import { useChartStore } from '@/stores/use-chart-store'
 interface Props {
@@ -58,30 +45,15 @@ export const NavAside = ({
   collapseSize = 'isLaptop',
   ...props
 }: ComponentProps<'div'> & Props) => {
-  const { t, i18n } = useTranslation()
-  const { setLang } = useLang()
+  const { t } = useTranslation()
   const { pathname, ...router } = useRouter()
   const { userInfo } = useUserStore()
   const responsive = useResponsive()
-  const { setNoticeCount, noticeCount } = useChartStore()
+  const { noticeCount } = useChartStore()
   const [isCollapsed, setIsCollapsed] = useState(responsive[collapseSize])
   const [isOpenMoreMenus, setIsOpenMoreMenus] = useState(false)
   const { agentInfo, sessionId } = useAIAgentStore()
-  console.log("pathname&&:", pathname);
-
-  const userNavs = [
-    {
-      title: t('profile'),
-      path: joinPaths(
-        Routes.Account,
-        userInfo?.user_id || '',
-        `?t=${UserCategory.User}`
-      ),
-      icon: <FaRegUser />,
-      iconActive: <FaUser />,
-      isActive: pathname.includes(Routes.Account),
-    },
-  ]
+  console.log('pathname&&:', pathname)
 
   const navs = [
     {
@@ -146,7 +118,13 @@ export const NavAside = ({
     {
       title: t('nav.more'),
       path: '',
-      icon: <MoreMenus isCollapsed={true} isOpen={isOpenMoreMenus} setIsOpen={setIsOpenMoreMenus} />,
+      icon: (
+        <MoreMenus
+          isCollapsed={true}
+          isOpen={isOpenMoreMenus}
+          setIsOpen={setIsOpenMoreMenus}
+        />
+      ),
       iconActive: <MoreMenus isCollapsed={true} />,
       isActive: false,
     },
@@ -155,7 +133,6 @@ export const NavAside = ({
   useEffect(() => {
     setIsCollapsed(responsive[collapseSize])
   }, [responsive, collapseSize])
-
 
   return (
     <aside
@@ -188,7 +165,6 @@ export const NavAside = ({
                 'grid grid-cols-1 space-x-0',
                 isCollapsed && 'space-y-2'
               )}
-
             >
               {navs.map((n, i) => (
                 <NavigationMenuItem
@@ -200,7 +176,7 @@ export const NavAside = ({
                       'relative flex justify-start rounded-full py-[25px] cursor-pointer font-normal hover:bg-[#e7e7e8]',
                       n.isActive && 'font-semibold',
                       isCollapsed &&
-                      'border-[10px] space-x-0 p-0 justify-center text-xl'
+                        'border-[10px] space-x-0 p-0 justify-center text-xl'
                     )}
                     onClick={() => {
                       if (n.path === '') {
@@ -209,7 +185,9 @@ export const NavAside = ({
                         return
                       }
                       if (n.path === Routes.Profile) {
-                        router.push(`${Routes.Account}/${userInfo?.user_id}?t=${UserCategory.User}`)
+                        router.push(
+                          `${Routes.Account}/${userInfo?.user_id}?t=${UserCategory.User}`
+                        )
                         return
                       }
                       router.push(n.path)
@@ -219,19 +197,15 @@ export const NavAside = ({
                     <div className="mr-[14px]">
                       {n.isActive ? n.iconActive : n.icon}
                     </div>
-                    {n.id === 'notice' &&
-
-                      noticeCount > 0 && (
-                        <div
-                          className={cn(
-                            'absolute top-[3px] left-[29px] min-w-[18px] h-[18px] flex px-1 justify-center items-center text-center text-white rounded-full text-[10px] bg-[#4a99e8]'
-                          )}
-                        >
-                          {noticeCount > 99
-                            ? '99+'
-                            : noticeCount}
-                        </div>
-                      )}
+                    {n.id === 'notice' && noticeCount > 0 && (
+                      <div
+                        className={cn(
+                          'absolute top-[3px] left-[29px] min-w-[18px] h-[18px] flex px-1 justify-center items-center text-center text-white rounded-full text-[10px] bg-[#4a99e8]'
+                        )}
+                      >
+                        {noticeCount > 99 ? '99+' : noticeCount}
+                      </div>
+                    )}
                     {!isCollapsed && (
                       <span className="text-[#0f1419] block ml-[10px] text-[20px]">
                         {n.title}
@@ -291,8 +265,6 @@ export const NavAside = ({
         className={cn('flex flex-col items-start pb-5', !userInfo && 'w-full')}
       >
         <NavAccount userInfo={userInfo} isCollapsed={isCollapsed} />
-
-
       </div>
     </aside>
   )

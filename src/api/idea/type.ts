@@ -1,4 +1,3 @@
-import { Chain } from '../user/types'
 
 export interface IdeaQuery {
   type: string

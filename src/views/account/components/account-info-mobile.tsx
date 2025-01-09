@@ -1,9 +1,4 @@
-import {
-  EnvelopeClosedIcon,
-  HeartFilledIcon,
-  MinusIcon,
-  PlusIcon,
-} from '@radix-ui/react-icons'
+import { EnvelopeClosedIcon } from '@radix-ui/react-icons'
 import AccountAvatar from './account-avatar'
 import { AccountInfoProps, HoverCardPop } from './profile'
 import FollowMoblie from '@/views/account/components/follow-mobile'
@@ -21,24 +16,11 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import { IoMdMore } from 'react-icons/io'
-import { useClipboard } from '@/hooks/use-clipboard'
-import { fmt } from '@/utils/fmt'
-import { useResponsive } from '@/hooks/use-responsive'
-import { useUserStore } from '@/stores/use-user-store'
 
 export const AccountInfoMoblie = (props: AccountInfoProps) => {
-  const {
-    isOtherUser,
-    isFollowing,
-    isUnfollowing,
-    tokenAddr,
-    update,
-    follow,
-    unfollow,
-    refetchUserInfo,
-  } = props
+  const { isOtherUser, isFollowing, isUnfollowing, update, refetchUserInfo } =
+    props
   const { t } = useTranslation()
-  const { copy } = useClipboard()
 
   const { userInfo } = useUserStore()
 

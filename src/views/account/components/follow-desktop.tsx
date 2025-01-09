@@ -1,24 +1,16 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FollowersCards } from './followers-cards'
-import { FollowingCards } from './following-cards'
 import { UserListType } from '@/api/user/types'
 import { useAccountContext } from '@/contexts/account'
 import { useRef } from 'react'
-import { Root as VisuallyHidden } from '@radix-ui/react-visually-hidden'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
-  DialogClose,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { useUserStore } from '@/stores/use-user-store'
 import { useRouter } from 'next/router'
 import { Routes } from '@/routes'
-import { UserInfo } from '@/api/feed/types'
 
 export const FollowDesktop = (info: any) => {
   const { push, query } = useRouter()

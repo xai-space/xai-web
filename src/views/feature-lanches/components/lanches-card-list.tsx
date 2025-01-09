@@ -1,6 +1,5 @@
 import { Progress } from '@/components/ui/progress'
 import { TbClockHour4Filled } from 'react-icons/tb'
-import { FaHillAvalanche } from 'react-icons/fa6'
 import { tokenApi } from '@/api/token'
 import { useRequest } from 'ahooks'
 import { getTokenProgress } from '@/utils/contract'

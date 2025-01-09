@@ -6,7 +6,6 @@ import { useEvmTrade } from './evm/use-evm-trade'
 import { useTokenContext } from '@/contexts/token'
 import { useTradeToast } from '@/hooks/use-trade-toast'
 import { TradeType } from '@/enums/trade'
-import { useDexTrade } from './use-dex-trade'
 import { CONTRACT_ERR } from '@/errors/contract'
 import { Network } from '@/enums/contract'
 import { useTradeAmount } from './use-trade-amount'
@@ -57,7 +56,6 @@ export const useTrade = (onSuccess?: () => void) => {
     isSubmitting,
     buy,
     sell,
-    resetTrade,
   } = useMemo(() => {
     return {
       [Network.Evm]: evmTrade,

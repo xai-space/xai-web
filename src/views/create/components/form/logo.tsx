@@ -1,7 +1,6 @@
 import { t } from 'i18next'
 import { useEffect, useRef } from 'react'
 import { toast } from 'sonner'
-import { LuRefreshCcw } from 'react-icons/lu'
 
 import {
   FormItem,
@@ -13,11 +12,8 @@ import { cn } from '@/lib/utils'
 import { useAimemeInfoStore } from '@/stores/use-ai-meme-info-store'
 import { Input } from '@/components/input'
 import { aiApi } from '@/api/ai'
-import { Button } from '@/components/ui/button'
 import { useAudioPlayer } from '@/hooks/use-audio-player'
-import { useCheckAccount } from '@/hooks/use-check-chain'
 import { useCreateTokenContext } from '@/contexts/create-token'
-import ConnectWallet from '@/components/connect-wallet'
 import { staticUrl } from '@/config/url'
 import { isArray } from 'lodash'
 import { NftAgentDialog } from '@/views/ai/components/nft-agent-dialog'

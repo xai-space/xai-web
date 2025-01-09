@@ -1,16 +1,9 @@
 import React, { type ComponentProps } from 'react'
-import { FaTelegramPlane } from 'react-icons/fa'
-import { FaGlobe } from 'react-icons/fa'
 import { FaXTwitter } from 'react-icons/fa6'
-import { AiFillBook } from 'react-icons/ai'
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuTrigger,
     DropdownMenuItem,
 } from '@/components/ui/dropdown-menu'
 import { Button } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
 import { parseMediaUrl } from '@/utils'
 
 interface Props extends ComponentProps<'div'> {

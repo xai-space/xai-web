@@ -1,10 +1,8 @@
-import { CardContent } from './ui/card'
 
 import { AgentInfoResDataBase, AgentListReq } from '@/api/ai/type'
 import { Routes } from '@/routes'
 
 import { useInfiniteScroll } from 'ahooks'
-import { Card } from './ui/card'
 import { useEffect, useState } from 'react'
 import { defaultAgentLogo } from '@/config/link'
 import { aiApi } from '@/api/ai'
@@ -47,7 +45,7 @@ export const AgentCardList = ({
   const { push } = useRouter()
 
   const getLoadMoreList = async (s: Result | undefined): Promise<Result> => {
-    let start = Math.floor((s?.list.length || 0) / 20) + 1
+    const start = Math.floor((s?.list.length || 0) / 20) + 1
 
     const bodyData: AgentListReq = {
       page: start,

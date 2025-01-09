@@ -1,4 +1,4 @@
-import { Asset, NFTListRes, NetworkNFTList } from "@/api/nft"
+import { NFTListRes, NetworkNFTList } from "@/api/nft"
 import { useDynamicContext } from "@dynamic-labs/sdk-react-core"
 import { useEffect, useState } from "react"
 import { isAddress } from "viem"

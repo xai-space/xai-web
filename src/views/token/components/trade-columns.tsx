@@ -1,4 +1,4 @@
-import { type RowData, type ColumnDef } from '@tanstack/react-table'
+import { type ColumnDef } from '@tanstack/react-table'
 import { t } from 'i18next'
 import { useRouter } from 'next/router'
 import { Routes } from '@/routes'
@@ -16,9 +16,8 @@ import { TradeType } from '@/enums/trade'
 import { cn } from '@/lib/utils'
 import { useChainInfo } from '@/hooks/use-chain-info'
 import { formatFromTz } from '@/utils/day'
-
 declare module '@tanstack/react-table' {
-  interface TableMeta<TData extends RowData> {
+  interface TableMeta<TData extends Record<string, unknown>> {
     showAge: boolean
     setShowAge: () => void
   }

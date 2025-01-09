@@ -9,18 +9,8 @@ import {
   blast,
   fantom,
   zkSync,
-
-  // testnet
-  sepolia,
   bscTestnet,
-  opBNBTestnet,
-  scrollSepolia,
-  baseSepolia,
-  blastSepolia,
-  fantomTestnet,
-  zkSyncSepoliaTestnet,
 } from 'wagmi/chains'
-import { dotenv } from '@/utils/env'
 import { getDefaultConfig, getDefaultWallets } from '@rainbow-me/rainbowkit'
 
 const dev = {
