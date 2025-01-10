@@ -18,8 +18,7 @@ import {
 import { IoMdMore } from 'react-icons/io'
 
 export const AccountInfoMoblie = (props: AccountInfoProps) => {
-  const { isOtherUser, isFollowing, isUnfollowing, update, refetchUserInfo } =
-    props
+  const { isOtherUser, update, refetchUserInfo } = props
   const { t } = useTranslation()
 
   const { userInfo } = useUserStore()
@@ -32,7 +31,6 @@ export const AccountInfoMoblie = (props: AccountInfoProps) => {
             variant={'purple'}
             shadow={'none'}
             className="flex items-center space-x-2"
-            disabled={isFollowing || isUnfollowing}
             onClick={() => {
               // userInfo?.is_follower ? unfollow(tokenAddr) : follow(tokenAddr)
             }}

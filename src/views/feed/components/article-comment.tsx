@@ -6,6 +6,7 @@ export const ArticleComment = () => {
     <div>
       <ArticleCommentForm></ArticleCommentForm>
       <ArticleCommentList></ArticleCommentList>
+      <div className="h-[100px]"></div>
     </div>
   )
 }

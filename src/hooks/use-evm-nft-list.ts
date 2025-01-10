@@ -10,8 +10,7 @@ export const useEvmNftList = () => {
     const [loading, setLoading] = useState(true)
 
     const getEVMNFTList = async () => {
-        // const address = primaryWallet?.address
-        const address = "0x142668dC89E7E69ce985643aD3759fa8c518a884"
+        const address = primaryWallet?.address
         setLoading(true)
         const { data } = await (await fetch(`https://restapi.nftscan.com/api/v2/assets/chain/${address}?chain=eth;bnb`, {
             headers: {

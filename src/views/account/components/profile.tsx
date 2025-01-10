@@ -13,64 +13,30 @@ import { ApiResponse } from '@/api/types'
 import AccountInfoDesktop from './account-info-desktop'
 import { useResponsive } from '@/hooks/use-responsive'
 import AccountInfoMoblie from './account-info-mobile'
-import { useRequest } from 'ahooks'
-import { aiApi } from '@/api/ai'
-import { useEffect } from 'react'
 
 export interface AccountInfoProps {
   isOtherUser: boolean
-  isFollowing: boolean
-  isUnfollowing: boolean
-  tokenAddr: string
   isAgent: boolean
-  userInfo?: any
   update: UseMutateAsyncFunction<
     ApiResponse<UserInfoRes>,
     Error,
     UserUpdateReq,
     string | number
   >
-  follow: UseMutateAsyncFunction<
-    ApiResponse<UserInfoRes>,
-    Error,
-    string,
-    string | number
-  >
-  unfollow: UseMutateAsyncFunction<
-    ApiResponse<UserInfoRes>,
-    Error,
-    string,
-    string | number
-  >
   refetchUserInfo: VoidFunction
 }
 
 export const Profile = () => {
-  const { userInfo, isAgent, isOtherUser, refetchUserInfo, refetchFollow } =
+  const { isAgent, isOtherUser, refetchUserInfo, refetchFollow } =
     useAccountContext()
-  const { isFollowing, isUnfollowing, follow, unfollow, update } = useUser({
+  const { update } = useUser({
     onFollowFinlly: () => {
       refetchUserInfo()
       refetchFollow()
     },
   })
 
-  const { query } = useRouter()
   const { isPad } = useResponsive()
-  const tokenAddr = (query.address || '') as string
-
-  useEffect(() => {
-    getAgentProfile()
-  }, [query.uid])
-  const { runAsync: getAgentProfile } = useRequest(
-    () => aiApi.getAgentInfo(query.uid as string),
-    {
-      manual: true,
-      onSuccess: (res) => {
-        return res.data
-      },
-    }
-  )
 
   return (
     <div className="flex-1 rounded-md">
@@ -82,26 +48,15 @@ export const Profile = () => {
         {!isPad ? (
           <AccountInfoDesktop
             isAgent={isAgent}
-            userInfo={userInfo}
             isOtherUser={isOtherUser}
-            isFollowing={isFollowing}
-            isUnfollowing={isUnfollowing}
-            tokenAddr={tokenAddr}
             update={update}
-            follow={follow}
-            unfollow={unfollow}
             refetchUserInfo={refetchUserInfo}
           />
         ) : (
           <AccountInfoMoblie
             isAgent={isAgent}
             isOtherUser={isOtherUser}
-            isFollowing={isFollowing}
-            isUnfollowing={isUnfollowing}
-            tokenAddr={tokenAddr}
             update={update}
-            follow={follow}
-            unfollow={unfollow}
             refetchUserInfo={refetchUserInfo}
           />
         )}

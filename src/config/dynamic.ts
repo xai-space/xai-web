@@ -6,8 +6,9 @@ export const dynamicConfig: DynamicContextProps['settings'] = {
   environmentId: '6038c09c-859a-474b-b58d-1a9743653e71',
   walletConnectors: [EthereumWalletConnectors, SolanaWalletConnectors],
   appLogoUrl: '/images/logo.png',
+
   overrides: {
-    evmNetworks: (networks) => mergeNetworks([{
+    evmNetworks: (networks) => [...mergeNetworks([{
       "blockExplorerUrls": [
         "https://testnet.bscscan.com/"
       ],
@@ -28,8 +29,7 @@ export const dynamicConfig: DynamicContextProps['settings'] = {
         "https://bsc-testnet-rpc.publicnode.com"
       ],
       "vanityName": "TBNB"
-    }], networks),
+    }], networks)],
   }
 }
-
 

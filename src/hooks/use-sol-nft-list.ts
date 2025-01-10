@@ -65,8 +65,7 @@ export const useSolNFTList = (nftListRef: React.RefObject<HTMLDivElement>) => {
 
     const getNFTList = async () => {
         setLoading(true)
-        // const address = primaryWallet?.address
-        const address = '2Whhi93Ckub7Sc9DViCLTpKS4bdDy9zv3ctxEJAa7J6D'
+        const address = primaryWallet?.address
 
         // getSolanaNFTAsset()
         const { data } = await (await fetch(`https://solanaapi.nftscan.com/api/sol/account/own/all/${address}?show_attribute=false`, {

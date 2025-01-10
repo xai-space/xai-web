@@ -1,40 +1,35 @@
-import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { UserListType } from '@/api/user/types'
-import { useAccountContext } from '@/contexts/account'
-import { useRef } from 'react'
 import { Button } from '@/components/ui/button'
-import {
-  Dialog,
-  DialogTrigger,
-} from '@/components/ui/dialog'
-import { useUserStore } from '@/stores/use-user-store'
+import { Dialog, DialogTrigger } from '@/components/ui/dialog'
 import { useRouter } from 'next/router'
 import { Routes } from '@/routes'
+import { useAccountContext } from '@/contexts/account'
+import { useUserInfo } from '@/hooks/use-user-info'
 
-export const FollowDesktop = (info: any) => {
+export const FollowDesktop = () => {
   const { push, query } = useRouter()
   const { t } = useTranslation()
-  const [tab, setTab] = useState(UserListType.Following)
-  const { isOtherUser, isAgent, followers, followingResults, refetchFollow } =
-    useAccountContext()
-  const { userInfo, otherUserInfo } = useUserStore()
-  // const {
-  //   agent,
-  //   user,
-  //   // followers,
-  //   // isLoading: isLoadingFollowers,
-  //   // isFetching: isFetchingFollowers,
-  // } = followersResults
+  const { isAgent, isOtherUser } = useAccountContext()
+  const { otherUserInfo, agentInfo, userInfo } = useUserInfo()
 
-  const {
-    following,
-    isLoading: isLoadingFollowing,
-    isFetching: isFetchingFollowing,
-  } = followingResults
-  const closeRef = useRef<HTMLButtonElement>(null)
-  const isFollowers = tab === UserListType.Followers
-
+  const followCount = () => {
+    if (isAgent) {
+      return agentInfo?.follow_count
+    }
+    if (isOtherUser) {
+      return otherUserInfo?.follow_count
+    }
+    return userInfo?.follow_count
+  }
+  const followerCount = () => {
+    if (isAgent) {
+      return agentInfo?.follower_count
+    }
+    if (isOtherUser) {
+      return otherUserInfo?.follower_count
+    }
+    return userInfo?.follower_count
+  }
   return (
     <Dialog>
       <div
@@ -55,7 +50,7 @@ export const FollowDesktop = (info: any) => {
           >
             <span className="space-x-1 text-base relative">
               <span className="font-bold text-[#0f1419]">
-                {otherUserInfo?.follow_count ?? 0}
+                {followCount() ?? 0}
               </span>
               <span className="text-[#536471] text-[14px] hover:underline">
                 {t('following')}
@@ -77,7 +72,7 @@ export const FollowDesktop = (info: any) => {
           >
             <span className="space-x-1 text-base relative">
               <span className="font-bold text-[#0f1419]">
-                {otherUserInfo?.follower_count ?? 0}
+                {followerCount() ?? 0}
               </span>
               <span className="text-[#536471] text-[14px] hover:underline">
                 {t('followers')}

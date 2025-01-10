@@ -178,11 +178,11 @@ export const PublishPost = ({ editArticle, onPosted }: Props) => {
           <div className="flex space-x-1">
             {editArticle2?.images?.map((url, i) => {
               return (
-                <div className="relative flex-1">
+                <div className="relative flex-1" key={i}>
                   <img
                     src={`${staticUrl}${url}`}
                     alt="Logo"
-                    className="rounded-md w-full h-full object-cover max-h-[15vh]"
+                    className="rounded-md w-full h-full object-contain bg-gray-100 max-h-[15vh]"
                   />
                   <div className="absolute right-1 top-1 bg-black/50 border-dashed border border-gray-500 rounded-full">
                     <IoClose
@@ -200,11 +200,11 @@ export const PublishPost = ({ editArticle, onPosted }: Props) => {
 
             {blobUrl.map((url, i) => {
               return (
-                <div className="relative flex-1">
+                <div className="relative flex-1" key={i}>
                   <img
                     src={url}
                     alt="Logo"
-                    className="rounded-md w-full h-full object-cover max-h-[15vh]"
+                    className="rounded-md w-full h-full object-contain bg-gray-100 max-h-[15vh]"
                   />
                   <div className="absolute right-1 top-1 bg-black/50 border-dashed border border-gray-500 rounded-full">
                     <IoClose

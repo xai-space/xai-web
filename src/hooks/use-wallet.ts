@@ -1,6 +1,12 @@
+import { useDynamicContext } from '@dynamic-labs/sdk-react-core'
 import { useAccount } from 'wagmi'
 
 export const useWallet = () => {
+  const walletContext = useDynamicContext()
+  const isConnected = !!walletContext.primaryWallet?.address
+
+  const showConnectModal = () => walletContext.setShowAuthFlow(true)
+
   // const tonAddress = useTonAddress()
   const { address } = useAccount()
   // const { publicKey } = useSolWallet()
@@ -22,5 +28,5 @@ export const useWallet = () => {
     return address
   }
 
-  return { walletAddress }
+  return { walletContext, isConnected, walletAddress, showConnectModal }
 }

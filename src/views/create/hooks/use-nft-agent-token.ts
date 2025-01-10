@@ -8,9 +8,6 @@ export const useNftAgentToken = () => {
     const [showNftAgentDialog, setShowNftAgentDialog] = useState(false)
     const [nftInfo, setNftInfo] = useState<NftInfo>()
 
-
-
-
     useEffect(() => {
         if (+(form.getValues('coinType')) === CoinType.NFTAgent) {
             setShowNftAgentDialog(true)

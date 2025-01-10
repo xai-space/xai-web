@@ -7,22 +7,21 @@ import {
 import { FaCaretDown } from 'react-icons/fa6'
 import { Button } from './ui/button'
 import { useTranslation } from 'react-i18next'
-import { useIsLoggedIn } from '@dynamic-labs/sdk-react-core'
 import { useState } from 'react'
 import { Dialog } from './ui/dialog'
 import { PublishPost } from './publish-post'
-import { toast } from 'sonner'
 import { useRouter } from 'next/router'
 import { Routes } from '@/routes'
 import { cn } from '@/lib/utils'
+import { useWallet } from '@/hooks/use-wallet'
 
 interface PostMenuProps {}
 const fontStyle = 'cursor-pointer text-[15px] text-[#0f1419] font-semibold'
 export const PostMenu = ({}: PostMenuProps) => {
   const { t } = useTranslation()
-  const isLoggedIn = useIsLoggedIn()
   const router = useRouter()
   const [show, setShow] = useState(false)
+  const { isConnected, showConnectModal } = useWallet()
 
   const toCreatePage = (id: string) => {
     router.replace(Routes.Create + '?type=' + id)
@@ -41,10 +40,10 @@ export const PostMenu = ({}: PostMenuProps) => {
           <DropdownMenuItem
             className={cn(fontStyle)}
             onClick={() => {
-              if (isLoggedIn) {
+              if (isConnected) {
                 setShow(true)
               } else {
-                toast.error(t('no.login'))
+                showConnectModal()
               }
             }}
           >
@@ -52,19 +51,37 @@ export const PostMenu = ({}: PostMenuProps) => {
           </DropdownMenuItem>
           <DropdownMenuItem
             className={cn(fontStyle)}
-            onClick={() => toCreatePage('0')}
+            onClick={() => {
+              if (isConnected) {
+                toCreatePage('0')
+              } else {
+                showConnectModal()
+              }
+            }}
           >
             {t('create.token')}
           </DropdownMenuItem>
           <DropdownMenuItem
             className={cn(fontStyle)}
-            onClick={() => toCreatePage('1')}
+            onClick={() => {
+              if (isConnected) {
+                toCreatePage('1')
+              } else {
+                showConnectModal()
+              }
+            }}
           >
             {t('create.agent.token')}
           </DropdownMenuItem>
           <DropdownMenuItem
             className={cn(fontStyle)}
-            onClick={() => toCreatePage('2')}
+            onClick={() => {
+              if (isConnected) {
+                toCreatePage('2')
+              } else {
+                showConnectModal()
+              }
+            }}
           >
             {t('create.nft-agent.token')}
           </DropdownMenuItem>

@@ -5,11 +5,12 @@ import { FeedAsiade } from '@/views/feed/components/article-sider'
 import { useInfiniteScroll } from 'ahooks'
 import { ListLoading } from './loading'
 import { FeedList, FeedListItem } from '@/api/feed/types'
-import { useEffect } from 'react'
+import { useEffect, useCallback } from 'react'
 import { cn } from '@/lib/utils'
 import { useUserInfo } from '@/hooks/use-user-info'
 import { useTranslation } from 'react-i18next'
 import { useRouter } from 'next/router'
+import { UserCategory } from '@/api/user/types'
 
 interface Result {
   list: FeedListItem[]
@@ -27,88 +28,74 @@ export const PostFeed = ({
   isMy = false,
   follow = false,
 }: Props) => {
-  // const { data, isFetching, isLoading, fetchNextPage } = useFeeds()
   const { t } = useTranslation()
   const { feedList, setFeedList } = useArticleStore()
   const { otherUserInfo } = useUserInfo()
   const { query } = useRouter()
-  //
   const container = document.querySelector('.scroll-container')
 
-  const getLoadMoreList = async (): Promise<Result> => {
+  const getLoadMoreList = useCallback(async (): Promise<Result> => {
     const start = Math.floor(feedList.length / 10) + 1
-
     const bodyData: FeedList = {
       page: start,
       limit: 10,
-      follow: follow,
+      follow,
     }
 
-    if (isMy) {
-      if (otherUserInfo?.user_id) {
-        bodyData.user_id = otherUserInfo?.user_id
-      } else {
-        return {
-          list: [],
-          noMore: true,
-        }
-      }
+    if (isMy && otherUserInfo?.user_id) {
+      bodyData.user_id = otherUserInfo.user_id
     }
 
-    if (query.t === 'agent') {
+    if (query.t === UserCategory.Agent && query.uid) {
       bodyData.agent_id = query.uid as string
+    }
+
+    if (isMy && !otherUserInfo?.user_id) {
+      return { list: [], noMore: true }
     }
 
     const { data } = await feedApi.getList(bodyData)
 
     if (data?.list) {
-      setFeedList(feedList.concat(data?.list))
-      return {
-        list: data?.list,
-        noMore: data?.list.length !== 10,
-      }
+      setFeedList([...feedList, ...data.list])
+      return { list: data.list, noMore: data.list.length !== 10 }
     }
 
-    return {
-      list: [],
-      noMore: true,
-    }
-  }
+    return { list: [], noMore: true }
+  }, [feedList, follow, isMy, otherUserInfo, query])
 
   const { loading, loadingMore, mutate, reload } = useInfiniteScroll(
-    () => getLoadMoreList(),
+    getLoadMoreList,
     {
       target: container,
       isNoMore: (d) => d?.noMore === true,
     }
   )
 
-  const onDeleted = (i: number) => {
-    feedList.splice(i, i + 1)
-    setFeedList([...feedList])
-  }
+  const onDeleted = useCallback(
+    (i: number) => {
+      const updatedList = [...feedList]
+      updatedList.splice(i, 1)
+      setFeedList(updatedList)
+    },
+    [feedList]
+  )
 
-  const onEdited = () => {
+  const onEdited = useCallback(() => {
     setFeedList([...feedList])
-  }
+  }, [feedList])
 
   useEffect(() => {
     if (isMy && otherUserInfo?.user_id) {
-      mutate({
-        list: [],
-        noMore: true,
-      })
+      mutate({ list: [], noMore: true })
       reload()
     }
-  }, [isMy, otherUserInfo, follow])
+  }, [isMy, otherUserInfo, follow, mutate, reload])
 
   useEffect(() => {
-    mutate({
-      list: [],
-      noMore: true,
-    })
+    mutate({ list: [], noMore: true })
     reload()
-  }, [follow])
+  }, [follow, mutate, reload])
 
   if (feedList.length === 0 && !loading && !loadingMore) {
     return (
@@ -126,7 +113,7 @@ export const PostFeed = ({
 
   return (
     <div className={cn('flex flex-col mx-auto', className)}>
-      {feedList?.map((item, i) => (
+      {feedList.map((item, i) => (
         <ArticleCard
           key={item.agent_id}
           article={item}

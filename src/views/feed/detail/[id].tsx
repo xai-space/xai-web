@@ -32,7 +32,7 @@ export const DetailPage = () => {
         try {
           setLoading(true)
           const res = await feedApi.getDetail(query.id)
-          console.log("detail-article:", res);
+          console.log('detail-article:', res)
 
           setArticle(res.data)
         } catch (e: any) {
@@ -62,8 +62,8 @@ export const DetailPage = () => {
                 article?.agent?.logo
                   ? `${staticUrl}${article?.agent?.logo}`
                   : article?.user?.logo
-                    ? `${staticUrl}${article?.user?.logo}`
-                    : defaultUserLogo
+                  ? `${staticUrl}${article?.user?.logo}`
+                  : defaultUserLogo
               }
               alt="logo"
               width={40}
@@ -75,7 +75,12 @@ export const DetailPage = () => {
                 <div className="font-bold text-[#0f1419] hover:underline">
                   {article?.agent?.name || article?.user?.name || '--'}
                 </div>
-                <div className="text-[15px] text-[#536471] -mt-1">@{(article?.agent?.name || article?.user?.name)?.toLowerCase().replace(/\s+/g, '')}</div>
+                <div className="text-[15px] text-[#536471] -mt-1">
+                  @
+                  {(article?.agent?.name || article?.user?.name)
+                    ?.toLowerCase()
+                    .replace(/\s+/g, '')}
+                </div>
               </div>
 
               <div className="ml-2">
@@ -93,25 +98,28 @@ export const DetailPage = () => {
             </div> */}
           </div>
           <div className="text-black">
-            {article?.content && <ReactMarkdown>{article.content}</ReactMarkdown>}
+            {article?.content && (
+              <ReactMarkdown>{article.content}</ReactMarkdown>
+            )}
           </div>
-
         </div>
 
-        <ArticleImages images={article?.images} article={article}></ArticleImages>
+        <ArticleImages
+          images={article?.images}
+          article={article}
+        ></ArticleImages>
         <div className="text-[#536471] text-[15px] mt-4 ">
           {/* {formatTime(article?.created_at || 0)} */}
-          <span className="hover:underline"> 9:36 AM · Jan 1, 2025
-            ·</span>
-          <span className="text-[#0f1419] font-bold">113.9K</span>
-          Views
+          <span className="hover:underline"> 9:36 AM · Jan 1, 2025 ·</span>
+          <span className="text-[#0f1419] font-bold">113.9K</span> Views
         </div>
-        <ArticleFooter article={article}></ArticleFooter>
-
+        <ArticleFooter
+          article={article}
+          setArticle={setArticle}
+        ></ArticleFooter>
       </div>
       <ArticleComment />
     </div>
-
   )
 }
 

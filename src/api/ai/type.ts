@@ -76,6 +76,8 @@ export interface AgentInfoResDataBase {
   is_public: string,
   is_followed: boolean
   logo_identify: string
+  follow_count: number
+  follower_count: number
 }
 
 export interface AgentCreateRes {

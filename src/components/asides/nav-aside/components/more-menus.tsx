@@ -52,7 +52,7 @@ export const MoreMenus = ({
           align="start"
           className="border-[#e5e5e5]"
         >
-          <DropdownMenuItem>
+          {/* <DropdownMenuItem>
             <div
               className="flex py-2 px-2 pr-10"
               onClick={() =>
@@ -66,7 +66,7 @@ export const MoreMenus = ({
                 Translate
               </div>
             </div>
-          </DropdownMenuItem>
+          </DropdownMenuItem> */}
           <ShareMenus
             x={officialLinks.x}
             tg={officialLinks.tg}

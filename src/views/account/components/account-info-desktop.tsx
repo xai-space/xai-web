@@ -6,34 +6,54 @@ import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import ProfileForm from '@/views/account/components/profile-form'
 
-import { useUserStore } from '@/stores/use-user-store'
 import { CiCircleMore } from 'react-icons/ci'
 import { userApi } from '@/api/user'
 import { UserCategory } from '@/api/user/types'
-import { useRouter } from 'next/router'
+import { useWallet } from '@/hooks/use-wallet'
+import { useUserInfo } from '@/hooks/use-user-info'
+import { useAccountContext } from '@/contexts/account'
 
 export const AccountInfoDesktop = (props: AccountInfoProps) => {
-  const { isOtherUser, userInfo, update, isAgent, refetchUserInfo } = props
+  const { isOtherUser, update, isAgent } = props
   const { t } = useTranslation()
+  const { userInfo } = useAccountContext()
 
-  const { query } = useRouter()
+  const { isConnected, showConnectModal } = useWallet()
 
-  const { otherUserInfo, setOtherUserInfo, agentInfo } = useUserStore()
+  const {
+    otherUserInfo,
+    setOtherUserInfo,
+    agentInfo,
+    setAgentInfo,
+    refetchAgentInfo,
+    refetchUserInfo,
+  } = useUserInfo()
 
   const followFetch = async () => {
-    if (!otherUserInfo?.is_followed) {
-      setOtherUserInfo({ ...otherUserInfo, is_followed: true })
-    } else {
-      setOtherUserInfo({ ...otherUserInfo, is_followed: false })
+    if (!isConnected) {
+      showConnectModal()
+      return
     }
 
-    await userApi.postFollow({
-      category: query.t === 'user' ? UserCategory.User : UserCategory.Agent,
-      target_id: otherUserInfo?.user_id!,
-      status: otherUserInfo?.is_followed ? 0 : 1,
-    })
-
-    refetchUserInfo({ userId: otherUserInfo?.user_id!, isOther: true })
+    if (isAgent) {
+      const status = !agentInfo?.is_followed
+      setAgentInfo({ ...agentInfo!, is_followed: status })
+      await userApi.postFollow({
+        category: UserCategory.Agent,
+        target_id: agentInfo?.agent_id!,
+        status: Number(status),
+      })
+      refetchAgentInfo(agentInfo?.agent_id!)
+    } else {
+      const status = !otherUserInfo?.is_followed
+      setOtherUserInfo({ ...otherUserInfo, is_followed: status })
+      await userApi.postFollow({
+        category: UserCategory.User,
+        target_id: otherUserInfo?.user_id!,
+        status: Number(status),
+      })
+      refetchUserInfo({ userId: otherUserInfo?.user_id!, isOther: true })
+    }
   }
 
   return (
@@ -43,7 +63,7 @@ export const AccountInfoDesktop = (props: AccountInfoProps) => {
           <AccountAvatar
             isOtherUser={isOtherUser}
             update={update}
-            refetchUserInfo={refetchUserInfo}
+            isAgent={isAgent}
           />
         </div>
 
@@ -51,7 +71,9 @@ export const AccountInfoDesktop = (props: AccountInfoProps) => {
           <CiCircleMore size={42} className="mr-[5px]"></CiCircleMore>
           {isOtherUser ? (
             <div onClick={followFetch}>
-              {otherUserInfo?.is_followed ? (
+              {(
+                isAgent ? agentInfo?.is_followed : otherUserInfo?.is_followed
+              ) ? (
                 <div
                   className="rounded-full px-4 py-1 text-[14px] text-center font-medium border-[1px] 
                  border-[#CFD9DE] bg-white text-black

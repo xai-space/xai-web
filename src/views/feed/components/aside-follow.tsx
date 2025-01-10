@@ -1,5 +1,5 @@
 import { userApi } from '@/api/user'
-import { useUserStore } from '@/stores/use-user-store'
+import { useWallet } from '@/hooks/use-wallet'
 import { useState } from 'react'
 import { toast } from 'sonner'
 interface Props {
@@ -10,10 +10,15 @@ interface Props {
 }
 const AsideFollow = ({ item }: { item: Props }) => {
   const [isFollowing, setIsFollowing] = useState<boolean>()
-  const { otherUserInfo, setOtherUserInfo } = useUserStore()
+  const { isConnected, showConnectModal } = useWallet()
 
   let status: 0 | 1 = 1
   const followFetch = async () => {
+    if (!isConnected) {
+      showConnectModal()
+      return
+    }
+
     try {
       if (item.is_followed == undefined) {
         return
@@ -24,8 +29,7 @@ const AsideFollow = ({ item }: { item: Props }) => {
       } else {
         status = 1
       }
-
-      const res = await userApi.postFollow({
+      await userApi.postFollow({
         category: item.category,
         target_id: item.id,
         status: status,

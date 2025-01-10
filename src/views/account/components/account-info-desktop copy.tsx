@@ -23,33 +23,21 @@ import {
 } from '@radix-ui/react-popover'
 import { useClipboard } from '@/hooks/use-clipboard'
 import { userApi } from '@/api/user'
-import {
-  useDynamicContext,
-  useWalletOptions,
-} from '@dynamic-labs/sdk-react-core'
+import { useDynamicContext } from '@dynamic-labs/sdk-react-core'
 
 import { useUserStore } from '@/stores/use-user-store'
 import { UserCategory } from '@/api/user/types'
+import { useAccountContext } from '@/contexts/account'
 
 export const AccountInfoDesktop = (props: AccountInfoProps) => {
   const { query } = useRouter()
-  const {
-    isOtherUser,
-    isFollowing,
-    isUnfollowing,
-    tokenAddr,
-    update,
-    follow,
-    unfollow,
-    isAgent,
-    refetchUserInfo,
-  } = props
+  const { userInfo } = useAccountContext()
+  const { isOtherUser, update, isAgent } = props
   const { t } = useTranslation()
   const { copy } = useClipboard()
 
   const { otherUserInfo, setOtherUserInfo, agentInfo } = useUserStore()
-  const { user, primaryWallet } = useDynamicContext()
-  const userWallets = useWalletOptions()
+  const { primaryWallet } = useDynamicContext()
 
   let status: 0 | 1 = 1
   const followFetch = async () => {
@@ -62,7 +50,8 @@ export const AccountInfoDesktop = (props: AccountInfoProps) => {
     } else {
       status = 1
     }
-    const res = await userApi.postFollow({
+
+    await userApi.postFollow({
       category: category,
       target_id: query.uid as string,
       status: status,
@@ -79,8 +68,8 @@ export const AccountInfoDesktop = (props: AccountInfoProps) => {
       <div className=" space-x-4">
         <AccountAvatar
           isOtherUser={isOtherUser}
+          isAgent={isAgent}
           update={update}
-          refetchUserInfo={refetchUserInfo}
         />
         <div>
           <div className="flex space-x-2 items-center">

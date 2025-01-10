@@ -15,7 +15,6 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-
 } from '@/components/ui/dropdown-menu'
 import { FiMoreHorizontal } from 'react-icons/fi'
 import { MdDelete, MdEdit } from 'react-icons/md'
@@ -32,7 +31,6 @@ import { cloneDeep } from 'lodash'
 import { DynamicConnectButton } from '@dynamic-labs/sdk-react-core'
 import { useUserStore } from '@/stores/use-user-store'
 import { staticUrl } from '@/config/url'
-import { useInterval } from 'ahooks'
 import { Badge } from '@/components/ui/badge'
 import { formatTime } from '@/utils/day'
 
@@ -104,8 +102,6 @@ export const ArticleCommentList = () => {
     }
   }
 
-  useInterval(onEdit, 5_000)
-
   useEffect(() => {
     if (editComment) {
       setEditValue(editComment.content)
@@ -150,8 +146,8 @@ export const ArticleCommentList = () => {
           <DialogClose>
             <Button
               className={cn(
-                "px-8 bg-white text-blue-500  rounded-md",
-                "border-blue-500 bg-blue-50"
+                'px-8 bg-white text-blue-500  rounded-md',
+                'border-blue-500 bg-blue-50'
               )}
             >
               {t('cancel')}
@@ -161,7 +157,6 @@ export const ArticleCommentList = () => {
             onClick={onEdit}
             disabled={editLoading}
             className="px-8 bg-[#0f1419]"
-
           >
             {editLoading ? t('updating') : t('update')}
           </Button>
@@ -207,18 +202,15 @@ const ArticleCommentItem = ({
           comment?.agent?.logo
             ? `${staticUrl}${comment.agent.logo}`
             : comment?.user?.logo
-              ? `${staticUrl}${comment.user.logo}`
-              : defaultUserLogo
+            ? `${staticUrl}${comment.user.logo}`
+            : defaultUserLogo
         }
         alt="Logo"
         width={40}
         height={40}
-        className={cn(
-          'object-cover w-[40px] h-[40px] rounded-full',
-
-        )}
+        className={cn('object-cover w-[40px] h-[40px] rounded-full')}
       />
-      <div className='ml-[6px]'>
+      <div className="ml-[6px]">
         <div className="flex items-center space-x-2">
           <div className="flex flex-1">
             <div className="flex items-center font-bold">
@@ -339,8 +331,8 @@ const ArticleReplyCommentItem = ({
                   comment?.agent?.logo
                     ? `${staticUrl}${comment.agent.logo}`
                     : comment?.user?.logo
-                      ? `${staticUrl}${comment.user.logo}`
-                      : defaultUserLogo
+                    ? `${staticUrl}${comment.user.logo}`
+                    : defaultUserLogo
                 }
                 alt="Logo"
                 width={22}
@@ -371,19 +363,19 @@ const ArticleReplyCommentItem = ({
           </div>
         </div>
         <div className="mt-1">
-          {comment.content?.startsWith('{{@') ? (
+          {comment.content?.startsWith('@') ? (
             <>
-              <span className="text-blue-500 cursor-pointer">
-                @{comment.content.slice(3, comment.content.indexOf('}}'))}
+              <span className="text-blue-500 cursor-pointer mr-2">
+                @{comment.content.slice(3, comment.content.indexOf(' '))}
               </span>
-              {comment.content.slice(comment.content.indexOf('}}') + 2)}
+              {comment.content.slice(comment.content.indexOf(' ') + 1)}
             </>
           ) : (
             <span>
               <span className="text-blue-500 cursor-pointer">
-                @{rowComment?.user?.name}
+                {/* @{rowComment?.user?.name} */}
               </span>
-              {comment.content.replace(/{{@[^}]+}}/g, '')}
+              {comment.content.replace(/@[^}]+ /g, '')}
             </span>
           )}
         </div>
@@ -450,7 +442,11 @@ const MoreHandler = ({ comment, onDelComment, onEditComment }: CommentItem) => {
           <FiMoreHorizontal size={18} />
         </div>
       </DropdownMenuTrigger>
-      <DropdownMenuContent side='top' align="end" className='border-w-1 p-0 border-[#f0f0f0] -mb-1'>
+      <DropdownMenuContent
+        side="top"
+        align="end"
+        className="border-w-1 p-0 border-[#f0f0f0] -mb-1"
+      >
         <DynamicConnectButton buttonClassName="w-full">
           <DynamicConnectButton buttonClassName="w-full">
             <DropdownMenuItem
@@ -489,7 +485,6 @@ const MoreHandler = ({ comment, onDelComment, onEditComment }: CommentItem) => {
             </div>
           </DropdownMenuItem>
         </DynamicConnectButton>
-
       </DropdownMenuContent>
     </DropdownMenu>
   )

@@ -47,7 +47,7 @@ export const TokenCards = ({
 
   const { isPlayHomeAudio, setIsPlayHomeAudio } = useIsPlayAudio()
   const { playHome } = useAudioPlayer()
-  const { pools, isLoadingPools } = useEvmTokensPools(cards)
+  const { pools } = useEvmTokensPools(cards)
   const filterTokens = cards.filter((c) => c.chain !== 'bera_bartio')
 
   const onChange = (chain: string) => {
@@ -73,8 +73,9 @@ export const TokenCards = ({
   }, [cards])
 
   return (
-    <div className={cn('mt-4', className)}>
-      <CustomSuspense
+    <div className={cn('', className)}>
+      <div className="text-xl mb-4"> {t('all.coin')}</div>
+      {/* <CustomSuspense
         className="flex justify-between items-center max-sm:justify-between max-sm:gap-0 mb-4"
         isPending={isLoading}
         fallback={
@@ -83,10 +84,10 @@ export const TokenCards = ({
             <Skeleton className="h-9 w-40" />
           </>
         }
-      >
-        {/* <TokenChainSelect onValueChange={onChange} />
+      > */}
+      {/* <TokenChainSelect onValueChange={onChange} />
         <TokenSortSelect /> */}
-        <Label className="inline-flex items-center space-x-2">
+      {/* <Label className="inline-flex items-center space-x-2">
           <Switch
             checked={checked}
             onCheckedChange={(checked) => {
@@ -109,8 +110,8 @@ export const TokenCards = ({
               }
             }}
           />
-        )}
-      </CustomSuspense>
+        )} */}
+      {/* </CustomSuspense> */}
 
       <CustomSuspense
         className="grid grid-cols-1 gap-4 lg:grid-cols-2 max-sm:gap-3"

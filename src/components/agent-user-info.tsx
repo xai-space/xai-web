@@ -5,11 +5,12 @@ import { FeedAsiade } from '@/views/feed/components/article-sider'
 import { useInfiniteScroll } from 'ahooks'
 import { ListLoading } from './loading'
 import { FeedList, FeedListItem } from '@/api/feed/types'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { cn } from '@/lib/utils'
 import { useUserInfo } from '@/hooks/use-user-info'
 import { useTranslation } from 'react-i18next'
 import { useRouter } from 'next/router'
+import { UserCategory } from '@/api/user/types'
 
 interface Result {
   list: FeedListItem[]
@@ -32,44 +33,52 @@ export const AgentUserInfo = ({
   const { postsList, setPostsList } = useArticleStore()
   const { otherUserInfo } = useUserInfo()
   const { query } = useRouter()
+  const [isReset, setIsReset] = useState(true)
 
   const getLoadMoreList = async (): Promise<Result> => {
-    const start = Math.floor(postsList.length / 10) + 1
+    try {
+      const start = isReset ? 1 : Math.floor(postsList.length / 10) + 1
 
-    const bodyData: FeedList = {
-      page: start,
-      limit: 10,
-      follow: follow,
-    }
+      const bodyData: FeedList = {
+        page: start,
+        limit: 10,
+        follow: follow,
+      }
 
-    if (isMy) {
-      if (otherUserInfo?.user_id) {
-        bodyData.user_id = otherUserInfo?.user_id
+      if (query.t === UserCategory.Agent) {
+        bodyData.agent_id = query.uid as string
       } else {
-        return {
-          list: [],
-          noMore: true,
+        if (otherUserInfo?.user_id) {
+          bodyData.user_id = otherUserInfo?.user_id
+        } else {
+          return {
+            list: [],
+            noMore: true,
+          }
         }
       }
-    }
 
-    if (query.t === 'agent') {
-      bodyData.agent_id = query.uid as string
-    }
+      const { data } = await feedApi.getList(bodyData)
 
-    const { data } = await feedApi.getList(bodyData)
-
-    if (data?.list) {
-      setPostsList(postsList.concat(data?.list))
-      return {
-        list: data?.list,
-        noMore: data?.list.length !== 10,
+      if (data?.list) {
+        setPostsList(postsList.concat(data?.list))
+        return {
+          list: data?.list,
+          noMore: data?.list.length !== 10,
+        }
       }
-    }
 
-    return {
-      list: [],
-      noMore: true,
+      return {
+        list: [],
+        noMore: true,
+      }
+    } catch (e) {
+      return {
+        list: [],
+        noMore: true,
+      }
+    } finally {
+      setIsReset(false)
     }
   }
 
@@ -91,14 +100,16 @@ export const AgentUserInfo = ({
   }
 
   useEffect(() => {
-    if (isMy && otherUserInfo?.user_id) {
+    if (query.uid || query.t) {
+      setIsReset(true)
+      setPostsList([])
       mutate({
         list: [],
         noMore: true,
       })
       reload()
     }
-  }, [isMy, otherUserInfo, follow])
+  }, [query.uid, query.t])
 
   useEffect(() => {
     mutate({
@@ -113,7 +124,7 @@ export const AgentUserInfo = ({
       <div className="flex h-full mt-4">
         {isMy ? (
           <div>
-            <div>{t('no.post')}</div>
+            <div className="pl-4">{t('no.post')}</div>
           </div>
         ) : (
           <FeedAsiade />
@@ -131,7 +142,7 @@ export const AgentUserInfo = ({
     >
       {postsList?.map((item, i) => (
         <ArticleCard
-          key={item.agent_id}
+          key={i}
           article={item}
           onDeleted={() => onDeleted(i)}
           onEdited={onEdited}

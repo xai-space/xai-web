@@ -396,7 +396,7 @@
   "alliance.communities": " COMMUNITIES",
   "referral.copy": "Copy Referral Link",
   "referral.desc": "Share this token with your friends using your special referral link and earn $ of their trading fees",
-  "bonding-curve.desc": "As the price of the internal token rises, the progress will also increase. When the market value reaches approximately $X, it will automatically open for trading in the DEX pool and the liquidity will be burned.",
+  "bonding-curve.desc": "As the price of the internal token rises, the progress will also increase. When the market value reaches approximately ${}, it will automatically open for trading in the DEX pool and the liquidity will be burned.",
   "inviter1": "First-level inviter",
   "inviter2": "Second-level inviter",
   "url.error": "Please enter a valid URL.",
@@ -873,5 +873,6 @@
   "ai.identify.image": "Characteristics of personality are being generated based on NFTs",
   "swap.input.mint.not.match": "Swap input mint not match",
   "nav.more": "More",
-  "reply": "Reply"
+  "reply": "Reply",
+  "all.coin": "All Coin"
 }

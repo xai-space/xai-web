@@ -36,6 +36,7 @@ import { TbSettings } from 'react-icons/tb'
 import { TbSettingsFilled } from 'react-icons/tb'
 import { MoreMenus } from './components/more-menus'
 import { useChartStore } from '@/stores/use-chart-store'
+import { useWallet } from '@/hooks/use-wallet'
 interface Props {
   collapseSize?: keyof ReturnType<typeof useResponsive>
 }
@@ -53,7 +54,7 @@ export const NavAside = ({
   const [isCollapsed, setIsCollapsed] = useState(responsive[collapseSize])
   const [isOpenMoreMenus, setIsOpenMoreMenus] = useState(false)
   const { agentInfo, sessionId } = useAIAgentStore()
-  console.log('pathname&&:', pathname)
+  const { showConnectModal, isConnected } = useWallet()
 
   const navs = [
     {
@@ -130,6 +131,33 @@ export const NavAside = ({
     },
   ]
 
+  const onClickNav = (n: (typeof navs)[0]) => {
+    if (!isConnected) {
+      if (
+        n.path === Routes.Profile ||
+        n.path === Routes.Setting ||
+        n.path === Routes.Notification
+      ) {
+        showConnectModal()
+        return
+      }
+    }
+
+    if (n.path === '') {
+      // openMoreMenus()
+      setIsOpenMoreMenus(true)
+      return
+    }
+    if (n.path === Routes.Profile) {
+      router.push(
+        `${Routes.Account}/${userInfo?.user_id}?t=${UserCategory.User}`
+      )
+      return
+    }
+
+    router.push(n.path)
+  }
+
   useEffect(() => {
     setIsCollapsed(responsive[collapseSize])
   }, [responsive, collapseSize])
@@ -178,20 +206,7 @@ export const NavAside = ({
                       isCollapsed &&
                         'border-[10px] space-x-0 p-0 justify-center text-xl'
                     )}
-                    onClick={() => {
-                      if (n.path === '') {
-                        // openMoreMenus()
-                        setIsOpenMoreMenus(true)
-                        return
-                      }
-                      if (n.path === Routes.Profile) {
-                        router.push(
-                          `${Routes.Account}/${userInfo?.user_id}?t=${UserCategory.User}`
-                        )
-                        return
-                      }
-                      router.push(n.path)
-                    }}
+                    onClick={() => onClickNav(n)}
                     title={n.title}
                   >
                     <div className="mr-[14px]">

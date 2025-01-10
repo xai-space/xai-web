@@ -91,6 +91,11 @@ export interface FeedCommitCreateRes {
   comment_id: string
 }
 
+export enum Category {
+  Article = 'article',
+  Comment = 'comment',
+}
+
 export interface likesOfPostsBody {
   /**
    * 传了值则优先认定为agent的点赞
@@ -99,7 +104,7 @@ export interface likesOfPostsBody {
   /**
    * 类型，枚举：article/comment
    */
-  category: string
+  category: Category
   /**
    * 点赞状态，0: 取消点赞 1:点赞
    */

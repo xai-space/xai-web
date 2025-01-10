@@ -117,7 +117,7 @@ export interface UserFollowersReq {
 export interface UserUpdateFollowReq {
   category: UserCategory
   target_id: string
-  status: 0 | 1
+  status: number
 }
 
 interface User {

@@ -8,7 +8,7 @@ import { TradeTab } from './trade-tabs'
 export const TokenDesktop = () => {
   return (
     <>
-      <div className="flex flex-col flex-1">
+      <div className="flex flex-col flex-1 w-[800px] max-sm:w-full">
         <TokenInfoHeader />
         <Chart />
         <CommentTradeTab />

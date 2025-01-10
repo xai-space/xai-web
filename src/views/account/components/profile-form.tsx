@@ -17,14 +17,14 @@ import {
 } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { useUser } from '@/hooks/use-user'
-import { useAccountContext } from '@/contexts/account'
+import { useUserInfo } from '@/hooks/use-user-info'
 
 type Props = RequirePick<ComponentProps<'div'>, 'children'>
 
 export const ProfileForm = ({ children }: Props) => {
   const { t } = useTranslation()
   const closeRef = useRef<HTMLButtonElement>(null)
-  const { userInfo, refetchUserInfo } = useAccountContext()
+  const { userInfo, refetchUserInfo } = useUserInfo()
   const { fields, fieldsKeys, updateField, validateFields } = useFields({
     name: createField({
       isRequired: true,
@@ -50,7 +50,12 @@ export const ProfileForm = ({ children }: Props) => {
       name: fields.name.value,
       description: fields.bio.value,
       logo: userInfo?.logo,
-    }).then(() => refetchUserInfo())
+    }).then(() =>
+      refetchUserInfo({
+        userId: userInfo?.user_id!,
+        isOther: false,
+      })
+    )
 
     // Clear form & close.
     updateField('name', { value: '' })

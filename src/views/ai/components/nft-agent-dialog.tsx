@@ -11,10 +11,15 @@ import { loadingSVG } from '@/config/link'
 import { useEvmNftList } from '@/hooks/use-evm-nft-list'
 import { useSolNFTList } from '@/hooks/use-sol-nft-list'
 import { cn } from '@/lib/utils'
-import React, { useRef, useState } from 'react'
+import { isSolAddress } from '@/packages/react-sol'
+import { utilLang } from '@/utils/lang'
+import { useDynamicContext } from '@dynamic-labs/sdk-react-core'
+import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FaCheck } from 'react-icons/fa6'
 import { FaChevronLeft } from 'react-icons/fa6'
+import { toast } from 'sonner'
+import { isAddress } from 'viem'
 
 enum Network {
   EVM = 'evm',
@@ -41,8 +46,14 @@ export const NftAgentDialog = ({
   setNftInfo,
 }: Props) => {
   const { t } = useTranslation()
-  const [network, setNetwork] = useState(Network.EVM)
+  const { primaryWallet, setShowDynamicUserProfile } = useDynamicContext()
   const [collection, setCollection] = useState<NFTInfo>()
+
+  const address = primaryWallet?.address
+
+  const [network, setNetwork] = useState(
+    isAddress(address!) ? Network.EVM : Network.SOL
+  )
 
   const nftListRef = useRef<HTMLDivElement>(null)
 
@@ -50,7 +61,23 @@ export const NftAgentDialog = ({
 
   const { evmNftList, loading: evmLoading } = useEvmNftList()
 
-  const isLoading = solLoading || evmLoading
+  const onChangeVM = (n: string) => {
+    if (n === Network.SOL) {
+      if (address && isAddress(address)) {
+        setShowDynamicUserProfile(true)
+        toast.warning(utilLang.replace(t('switch_wallet'), [Network.SOL]))
+        return
+      }
+    } else {
+      if (address && isSolAddress(address)) {
+        setShowDynamicUserProfile(true)
+        toast.warning(utilLang.replace(t('switch_wallet'), [Network.EVM]))
+        return
+      }
+    }
+    setCollection(undefined)
+    setNetwork(n as Network)
+  }
 
   const getUrlByMetadataJson = (nftData: Asset) => {
     const data = JSON.parse(nftData.metadata_json) as { image: string }
@@ -60,14 +87,6 @@ export const NftAgentDialog = ({
     }
 
     return data.image
-  }
-
-  const handleImgUrl = (url?: string) => {
-    return url
-    // if (typeof url === 'string') {
-    //   if (url.startsWith('data:')) return url
-    //   return `https://images.weserv.nl/?url=${url}`
-    // }
   }
 
   const renderNftList = () => {
@@ -88,7 +107,7 @@ export const NftAgentDialog = ({
       }
 
       return (
-        <DialogClose>
+        <DialogClose key={i}>
           <div
             className={cn(
               'cursor-pointer text-center px-3 pt-2 pb-1 rounded-md hover:bg-slate-700 transition-all',
@@ -124,29 +143,11 @@ export const NftAgentDialog = ({
         </DialogClose>
       )
     })
-    // }
-
-    // Solana
-    // return list.map((item, i) => {
-    //   return (
-    //     <DialogClose key={i}>
-    //       <Card
-    //         selectNftID={nftInfo?.id}
-    //         data={{
-    //           id: item.id,
-    //           name: item.content.metadata.name,
-    //           url: item.content.links?.image,
-    //         }}
-    //         setNftInfo={setNftInfo}
-    //       ></Card>
-    //     </DialogClose>
-    //   )
-    // })
   }
 
   const renderCollectionList = () => {
-    return (network === Network.EVM ? evmNftList : solList).map((item, i) => {
-      return item.collection_assets.map((c, i) => {
+    return (network === Network.EVM ? evmNftList : solList).map((item) => {
+      return item.collection_assets.map((c) => {
         return (
           <div
             key={c.contract_address}
@@ -161,7 +162,7 @@ export const NftAgentDialog = ({
             <div className="relative">
               <img
                 referrerPolicy="no-referrer"
-                src={handleImgUrl(c?.logo_url)}
+                src={c?.logo_url}
                 // With default image if error
                 ref={(el) =>
                   el?.addEventListener('error', () => {
@@ -193,13 +194,7 @@ export const NftAgentDialog = ({
       <div>
         <div className="flex items-center space-x-2">
           <span className="mr-2"> {t('select.nft')}</span>
-          <Select
-            defaultValue={network}
-            onValueChange={(n) => {
-              setCollection(undefined)
-              setNetwork(n as Network)
-            }}
-          >
+          <Select defaultValue={network} onValueChange={onChangeVM}>
             <SelectTrigger className="w-[115px]">
               <SelectValue placeholder="Theme" className="w-[115px]" />
             </SelectTrigger>
@@ -223,13 +218,9 @@ export const NftAgentDialog = ({
         ) : null}
 
         <div ref={nftListRef} className="mt-4 max-h-[70vh] overflow-y-scroll">
-          {isLoading ? (
-            <div className="text-center text-muted-foreground">Loading...</div>
-          ) : (
-            <div className="grid grid-cols-4 gap-y-2 max-sm:grid-cols-2 justify-between">
-              {!collection ? renderCollectionList() : renderNftList()}
-            </div>
-          )}
+          <div className="grid grid-cols-4 gap-y-2 max-sm:grid-cols-2 justify-between">
+            {!collection ? renderCollectionList() : renderNftList()}
+          </div>
 
           {network === Network.SOL ? (
             solLoading
@@ -239,6 +230,7 @@ export const NftAgentDialog = ({
               width={40}
               height={40}
               className="w-[40px] h-[40px] my-2 mx-auto"
+              alt="loading"
             ></img>
           ) : null}
 
@@ -259,67 +251,8 @@ export const NftAgentDialog = ({
               {t('no.nft')}
             </div>
           ) : null}
-
-          {/* {data?.noMore !== true && list.length === 20 ? (
-            <div
-              className="mx-auto cursor-pointer text-center mt-4"
-              onClick={() => {
-                getNFTList()
-              }}
-            >
-              {t('more...')}
-            </div>
-          ) : null} */}
         </div>
       </div>
     </Dialog>
-  )
-}
-
-interface CardProps {
-  selectNftID?: string
-  data: {
-    id?: string
-    name?: string
-    url?: string
-  }
-  setNftInfo: (nftInfo: NftInfo) => void
-}
-
-const Card = ({ data, selectNftID, setNftInfo }: CardProps) => {
-  return (
-    <div
-      className={cn(
-        'cursor-pointer text-center px-3 pt-2 pb-1 rounded-md hover:bg-slate-700 transition-all',
-        data.id === selectNftID ? 'bg-slate-700' : ''
-      )}
-      onClick={() => {
-        setNftInfo({
-          // @ts-ignore
-          name: data.name,
-          // @ts-ignore
-          url: data.url,
-          // @ts-ignore
-          id: data.id,
-        })
-      }}
-    >
-      <div className="relative">
-        <img
-          referrerPolicy="no-referrer"
-          src={`https://images.weserv.nl/?url=${data?.url}`}
-          alt="Logo"
-          width={90}
-          height={90}
-          className="w-[90px] h-[90px] object-cover rounded-md"
-        />
-        {data.id === selectNftID ? (
-          <div className="absolute right-1 top-1 rounded-full p-1 bg-purple-500">
-            <FaCheck size={16} color=""></FaCheck>
-          </div>
-        ) : null}
-      </div>
-      <div className="text-sm mt-1 truncate max-w-[90px]">{data.name}</div>
-    </div>
   )
 }

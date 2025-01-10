@@ -94,14 +94,16 @@ const NewLanchesList = ({ token }: { token: TokenListItem }) => {
       </div>
       <div className="ml-2 flex-1">
         <div className="flex items-center">
-          <p className="font-semibold text-sm">{token.name}</p>
-          <p className="ml-2 px-2 rounded-full leading-[17px] h-[16px] text-[10px] text-white bg-blue-500">
-            {token.coin_type === 1
-              ? 'NFTAgent Token'
-              : token.coin_type === 2
-              ? 'Agent Token'
-              : 'Ordinary Token'}
-          </p>
+          <p className="text-sm">{token.name}</p>
+          {token.coin_type !== 0 ? (
+            <p className="ml-2 px-2 rounded-full leading-[17px] h-[16px] text-[10px] text-white bg-blue-500">
+              {token.coin_type === 1
+                ? 'NFTAgent Token'
+                : token.coin_type === 2
+                ? 'Agent Token'
+                : ''}
+            </p>
+          ) : null}
         </div>
         <div className="flex items-center">
           <img

@@ -25,9 +25,8 @@ export const ArticleImages = ({ images, article }: Props) => {
         <PhotoProvider photoClosable>
           {images.map((url) => {
             return (
-              <PhotoView src={`${staticUrl}${url}`}>
+              <PhotoView key={url} src={`${staticUrl}${url}`}>
                 <img
-                  key={url}
                   src={`${staticUrl}${url}`}
                   alt="image"
                   className={cn(
