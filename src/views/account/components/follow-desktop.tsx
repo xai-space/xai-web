@@ -5,13 +5,13 @@ import { useRouter } from 'next/router'
 import { Routes } from '@/routes'
 import { useAccountContext } from '@/contexts/account'
 import { useUserInfo } from '@/hooks/use-user-info'
+import { toast } from 'sonner'
 
 export const FollowDesktop = () => {
   const { push, query } = useRouter()
   const { t } = useTranslation()
   const { isAgent, isOtherUser } = useAccountContext()
   const { otherUserInfo, agentInfo, userInfo } = useUserInfo()
-
   const followCount = () => {
     if (isAgent) {
       return agentInfo?.follow_count
@@ -41,11 +41,13 @@ export const FollowDesktop = () => {
             variant="ghost"
             size="sm"
             shadow="none"
-            onClick={() =>
+            onClick={() => {
+              toast.info(t('coming-soon'))
+              return
               push(
                 `${Routes.FollowList}?isAgent=${isAgent}&user_id=${query.uid}`
               )
-            }
+            }}
             className="shadow-none pl-0 !border-none group relative"
           >
             <span className="space-x-1 text-base relative">
@@ -62,11 +64,13 @@ export const FollowDesktop = () => {
           <Button
             variant="ghost"
             size="sm"
-            onClick={() =>
+            onClick={() => {
+              toast.info(t('coming-soon'))
+              return
               push(
                 `${Routes.FollowList}?isAgent=${isAgent}&user_id=${query.uid}`
               )
-            }
+            }}
             shadow="none"
             className="shadow-none !border-none group ml-2 relative"
           >

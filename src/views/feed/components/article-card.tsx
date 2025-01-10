@@ -39,6 +39,7 @@ import { formatTime } from '@/utils/day'
 import { LikeButton } from '@/components/like-button'
 import { CommentCount } from '@/components/comment-count'
 import { RepatButton } from '@/components/repat'
+import { useArticleStore } from '@/stores/use-article-store'
 
 interface Props {
   article: FeedListItem
@@ -51,6 +52,8 @@ const ArticleCard = ({ article, onDeleted, onEdited }: Props) => {
   const { userInfo } = useUserStore()
   const [delArticle, setDelArticle] = useState<FeedListItem>()
   const [delLoading, setDelLoading] = useState(false)
+
+  const { setPostsList } = useArticleStore()
 
   const [editArticle, setEditArticle] = useState<FeedListItem>()
 
