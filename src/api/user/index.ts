@@ -69,16 +69,6 @@ export const userApi = {
       body: req,
     })
   },
-  follow: (addr: string) => {
-    return api.POST<ApiResponse<UserInfoRes>>(
-      `/api/v1/user/users/${addr}/followers/`
-    )
-  },
-  unfollow: (id: string) => {
-    return api.DELETE<ApiResponse<UserInfoRes>>(
-      `/api/v1/user/users/${id}/followers/`
-    )
-  },
 
   getNotifications: (params: NoticeParams) => {
     return api.GET<ApiResponse<UserNotificationRes>>(

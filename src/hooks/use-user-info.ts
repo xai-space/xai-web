@@ -18,9 +18,6 @@ interface RefetchUserInfoProps {
 export const useUserInfo = () => {
   const { userInfo, otherUserInfo, agentInfo, setUserInfo, setOtherUserInfo, setAgentInfo } = useUserStore()
   const router = useRouter()
-
-  const { t } = useTranslation()
-
   const isLoggedIn = useIsLoggedIn()
   const { user } = useDynamicContext()
 
@@ -36,6 +33,8 @@ export const useUserInfo = () => {
     try {
       const res = await userApi.getInfo(userId)
       if (isOther) {
+        console.log(res.data);
+
         setOtherUserInfo(res.data)
       } else {
         setUserInfo(res.data)
@@ -73,19 +72,19 @@ export const useUserInfo = () => {
 
   useEffect(() => {
     const userId = router.query.uid
-    const type = router.query.t
 
-    if (type === UserCategory.Agent) return
+    console.log(userId, 'userId')
+
     if (!userId) return
-
-    if (router.pathname.startsWith(Routes.Account) && userId !== otherUserInfo?.user_id) {
+    if (router.pathname.startsWith(Routes.Account)) {
+      console.log(userId, '------')
       refetchUserInfo({
         userId: userId as string,
         isOther: true,
       })
     }
 
-  }, [router.query.uid])
+  }, [router.query.uid, router.pathname])
 
 
   useEffect(() => {

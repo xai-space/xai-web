@@ -3,28 +3,37 @@ import AccountAvatar from './account-avatar'
 import FollowDesktop from '@/views/account/components/follow-desktop'
 import { AccountInfoProps } from './profile'
 import { useTranslation } from 'react-i18next'
-import { useRouter } from 'next/router'
 import { Button } from '@/components/ui/button'
 import ProfileForm from '@/views/account/components/profile-form'
 
 import { useUserStore } from '@/stores/use-user-store'
-import { UserCategory } from '@/api/user/types'
 import { CiCircleMore } from 'react-icons/ci'
+import { userApi } from '@/api/user'
+import { UserCategory } from '@/api/user/types'
+import { useRouter } from 'next/router'
 
 export const AccountInfoDesktop = (props: AccountInfoProps) => {
-  const { query } = useRouter()
   const { isOtherUser, userInfo, update, isAgent, refetchUserInfo } = props
   const { t } = useTranslation()
 
+  const { query } = useRouter()
+
   const { otherUserInfo, setOtherUserInfo, agentInfo } = useUserStore()
 
-  let status: 0 | 1 = 1
   const followFetch = async () => {
-    if (status) {
+    if (!otherUserInfo?.is_followed) {
       setOtherUserInfo({ ...otherUserInfo, is_followed: true })
     } else {
       setOtherUserInfo({ ...otherUserInfo, is_followed: false })
     }
+
+    await userApi.postFollow({
+      category: query.t === 'user' ? UserCategory.User : UserCategory.Agent,
+      target_id: otherUserInfo?.user_id!,
+      status: otherUserInfo?.is_followed ? 0 : 1,
+    })
+
+    refetchUserInfo({ userId: otherUserInfo?.user_id!, isOther: true })
   }
 
   return (
@@ -47,13 +56,13 @@ export const AccountInfoDesktop = (props: AccountInfoProps) => {
                   className="rounded-full px-4 py-1 text-[14px] text-center font-medium border-[1px] 
                  border-[#CFD9DE] bg-white text-black
                 hover:bg-red-50 hover:text-red-600 hover:border-red-200
-                group"
+                group cursor-pointer"
                 >
                   <span className="group-hover:hidden">Following</span>
                   <span className="hidden group-hover:inline">Unfollow</span>
                 </div>
               ) : (
-                <div className="rounded-full text-center px-4 py-1 text-[14px] bg-black text-white font-medium border-[#000] border-[1px] hover:bg-gray-800">
+                <div className="rounded-full text-center px-4 py-1 text-[14px] bg-black text-white font-medium border-[#000] border-[1px] hover:bg-gray-800 cursor-pointer">
                   Follow
                 </div>
               )}
