@@ -869,5 +869,6 @@
   "swap.input.mint.not.match": "没有找到正确的交易对",
   "nav.more": "更多",
   "reply": "回复",
-  "all.coin": "所有代币"
+  "all.coin": "所有代币",
+  "check.agent": "查看Agent"
 }

@@ -109,6 +109,7 @@ export interface UserFollowsReq {
 }
 
 export interface UserFollowersReq {
+  category: UserCategory
   user_id?: string
   limit?: number
   page?: number

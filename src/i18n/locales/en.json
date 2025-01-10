@@ -874,5 +874,6 @@
   "swap.input.mint.not.match": "Swap input mint not match",
   "nav.more": "More",
   "reply": "Reply",
-  "all.coin": "All Coin"
+  "all.coin": "All Coin",
+  "check.agent": "View Agent"
 }
